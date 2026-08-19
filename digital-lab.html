@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b12">
+<title>DeepRDMMakademy — Digital Lab</title>
+
+<style>
+:root{
+  --bg:#03070c;
+  --panel:rgba(8,18,29,.82);
+  --panel2:rgba(10,25,40,.72);
+  --cyan:#19e6ff;
+  --blue:#1677ff;
+  --white:#eaf7ff;
+  --muted:#7590a5;
+  --gold:#d7b45a;
+  --line:rgba(25,230,255,.18);
+  --danger:#ff5577;
+  --success:#35f0a0;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(0,150,255,.14),transparent 35%),
+    radial-gradient(circle at 100% 60%,rgba(0,255,255,.06),transparent 30%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+  background-image:
+    linear-gradient(rgba(25,230,255,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(25,230,255,.06) 1px,transparent 1px);
+  background-size:40px 40px;
+  mask-image:linear-gradient(to bottom,black,transparent 90%);
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  padding:14px;
+  background:rgba(3,7,12,.9);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  width:38px;
+  height:38px;
+  border:1px solid var(--cyan);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
+  font-weight:bold;
+  box-shadow:0 0 18px rgba(25,230,255,.25);
+}
+
+.brand-text strong{
+  display:block;
+  font-size:12px;
+  letter-spacing:1.5px;
+}
+
+.brand-text span{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:3px;
+  letter-spacing:1px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:9px;
+  color:var(--success);
+  letter-spacing:1px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 10px var(--success);
+}
+
+/* BUTTONS */
+
+button,
+.back{
+  font-family:inherit;
+  cursor:pointer;
+}
+
+.back{
+  display:inline-block;
+  margin-top:12px;
+  color:var(--cyan);
+  text-decoration:none;
+  font-size:11px;
+  border:1px solid var(--line);
+  padding:9px 13px;
+  border-radius:8px;
+  background:rgba(10,30,45,.6);
+}
+
+/* HERO */
+
+.hero{
+  padding:30px 16px 20px;
+  text-align:center;
+}
+
+.kicker{
+  color:var(--cyan);
+  font-size:10px;
+  letter-spacing:3px;
+  margin-bottom:12px;
+}
+
+.hero h1{
+  font-size:clamp(30px,9vw,58px);
+  line-height:1;
+  letter-spacing:-1px;
+  margin-bottom:14px;
+}
+
+.hero p{
+  max-width:650px;
+  margin:auto;
+  color:#9db4c5;
+  font-size:13px;
+  line-height:1.7;
+}
+
+/* SCIENTIFIC VISUAL */
+
+.lab-visual{
+  position:relative;
+  width:100%;
+  max-width:600px;
+  height:310px;
+  margin:15px auto 25px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at center,rgba(0,180,255,.16),transparent 34%),
+    #020810;
+  box-shadow:
+    inset 0 0 50px rgba(0,170,255,.08),
+    0 0 35px rgba(0,120,255,.08);
+}
+
+canvas{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.visual-label{
+  position:absolute;
+  left:12px;
+  top:12px;
+  font-size:9px;
+  color:var(--cyan);
+  letter-spacing:2px;
+}
+
+.visual-data{
+  position:absolute;
+  right:12px;
+  bottom:12px;
+  text-align:right;
+  font-size:8px;
+  color:#6f91a5;
+  line-height:1.8;
+}
+
+/* STATUS */
+
+.section{
+  width:min(1100px,calc(100% - 24px));
+  margin:0 auto 24px;
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-bottom:12px;
+  font-size:13px;
+  letter-spacing:1.5px;
+}
+
+.section-title::before{
+  content:"";
+  width:3px;
+  height:15px;
+  background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan);
+}
+
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.status-card,
+.stat-card,
+.module,
+.content-card{
+  border:1px solid var(--line);
+  background:var(--panel);
+  border-radius:12px;
+  padding:14px;
+  backdrop-filter:blur(8px);
+}
+
+.status-card small{
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+.status-card strong{
+  display:block;
+  margin-top:7px;
+  font-size:12px;
+  color:var(--success);
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+
+.stat-card{
+  text-align:center;
+}
+
+.stat-card strong{
+  display:block;
+  color:var(--cyan);
+  font-size:26px;
+}
+
+.stat-card span{
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+/* MODULES */
+
+.modules{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+}
+
+.module{
+  min-height:92px;
+  text-align:left;
+  color:var(--white);
+  transition:.25s;
+}
+
+.module:hover,
+.module:active{
+  transform:translateY(-2px);
+  border-color:rgba(25,230,255,.65);
+  box-shadow:0 0 22px rgba(25,230,255,.1);
+}
+
+.module-icon{
+  font-size:21px;
+  margin-bottom:9px;
+}
+
+.module strong{
+  display:block;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+.module span{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  margin-top:5px;
+}
+
+/* CONTENT AREA */
+
+#workspace{
+  display:none;
+  margin-top:10px;
+}
+
+.content-card{
+  margin-bottom:12px;
+}
+
+.content-card h3{
+  color:var(--cyan);
+  font-size:15px;
+  margin-bottom:8px;
+}
+
+.content-card p{
+  color:#9bb1c0;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.item{
+  margin-top:9px;
+  padding:11px;
+  border:1px solid rgba(25,230,255,.1);
+  border-radius:9px;
+  background:rgba(0,0,0,.18);
+}
+
+.item strong{
+  font-size:11px;
+}
+
+.item small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  font-size:9px;
+}
+
+.explore{
+  margin-top:8px;
+  border:1px solid var(--cyan);
+  background:transparent;
+  color:var(--cyan);
+  border-radius:6px;
+  padding:7px 10px;
+  font-size:9px;
+}
+
+/* CHART */
+
+.chart{
+  height:150px;
+  display:flex;
+  align-items:flex-end;
+  gap:7px;
+  padding:15px 5px 0;
+}
+
+.bar{
+  flex:1;
+  background:linear-gradient(to top,var(--blue),var(--cyan));
+  border-radius:4px 4px 0 0;
+  min-height:15px;
+  box-shadow:0 0 12px rgba(25,230,255,.12);
+}
+
+/* FOOTER */
+
+footer{
+  padding:30px 15px 40px;
+  text-align:center;
+  color:#506777;
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+  header{
+    padding:16px 5%;
+  }
+
+  .hero{
+    padding-top:55px;
+  }
+
+  .status-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .stats{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .modules{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .lab-visual{
+    height:420px;
+  }
+}
+
+@media(min-width:1100px){
+
+  .section{
+    width:min(1100px,90%);
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-row">
+    <div class="brand">
+      <div class="logo">R</div>
+      <div class="brand-text">
+        <strong>DEEP RDMM</strong>
+        <span>DIGITAL RESEARCH LAB // 01</span>
+      </div>
+    </div>
+
+    <div class="status">
+      <span class="dot"></span>
+      SYSTEM ONLINE
+    </div>
+  </div>
+
+  <a class="back" href="index.html">← BACK TO HOME</a>
+</header>
+
+
+<main>
+
+<section class="hero">
+
+  <div class="kicker">DIGITAL RESEARCH LAB // 01</div>
+
+  <h1>EXPLORE<br>THE DIGITAL LAB</h1>
+
+  <p>
+    Un environnement numérique dédié à la recherche,
+    l'expérimentation, la simulation et l'analyse scientifique
+    de DeepRDMMakademy.
+  </p>
+
+</section>
+
+
+<section class="section">
+
+  <div class="lab-visual">
+
+    <canvas id="labCanvas"></canvas>
+
+    <div class="visual-label">
+      RDMM SCIENTIFIC VISUALIZATION
+    </div>
+
+    <div class="visual-data">
+      NODE: RDMM-01<br>
+      NETWORK: CONNECTED<br>
+      DATA STREAM: ACTIVE
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    SYSTEM STATUS
+  </div>
+
+  <div class="status-grid">
+
+    <div class="status-card">
+      <small>SYSTEM STATUS</small>
+      <strong>● ONLINE</strong>
+    </div>
+
+    <div class="status-card">
+      <small>RESEARCH NETWORK</small>
+      <strong>● CONNECTED</strong>
+    </div>
+
+    <div class="status-card">
+      <small>DATA STREAM</small>
+      <strong>● ACTIVE</strong>
+    </div>
+
+    <div class="status-card">
+      <small>RESEARCH NODE</small>
+      <strong>RDMM-01</strong>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    LABORATORY METRICS
+  </div>
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <strong>04</strong>
+      <span>ACTIVE PROJECTS</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>03</strong>
+      <span>EXPERIMENTS</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>128</strong>
+      <span>DATASETS</span>
+    </div>
+
+    <div class="stat-card">
+      <strong>07</strong>
+      <span>RESEARCH DOMAINS</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+<section class="section">
+
+  <div class="section-title">
+    LABORATORY CONTROL
+  </div>
+
+  <div class="modules">
+
+    <button class="module" onclick="openModule('dashboard')">
+      <div class="module-icon">📊</div>
+      <strong>DASHBOARD</strong>
+      <span>Laboratory activity</span>
+    </button>
+
+    <button class="module" onclick="openModule('projects')">
+      <div class="module-icon">🛰️</div>
+      <strong>PROJECTS</strong>
+      <span>Research projects</span>
+    </button>
+
+    <button class="module" onclick="openModule('simulations')">
+      <div class="module-icon">⚙️</div>
+      <strong>SIMULATIONS</strong>
+      <span>Simulation center</span>
+    </button>
+
+    <button class="module" onclick="openModule('experiments')">
+      <div class="module-icon">🧪</div>
+      <strong>EXPERIMENTS</strong>
+      <span>Scientific experiments</span>
+    </button>
+
+    <button class="module" onclick="openModule('data')">
+      <div class="module-icon">📡</div>
+      <strong>DATA</strong>
+      <span>Research datasets</span>
+    </button>
+
+    <button class="module" onclick="openModule('results')">
+      <div class="module-icon">📈</div>
+      <strong>RESULTS</strong>
+      <span>Research results</span>
+    </button>
+
+    <button class="module" onclick="openModule('documentation')">
+      <div class="module-icon">📚</div>
+      <strong>DOCUMENTATION</strong>
+      <span>Research library</span>
+    </button>
+
+    <button class="module" onclick="openModule('settings')">
+      <div class="module-icon">🔧</div>
+      <strong>SETTINGS</strong>
+      <span>Laboratory controls</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<section class="section" id="workspace">
+
+  <div class="content-card">
+
+    <h3 id="workspaceTitle">LAB MODULE</h3>
+
+    <p id="workspaceText">
+      Select a laboratory module.
+    </p>
+
+    <div id="workspaceContent"></div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+  DEEPRDMM AKADEMY<br>
+  L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE<br><br>
+  DIGITAL RESEARCH LAB // 01
+</footer>
+
+
+<script>
+
+/* =====================================================
+   DIGITAL LAB — INTERACTIVE MODULES
+===================================================== */
+
+const workspace = document.getElementById("workspace");
+const title = document.getElementById("workspaceTitle");
+const text = document.getElementById("workspaceText");
+const content = document.getElementById("workspaceContent");
+
+function openModule(module){
+
+  workspace.style.display = "block";
+
+  const data = {
+
+    dashboard:{
+      title:"RESEARCH DASHBOARD",
+      text:"Vue générale de l'activité scientifique du laboratoire.",
+      html:`
+        <div class="item">
+          <strong>ACTIVE RESEARCH</strong>
+          <small>4 projects currently active</small>
+        </div>
+
+        <div class="item">
+          <strong>EXPERIMENT ACTIVITY</strong>
+          <small>3 experimental protocols running</small>
+        </div>
+
+        <div class="item">
+          <strong>DATA ANALYSIS</strong>
+          <small>128 demonstration datasets available</small>
+        </div>
+
+        <div class="chart">
+          <div class="bar" style="height:35%"></div>
+          <div class="bar" style="height:55%"></div>
+          <div class="bar" style="height:42%"></div>
+          <div class="bar" style="height:78%"></div>
+          <div class="bar" style="height:65%"></div>
+          <div class="bar" style="height:90%"></div>
+          <div class="bar" style="height:72%"></div>
+        </div>
+      `
+    },
+
+    projects:{
+      title:"RESEARCH PROJECTS",
+      text:"Projets scientifiques actuellement présentés dans le laboratoire.",
+      html:`
+        <div class="item">
+          <strong>ORBIT-001</strong>
+          <small>Satellite Orbital Research</small>
+          <button class="explore" onclick="alert('ORBIT-001 — Module de recherche orbitale bientôt disponible.')">EXPLORE</button>
+        </div>
+
+        <div class="item">
+          <strong>TERRA-002</strong>
+          <small>Earth & Environment</small>
+          <button class="explore" onclick="alert('TERRA-002 — Recherche Terre & environnement.')">EXPLORE</button>
+        </div>
+
+        <div class="item">
+          <strong>NEURA-003</strong>
+          <small>Artificial Intelligence</small>
+          <button class="explore" onclick="alert('NEURA-003 — Recherche en intelligence artificielle.')">EXPLORE</button>
+        </div>
+
+        <div class="item">
+          <strong>NOVA-004</strong>
+          <small>Future Technologies</small>
+          <button class="explore" onclick="alert('NOVA-004 — Technologies futures.')">EXPLORE</button>
+        </div>
+      `
+    },
+
+    simulations:{
+      title:"SIMULATION CENTER",
+      text:"Centre de simulation scientifique de DeepRDMMakademy.",
+      html:`
+        <div class="item">
+          <strong>STATUS: UNDER DEVELOPMENT</strong>
+          <small>
+            Le centre de simulation scientifique sera développé
+            ultérieurement avec de véritables expériences interactives.
+          </small>
+        </div>
+      `
+    },
+
+    experiments:{
+      title:"SCIENTIFIC EXPERIMENTS",
+      text:"Expériences scientifiques du Digital Lab.",
+      html:`
+        <div class="item">
+          <strong>EXP-001 — ORBITAL DYNAMICS</strong>
+          <small>Étude des mouvements orbitaux.</small>
+          <button class="explore" onclick="alert('EXP-001 — Expérience en préparation.')">VIEW EXPERIMENT</button>
+        </div>
+
+        <div class="item">
+          <strong>EXP-002 — ATMOSPHERIC MODEL</strong>
+          <small>Modélisation atmosphérique.</small>
+          <button class="explore" onclick="alert('EXP-002 — Expérience en préparation.')">VIEW EXPERIMENT</button>
+        </div>
+
+        <div class="item">
+          <strong>EXP-003 — AI PATTERN ANALYSIS</strong>
+          <small>Analyse de motifs avec intelligence artificielle.</small>
+          <button class="explore" onclick="alert('EXP-003 — Expérience en préparation.')">VIEW EXPERIMENT</button>
+        </div>
+      `
+    },
+
+    data:{
+      title:"RESEARCH DATA CENTER",
+      text:"Catégories de données scientifiques.",
+      html:`
+        <div class="item"><strong>🌍 EARTH DATA</strong><small>Environnement, climat et géosciences.</small></div>
+        <div class="item"><strong>🌌 SPACE DATA</strong><small>Observation spatiale et données orbitales.</small></div>
+        <div class="item"><strong>🧠 AI DATA</strong><small>Données destinées à la recherche en IA.</small></div>
+        <div class="item"><strong>🧪 EXPERIMENTAL DATA</strong><small>Données issues d'expériences.</small></div>
+        <div class="item"><strong>🏭 INDUSTRIAL DATA</strong><small>Données liées aux technologies industrielles.</small></div>
+      `
+    },
+
+    results:{
+      title:"RESEARCH RESULTS",
+      text:"Visualisation de résultats scientifiques de démonstration.",
+      html:`
+        <div class="chart">
+          <div class="bar" style="height:45%"></div>
+          <div class="bar" style="height:70%"></div>
+          <div class="bar" style="height:58%"></div>
+          <div class="bar" style="height:85%"></div>
+          <div class="bar" style="height:63%"></div>
+          <div class="bar" style="height:94%"></div>
+        </div>
+
+        <div class="item">
+          <strong>DATA ANALYSIS</strong>
+          <small>Les valeurs affichées sont des données de démonstration.</small>
+        </div>
+      `
+    },
+
+    documentation:{
+      title:"RESEARCH DOCUMENTATION",
+      text:"Bibliothèque documentaire du laboratoire.",
+      html:`
+        <div class="item"><strong>PROTOCOLS</strong><small>Protocoles de recherche scientifique.</small></div>
+        <div class="item"><strong>REPORTS</strong><small>Rapports de recherche.</small></div>
+        <div class="item"><strong>RESEARCH NOTES</strong><small>Notes et observations.</small></div>
+        <div class="item"><strong>TECHNICAL DOCUMENTATION</strong><small>Documentation technique.</small></div>
+        <div class="item"><strong>SCIENTIFIC RESOURCES</strong><small>Ressources éducatives et scientifiques.</small></div>
+      `
+    },
+
+    settings:{
+      title:"LAB SETTINGS",
+      text:"Contrôle de l'environnement numérique du laboratoire.",
+      html:`
+        <div class="item">
+          <strong>3D EFFECTS</strong><br>
+          <button class="explore" onclick="toggleSetting(this)">ON</button>
+        </div>
+
+        <div class="item">
+          <strong>ANIMATIONS</strong><br>
+          <button class="explore" onclick="toggleSetting(this)">ON</button>
+        </div>
+
+        <div class="item">
+          <strong>PARTICLES</strong><br>
+          <button class="explore" onclick="toggleSetting(this)">ON</button>
+        </div>
+      `
+    }
+
+  };
+
+  const selected = data[module];
+
+  title.textContent = selected.title;
+  text.textContent = selected.text;
+  content.innerHTML = selected.html;
+
+  workspace.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+}
+
+function toggleSetting(button){
+
+  if(button.textContent === "ON"){
+    button.textContent = "OFF";
+    button.style.opacity = ".5";
+  }else{
+    button.textContent = "ON";
+    button.style.opacity = "1";
+  }
+}
+
+
+/* =====================================================
+   SCIENTIFIC CANVAS VISUALIZATION
+===================================================== */
+
+const canvas = document.getElementById("labCanvas");
+const ctx = canvas.getContext("2d");
+
+let width;
+let height;
+let particles=[];
+let angle=0;
+
+function resizeCanvas(){
+
+  const rect=canvas.getBoundingClientRect();
+
+  width=canvas.width=rect.width*devicePixelRatio;
+  height=canvas.height=rect.height*devicePixelRatio;
+
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+
+  width=rect.width;
+  height=rect.height;
+
+  particles=[];
+
+  const amount = window.innerWidth < 500 ? 45 : 75;
+
+  for(let i=0;i<amount;i++){
+
+    particles.push({
+      x:Math.random()*width,
+      y:Math.random()*height,
+      speed:.15+Math.random()*.5,
+      size:.5+Math.random()*1.5
+    });
+
+  }
+}
+
+window.addEventListener("resize",resizeCanvas);
+resizeCanvas();
+
+
+function draw(){
+
+  ctx.clearRect(0,0,width,height);
+
+  /* particles */
+
+  for(const p of particles){
+
+    p.y-=p.speed;
+
+    if(p.y<0){
+      p.y=height;
+      p.x=Math.random()*width;
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+    ctx.fillStyle="rgba(25,230,255,.65)";
+    ctx.fill();
+  }
+
+
+  /* orbital center */
+
+  const cx=width/2;
+  const cy=height/2;
+
+  angle+=.003;
+
+  ctx.save();
+  ctx.translate(cx,cy);
+
+  /* orbit rings */
+
+  for(let i=0;i<3;i++){
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      0,
+      0,
+      75+i*27,
+      30+i*13,
+      angle+i*.8,
+      0,
+      Math.PI*2
+    );
+
+    ctx.strokeStyle="rgba(25,230,255,.20)";
+    ctx.lineWidth=1;
+    ctx.stroke();
+  }
+
+
+  /* Earth */
+
+  const radius=Math.min(width,height)*.16;
+
+  const gradient=ctx.createRadialGradient(
+    -radius*.35,
+    -radius*
