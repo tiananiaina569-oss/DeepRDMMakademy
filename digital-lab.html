@@ -936,6 +936,204 @@ function draw(){
 draw();
 
 </script>
+<!-- ============================= -->
+<!-- DEEPRDMM DIGITAL LAB — DASHBOARD -->
+<!-- ============================= -->
 
+<style>
+  .dashboard-panel {
+    margin: 35px 20px;
+    padding: 25px;
+    border: 1px solid rgba(0,212,255,.25);
+    border-radius: 22px;
+    background: rgba(5,15,30,.78);
+    box-shadow: 0 0 35px rgba(0,120,255,.10);
+  }
+
+  .dashboard-title {
+    color: #00d4ff;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .dashboard-heading {
+    font-size: 30px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .dashboard-card {
+    padding: 18px;
+    min-height: 110px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+  }
+
+  .dashboard-card small {
+    display: block;
+    color: #7f8da8;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .dashboard-value {
+    font-size: 25px;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .dashboard-online {
+    color: #00ff9d;
+  }
+
+  .activity {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 16px;
+    background: rgba(0,212,255,.04);
+    border: 1px solid rgba(0,212,255,.12);
+  }
+
+  .activity-title {
+    color: #00d4ff;
+    margin-bottom: 12px;
+    font-weight: 800;
+  }
+
+  .activity-line {
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    color: #aeb9ce;
+    font-size: 13px;
+  }
+
+  .activity-line:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 500px) {
+    .dashboard-panel {
+      margin: 25px 15px;
+      padding: 18px;
+    }
+
+    .dashboard-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .dashboard-heading {
+      font-size: 25px;
+    }
+  }
+</style>
+
+<section class="dashboard-panel" id="rdmm-dashboard">
+
+  <div class="dashboard-title">
+    DEEPRDMM // CONTROL CENTER
+  </div>
+
+  <h2 class="dashboard-heading">
+    LABORATORY DASHBOARD
+  </h2>
+
+  <div class="dashboard-grid">
+
+    <div class="dashboard-card">
+      <small>SYSTEM STATUS</small>
+      <div class="dashboard-value dashboard-online">
+        ONLINE
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <small>ACTIVE PROJECTS</small>
+      <div class="dashboard-value">
+        04
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <small>EXPERIMENTS</small>
+      <div class="dashboard-value">
+        03
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <small>DATASETS</small>
+      <div class="dashboard-value">
+        128
+      </div>
+    </div>
+
+  </div>
+
+  <div class="activity">
+
+    <div class="activity-title">
+      LIVE LAB ACTIVITY
+    </div>
+
+    <div class="activity-line">
+      ● Research network connected
+    </div>
+
+    <div class="activity-line">
+      ● Data stream active
+    </div>
+
+    <div class="activity-line">
+      ● Research node RDMM-01 operational
+    </div>
+
+    <div class="activity-line">
+      ● Scientific systems ready
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+  /*
+   * DASHBOARD NAVIGATION
+   * Permet au bouton DASHBOARD
+   * d'ouvrir directement cette section.
+   */
+
+  document.querySelectorAll("a, button").forEach(function(element) {
+
+    const text = element.textContent.trim().toUpperCase();
+
+    if (text.includes("DASHBOARD")) {
+
+      element.addEventListener("click", function(event) {
+
+        event.preventDefault();
+
+        const dashboard = document.getElementById("rdmm-dashboard");
+
+        if (dashboard) {
+          dashboard.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }
+
+      });
+
+    }
+
+  });
+  </script>
 </body>
           </html>
