@@ -1,20 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#050914">
+  <meta name="description" content="DeepRDMMakademy — L'art de la science et de la technologie.">
+  <title>DeepRDMMakademy</title>
 
-<section class="quote">
-<p>
-« Comprendre. Explorer. Inventer. Transformer. »
-</p>
-</section>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-</main>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 15%, rgba(20,115,255,.18), transparent 35%),
+        radial-gradient(circle at 20% 80%, rgba(0,212,255,.08), transparent 30%),
+        #050914;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
+      background-size: 45px 45px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1400px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* HEADER */
+
+    header {
+      min-height: 72px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: rgba(5,9,20,.78);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #1473ff, #07142e);
+      border: 1px solid rgba(0,212,255,.45);
+      box-shadow: 0 0 22px rgba(20,115,255,.28);
+      font-weight: 900;
+      color: #00d4ff;
+    }
+
+    .brand-name {
+      font-size: 15px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .brand-name span {
+      color: #1473ff;
+    }
+
+    .brand-tagline {
+      margin-top: 3px;
+      color: #8d9bb7;
+      font-size: 8px;
+      letter-spacing: 1.4px;
+    }
+
+    .menu-button {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(0,212,255,.25);
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      padding: 52px 20px 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .status {
+      width: fit-content;
+      padding: 8px 12px;
+      border: 1px solid rgba(0,212,255,.25);
+      border-radius: 999px;
+      background: rgba(0,212,255,.06);
+      color: #00d4ff;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      margin-bottom: 22px;
+    }
+
+    .status::before {
+      content: "●";
+      margin-right: 7px;
+      font-size: 8px;
+    }
+
+    .hero h1 {
+      max-width: 720px;
+      font-size: clamp(42px, 13vw, 88px);
+      line-height: .94;
+      letter-spacing: -3px;
+      font-weight: 950;
+    }
+
+    .hero h1 span {
+      color: #1473ff;
+      text-shadow: 0 0 30px rgba(20,115,255,.35);
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin-top: 25px;
+      color: #aeb9ce;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 11px;
+      max-width: 430px;
+    }
+
+    .btn {
+      min-height: 52px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      cursor: pointer;
+      transition: .25s ease;
+      border: 1px solid rgba(255,255,255,.1);
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1473ff, #0754c7);
+      box-shadow: 0 10px 35px rgba(20,115,255,.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,.04);
+      color: #dce5f5;
+    }
+
+    .btn:hover,
+    .btn:active {
+      transform: translateY(-2px);
+      border-color: rgba(0,212,255,.45);
+    }
+
+    /* SCIENCE ORB */
+
+    .orb-area {
+      height: 230px;
+      margin-top: 40px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    .orb {
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 30%, #2b9dff, #063d8e 42%, #020817 75%);
+      box-shadow:
+        0 0 35px rgba(20,115,255,.45),
+        inset -25px -20px 35px rgba(0,0,0,.65);
+      position: relative;
+    }
+
+    .orb::before,
+    .orb::after {
+      content: "";
+      position: absolute;
+      inset: -20px;
+      border: 1px solid rgba(0,212,255,.28);
+      border-radius: 50%;
+      transform: rotate(25deg) scaleY(.35);
+    }
+
+    .orb::after {
+      transform: rotate(-35deg) scaleY(.35);
+      border-color: rgba(20,115,255,.32);
+    }
+
+    .satellite {
+      position: absolute;
+      width: 38px;
+      height: 10px;
+      background: #d9e8ff;
+      border-radius: 3px;
+      top: 25px;
+      right: 15px;
+      box-shadow: 0 0 15px rgba(255,255,255,.4);
+      transform: rotate(-18deg);
+    }
+
+    .satellite::before,
+    .satellite::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 9px;
+      background: #1473ff;
+      top: 1px;
+    }
+
+    .satellite::before {
+      right: 38px;
+    }
+
+    .satellite::after {
+      left: 38px;
+    }
+
+    /* QUICK ACCESS */
+
+    .section {
+      padding: 30px 18px 60px;
+    }
+
+    .section-label {
+      color: #00d4ff;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 9px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 22px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .quick-card {
+      min-height: 145px;
+      padding: 17px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.07),
+        rgba(255,255,255,.025)
+      );
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: .25s ease;
+      cursor: pointer;
+    }
+
+    .quick-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,212,255,.35);
+      box-shadow: 0 12px 35px rgba(0,0,0,.25);
+    }
+
+    .icon {
+      font-size: 25px;
+    }
+
+    .quick-card h3 {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    .quick-card p {
+      margin-top: 5px;
+      color: #8290a9;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .arrow {
+      color: #00d4ff;
+      font-size: 18px;
+      align-self: flex-end;
+    }
+
+    /* FOOTER */
+
+    footer {
+      padding: 30px 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      color: #73809a;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    footer strong {
+      color: #fff;
+    }
+
+    /* TABLET + DESKTOP */
+
+    @media (min-width: 700px) {
+      header {
+        padding: 18px 35px;
+      }
+
+      .hero {
+        padding: 75px 35px;
+        display: grid;
+        grid-template-columns: 1.1fr .9fr;
+        align-items: center;
+        gap: 35px;
+      }
+
+      .hero-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .orb-area {
+        height: 430px;
+      }
+
+      .orb {
+        width: 270px;
+        height: 270px;
+      }
+
+      .section {
+        padding-left: 35px;
+        padding-right: 35px;
+      }
+
+      .quick-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .quick-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header>
+      <a href="index.html" class="brand">
+        <div class="brand-mark">DR</div>
+
+        <div>
+          <div class="brand-name">
+            Deep<span>RDMM</span>akademy
+          </div>
+
+          <div class="brand-tagline">
+            L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE
+          </div>
+        </div>
+      </a>
+
+      <button class="menu-button" aria-label="Menu">☰</button>
+    </header>
+
+    <main>
+
+      <section class="hero">
+
+        <div>
+
+          <div class="status">
+            DIGITAL SCIENCE NETWORK // ONLINE
+          </div>
+
+          <h1>
+            COMPRENDRE.<br>
+            <span>EXPLORER.</span><br>
+            INVENTER.<br>
+            TRANSFORMER.
+          </h1>
+
+          <p class="hero-description">
+            DeepRDMMakademy est un laboratoire numérique dédié
+            à la science, à la technologie, à l'éducation,
+            à l'expérimentation et à l'exploration du futur.
+          </p>
+
+          <div class="hero-actions">
+
+            <a href="#explore" class="btn btn-primary">
+              🌍 Explorer
+            </a>
+
+            <a href="#lab" class="btn btn-secondary">
+              🔬 Digital Lab
+            </a>
+
+            <a href="#education" class="btn btn-secondary">
+              🎓 Éducation
+            </a>
+
+            <a href="#membership" class="btn btn-secondary">
+              📝 Rejoindre
+            </a>
+
+          </div>
+
+        </div>
+
+        <div class="orb-area" aria-label="Visualisation scientifique">
+
+          <div class="orb">
+            <div class="satellite"></div>
+          </div>
+
+        </div>
+
+      </section>
 
 
-<footer>
-<strong>DEEPRDMMAKADEMY</strong>
-<br><br>
-L'art de la science et de la technologie.
-<br><br>
-© 2026 DeepRDMMakademy — Tous droits réservés.
-</footer>
+      <section class="section" id="explore">
+
+        <div class="section-label">
+          DEEPRDMM // ACCESS
+        </div>
+
+        <h2 class="section-title">
+          Explorer le laboratoire
+        </h2>
+
+        <div class="quick-grid">
+
+          <a class="quick-card" href="#lab" id="lab">
+            <div class="icon">🔬</div>
+            <div>
+              <h3>Digital Lab</h3>
+              <p>Laboratoire numérique et expériences scientifiques.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+          <a class="quick-card" href="#education" id="education">
+            <div class="icon">🧠</div>
+            <div>
+              <h3>Éducation</h3>
+              <p>Sciences, mathématiques et parcours d'apprentissage.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+          <a class="quick-card" href="#space">
+            <div class="icon">🌌</div>
+            <div>
+              <h3>Univers</h3>
+              <p>Explorer l'espace et les mystères du cosmos.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+          <a class="quick-card" href="#ocean">
+            <div class="icon">🌊</div>
+            <div>
+              <h3>Océan</h3>
+              <p>Découvrir les profondeurs et la vie marine.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+          <a class="quick-card" href="#simulations">
+            <div class="icon">⚙️</div>
+            <div>
+              <h3>Simulations</h3>
+              <p>Expérimenter des phénomènes scientifiques.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+          <a class="quick-card" href="#membership" id="membership">
+            <div class="icon">🪪</div>
+            <div>
+              <h3>Devenir membre</h3>
+              <p>Rejoindre la communauté DeepRDMMakademy.</p>
+            </div>
+            <div class="arrow">→</div>
+          </a>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <footer>
+      <strong>DeepRDMMakademy</strong><br>
+      L'art de la science et de la technologie.<br><br>
+      COMPRENDRE • EXPLORER • INVENTER • TRANSFORMER<br><br>
+      © 2026 DeepRDMMakademy
+    </footer>
+
+  </div>
 
 </body>
-</html>
+  </html>
