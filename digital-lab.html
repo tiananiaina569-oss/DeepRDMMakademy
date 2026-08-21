@@ -1,424 +1,859 @@
-ni<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#030812">
-<title>DeepRDMMakademy — Digital Lab</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color"
+      content="#030812">
+
+<meta name="description"
+      content="DeepRDMMakademy — Digital Research Lab">
+
+<title>
+DeepRDMMakademy — Digital Lab
+</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
+
   --bg:#030812;
-  --panel:rgba(8,18,32,.82);
+  --panel:rgba(7,18,32,.82);
+
   --cyan:#19e6ff;
   --blue:#1677ff;
+
   --text:#eaf7ff;
   --muted:#7891a5;
+
   --green:#38f0a0;
-  --gold:#d9b65b;
+  --gold:#ffd76a;
+
   --line:rgba(25,230,255,.18);
+
 }
 
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+}
 
 body{
+
   min-height:100vh;
+
   color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
   background:
-    radial-gradient(circle at 50% 0%,rgba(0,140,255,.16),transparent 35%),
-    radial-gradient(circle at 100% 70%,rgba(0,255,255,.06),transparent 30%),
+
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(0,140,255,.18),
+      transparent 35%
+    ),
+
+    radial-gradient(
+      circle at 100% 70%,
+      rgba(0,255,255,.07),
+      transparent 30%
+    ),
+
     var(--bg);
+
   overflow-x:hidden;
+
 }
 
-body:before{
+
+/* GRID BACKGROUND */
+
+body::before{
+
   content:"";
+
   position:fixed;
+
   inset:0;
+
   pointer-events:none;
-  opacity:.13;
+
+  opacity:.12;
+
   background-image:
-    linear-gradient(rgba(25,230,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(25,230,255,.06) 1px,transparent 1px);
+
+    linear-gradient(
+      rgba(25,230,255,.06) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(25,230,255,.06) 1px,
+      transparent 1px
+    );
+
   background-size:40px 40px;
+
 }
+
+
+/* =========================
+   HEADER
+========================= */
 
 header{
+
   position:sticky;
+
   top:0;
-  z-index:10;
+
+  z-index:100;
+
   padding:14px;
-  background:rgba(3,8,18,.9);
+
+  background:
+    rgba(3,8,18,.90);
+
   backdrop-filter:blur(15px);
-  border-bottom:1px solid var(--line);
+
+  border-bottom:
+    1px solid var(--line);
+
 }
 
 .header{
+
   display:flex;
+
   align-items:center;
+
   justify-content:space-between;
+
 }
 
 .brand{
+
   display:flex;
+
   align-items:center;
+
   gap:10px;
+
 }
 
 .logo{
+
   width:40px;
   height:40px;
-  border:1px solid var(--cyan);
+
+  border:
+    1px solid var(--cyan);
+
   border-radius:50%;
+
   display:grid;
+
   place-items:center;
+
   color:var(--cyan);
+
   font-weight:bold;
-  box-shadow:0 0 20px rgba(25,230,255,.25);
+
+  box-shadow:
+    0 0 20px
+    rgba(25,230,255,.25);
+
 }
 
 .brand strong{
+
   display:block;
+
   font-size:12px;
+
   letter-spacing:1.5px;
+
 }
 
 .brand small{
+
   display:block;
-  color:var(--muted);
-  font-size:8px;
+
   margin-top:4px;
+
+  color:var(--muted);
+
+  font-size:8px;
+
   letter-spacing:1px;
+
 }
 
 .online{
+
   color:var(--green);
+
   font-size:8px;
+
   letter-spacing:1px;
+
 }
 
-.online:before{
+.online::before{
+
   content:"●";
+
   margin-right:5px;
-  text-shadow:0 0 10px var(--green);
+
+  text-shadow:
+    0 0 10px var(--green);
+
 }
 
 .back{
+
   display:inline-block;
+
   margin-top:12px;
+
   padding:8px 12px;
-  border:1px solid var(--line);
+
+  border:
+    1px solid var(--line);
+
   border-radius:8px;
+
   color:var(--cyan);
+
   text-decoration:none;
+
   font-size:10px;
-  background:rgba(10,25,40,.6);
+
+  background:
+    rgba(10,25,40,.6);
+
 }
 
+
+/* =========================
+   HERO
+========================= */
+
 .hero{
-  padding:35px 16px 20px;
+
+  padding:
+    38px 16px 20px;
+
   text-align:center;
+
 }
 
 .kicker{
+
   color:var(--cyan);
+
   font-size:9px;
+
   letter-spacing:3px;
+
   margin-bottom:12px;
+
 }
 
 h1{
-  font-size:clamp(31px,9vw,60px);
+
+  font-size:
+    clamp(31px,9vw,60px);
+
   line-height:.98;
+
   margin-bottom:15px;
+
 }
 
 .hero p{
+
   max-width:650px;
+
   margin:auto;
+
   color:#9db2c2;
+
   font-size:13px;
+
   line-height:1.7;
+
 }
 
-/* VISUALISATION */
+
+/* =========================
+   SCIENTIFIC VISUAL
+========================= */
 
 .visual{
-  width:calc(100% - 24px);
-  max-width:700px;
-  height:300px;
-  margin:15px auto 28px;
+
+  width:
+    calc(100% - 24px);
+
+  max-width:900px;
+
+  height:340px;
+
+  margin:
+    15px auto 30px;
+
   position:relative;
+
   overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:20px;
-  background:#020812;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:22px;
+
+  background:#01050c;
+
   box-shadow:
-    inset 0 0 50px rgba(0,180,255,.08),
-    0 0 35px rgba(0,120,255,.08);
+
+    inset
+    0 0 60px
+    rgba(0,180,255,.08),
+
+    0 0 40px
+    rgba(0,120,255,.10);
+
 }
 
 canvas{
+
   width:100%;
   height:100%;
+
   display:block;
+
 }
 
 .visual-label{
+
   position:absolute;
+
   top:12px;
   left:12px;
+
   color:var(--cyan);
+
   font-size:8px;
+
   letter-spacing:2px;
+
+  pointer-events:none;
+
 }
 
 .visual-data{
+
   position:absolute;
+
   right:12px;
   bottom:12px;
+
   text-align:right;
+
   color:#668294;
+
   font-size:8px;
+
   line-height:1.7;
+
+  pointer-events:none;
+
 }
 
-/* SECTIONS */
+
+/* =========================
+   SECTIONS
+========================= */
 
 .section{
-  width:min(1100px,calc(100% - 24px));
-  margin:0 auto 25px;
+
+  width:
+    min(1100px,calc(100% - 24px));
+
+  margin:
+    0 auto 25px;
+
 }
 
 .title{
+
   display:flex;
+
   align-items:center;
+
   gap:8px;
+
   margin-bottom:12px;
+
   font-size:12px;
+
   letter-spacing:1.5px;
+
 }
 
-.title:before{
+.title::before{
+
   content:"";
+
   width:3px;
+
   height:15px;
+
   background:var(--cyan);
-  box-shadow:0 0 10px var(--cyan);
+
+  box-shadow:
+    0 0 10px var(--cyan);
+
 }
 
-/* STATUS */
+
+/* =========================
+   CARDS
+========================= */
 
 .status-grid{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:8px;
+
 }
 
 .card{
+
   padding:14px;
-  border:1px solid var(--line);
+
+  border:
+    1px solid var(--line);
+
   border-radius:12px;
+
   background:var(--panel);
+
   backdrop-filter:blur(8px);
+
 }
 
 .card small{
+
   color:var(--muted);
+
   font-size:8px;
+
   letter-spacing:1px;
+
 }
 
 .card strong{
+
   display:block;
+
   margin-top:7px;
+
   font-size:11px;
+
   color:var(--green);
+
 }
 
-/* STATS */
+
+/* =========================
+   STATS
+========================= */
 
 .stats{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:8px;
+
 }
 
 .stat{
+
   text-align:center;
+
 }
 
 .stat strong{
+
   display:block;
+
   color:var(--cyan);
+
   font-size:25px;
+
 }
 
 .stat span{
+
   color:var(--muted);
+
   font-size:8px;
+
   letter-spacing:1px;
+
 }
 
-/* MODULES */
+
+/* =========================
+   MODULES
+========================= */
 
 .modules{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(2,1fr);
+
   gap:9px;
+
 }
 
 .module{
+
   min-height:105px;
+
   padding:14px;
-  border:1px solid var(--line);
+
+  border:
+    1px solid var(--line);
+
   border-radius:13px;
+
   background:var(--panel);
+
   color:var(--text);
+
   text-align:left;
+
   cursor:pointer;
+
   transition:.25s;
+
 }
 
-.module:hover,
-.module:active{
-  transform:translateY(-2px);
-  border-color:var(--cyan);
-  box-shadow:0 0 22px rgba(25,230,255,.1);
+.module:hover{
+
+  transform:
+    translateY(-2px);
+
+  border-color:
+    var(--cyan);
+
+  box-shadow:
+    0 0 22px
+    rgba(25,230,255,.10);
+
 }
 
 .icon{
+
   font-size:22px;
+
   margin-bottom:10px;
+
 }
 
 .module strong{
+
   display:block;
+
   font-size:10px;
+
   letter-spacing:1px;
+
 }
 
 .module span{
+
   display:block;
+
   margin-top:5px;
+
   color:var(--muted);
+
   font-size:8px;
+
 }
 
-/* WORKSPACE */
+
+/* =========================
+   WORKSPACE
+========================= */
 
 #workspace{
+
   display:none;
+
 }
 
 .workspace{
-  border:1px solid var(--line);
+
+  border:
+    1px solid var(--line);
+
   border-radius:15px;
+
   padding:16px;
+
   background:var(--panel);
+
 }
 
 .workspace h2{
+
   color:var(--cyan);
+
   font-size:16px;
+
   margin-bottom:8px;
+
 }
 
-.workspace>p{
+.workspace > p{
+
   color:#9bb1c0;
+
   font-size:11px;
+
   line-height:1.6;
+
 }
 
 .item{
+
   margin-top:10px;
+
   padding:11px;
+
   border-radius:9px;
-  background:rgba(0,0,0,.2);
-  border:1px solid rgba(25,230,255,.1);
+
+  background:
+    rgba(0,0,0,.20);
+
+  border:
+    1px solid
+    rgba(25,230,255,.10);
+
 }
 
 .item strong{
+
   font-size:10px;
+
 }
 
 .item small{
+
   display:block;
+
   color:var(--muted);
+
   margin-top:5px;
+
   font-size:9px;
+
   line-height:1.5;
+
 }
 
 .action{
+
   margin-top:8px;
+
   padding:7px 10px;
-  border:1px solid var(--cyan);
+
+  border:
+    1px solid var(--cyan);
+
   border-radius:6px;
+
   background:transparent;
+
   color:var(--cyan);
+
   font-size:8px;
+
   cursor:pointer;
+
 }
+
+
+/* =========================
+   FOOTER
+========================= */
 
 footer{
-  padding:30px 15px 40px;
+
+  padding:
+    30px 15px 40px;
+
   text-align:center;
+
   color:#506777;
+
   font-size:9px;
+
   line-height:1.8;
+
   letter-spacing:1px;
+
 }
+
+
+/* =========================
+   DESKTOP
+========================= */
 
 @media(min-width:700px){
-  .status-grid{grid-template-columns:repeat(4,1fr)}
-  .stats{grid-template-columns:repeat(4,1fr)}
-  .modules{grid-template-columns:repeat(4,1fr)}
-  .visual{height:420px}
+
+  .status-grid{
+
+    grid-template-columns:
+      repeat(4,1fr);
+
+  }
+
+  .stats{
+
+    grid-template-columns:
+      repeat(4,1fr);
+
+  }
+
+  .modules{
+
+    grid-template-columns:
+      repeat(4,1fr);
+
+  }
+
+  .visual{
+
+    height:460px;
+
+  }
+
 }
 
-@media(prefers-reduced-motion:reduce){
-  *{scroll-behavior:auto!important;transition:none!important}
-}
 </style>
-</head>
 
-<body>
+  </head><body>
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
+
   <div class="header">
+
     <div class="brand">
-      <div class="logo">DR</div>
-      <div>
-        <strong>DEEP RDMM DIGITAL LAB</strong>
-        <small>DIGITAL RESEARCH LAB // 01</small>
+
+      <div class="logo">
+        DR
       </div>
+
+      <div>
+
+        <strong>
+          DEEP RDMM DIGITAL LAB
+        </strong>
+
+        <small>
+          DIGITAL RESEARCH LAB // 01
+        </small>
+
+      </div>
+
     </div>
 
-    <div class="online">SYSTEM ONLINE</div>
+    <div class="online">
+      SYSTEM ONLINE
+    </div>
+
   </div>
 
-  <a class="back" href="index.html">← ACCUEIL</a>
+  <a
+    class="back"
+    href="index.html"
+  >
+    ← ACCUEIL
+  </a>
+
 </header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
 
 <main>
 
+
+<!-- =========================
+     HERO
+========================= -->
+
 <section class="hero">
 
-  <div class="kicker">DIGITAL RESEARCH LAB // 01</div>
+  <div class="kicker">
+    DIGITAL RESEARCH LAB // 01
+  </div>
 
-  <h1>EXPLORE<br>THE DIGITAL LAB</h1>
+  <h1>
+    EXPLORE<br>
+    THE DIGITAL LAB
+  </h1>
 
   <p>
     Un environnement numérique dédié à la recherche,
-    l'expérimentation, la simulation et l'analyse scientifique
-    de DeepRDMMakademy.
+    l'expérimentation, la simulation et l'analyse
+    scientifique de DeepRDMMakademy.
   </p>
 
 </section>
+
+
+<!-- =========================
+     SCIENTIFIC VISUALIZATION
+========================= -->
 
 <section class="visual">
 
@@ -429,136 +864,351 @@ footer{
   </div>
 
   <div class="visual-data">
+
     NODE: RDMM-01<br>
+
     NETWORK: CONNECTED<br>
+
     DATA STREAM: ACTIVE
+
   </div>
 
 </section>
 
+
+<!-- =========================
+     SYSTEM STATUS
+========================= -->
+
 <section class="section">
 
-  <div class="title">SYSTEM STATUS</div>
+  <div class="title">
+    SYSTEM STATUS
+  </div>
 
   <div class="status-grid">
 
-    <div class="card">
-      <small>SYSTEM STATUS</small>
-      <strong>● ONLINE</strong>
-    </div>
 
     <div class="card">
-      <small>RESEARCH NETWORK</small>
-      <strong>● CONNECTED</strong>
+
+      <small>
+        SYSTEM STATUS
+      </small>
+
+      <strong>
+        ● ONLINE
+      </strong>
+
     </div>
 
-    <div class="card">
-      <small>DATA STREAM</small>
-      <strong>● ACTIVE</strong>
-    </div>
 
     <div class="card">
-      <small>RESEARCH NODE</small>
-      <strong>RDMM-01</strong>
+
+      <small>
+        RESEARCH NETWORK
+      </small>
+
+      <strong>
+        ● CONNECTED
+      </strong>
+
     </div>
+
+
+    <div class="card">
+
+      <small>
+        DATA STREAM
+      </small>
+
+      <strong>
+        ● ACTIVE
+      </strong>
+
+    </div>
+
+
+    <div class="card">
+
+      <small>
+        RESEARCH NODE
+      </small>
+
+      <strong>
+        RDMM-01
+      </strong>
+
+    </div>
+
 
   </div>
 
 </section>
 
+
+<!-- =========================
+     LABORATORY METRICS
+========================= -->
+
 <section class="section">
 
-  <div class="title">LABORATORY METRICS</div>
+  <div class="title">
+    LABORATORY METRICS
+  </div>
 
   <div class="stats">
 
-    <div class="card stat">
-      <strong>04</strong>
-      <span>ACTIVE PROJECTS</span>
-    </div>
 
     <div class="card stat">
-      <strong>03</strong>
-      <span>EXPERIMENTS</span>
+
+      <strong>
+        04
+      </strong>
+
+      <span>
+        ACTIVE PROJECTS
+      </span>
+
     </div>
 
-    <div class="card stat">
-      <strong>128</strong>
-      <span>DATASETS</span>
-    </div>
 
     <div class="card stat">
-      <strong>07</strong>
-      <span>RESEARCH DOMAINS</span>
+
+      <strong>
+        03
+      </strong>
+
+      <span>
+        EXPERIMENTS
+      </span>
+
     </div>
+
+
+    <div class="card stat">
+
+      <strong>
+        128
+      </strong>
+
+      <span>
+        DATASETS
+      </span>
+
+    </div>
+
+
+    <div class="card stat">
+
+      <strong>
+        07
+      </strong>
+
+      <span>
+        RESEARCH DOMAINS
+      </span>
+
+    </div>
+
 
   </div>
 
 </section>
+
+
+<!-- =========================
+     LABORATORY CONTROL
+========================= -->
 
 <section class="section">
 
-  <div class="title">LABORATORY CONTROL</div>
+  <div class="title">
+    LABORATORY CONTROL
+  </div>
+
 
   <div class="modules">
 
-    <button class="module" onclick="openModule('dashboard')">
-      <div class="icon">📊</div>
-      <strong>DASHBOARD</strong>
-      <span>Activité du laboratoire</span>
+
+    <button
+      class="module"
+      onclick="openModule('dashboard')"
+    >
+
+      <div class="icon">
+        📊
+      </div>
+
+      <strong>
+        DASHBOARD
+      </strong>
+
+      <span>
+        Activité du laboratoire
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('projects')">
-      <div class="icon">🛰️</div>
-      <strong>PROJECTS</strong>
-      <span>Projets de recherche</span>
+
+    <button
+      class="module"
+      onclick="openModule('projects')"
+    >
+
+      <div class="icon">
+        🛰️
+      </div>
+
+      <strong>
+        PROJECTS
+      </strong>
+
+      <span>
+        Projets de recherche
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('simulations')">
-      <div class="icon">⚙️</div>
-      <strong>SIMULATIONS</strong>
-      <span>Centre de simulation</span>
+
+    <button
+      class="module"
+      onclick="openModule('simulations')"
+    >
+
+      <div class="icon">
+        ⚙️
+      </div>
+
+      <strong>
+        SIMULATIONS
+      </strong>
+
+      <span>
+        Centre de simulation
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('experiments')">
-      <div class="icon">🧪</div>
-      <strong>EXPERIMENTS</strong>
-      <span>Expériences scientifiques</span>
+
+    <button
+      class="module"
+      onclick="openModule('experiments')"
+    >
+
+      <div class="icon">
+        🧪
+      </div>
+
+      <strong>
+        EXPERIMENTS
+      </strong>
+
+      <span>
+        Expériences scientifiques
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('data')">
-      <div class="icon">📡</div>
-      <strong>DATA</strong>
-      <span>Données scientifiques</span>
+
+    <button
+      class="module"
+      onclick="openModule('data')"
+    >
+
+      <div class="icon">
+        📡
+      </div>
+
+      <strong>
+        DATA
+      </strong>
+
+      <span>
+        Données scientifiques
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('results')">
-      <div class="icon">📈</div>
-      <strong>RESULTS</strong>
-      <span>Résultats de recherche</span>
+
+    <button
+      class="module"
+      onclick="openModule('results')"
+    >
+
+      <div class="icon">
+        📈
+      </div>
+
+      <strong>
+        RESULTS
+      </strong>
+
+      <span>
+        Résultats de recherche
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('documentation')">
-      <div class="icon">📚</div>
-      <strong>DOCUMENTATION</strong>
-      <span>Bibliothèque scientifique</span>
+
+    <button
+      class="module"
+      onclick="openModule('documentation')"
+    >
+
+      <div class="icon">
+        📚
+      </div>
+
+      <strong>
+        DOCUMENTATION
+      </strong>
+
+      <span>
+        Bibliothèque scientifique
+      </span>
+
     </button>
 
-    <button class="module" onclick="openModule('settings')">
-      <div class="icon">⚙️</div>
-      <strong>SETTINGS</strong>
-      <span>Paramètres du laboratoire</span>
+
+    <button
+      class="module"
+      onclick="openModule('settings')"
+    >
+
+      <div class="icon">
+        ⚙️
+      </div>
+
+      <strong>
+        SETTINGS
+      </strong>
+
+      <span>
+        Paramètres du laboratoire
+      </span>
+
     </button>
+
 
   </div>
 
 </section>
 
-<section class="section" id="workspace">
+
+<!-- =========================
+     WORKSPACE
+========================= -->
+
+<section
+  class="section"
+  id="workspace"
+>
 
   <div class="workspace">
 
-    <h2 id="workTitle">LAB MODULE</h2>
+    <h2 id="workTitle">
+      LAB MODULE
+    </h2>
 
     <p id="workText"></p>
 
@@ -568,382 +1218,625 @@ footer{
 
 </section>
 
+
 </main>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
+
   DEEPRDMM AKADEMY<br>
+
   L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE<br><br>
+
   DIGITAL RESEARCH LAB // 01
-</footer>
 
-<script>
+  </footer><script>
 
-/* =========================
-   MODULES
-========================= */
+/* =========================================================
+   DEEPRDMM DIGITAL LAB
+   CORE SYSTEM
+========================================================= */
 
-const workspace=document.getElementById("workspace");
-const workTitle=document.getElementById("workTitle");
-const workText=document.getElementById("workText");
-const workContent=document.getElementById("workContent");
 
-const modules={
+/* =========================================================
+   MODULE WORKSPACE
+========================================================= */
 
-dashboard:{
- title:"RESEARCH DASHBOARD",
- text:"Vue générale de l'activité scientifique du laboratoire.",
- content:`
- <div class="item">
-  <strong>ACTIVE RESEARCH</strong>
-  <small>4 projets actuellement actifs.</small>
- </div>
- <div class="item">
-  <strong>EXPERIMENT ACTIVITY</strong>
-  <small>3 expériences scientifiques en préparation.</small>
- </div>
- <div class="item">
-  <strong>DATA ANALYSIS</strong>
-  <small>128 datasets de démonstration.</small>
- </div>
- `
-},
+const workspace = document.getElementById("workspace");
+const workTitle = document.getElementById("workTitle");
+const workText = document.getElementById("workText");
+const workContent = document.getElementById("workContent");
 
-projects:{
- title:"RESEARCH PROJECTS",
- text:"Projets scientifiques du Digital Lab.",
- content:`
- <div class="item">
-  <strong>ORBIT-001</strong>
-  <small>Satellite Orbital Research</small>
-  <button class="action" onclick="info('ORBIT-001')">EXPLORER</button>
- </div>
 
- <div class="item">
-  <strong>TERRA-002</strong>
-  <small>Earth & Environment</small>
-  <button class="action" onclick="info('TERRA-002')">EXPLORER</button>
- </div>
+const modules = {
 
- <div class="item">
-  <strong>NEURA-003</strong>
-  <small>Artificial Intelligence</small>
-  <button class="action" onclick="info('NEURA-003')">EXPLORER</button>
- </div>
+  dashboard: {
+    title: "RESEARCH DASHBOARD",
+    text: "Vue générale de l'activité scientifique du laboratoire.",
+    content: `
+      <div class="item">
+        <strong>SYSTEM STATUS</strong>
+        <small>DeepRDMM Digital Lab opérationnel.</small>
+      </div>
 
- <div class="item">
-  <strong>NOVA-004</strong>
-  <small>Future Technologies</small>
-  <button class="action" onclick="info('NOVA-004')">EXPLORER</button>
- </div>
- `
-},
+      <div class="item">
+        <strong>ACTIVE RESEARCH</strong>
+        <small>4 projets scientifiques actuellement actifs.</small>
+      </div>
 
-simulations:{
- title:"SIMULATION CENTER",
- text:"Centre de simulation scientifique.",
- content:`
- <div class="item">
-  <strong>STATUS: UNDER DEVELOPMENT</strong>
-  <small>
-   Le centre de simulation sera développé avec
-   de véritables expériences interactives.
-  </small>
- </div>
- `
-},
+      <div class="item">
+        <strong>EXPERIMENT ACTIVITY</strong>
+        <small>3 expériences scientifiques disponibles.</small>
+      </div>
 
-experiments:{
- title:"SCIENTIFIC EXPERIMENTS",
- text:"Expériences scientifiques du laboratoire.",
- content:`
- <div class="item">
-  <strong>EXP-001 — ORBITAL DYNAMICS</strong>
-  <small>Étude des mouvements orbitaux.</small>
-  <button class="action" onclick="info('EXP-001')">VIEW EXPERIMENT</button>
- </div>
+      <div class="item">
+        <strong>DATA ANALYSIS</strong>
+        <small>128 datasets scientifiques de démonstration.</small>
+      </div>
+    `
+  },
 
- <div class="item">
-  <strong>EXP-002 — ATMOSPHERIC MODEL</strong>
-  <small>Modélisation atmosphérique.</small>
-  <button class="action" onclick="info('EXP-002')">VIEW EXPERIMENT</button>
- </div>
 
- <div class="item">
-  <strong>EXP-003 — AI PATTERN ANALYSIS</strong>
-  <small>Analyse de motifs avec intelligence artificielle.</small>
-  <button class="action" onclick="info('EXP-003')">VIEW EXPERIMENT</button>
- </div>
- `
-},
+  projects: {
+    title: "RESEARCH PROJECTS",
+    text: "Projets scientifiques du Digital Lab.",
+    content: `
+      <div class="item">
+        <strong>ORBIT-001</strong>
+        <small>Satellite Orbital Research</small>
+        <button class="action" onclick="info('ORBIT-001')">
+          EXPLORER
+        </button>
+      </div>
 
-data:{
- title:"RESEARCH DATA CENTER",
- text:"Centre de données scientifiques.",
- content:`
- <div class="item"><strong>🌍 EARTH DATA</strong><small>Terre, climat et environnement.</small></div>
- <div class="item"><strong>🌌 SPACE DATA</strong><small>Espace et données orbitales.</small></div>
- <div class="item"><strong>🧠 AI DATA</strong><small>Données pour la recherche en IA.</small></div>
- <div class="item"><strong>🧪 EXPERIMENTAL DATA</strong><small>Données expérimentales.</small></div>
- <div class="item"><strong>🏭 INDUSTRIAL DATA</strong><small>Données technologiques et industrielles.</small></div>
- `
-},
+      <div class="item">
+        <strong>TERRA-002</strong>
+        <small>Earth & Environment</small>
+        <button class="action" onclick="info('TERRA-002')">
+          EXPLORER
+        </button>
+      </div>
 
-results:{
- title:"RESEARCH RESULTS",
- text:"Résultats scientifiques de démonstration.",
- content:`
- <div class="item">
-  <strong>RESEARCH ANALYSIS</strong>
-  <small>Visualisation de résultats expérimentaux de démonstration.</small>
- </div>
+      <div class="item">
+        <strong>NEURA-003</strong>
+        <small>Artificial Intelligence</small>
+        <button class="action" onclick="info('NEURA-003')">
+          EXPLORER
+        </button>
+      </div>
 
- <div class="item">
-  <strong>DATA QUALITY</strong>
-  <small>98.4% — valeur de démonstration.</small>
- </div>
- `
-},
+      <div class="item">
+        <strong>NOVA-004</strong>
+        <small>Future Technologies</small>
+        <button class="action" onclick="info('NOVA-004')">
+          EXPLORER
+        </button>
+      </div>
+    `
+  },
 
-documentation:{
- title:"RESEARCH DOCUMENTATION",
- text:"Bibliothèque documentaire du laboratoire.",
- content:`
- <div class="item"><strong>PROTOCOLS</strong><small>Protocoles scientifiques.</small></div>
- <div class="item"><strong>REPORTS</strong><small>Rapports de recherche.</small></div>
- <div class="item"><strong>RESEARCH NOTES</strong><small>Notes scientifiques.</small></div>
- <div class="item"><strong>TECHNICAL DOCUMENTATION</strong><small>Documentation technique.</small></div>
- <div class="item"><strong>SCIENTIFIC RESOURCES</strong><small>Ressources scientifiques.</small></div>
- `
-},
 
-settings:{
- title:"LAB SETTINGS",
- text:"Paramètres de l'environnement numérique.",
- content:`
- <div class="item">
-  <strong>3D EFFECTS</strong><br>
-  <button class="action" onclick="toggle(this)">ON</button>
- </div>
+  simulations: {
+    title: "SIMULATION CENTER",
+    text: "Centre de simulation scientifique.",
+    content: `
+      <div class="item">
+        <strong>🌍 EARTH SIMULATION</strong>
+        <small>
+          Visualisation dynamique de la Terre,
+          de son atmosphère et de son cycle jour/nuit.
+        </small>
+        <button class="action" onclick="info('EARTH SIMULATION')">
+          LAUNCH
+        </button>
+      </div>
 
- <div class="item">
-  <strong>ANIMATIONS</strong><br>
-  <button class="action" onclick="toggle(this)">ON</button>
- </div>
+      <div class="item">
+        <strong>🛰️ ORBITAL SIMULATION</strong>
+        <small>
+          Simulation du mouvement orbital d'un satellite.
+        </small>
+        <button class="action" onclick="info('ORBITAL SIMULATION')">
+          LAUNCH
+        </button>
+      </div>
 
- <div class="item">
-  <strong>PARTICLES</strong><br>
-  <button class="action" onclick="toggle(this)">ON</button>
- </div>
- `
-}
+      <div class="item">
+        <strong>☀️ SOLAR SYSTEM</strong>
+        <small>
+          Exploration numérique du système solaire.
+        </small>
+        <button class="action" onclick="info('SOLAR SYSTEM')">
+          LAUNCH
+        </button>
+      </div>
+    `
+  },
+
+
+  experiments: {
+    title: "SCIENTIFIC EXPERIMENTS",
+    text: "Expériences scientifiques du laboratoire.",
+    content: `
+      <div class="item">
+        <strong>EXP-001 — ORBITAL DYNAMICS</strong>
+        <small>Étude des mouvements orbitaux.</small>
+        <button class="action" onclick="info('EXP-001')">
+          VIEW EXPERIMENT
+        </button>
+      </div>
+
+      <div class="item">
+        <strong>EXP-002 — ATMOSPHERIC MODEL</strong>
+        <small>Modélisation atmosphérique.</small>
+        <button class="action" onclick="info('EXP-002')">
+          VIEW EXPERIMENT
+        </button>
+      </div>
+
+      <div class="item">
+        <strong>EXP-003 — AI PATTERN ANALYSIS</strong>
+        <small>Analyse de motifs avec intelligence artificielle.</small>
+        <button class="action" onclick="info('EXP-003')">
+          VIEW EXPERIMENT
+        </button>
+      </div>
+    `
+  },
+
+
+  data: {
+    title: "RESEARCH DATA CENTER",
+    text: "Centre de données scientifiques.",
+    content: `
+      <div class="item">
+        <strong>🌍 EARTH DATA</strong>
+        <small>Terre, climat et environnement.</small>
+      </div>
+
+      <div class="item">
+        <strong>🌌 SPACE DATA</strong>
+        <small>Espace et données orbitales.</small>
+      </div>
+
+      <div class="item">
+        <strong>🧠 AI DATA</strong>
+        <small>Données pour la recherche en intelligence artificielle.</small>
+      </div>
+
+      <div class="item">
+        <strong>🧪 EXPERIMENTAL DATA</strong>
+        <small>Données expérimentales.</small>
+      </div>
+
+      <div class="item">
+        <strong>🏭 INDUSTRIAL DATA</strong>
+        <small>Données technologiques et industrielles.</small>
+      </div>
+    `
+  },
+
+
+  results: {
+    title: "RESEARCH RESULTS",
+    text: "Résultats scientifiques de démonstration.",
+    content: `
+      <div class="item">
+        <strong>RESEARCH ANALYSIS</strong>
+        <small>
+          Visualisation de résultats expérimentaux.
+        </small>
+      </div>
+
+      <div class="item">
+        <strong>DATA QUALITY</strong>
+        <small>
+          98.4% — valeur de démonstration.
+        </small>
+      </div>
+
+      <div class="item">
+        <strong>NETWORK STATUS</strong>
+        <small>
+          Research network operational.
+        </small>
+      </div>
+    `
+  },
+
+
+  documentation: {
+    title: "RESEARCH DOCUMENTATION",
+    text: "Bibliothèque documentaire du laboratoire.",
+    content: `
+      <div class="item">
+        <strong>PROTOCOLS</strong>
+        <small>Protocoles scientifiques.</small>
+      </div>
+
+      <div class="item">
+        <strong>REPORTS</strong>
+        <small>Rapports de recherche.</small>
+      </div>
+
+      <div class="item">
+        <strong>RESEARCH NOTES</strong>
+        <small>Notes scientifiques.</small>
+      </div>
+
+      <div class="item">
+        <strong>TECHNICAL DOCUMENTATION</strong>
+        <small>Documentation technique.</small>
+      </div>
+
+      <div class="item">
+        <strong>SCIENTIFIC RESOURCES</strong>
+        <small>Ressources scientifiques.</small>
+      </div>
+    `
+  },
+
+
+  settings: {
+    title: "LAB SETTINGS",
+    text: "Paramètres de l'environnement numérique.",
+    content: `
+      <div class="item">
+        <strong>3D EFFECTS</strong><br>
+        <button class="action" onclick="toggle(this)">
+          ON
+        </button>
+      </div>
+
+      <div class="item">
+        <strong>ANIMATIONS</strong><br>
+        <button class="action" onclick="toggle(this)">
+          ON
+        </button>
+      </div>
+
+      <div class="item">
+        <strong>PARTICLES</strong><br>
+        <button class="action" onclick="toggle(this)">
+          ON
+        </button>
+      </div>
+    `
+  }
 
 };
 
 
- const m=modules[name];
+/* =========================================================
+   OPEN MODULE
+========================================================= */
 
- workspace.style.display="block";
+function openModule(name){
 
- workTitle.textContent=m.title;
- workText.textContent=m.text;
- workContent.innerHTML=m.content;
+  const module = modules[name];
 
- workspace.scrollIntoView({
-  behavior:"smooth",
-  block:"start"
- });
+  if(!module){
+    return;
   }
 
+  workspace.style.display = "block";
+
+  workTitle.textContent = module.title;
+
+  workText.textContent = module.text;
+
+  workContent.innerHTML = module.content;
+
+  workspace.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
 
 function info(name){
- alert(name+" — module de recherche DeepRDMMakademy.");
+
+  alert(
+    name +
+    " — module de recherche DeepRDMMakademy."
+  );
+
 }
+
+
+/* =========================================================
+   SETTINGS TOGGLE
+========================================================= */
 
 function toggle(button){
 
- if(button.textContent==="ON"){
-  button.textContent="OFF";
-  button.style.opacity=".45";
- }else{
-  button.textContent="ON";
-  button.style.opacity="1";
- }
-}
+  if(button.textContent.trim() === "ON"){
 
+    button.textContent = "OFF";
 
-/* =========================
-   SCIENTIFIC VISUALIZATION
-========================= */
+    button.style.opacity = ".45";
 
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
+  }else{
 
-let w,h;
-let particles=[];
-let angle=0;
+    button.textContent = "ON";
 
-function resize(){
+    button.style.opacity = "1";
 
- const rect=canvas.getBoundingClientRect();
-
- const ratio=window.devicePixelRatio||1;
-
- canvas.width=rect.width*ratio;
- canvas.height=rect.height*ratio;
-
- ctx.setTransform(ratio,0,0,ratio,0,0);
-
- w=rect.width;
- h=rect.height;
-
- particles=[];
-
- const amount=window.innerWidth<500?40:75;
-
- for(let i=0;i<amount;i++){
-
-  particles.push({
-   x:Math.random()*w,
-   y:Math.random()*h,
-   speed:.15+Math.random()*.45,
-   size:.5+Math.random()*1.4
-  });
-
- }
-}
-
-window.addEventListener("resize",resize);
-resize();
-Code de remplacement — Visualisation scientifique V2
-
-function draw(){
-
-  ctx.clearRect(0,0,w,h);
-
-  const cx = w / 2;
-  const cy = h / 2;
-
-  /* =========================
-     ÉTOILES — PROFONDEUR
-  ========================= */
-
-  for(let i=0;i<120;i++){
-
-    const x = (i * 83.17) % w;
-    const y = (i * 47.31) % h;
-    const size = 0.4 + ((i * 13) % 10) / 12;
-
-    ctx.beginPath();
-    ctx.arc(x,y,size,0,Math.PI*2);
-
-    ctx.fillStyle =
-      i % 9 === 0
-      ? "rgba(70,220,255,.85)"
-      : "rgba(255,255,255,.45)";
-
-    ctx.fill();
   }
 
-  /* =========================
-     ANIMATION
-  ========================= */
+}
 
-  angle += .0025;
 
-  /* =========================
-     SOLEIL
-  ========================= */
+/* =========================================================
+   SCIENTIFIC VISUALIZATION
+   EARTH + SUN + SATELLITE + DAY/NIGHT
+========================================================= */
 
-  const sunX = cx + w * .32;
+const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d");
+
+let w = 0;
+let h = 0;
+
+let earthAngle = 0;
+let satelliteAngle = 0;
+
+let stars = [];
+
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+function resizeCanvas(){
+
+  const rect = canvas.getBoundingClientRect();
+
+  const ratio = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+
+  ctx.setTransform(
+    ratio,
+    0,
+    0,
+    ratio,
+    0,
+    0
+  );
+
+  w = rect.width;
+  h = rect.height;
+
+
+  stars = [];
+
+  const amount =
+    window.innerWidth < 500
+    ? 90
+    : 170;
+
+
+  for(let i = 0; i < amount; i++){
+
+    stars.push({
+
+      x: Math.random() * w,
+
+      y: Math.random() * h,
+
+      size: .3 + Math.random() * 1.5,
+
+      alpha: .25 + Math.random() * .7
+
+    });
+
+  }
+
+}
+
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+resizeCanvas();
+
+
+/* =========================================================
+   DRAW STARS
+========================================================= */
+
+function drawStars(){
+
+  for(const star of stars){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      star.x,
+      star.y,
+      star.size,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle =
+      "rgba(255,255,255," +
+      star.alpha +
+      ")";
+
+    ctx.fill();
+
+  }
+
+}
+
+
+/* =========================================================
+   DRAW SUN
+========================================================= */
+
+function drawSun(cx,cy){
+
+  const sunX = cx + w * .31;
+
   const sunY = cy - h * .20;
 
-  const sunRadius = Math.min(w,h) * .065;
+  const radius =
+    Math.min(w,h) * .075;
 
-  const sunGlow = ctx.createRadialGradient(
-    sunX,
-    sunY,
-    sunRadius * .2,
-    sunX,
-    sunY,
-    sunRadius * 4
+
+  /* SUN GLOW */
+
+  const glow =
+    ctx.createRadialGradient(
+      sunX,
+      sunY,
+      radius * .2,
+      sunX,
+      sunY,
+      radius * 4
+    );
+
+
+  glow.addColorStop(
+    0,
+    "rgba(255,255,220,.75)"
   );
 
-  sunGlow.addColorStop(0,"rgba(255,255,220,.65)");
-  sunGlow.addColorStop(.25,"rgba(255,210,80,.30)");
-  sunGlow.addColorStop(.60,"rgba(255,140,20,.08)");
-  sunGlow.addColorStop(1,"rgba(255,80,0,0)");
+  glow.addColorStop(
+    .25,
+    "rgba(255,210,80,.35)"
+  );
+
+  glow.addColorStop(
+    .6,
+    "rgba(255,140,20,.10)"
+  );
+
+  glow.addColorStop(
+    1,
+    "rgba(255,80,0,0)"
+  );
+
 
   ctx.beginPath();
+
   ctx.arc(
     sunX,
     sunY,
-    sunRadius * 4,
+    radius * 4,
     0,
-    Math.PI*2
+    Math.PI * 2
   );
 
-  ctx.fillStyle = sunGlow;
+  ctx.fillStyle = glow;
+
   ctx.fill();
 
-  const sun = ctx.createRadialGradient(
-    sunX - sunRadius*.3,
-    sunY - sunRadius*.3,
-    2,
-    sunX,
-    sunY,
-    sunRadius
+
+  /* SUN */
+
+  const sun =
+    ctx.createRadialGradient(
+      sunX - radius*.3,
+      sunY - radius*.3,
+      2,
+      sunX,
+      sunY,
+      radius
+    );
+
+
+  sun.addColorStop(
+    0,
+    "#fffde0"
   );
 
-  sun.addColorStop(0,"#fffde0");
-  sun.addColorStop(.35,"#ffe76b");
-  sun.addColorStop(.75,"#ffad25");
-  sun.addColorStop(1,"#ff6418");
+  sun.addColorStop(
+    .35,
+    "#ffe76b"
+  );
+
+  sun.addColorStop(
+    .75,
+    "#ffad25"
+  );
+
+  sun.addColorStop(
+    1,
+    "#ff6418"
+  );
+
 
   ctx.beginPath();
+
   ctx.arc(
     sunX,
     sunY,
-    sunRadius,
+    radius,
     0,
-    Math.PI*2
+    Math.PI * 2
   );
 
   ctx.fillStyle = sun;
+
   ctx.shadowBlur = 25;
-  ctx.shadowColor = "rgba(255,180,40,.8)";
+
+  ctx.shadowColor =
+    "rgba(255,180,40,.85)";
+
   ctx.fill();
+
   ctx.shadowBlur = 0;
 
-
-  /* =========================
-     TERRE
-  ========================= */
-
-  ctx.save();
-  ctx.translate(cx,cy);
-
-  const r = Math.min(w,h) * .20;
+}
 
 
-  /* Atmosphère */
+/* =========================================================
+   DRAW EARTH
+========================================================= */
 
-  const atmosphere = ctx.createRadialGradient(
-    -r*.35,
-    -r*.40,
-    r*.15,
-    0,
-    0,
-    r*1.15
-  );
+function drawEarth(cx,cy){
+
+  const radius =
+    Math.min(w,h) * .20;
+
+
+  /* ATMOSPHERE */
+
+  const atmosphere =
+    ctx.createRadialGradient(
+      cx - radius*.35,
+      cy - radius*.40,
+      radius*.1,
+      cx,
+      cy,
+      radius*1.2
+    );
+
 
   atmosphere.addColorStop(
     0,
-    "rgba(80,230,255,.28)"
+    "rgba(100,240,255,.35)"
   );
 
   atmosphere.addColorStop(
-    .65,
-    "rgba(20,130,255,.14)"
+    .55,
+    "rgba(20,130,255,.18)"
   );
 
   atmosphere.addColorStop(
@@ -951,551 +1844,624 @@ function draw(){
     "rgba(0,170,255,0)"
   );
 
+
   ctx.beginPath();
-  ctx.arc(0,0,r*1.15,0,Math.PI*2);
+
+  ctx.arc(
+    cx,
+    cy,
+    radius * 1.18,
+    0,
+    Math.PI * 2
+  );
+
   ctx.fillStyle = atmosphere;
+
   ctx.fill();
 
 
-  /* =========================
-     SURFACE TERRESTRE
-  ========================= */
+  /* EARTH */
 
-  const earth = ctx.createRadialGradient(
-    -r*.38,
-    -r*.42,
-    r*.04,
+  const earth =
+    ctx.createRadialGradient(
+      cx - radius*.38,
+      cy - radius*.42,
+      radius*.04,
+      cx,
+      cy,
+      radius
+    );
+
+
+  earth.addColorStop(
     0,
-    0,
-    r
+    "#79f1ff"
   );
 
-  earth.addColorStop(0,"#79f1ff");
-  earth.addColorStop(.25,"#2495ff");
-  earth.addColorStop(.55,"#0861c4");
-  earth.addColorStop(.78,"#03254e");
-  earth.addColorStop(1,"#010817");
+  earth.addColorStop(
+    .25,
+    "#2495ff"
+  );
+
+  earth.addColorStop(
+    .55,
+    "#0861c4"
+  );
+
+  earth.addColorStop(
+    .78,
+    "#03254e"
+  );
+
+  earth.addColorStop(
+    1,
+    "#010817"
+  );
+
 
   ctx.beginPath();
-  ctx.arc(0,0,r,0,Math.PI*2);
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
 
   ctx.fillStyle = earth;
 
   ctx.shadowBlur = 30;
-  ctx.shadowColor = "rgba(20,150,255,.65)";
+
+  ctx.shadowColor =
+    "rgba(20,150,255,.65)";
 
   ctx.fill();
 
   ctx.shadowBlur = 0;
 
 
-  /* =========================
-     CONTINENTS
-  ========================= */
+  /* CLIP TO EARTH */
 
   ctx.save();
 
   ctx.beginPath();
-  ctx.arc(0,0,r,0,Math.PI*2);
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
   ctx.clip();
 
-  const rotation = Math.sin(angle) * r * .45;
 
-  ctx.fillStyle = "rgba(55,190,125,.78)";
+  /* CONTINENTS */
 
-  function continent(x,y,rx,ry){
+  const rotation =
+    Math.sin(earthAngle) *
+    radius *
+    .45;
+
+
+  ctx.fillStyle =
+    "rgba(55,190,125,.78)";
+
+
+  function continent(
+    x,
+    y,
+    rx,
+    ry
+  ){
 
     ctx.beginPath();
 
     ctx.ellipse(
-      x + rotation,
-      y,
-      Math.max(2,Math.abs(rx*Math.cos(angle))),
+      cx + x + rotation,
+      cy + y,
+      Math.max(
+        2,
+        Math.abs(
+          rx * Math.cos(earthAngle)
+        )
+      ),
       ry,
       .25,
       0,
-      Math.PI*2
+      Math.PI * 2
     );
 
     ctx.fill();
+
   }
 
-  continent(-r*.42,-r*.20,r*.22,r*.12);
-  continent(-r*.20,r*.02,r*.28,r*.15);
-  continent(r*.18,-r*.25,r*.24,r*.13);
-  continent(r*.34,r*.18,r*.19,r*.11);
-  continent(-r*.30,r*.34,r*.17,r*.09);
 
-
-  /* =========================
-     JOUR / NUIT
-  ========================= */
-
-  const dayNight = ctx.createLinearGradient(
-    -r,
-    0,
-    r,
-    0
+  continent(
+    -radius*.42,
+    -radius*.20,
+    radius*.22,
+    radius*.12
   );
 
-  dayNight.addColorStop(
-    0,
+  continent(
+    -radius*.20,
+    radius*.02,
+    radius*.28,
+    radius*.15
+  );
+
+  continent(
+    radius*.18,
+    -radius*.25,
+    radius*.24,
+    radius*.13
+  );
+
+  continent(
+    radius*.34,
+    radius*.18,
+    radius*.19,
+    radius*.11
+  );
+
+  continent(
+    -radius*.30,
+    radius*.34,
+    radius*.17,
+    radius*.09
+  );
+
+
+  /* DAY / NIGHT TERMINATOR */
+
+  const night =
+    ctx.createLinearGradient(
+      cx - radius,
+      cy,
+      cx + radius,
+      cy
+    );
+
+
+  const lightShift =
+    Math.sin(earthAngle) * .45;
+
+
+  night.addColorStop(
+    Math.max(0,.10 + lightShift),
     "rgba(0,0,15,.02)"
   );
 
-  dayNight.addColorStop(
-    .42,
-    "rgba(0,0,20,.08)"
+  night.addColorStop(
+    Math.max(.25,.40 + lightShift),
+    "rgba(0,0,20,.10)"
   );
 
-  dayNight.addColorStop(
-    .54,
-    "rgba(0,0,25,.38)"
+  night.addColorStop(
+    Math.min(.80,.54 + lightShift),
+    "rgba(0,0,25,.48)"
   );
 
-  dayNight.addColorStop(
-    .68,
-    "rgba(0,0,25,.72)"
-  );
-
-  dayNight.addColorStop(
+  night.addColorStop(
     1,
     "rgba(0,0,10,.94)"
   );
 
-  ctx.beginPath();
-  ctx.arc(0,0,r,0,Math.PI*2);
 
-  ctx.fillStyle = dayNight;
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = night;
+
   ctx.fill();
 
 
-  /* =========================
-     LUMIÈRES DE LA VILLE
-  ========================= */
+  /* CITY LIGHTS */
 
-  ctx.fillStyle = "rgba(255,220,90,.72)";
+  ctx.fillStyle =
+    "rgba(255,220,90,.72)";
 
-  for(let i=0;i<35;i++){
 
-    const lx = -r*.30 + (i%7)*r*.085;
-    const ly = -r*.38 + (Math.floor(i/7))*r*.13;
+  for(let i = 0; i < 45; i++){
+
+    const lx =
+      -radius*.35 +
+      (i % 9) * radius*.075;
+
+    const ly =
+      -radius*.38 +
+      Math.floor(i/9) *
+      radius*.13;
+
 
     ctx.beginPath();
 
     ctx.arc(
-      lx + rotation*.25,
-      ly,
+      cx + lx + rotation*.25,
+      cy + ly,
       1,
       0,
-      Math.PI*2
+      Math.PI * 2
     );
 
     ctx.fill();
+
   }
 
-  ctx.restore();
+
+  /* CLOUDS */
+
+  ctx.strokeStyle =
+    "rgba(220,250,255,.16)";
+
+  ctx.lineWidth =
+    radius * .025;
 
 
-  /* =========================
-     NUAGES
-  ========================= */
-
-  ctx.save();
-
-  ctx.beginPath();
-  ctx.arc(0,0,r*1.01,0,Math.PI*2);
-  ctx.clip();
-
-  ctx.strokeStyle = "rgba(220,250,255,.15)";
-  ctx.lineWidth = r*.025;
-
-  for(let i=-2;i<=2;i++){
+  for(let i = -2; i <= 2; i++){
 
     ctx.beginPath();
 
     ctx.ellipse(
-      rotation*.25,
-      i*r*.20,
-      r*.90,
-      r*.075,
+      cx + rotation*.25,
+      cy + i*radius*.20,
+      radius*.90,
+      radius*.075,
       .12,
       0,
-      Math.PI*2
+      Math.PI * 2
     );
 
     ctx.stroke();
+
   }
+
 
   ctx.restore();
 
 
-  /* =========================
-     CONTOUR ATMOSPHÉRIQUE
-  ========================= */
+  /* ATMOSPHERIC CONTOUR */
 
   ctx.beginPath();
-  ctx.arc(0,0,r,0,Math.PI*2);
 
-  ctx.strokeStyle = "rgba(80,235,255,.70)";
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.strokeStyle =
+    "rgba(80,235,255,.75)";
+
   ctx.lineWidth = 2;
 
   ctx.shadowBlur = 14;
-  ctx.shadowColor = "rgba(0,210,255,.8)";
+
+  ctx.shadowColor =
+    "rgba(0,210,255,.8)";
 
   ctx.stroke();
 
   ctx.shadowBlur = 0;
 
 
-  /* =========================
-     ORBITE DU SATELLITE
-  ========================= */
+  return radius;
 
-  const satelliteAngle = angle * 4;
+}
+
+
+/* =========================================================
+   DRAW SATELLITE
+========================================================= */
+
+function drawSatellite(
+  cx,
+  cy,
+  radius
+){
+
+  satelliteAngle += .018;
+
+
+  /* ORBIT */
 
   ctx.beginPath();
 
   ctx.ellipse(
+    cx,
+    cy,
+    radius * 1.55,
+    radius * .68,
     0,
     0,
-    r*1.55,
-    r*.68,
-    0,
-    0,
-    Math.PI*2
+    Math.PI * 2
   );
 
-  ctx.strokeStyle = "rgba(30,220,255,.20)";
+  ctx.strokeStyle =
+    "rgba(30,220,255,.22)";
+
   ctx.lineWidth = 1;
+
   ctx.stroke();
 
 
-  /* =========================
-     SATELLITE
-  ========================= */
+  /* POSITION */
 
-  const sx = Math.cos(satelliteAngle) * r * 1.55;
-  const sy = Math.sin(satelliteAngle) * r * .68;
+  const sx =
+    cx +
+    Math.cos(satelliteAngle) *
+    radius * 1.55;
+
+  const sy =
+    cy +
+    Math.sin(satelliteAngle) *
+    radius * .68;
+
 
   ctx.save();
 
-  ctx.translate(sx,sy);
-  ctx.rotate(satelliteAngle);
-
-
-  /* panneaux */
-
-  ctx.fillStyle = "#155fc0";
-
-  ctx.fillRect(
-    -r*.34,
-    -r*.045,
-    r*.22,
-    r*.09
+  ctx.translate(
+    sx,
+    sy
   );
 
-  ctx.fillRect(
-    r*.12,
-    -r*.045,
-    r*.22,
-    r*.09
+  ctx.rotate(
+    satelliteAngle
   );
 
 
-  /* corps */
+  /* SOLAR PANELS */
 
-  ctx.fillStyle = "#edfaff";
+  ctx.fillStyle =
+    "#155fc0";
+
 
   ctx.fillRect(
-    -r*.12,
-    -r*.075,
-    r*.24,
-    r*.15
+    -radius*.34,
+    -radius*.045,
+    radius*.22,
+    radius*.09
   );
 
 
-  /* antenne */
+  ctx.fillRect(
+    radius*.12,
+    -radius*.045,
+    radius*.22,
+    radius*.09
+  );
 
-  ctx.strokeStyle = "#d8f7ff";
+
+  /* BODY */
+
+  ctx.fillStyle =
+    "#edfaff";
+
+
+  ctx.fillRect(
+    -radius*.12,
+    -radius*.075,
+    radius*.24,
+    radius*.15
+  );
+
+
+  /* ANTENNA */
+
+  ctx.strokeStyle =
+    "#d8f7ff";
+
   ctx.lineWidth = 1;
+
 
   ctx.beginPath();
 
   ctx.moveTo(0,0);
-  ctx.lineTo(r*.25,-r*.20);
 
-  ctx.stroke();
-
-  ctx.beginPath();
-
-  ctx.arc(
-    r*.25,
-    -r*.20,
-    r*.045,
-    0,
-    Math.PI*2
+  ctx.lineTo(
+    radius*.25,
+    -radius*.20
   );
 
   ctx.stroke();
 
 
-  /* signal */
+  ctx.beginPath();
 
-  ctx.fillStyle = "#00eaff";
+  ctx.arc(
+    radius*.25,
+    -radius*.20,
+    radius*.045,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+
+  /* SIGNAL */
+
+  ctx.fillStyle =
+    "#00eaff";
 
   ctx.shadowBlur = 12;
-  ctx.shadowColor = "rgba(0,220,255,.9)";
+
+  ctx.shadowColor =
+    "rgba(0,220,255,.9)";
+
 
   ctx.beginPath();
 
   ctx.arc(
     0,
     0,
-    r*.025,
+    radius*.025,
     0,
-    Math.PI*2
+    Math.PI * 2
   );
 
   ctx.fill();
 
   ctx.shadowBlur = 0;
 
+
   ctx.restore();
 
+}
 
-  /* =========================
-     INFORMATIONS SCIENTIFIQUES
-  ========================= */
 
-  ctx.fillStyle = "rgba(120,220,255,.70)";
+/* =========================================================
+   SCIENTIFIC INFORMATION
+========================================================= */
 
-  ctx.font = Math.max(9,w*.024) + "px Arial";
+function drawInformation(){
+
+  ctx.fillStyle =
+    "rgba(120,220,255,.72)";
+
+  ctx.font =
+    Math.max(9,w*.024) +
+    "px Arial";
+
 
   ctx.fillText(
     "EARTH // DAY-NIGHT",
-    -w*.43,
-    h*.39
+    14,
+    h - 48
   );
+
 
   ctx.fillText(
     "SATELLITE // ORBITAL",
-    -w*.43,
-    h*.44
+    14,
+    h - 32
   );
+
 
   ctx.fillText(
     "SOLAR SOURCE // ACTIVE",
-    -w*.43,
-    h*.49
+    14,
+    h - 16
+  );
+
+}
+
+
+/* =========================================================
+   MAIN ANIMATION LOOP
+========================================================= */
+
+function draw(){
+
+  ctx.clearRect(
+    0,
+    0,
+    w,
+    h
   );
 
 
-  ctx.restore();
+  /* SPACE */
+
+  ctx.fillStyle =
+    "#020812";
+
+  ctx.fillRect(
+    0,
+    0,
+    w,
+    h
+  );
+
+
+  drawStars();
+
+
+  const cx = w / 2;
+  const cy = h / 2;
+
+
+  /* SUN */
+
+  drawSun(
+    cx,
+    cy
+  );
+
+
+  /* EARTH */
+
+  const earthRadius =
+    drawEarth(
+      cx,
+      cy
+    );
+
+
+  /* SATELLITE */
+
+  drawSatellite(
+    cx,
+    cy,
+    earthRadius
+  );
+
+
+  /* INFORMATION */
+
+  drawInformation();
+
+
+  /* EARTH ROTATION */
+
+  earthAngle += .004;
+
 
   requestAnimationFrame(draw);
+
 }
 
+
 draw();
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+console.log(
+  "DEEPRDMM DIGITAL LAB // SYSTEM ONLINE"
+);
+
+console.log(
+  "SCIENTIFIC VISUALIZATION // ACTIVE"
+);
+
+console.log(
+  "EARTH // DAY-NIGHT // ACTIVE"
+);
+
+console.log(
+  "SATELLITE ORBIT // ACTIVE"
+);
+
+console.log(
+  "SOLAR SOURCE // ACTIVE"
+);
+
 </script>
-<!-- ============================= -->
-<!-- DEEPRDMM DIGITAL LAB — DASHBOARD -->
-<!-- ============================= -->
 
-<style>
-  .dashboard-panel {
-    margin: 35px 20px;
-    padding: 25px;
-    border: 1px solid rgba(0,212,255,.25);
-    border-radius: 22px;
-    background: rgba(5,15,30,.78);
-    box-shadow: 0 0 35px rgba(0,120,255,.10);
-  }
-
-  .dashboard-title {
-    color: #00d4ff;
-    font-size: 12px;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-  }
-
-  .dashboard-heading {
-    font-size: 30px;
-    margin-bottom: 20px;
-  }
-
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .dashboard-card {
-    padding: 18px;
-    min-height: 110px;
-    border-radius: 16px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.08);
-  }
-
-  .dashboard-card small {
-    display: block;
-    color: #7f8da8;
-    font-size: 10px;
-    letter-spacing: 1px;
-    margin-bottom: 12px;
-  }
-
-  .dashboard-value {
-    font-size: 25px;
-    font-weight: 900;
-    color: #fff;
-  }
-
-  .dashboard-online {
-    color: #00ff9d;
-  }
-
-  .activity {
-    margin-top: 20px;
-    padding: 18px;
-    border-radius: 16px;
-    background: rgba(0,212,255,.04);
-    border: 1px solid rgba(0,212,255,.12);
-  }
-
-  .activity-title {
-    color: #00d4ff;
-    margin-bottom: 12px;
-    font-weight: 800;
-  }
-
-  .activity-line {
-    padding: 9px 0;
-    border-bottom: 1px solid rgba(255,255,255,.06);
-    color: #aeb9ce;
-    font-size: 13px;
-  }
-
-  .activity-line:last-child {
-    border-bottom: none;
-  }
-
-  @media (max-width: 500px) {
-    .dashboard-panel {
-      margin: 25px 15px;
-      padding: 18px;
-    }
-
-    .dashboard-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .dashboard-heading {
-      font-size: 25px;
-    }
-  }
-</style>
-
-<section class="dashboard-panel" id="rdmm-dashboard">
-
-  <div class="dashboard-title">
-    DEEPRDMM // CONTROL CENTER
-  </div>
-
-  <h2 class="dashboard-heading">
-    LABORATORY DASHBOARD
-  </h2>
-
-  <div class="dashboard-grid">
-
-    <div class="dashboard-card">
-      <small>SYSTEM STATUS</small>
-      <div class="dashboard-value dashboard-online">
-        ONLINE
-      </div>
-    </div>
-
-    <div class="dashboard-card">
-      <small>ACTIVE PROJECTS</small>
-      <div class="dashboard-value">
-        04
-      </div>
-    </div>
-
-    <div class="dashboard-card">
-      <small>EXPERIMENTS</small>
-      <div class="dashboard-value">
-        03
-      </div>
-    </div>
-
-    <div class="dashboard-card">
-      <small>DATASETS</small>
-      <div class="dashboard-value">
-        128
-      </div>
-    </div>
-
-  </div>
-
-  <div class="activity">
-
-    <div class="activity-title">
-      LIVE LAB ACTIVITY
-    </div>
-
-    <div class="activity-line">
-      ● Research network connected
-    </div>
-
-    <div class="activity-line">
-      ● Data stream active
-    </div>
-
-    <div class="activity-line">
-      ● Research node RDMM-01 operational
-    </div>
-
-    <div class="activity-line">
-      ● Scientific systems ready
-    </div>
-
-  </div>
-
-</section>
-
-<script>
-  /*
-   * DASHBOARD NAVIGATION
-   * Permet au bouton DASHBOARD
-   * d'ouvrir directement cette section.
-   */
-
-  document.querySelectorAll("a, button").forEach(function(element) {
-
-    const text = element.textContent.trim().toUpperCase();
-
-    if (text.includes("DASHBOARD")) {
-
-      element.addEventListener("click", function(event) {
-
-        event.preventDefault();
-
-        const dashboard = document.getElementById("rdmm-dashboard");
-
-        if (dashboard) {
-          dashboard.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-        }
-
-      });
-
-    }
-
-  });
-  </script>
 </body>
-          </html>
+</html>
