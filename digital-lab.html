@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+io<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -2463,5 +2463,351 @@ console.log(
 
 </script>
 
-</body>
+<!-- =========================================================
+     DEEPRDMM DIGITAL LAB — STEP 4A
+     SCIENTIFIC HUD
+========================================================= -->
+
+<style>
+
+#rdmm-hud{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:5;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.hud-corner{
+  position:absolute;
+  width:45px;
+  height:45px;
+  border-color:rgba(25,230,255,.55);
+}
+
+.hud-tl{
+  top:14px;
+  left:14px;
+  border-top:1px solid;
+  border-left:1px solid;
+}
+
+.hud-tr{
+  top:14px;
+  right:14px;
+  border-top:1px solid;
+  border-right:1px solid;
+}
+
+.hud-bl{
+  bottom:14px;
+  left:14px;
+  border-bottom:1px solid;
+  border-left:1px solid;
+}
+
+.hud-br{
+  bottom:14px;
+  right:14px;
+  border-bottom:1px solid;
+  border-right:1px solid;
+}
+
+.hud-top{
+  position:absolute;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  color:rgba(130,235,255,.75);
+  font-size:7px;
+  letter-spacing:2px;
+  white-space:nowrap;
+}
+
+.hud-left{
+  position:absolute;
+  left:18px;
+  top:50%;
+  transform:translateY(-50%);
+  writing-mode:vertical-rl;
+  color:rgba(100,220,255,.55);
+  font-size:7px;
+  letter-spacing:2px;
+}
+
+.hud-right{
+  position:absolute;
+  right:18px;
+  top:50%;
+  transform:translateY(-50%);
+  writing-mode:vertical-rl;
+  color:rgba(100,220,255,.55);
+  font-size:7px;
+  letter-spacing:2px;
+}
+
+.hud-bottom{
+  position:absolute;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  color:rgba(130,235,255,.65);
+  font-size:7px;
+  letter-spacing:2px;
+  white-space:nowrap;
+}
+
+.hud-scan{
+  position:absolute;
+  left:0;
+  right:0;
+  height:1px;
+  background:rgba(25,230,255,.16);
+  box-shadow:0 0 8px rgba(25,230,255,.25);
+  animation:rdmmScan 5s linear infinite;
+}
+
+@keyframes rdmmScan{
+  0%{
+    top:0;
+    opacity:0;
+  }
+
+  10%{
+    opacity:1;
+  }
+
+  90%{
+    opacity:1;
+  }
+
+  100%{
+    top:100%;
+    opacity:0;
+  }
+}
+
+.hud-data{
+  position:absolute;
+  top:45px;
+  right:18px;
+  text-align:right;
+  color:rgba(160,225,240,.65);
+  font-size:7px;
+  line-height:1.8;
+  letter-spacing:1px;
+}
+
+.hud-data strong{
+  color:#19e6ff;
+  font-weight:normal;
+}
+
+.hud-status{
+  position:absolute;
+  bottom:42px;
+  right:18px;
+  text-align:right;
+  color:rgba(160,225,240,.65);
+  font-size:7px;
+  line-height:1.8;
+  letter-spacing:1px;
+}
+
+.hud-status .active{
+  color:#38f0a0;
+}
+
+.hud-target{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:32px;
+  height:32px;
+  transform:translate(-50%,-50%);
+  opacity:.45;
+}
+
+.hud-target:before,
+.hud-target:after{
+  content:"";
+  position:absolute;
+  background:rgba(25,230,255,.65);
+}
+
+.hud-target:before{
+  width:1px;
+  height:100%;
+  left:50%;
+  top:0;
+}
+
+.hud-target:after{
+  height:1px;
+  width:100%;
+  left:0;
+  top:50%;
+}
+
+.hud-time{
+  position:absolute;
+  top:18px;
+  left:18px;
+  color:rgba(210,245,255,.7);
+  font-size:7px;
+  letter-spacing:1px;
+}
+
+@media(max-width:500px){
+
+  .hud-left,
+  .hud-right{
+    display:none;
+  }
+
+  .hud-data{
+    top:42px;
+    right:14px;
+  }
+
+  .hud-status{
+    bottom:42px;
+    right:14px;
+  }
+
+  .hud-top{
+    font-size:6px;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   RDMM SCIENTIFIC HUD
+========================================================= */
+
+(function(){
+
+  const visual =
+    document.querySelector(".visual");
+
+  if(!visual){
+    return;
+  }
+
+
+  const hud =
+    document.createElement("div");
+
+  hud.id = "rdmm-hud";
+
+
+  hud.innerHTML = `
+
+    <div class="hud-corner hud-tl"></div>
+    <div class="hud-corner hud-tr"></div>
+    <div class="hud-corner hud-bl"></div>
+    <div class="hud-corner hud-br"></div>
+
+    <div class="hud-top">
+      RDMM // PLANETARY OBSERVATION SYSTEM
+    </div>
+
+    <div class="hud-left">
+      DEEPRDMM // SCIENTIFIC VISUALIZATION
+    </div>
+
+    <div class="hud-right">
+      EARTH // ORBITAL MONITORING
+    </div>
+
+    <div class="hud-bottom">
+      DIGITAL RESEARCH LAB // RDMM-01
+    </div>
+
+    <div class="hud-scan"></div>
+
+    <div class="hud-target"></div>
+
+    <div class="hud-time">
+      UTC <span id="rdmmClock">--:--:--</span>
+    </div>
+
+    <div class="hud-data">
+
+      <strong>PLANET</strong> // EARTH<br>
+
+      DAY/NIGHT // <strong>ACTIVE</strong><br>
+
+      SOLAR INPUT // <strong>ACTIVE</strong><br>
+
+      ATMOSPHERE // <strong>STABLE</strong>
+
+    </div>
+
+    <div class="hud-status">
+
+      SATELLITE // <span class="active">ONLINE</span><br>
+
+      ORBIT // <span class="active">STABLE</span><br>
+
+      NETWORK // <span class="active">CONNECTED</span><br>
+
+      NODE // RDMM-01
+
+    </div>
+
+  `;
+
+
+  visual.appendChild(hud);
+
+
+  /* SYSTEM CLOCK */
+
+  function updateClock(){
+
+    const clock =
+      document.getElementById("rdmmClock");
+
+    if(!clock){
+      return;
+    }
+
+    const now = new Date();
+
+    const h =
+      String(now.getHours()).padStart(2,"0");
+
+    const m =
+      String(now.getMinutes()).padStart(2,"0");
+
+    const s =
+      String(now.getSeconds()).padStart(2,"0");
+
+    clock.textContent =
+      h + ":" + m + ":" + s;
+
+  }
+
+
+  updateClock();
+
+  setInterval(
+    updateClock,
+    1000
+  );
+
+
+  console.log(
+    "RDMM HUD // ONLINE"
+  );
+
+})();
+
+</script></body>
 </html>
