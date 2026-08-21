@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 
 <meta charset="UTF-8">
@@ -14,10 +15,14 @@
 
 <style>
 
+/* =========================================================
+   RESET
+========================================================= */
+
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
+  box-sizing:border-box;
 }
 
 html{
@@ -25,15 +30,17 @@ html{
 }
 
 body{
-  background:#020711;
+  min-height:100vh;
+  background:#010611;
   color:#e9faff;
   font-family:Arial,Helvetica,sans-serif;
   overflow-x:hidden;
 }
 
-/* =========================
-   GLOBAL BACKGROUND
-========================= */
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
 
 body::before{
   content:"";
@@ -42,128 +49,151 @@ body::before{
 
   background:
     linear-gradient(
-      rgba(0,210,255,.025) 1px,
+      rgba(0,210,255,.035) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(0,210,255,.025) 1px,
+      rgba(0,210,255,.035) 1px,
       transparent 1px
     );
 
-  background-size:35px 35px;
+  background-size:40px 40px;
+
+  pointer-events:none;
+  z-index:-2;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(0,130,255,.10),
+      transparent 45%
+    );
 
   pointer-events:none;
   z-index:-1;
 }
 
-/* =========================
+
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .lab-header{
 
-  position:relative;
-
   width:100%;
 
-  padding:
-    28px
-    28px
-    22px;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(2,8,20,.98),
-      rgba(2,8,20,.88)
-    );
+  padding:22px 20px;
 
   border-bottom:
     1px solid
     rgba(0,220,255,.18);
 
-  box-shadow:
-    0 15px 50px
-    rgba(0,150,255,.08);
+  background:
+    rgba(1,7,18,.92);
+
+  backdrop-filter:blur(12px);
+
+  position:relative;
+  z-index:10;
 }
 
-.header-main{
+.header-row{
+
+  max-width:1200px;
+
+  margin:auto;
 
   display:flex;
+
   align-items:center;
-  gap:16px;
+
+  justify-content:space-between;
+
+  gap:20px;
 }
+
+
+/* LOGO */
 
 .logo{
 
-  width:80px;
-  height:80px;
+  width:58px;
+  height:58px;
 
   border:
-    2px solid
-    #00d9ff;
+    1px solid
+    #00dcff;
 
   border-radius:50%;
 
   display:flex;
+
   align-items:center;
   justify-content:center;
 
   color:#00eaff;
 
-  font-size:25px;
+  font-size:17px;
+
   font-weight:900;
 
+  letter-spacing:1px;
+
   box-shadow:
-    0 0 20px
-    rgba(0,220,255,.25);
+    0 0 25px
+    rgba(0,220,255,.20);
 }
 
-.header-title{
 
+/* TITLE */
+
+.header-info{
   flex:1;
-
 }
 
-.header-title h1{
+.header-info h1{
 
-  font-size:22px;
+  font-size:18px;
 
   letter-spacing:3px;
 
-  white-space:nowrap;
-
+  font-weight:900;
 }
 
-.header-title p{
+.header-info p{
 
-  margin-top:8px;
+  margin-top:7px;
 
-  font-size:11px;
+  color:#6e849b;
+
+  font-size:9px;
 
   letter-spacing:3px;
-
-  color:#71869f;
-
 }
 
-.system{
+
+/* SYSTEM */
+
+.system-status{
 
   display:flex;
 
   align-items:center;
 
-  gap:8px;
+  gap:7px;
 
   color:#00ff9d;
 
-  font-size:11px;
+  font-size:9px;
 
   letter-spacing:2px;
-
-  white-space:nowrap;
-
 }
 
 .system-dot{
@@ -180,149 +210,148 @@ body::before{
     #00ff9d;
 }
 
-/* =========================
-   HOME BUTTON
-========================= */
+
+/* HOME */
 
 .home-button{
 
   display:inline-block;
 
-  margin-top:22px;
+  margin-top:18px;
 
-  padding:
-    13px
-    22px;
+  padding:10px 17px;
 
   border:
     1px solid
-    rgba(0,220,255,.35);
+    rgba(0,220,255,.30);
 
-  border-radius:12px;
+  border-radius:9px;
 
   color:#00dcff;
 
   text-decoration:none;
 
-  font-size:14px;
+  font-size:10px;
 
-  letter-spacing:1px;
+  letter-spacing:1.5px;
 
   background:
-    rgba(0,180,255,.04);
-
+    rgba(0,220,255,.035);
 }
 
-/* =========================
+
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
 
+  max-width:1100px;
+
+  margin:auto;
+
   padding:
-    55px
-    22px
+    65px
+    20px
     35px;
 
   text-align:center;
-
 }
 
 .hero-label{
 
-  color:#00dfff;
+  color:#00dcff;
 
-  font-size:11px;
+  font-size:9px;
 
   letter-spacing:4px;
 
-  margin-bottom:15px;
-
+  margin-bottom:18px;
 }
 
 .hero h2{
 
   font-size:
-    clamp(34px,9vw,68px);
+    clamp(38px,9vw,78px);
 
-  line-height:1.05;
+  line-height:1;
 
   font-weight:900;
 
-  letter-spacing:1px;
-
+  letter-spacing:-1px;
 }
 
 .hero h2 span{
 
+  display:block;
+
+  margin-top:8px;
+
   color:#00dcff;
 
   text-shadow:
-    0 0 25px
-    rgba(0,220,255,.35);
-
+    0 0 35px
+    rgba(0,220,255,.30);
 }
 
 .hero-description{
 
-  max-width:700px;
+  max-width:680px;
 
-  margin:
-    25px
-    auto
-    0;
+  margin:25px auto 0;
 
-  color:#91a6bb;
+  color:#8ca2b7;
 
-  font-size:17px;
+  font-size:15px;
 
   line-height:1.8;
-
 }
 
-/* =========================
-   LAB VISUAL
-========================= */
 
-.visual-panel{
+/* =========================================================
+   MAIN LAB SCREEN
+========================================================= */
+
+.lab-screen{
+
+  width:
+    min(1100px,calc(100% - 30px));
+
+  height:560px;
+
+  margin:
+    10px auto 55px;
 
   position:relative;
 
-  width:
-    calc(100% - 30px);
-
-  max-width:900px;
-
-  height:520px;
-
-  margin:
-    25px
-    auto
-    45px;
+  overflow:hidden;
 
   border:
     1px solid
-    rgba(0,220,255,.28);
+    rgba(0,220,255,.25);
 
-  border-radius:28px;
-
-  overflow:hidden;
+  border-radius:26px;
 
   background:
     radial-gradient(
       circle at 50% 50%,
-      rgba(0,80,180,.18),
-      #010812 65%
+      rgba(0,70,160,.16),
+      rgba(0,5,15,.96) 70%
     );
 
   box-shadow:
-    inset 0 0 80px
-    rgba(0,150,255,.06),
-    0 0 50px
+
+    inset 0 0 100px
+    rgba(0,150,255,.07),
+
+    0 0 55px
     rgba(0,150,255,.08);
 }
 
-#spaceCanvas{
+
+/* CANVAS */
+
+#labCanvas{
 
   position:absolute;
 
@@ -330,117 +359,123 @@ body::before{
 
   width:100%;
   height:100%;
-
 }
 
-/* =========================
-   VISUAL LABEL
-========================= */
 
-.visual-label{
+/* TOP LABEL */
+
+.screen-label{
 
   position:absolute;
 
-  top:24px;
-  left:24px;
+  top:22px;
+  left:22px;
 
-  z-index:5;
+  z-index:3;
 
   color:#00dcff;
 
-  font-size:10px;
+  font-size:9px;
 
-  letter-spacing:4px;
-
+  letter-spacing:3px;
 }
 
-.visual-status{
+
+/* STATUS */
+
+.screen-status{
 
   position:absolute;
 
-  top:24px;
-  right:24px;
+  top:22px;
+  right:22px;
 
-  z-index:5;
+  z-index:3;
 
   color:#00ff9d;
 
-  font-size:10px;
+  font-size:9px;
 
   letter-spacing:2px;
-
 }
 
-/* =========================
+
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media(max-width:600px){
 
   .lab-header{
+    padding:18px 15px;
+  }
 
-    padding:
-      25px
-      20px
-      20px;
-
+  .header-row{
+    gap:12px;
   }
 
   .logo{
-
-    width:62px;
-    height:62px;
-
-    font-size:20px;
-
+    width:48px;
+    height:48px;
+    font-size:14px;
   }
 
-  .header-title h1{
-
-    font-size:17px;
-
+  .header-info h1{
+    font-size:14px;
     letter-spacing:2px;
-
   }
 
-  .header-title p{
-
-    font-size:9px;
-
+  .header-info p{
+    font-size:7px;
     letter-spacing:2px;
-
   }
 
-  .system{
-
-    font-size:8px;
-
+  .system-status{
+    font-size:7px;
   }
 
   .hero{
-
     padding:
-      45px
-      18px
-      25px;
-
+      50px
+      16px
+      30px;
   }
 
   .hero-description{
-
-    font-size:15px;
-
+    font-size:14px;
   }
 
-  .visual-panel{
+  .lab-screen{
 
-    height:470px;
+    height:480px;
 
     width:
-      calc(100% - 30px);
+      calc(100% - 24px);
 
-    border-radius:24px;
+    margin-top:10px;
 
+    border-radius:21px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media(max-width:380px){
+
+  .system-status{
+    display:none;
+  }
+
+  .hero h2{
+    font-size:35px;
+  }
+
+  .lab-screen{
+    height:450px;
   }
 
 }
@@ -449,17 +484,23 @@ body::before{
 
 </head>
 
+
 <body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
 <header class="lab-header">
 
-  <div class="header-main">
+  <div class="header-row">
 
     <div class="logo">
       DR
     </div>
 
-    <div class="header-title">
+    <div class="header-info">
 
       <h1>
         DEEP RDMM DIGITAL LAB
@@ -471,7 +512,7 @@ body::before{
 
     </div>
 
-    <div class="system">
+    <div class="system-status">
 
       <span class="system-dot"></span>
 
@@ -481,22 +522,36 @@ body::before{
 
   </div>
 
-  <a
-    href="index.html"
-    class="home-button"
-  >
-    ← ACCUEIL
-  </a>
+
+  <div class="header-row">
+
+    <a
+      href="index.html"
+      class="home-button"
+    >
+      ← ACCUEIL
+    </a>
+
+  </div>
 
 </header>
 
 
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
 <main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
 
 <section class="hero">
 
   <div class="hero-label">
-    DEEPRDMMAKADEMY // RESEARCH SYSTEM
+    DEEPRDMMAKADEMY // SCIENTIFIC SYSTEM
   </div>
 
   <h2>
@@ -505,2312 +560,42 @@ body::before{
   </h2>
 
   <p class="hero-description">
+
     Un environnement numérique dédié à la
     recherche, l'expérimentation, la simulation
     et l'analyse scientifique de DeepRDMMakademy.
+
   </p>
 
 </section>
 
 
-<section class="visual-panel">
+<!-- =========================================================
+     SCIENTIFIC VISUALIZATION
+========================================================= -->
 
-  <canvas id="spaceCanvas"></canvas>
+<section class="lab-screen">
 
-  <div class="visual-label">
-    RDMM SCIENTIFIC VISUALIZATION
+  <canvas id="labCanvas"></canvas>
+
+  <div class="screen-label">
+    RDMM // SCIENTIFIC VISUALIZATION
   </div>
 
-  <div class="visual-status">
+  <div class="screen-status">
     ● LIVE SYSTEM
   </div>
 
-      </section><!-- =========================================================
-     DEEPRDMM DIGITAL LAB
-     SCIENTIFIC 3D VISUALIZATION ENGINE
-========================================================= -->
-
-<script>
-
-const canvas = document.getElementById("spaceCanvas");
-const ctx = canvas.getContext("2d");
-
-let width = 0;
-let height = 0;
-let dpr = window.devicePixelRatio || 1;
-
-let earthRotation = 0;
-let satelliteRotation = 0;
-
-let stars = [];
-
-
-/* =========================================================
-   CANVAS
-========================================================= */
-
-function resizeCanvas(){
-</script>
-  const rect = canvas.getBoundingClientRect();
-
-  dpr = Math.min(
-    window.devicePixelRatio || 1,
-    2
-  );
-
-  canvas.width =
-    rect.width * dpr;
-
-  canvas.height =
-    rect.height * dpr;
-
-  ctx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
-  );
-
-  width = rect.width;
-  height = rect.height;
-
-  createStars();
-
-}
-
-
-/* =========================================================
-   STARS
-========================================================= */
-
-function createStars(){
-
-  stars = [];
-
-  const amount =
-    width < 600 ? 100 : 180;
-
-  for(let i = 0; i < amount; i++){
-
-    stars.push({
-
-      x:Math.random() * width,
-
-      y:Math.random() * height,
-
-      radius:
-        .35 + Math.random() * 1.35,
-
-      alpha:
-        .25 + Math.random() * .75,
-
-      twinkle:
-        Math.random() * Math.PI * 2,
-
-      speed:
-        .004 + Math.random() * .012
-
-    });
-
-  }
-
-}
-
-
-/* =========================================================
-   SPACE
-========================================================= */
-
-function drawSpace(){
-
-  const background =
-    ctx.createRadialGradient(
-      width * .5,
-      height * .48,
-      10,
-      width * .5,
-      height * .48,
-      Math.max(width,height) * .75
-    );
-
-  background.addColorStop(
-    0,
-    "#06152b"
-  );
-
-  background.addColorStop(
-    .45,
-    "#020b19"
-  );
-
-  background.addColorStop(
-    1,
-    "#00030a"
-  );
-
-  ctx.fillStyle = background;
-
-  ctx.fillRect(
-    0,
-    0,
-    width,
-    height
-  );
-
-}
-
-
-/* =========================================================
-   STARS
-========================================================= */
-
-function drawStars(){
-
-  for(const star of stars){
-
-    star.twinkle += star.speed;
-
-    const glow =
-      .55 +
-      Math.sin(star.twinkle) * .35;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      star.x,
-      star.y,
-      star.radius,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fillStyle =
-      `rgba(190,235,255,${star.alpha * glow})`;
-
-    ctx.fill();
-
-  }
-
-}
-
-
-/* =========================================================
-   SUN
-========================================================= */
-
-function drawSun(
-  earthX,
-  earthY
-){
-
-  const sunX =
-    earthX +
-    width * .34;
-
-  const sunY =
-    earthY -
-    height * .27;
-
-  const radius =
-    Math.min(width,height) * .065;
-
-
-  /* OUTER GLOW */
-
-  const glow =
-    ctx.createRadialGradient(
-      sunX,
-      sunY,
-      radius * .2,
-      sunX,
-      sunY,
-      radius * 5
-    );
-
-  glow.addColorStop(
-    0,
-    "rgba(255,245,180,.55)"
-  );
-
-  glow.addColorStop(
-    .25,
-    "rgba(255,190,55,.25)"
-  );
-
-  glow.addColorStop(
-    .55,
-    "rgba(255,120,20,.08)"
-  );
-
-  glow.addColorStop(
-    1,
-    "rgba(255,60,0,0)"
-  );
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    sunX,
-    sunY,
-    radius * 5,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle = glow;
-
-  ctx.fill();
-
-
-  /* SUN */
-
-  const sun =
-    ctx.createRadialGradient(
-      sunX - radius * .35,
-      sunY - radius * .35,
-      radius * .05,
-      sunX,
-      sunY,
-      radius
-    );
-
-  sun.addColorStop(
-    0,
-    "#fffde9"
-  );
-
-  sun.addColorStop(
-    .35,
-    "#ffe36a"
-  );
-
-  sun.addColorStop(
-    .72,
-    "#ff9e24"
-  );
-
-  sun.addColorStop(
-    1,
-    "#ff5717"
-  );
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    sunX,
-    sunY,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle = sun;
-
-  ctx.shadowBlur = 30;
-
-  ctx.shadowColor =
-    "rgba(255,175,40,.9)";
-
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-
-
-  /* SOLAR FLARES */
-
-  ctx.save();
-
-  ctx.translate(
-    sunX,
-    sunY
-  );
-
-  ctx.rotate(
-    earthRotation * .12
-  );
-
-  ctx.strokeStyle =
-    "rgba(255,190,50,.18)";
-
-  ctx.lineWidth = 2;
-
-  for(let i = 0; i < 8; i++){
-
-    const a =
-      (Math.PI * 2 / 8) * i;
-
-    const inner =
-      radius * 1.25;
-
-    const outer =
-      radius *
-      (1.55 +
-       Math.sin(
-         earthRotation * 2 + i
-       ) * .18);
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      Math.cos(a) * inner,
-      Math.sin(a) * inner
-    );
-
-    ctx.lineTo(
-      Math.cos(a) * outer,
-      Math.sin(a) * outer
-    );
-
-    ctx.stroke();
-
-  }
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   EARTH
-========================================================= */
-
-function drawEarth(
-  x,
-  y
-){
-
-  const radius =
-    Math.min(width,height) * .22;
-
-
-  /* ATMOSPHERE */
-
-  const atmosphere =
-    ctx.createRadialGradient(
-      x - radius * .35,
-      y - radius * .4,
-      radius * .2,
-      x,
-      y,
-      radius * 1.35
-    );
-
-  atmosphere.addColorStop(
-    0,
-    "rgba(90,235,255,.22)"
-  );
-
-  atmosphere.addColorStop(
-    .55,
-    "rgba(20,145,255,.12)"
-  );
-
-  atmosphere.addColorStop(
-    .82,
-    "rgba(0,130,255,.08)"
-  );
-
-  atmosphere.addColorStop(
-    1,
-    "rgba(0,150,255,0)"
-  );
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    x,
-    y,
-    radius * 1.35,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle =
-    atmosphere;
-
-  ctx.fill();
-
-
-  /* EARTH SURFACE */
-
-  const earth =
-    ctx.createRadialGradient(
-      x - radius * .38,
-      y - radius * .42,
-      radius * .04,
-      x,
-      y,
-      radius
-    );
-
-  earth.addColorStop(
-    0,
-    "#77efff"
-  );
-
-  earth.addColorStop(
-    .22,
-    "#279cff"
-  );
-
-  earth.addColorStop(
-    .48,
-    "#086bd0"
-  );
-
-  earth.addColorStop(
-    .75,
-    "#04325f"
-  );
-
-  earth.addColorStop(
-    1,
-    "#010916"
-  );
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    x,
-    y,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle =
-    earth;
-
-  ctx.shadowBlur = 35;
-
-  ctx.shadowColor =
-    "rgba(0,170,255,.65)";
-
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-
-
-  /* CLIP TO EARTH */
-
-  ctx.save();
-
-  ctx.beginPath();
-
-  ctx.arc(
-    x,
-    y,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.clip();
-
-
-  /* =======================================================
-     CONTINENTS
-  ======================================================= */
-
-  const shift =
-    Math.sin(earthRotation) *
-    radius *
-    .42;
-
-
-  ctx.fillStyle =
-    "rgba(50,185,120,.78)";
-
-
-  function continent(
-    px,
-    py,
-    rx,
-    ry,
-    rotation = 0
-  ){
-
-    ctx.save();
-
-    ctx.translate(
-      x + px + shift,
-      y + py
-    );
-
-    ctx.rotate(rotation);
-
-    ctx.beginPath();
-
-    ctx.ellipse(
-      0,
-      0,
-      Math.max(
-        1,
-        Math.abs(
-          rx *
-          Math.cos(
-            earthRotation * .8
-          )
-        )
-      ),
-      ry,
-      0,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fill();
-
-    ctx.restore();
-
-  }
-
-
-  continent(
-    -radius*.43,
-    -radius*.22,
-    radius*.21,
-    radius*.12,
-    -.3
-  );
-
-  continent(
-    -radius*.20,
-    radius*.02,
-    radius*.28,
-    radius*.15,
-    .2
-  );
-
-  continent(
-    radius*.16,
-    -radius*.27,
-    radius*.25,
-    radius*.13,
-    -.2
-  );
-
-  continent(
-    radius*.35,
-    radius*.16,
-    radius*.18,
-    radius*.10,
-    .25
-  );
-
-  continent(
-    -radius*.31,
-    radius*.34,
-    radius*.17,
-    radius*.09,
-    -.15
-  );
-
-
-  /* =======================================================
-     DAY / NIGHT TERMINATOR
-  ======================================================= */
-
-  const night =
-    ctx.createLinearGradient(
-      x - radius,
-      y,
-      x + radius,
-      y
-    );
-
-  night.addColorStop(
-    0,
-    "rgba(0,0,12,.02)"
-  );
-
-  night.addColorStop(
-    .40,
-    "rgba(0,0,18,.06)"
-  );
-
-  night.addColorStop(
-    .53,
-    "rgba(0,0,20,.22)"
-  );
-
-  night.addColorStop(
-    .62,
-    "rgba(0,0,25,.55)"
-  );
-
-  night.addColorStop(
-    .76,
-    "rgba(0,0,20,.82)"
-  );
-
-  night.addColorStop(
-    1,
-    "rgba(0,0,8,.97)"
-  );
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    x,
-    y,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle =
-    night;
-
-  ctx.fill();
-
-
-  /* =======================================================
-     CITY LIGHTS
-  ======================================================= */
-
-  ctx.fillStyle =
-    "rgba(255,220,90,.75)";
-
-  for(let i = 0; i < 45; i++){
-
-    const lx =
-      x -
-      radius * .43 +
-      (i % 9) *
-      radius * .085 +
-      shift * .22;
-
-    const ly =
-      y -
-      radius * .42 +
-      Math.floor(i / 9) *
-      radius * .14;
-
-
-    const visible =
-      lx > x -
-      radius * .05;
-
-
-    if(visible){
-
-      ctx.beginPath();
-
-      ctx.arc(
-        lx,
-        ly,
-        1,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fill();
-
-    }
-
-  }
-
-
-  /* =======================================================
-     CLOUDS
-  ======================================================= */
-
-  ctx.strokeStyle =
-    "rgba(225,250,255,.15)";
-
-  ctx.lineWidth =
-    radius * .025;
-
-
-  for(let i = -2; i <= 2; i++){
-
-    ctx.beginPath();
-
-    ctx.ellipse(
-      x + shift * .18,
-      y + i * radius * .20,
-      radius * .88,
-      radius * .075,
-      .12,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  ctx.restore();
-
-
-  /* EARTH EDGE */
-
-  ctx.beginPath();
-
-  ctx.arc(
-    x,
-    y,
-    radius,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.strokeStyle =
-    "rgba(80,235,255,.72)";
-
-  ctx.lineWidth = 2;
-
-  ctx.shadowBlur = 15;
-
-  ctx.shadowColor =
-    "rgba(0,220,255,.8)";
-
-  ctx.stroke();
-
-  ctx.shadowBlur = 0;
-
-
-  return radius;
-
-}
-
-
-/* =========================================================
-   SATELLITE
-========================================================= */
-
-function drawSatellite(
-  earthX,
-  earthY,
-  earthRadius
-){
-
-  satelliteRotation += .006;
-
-
-  /* ORBIT */
-
-  ctx.beginPath();
-
-  ctx.ellipse(
-    earthX,
-    earthY,
-    earthRadius * 1.75,
-    earthRadius * .72,
-    0,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.strokeStyle =
-    "rgba(0,220,255,.22)";
-
-  ctx.lineWidth = 1;
-
-  ctx.stroke();
-
-
-  /* POSITION */
-
-  const satelliteX =
-    earthX +
-    Math.cos(
-      satelliteRotation
-    ) *
-    earthRadius *
-    1.75;
-
-  const satelliteY =
-    earthY +
-    Math.sin(
-      satelliteRotation
-    ) *
-    earthRadius *
-    .72;
-
-
-  ctx.save();
-
-  ctx.translate(
-    satelliteX,
-    satelliteY
-  );
-
-  ctx.rotate(
-    satelliteRotation
-  );
-
-
-  /* SIGNAL */
-
-  ctx.beginPath();
-
-  ctx.arc(
-    0,
-    0,
-    earthRadius * .08,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle =
-    "rgba(0,230,255,.16)";
-
-  ctx.fill();
-
-
-  /* PANELS */
-
-  ctx.fillStyle =
-    "#155fc4";
-
-
-  ctx.fillRect(
-    -earthRadius * .42,
-    -earthRadius * .045,
-    earthRadius * .25,
-    earthRadius * .09
-  );
-
-  ctx.fillRect(
-    earthRadius * .17,
-    -earthRadius * .045,
-    earthRadius * .25,
-    earthRadius * .09
-  );
-
-
-  /* PANEL LINES */
-
-  ctx.strokeStyle =
-    "rgba(170,235,255,.5)";
-
-  ctx.lineWidth = .6;
-
-
-  for(let side of [-1,1]){
-
-    const px =
-      side *
-      earthRadius *
-      .30;
-
-    for(let i = -1; i <= 1; i++){
-
-      ctx.beginPath();
-
-      ctx.moveTo(
-        px + i * earthRadius * .05,
-        -earthRadius * .045
-      );
-
-      ctx.lineTo(
-        px + i * earthRadius * .05,
-        earthRadius * .045
-      );
-
-      ctx.stroke();
-
-    }
-
-  }
-
-
-  /* BODY */
-
-  ctx.fillStyle =
-    "#edfaff";
-
-  ctx.fillRect(
-    -earthRadius * .14,
-    -earthRadius * .09,
-    earthRadius * .28,
-    earthRadius * .18
-  );
-
-
-  /* BODY DETAIL */
-
-  ctx.fillStyle =
-    "#6c8fa8";
-
-  ctx.fillRect(
-    -earthRadius * .07,
-    -earthRadius * .06,
-    earthRadius * .14,
-    earthRadius * .04
-  );
-
-
-  /* ANTENNA */
-
-  ctx.strokeStyle =
-    "#d9f8ff";
-
-  ctx.lineWidth = 1;
-
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    0,
-    -earthRadius * .09
-  );
-
-  ctx.lineTo(
-    earthRadius * .23,
-    -earthRadius * .28
-  );
-
-  ctx.stroke();
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    earthRadius * .23,
-    -earthRadius * .28,
-    earthRadius * .05,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.stroke();
-
-
-  /* SIGNAL */
-
-  ctx.beginPath();
-
-  ctx.arc(
-    0,
-    0,
-    earthRadius * .025,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fillStyle =
-    "#00eaff";
-
-  ctx.shadowBlur = 15;
-
-  ctx.shadowColor =
-    "#00eaff";
-
-  ctx.fill();
-
-  ctx.shadowBlur = 0;
-
-
-  ctx.restore();
-
-}
-
-
-/* =========================================================
-   RESIZE
-========================================================= */
-
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
-
-resizeCanvas();<!-- =========================================================
-     DEEPRDMM DIGITAL LAB
-     CONTROL CENTER
-========================================================= -->
-
-<section class="lab-control">
-
-  <div class="section-heading">
-    <span>01</span>
-    LABORATORY CONTROL
-  </div>
-
-  <div class="control-grid">
-
-    <button class="control-card"
-            onclick="openModule('dashboard')">
-
-      <div class="control-icon">📊</div>
-
-      <strong>DASHBOARD</strong>
-
-      <small>
-        Activité du laboratoire
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('projects')">
-
-      <div class="control-icon">🛰️</div>
-
-      <strong>PROJECTS</strong>
-
-      <small>
-        Projets de recherche
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('simulations')">
-
-      <div class="control-icon">⚙️</div>
-
-      <strong>SIMULATIONS</strong>
-
-      <small>
-        Centre de simulation
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('experiments')">
-
-      <div class="control-icon">🧪</div>
-
-      <strong>EXPERIMENTS</strong>
-
-      <small>
-        Expériences scientifiques
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('data')">
-
-      <div class="control-icon">📡</div>
-
-      <strong>DATA CENTER</strong>
-
-      <small>
-        Données scientifiques
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('results')">
-
-      <div class="control-icon">📈</div>
-
-      <strong>RESULTS</strong>
-
-      <small>
-        Résultats de recherche
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('documentation')">
-
-      <div class="control-icon">📚</div>
-
-      <strong>DOCUMENTATION</strong>
-
-      <small>
-        Bibliothèque scientifique
-      </small>
-
-    </button>
-
-
-    <button class="control-card"
-            onclick="openModule('settings')">
-
-      <div class="control-icon">⚙️</div>
-
-      <strong>SETTINGS</strong>
-
-      <small>
-        Paramètres du laboratoire
-      </small>
-
-    </button>
-
-  </div>
-
 </section>
 
-
-<!-- =========================================================
-     WORKSPACE
-========================================================= -->
-
-<section
-  class="workspace"
-  id="workspace"
->
-
-  <div class="workspace-header">
-
-    <div>
-
-      <div class="workspace-label">
-        RDMM // ACTIVE MODULE
-      </div>
-
-      <h3 id="workspaceTitle">
-        LAB MODULE
-      </h3>
-
-    </div>
-
-    <button
-      class="close-workspace"
-      onclick="closeWorkspace()"
-    >
-      ×
-    </button>
-
-  </div>
-
-  <p id="workspaceDescription"></p>
-
-  <div id="workspaceContent"></div>
-
-</section>
-
-
-<!-- =========================================================
-     SYSTEM METRICS
-========================================================= -->
-
-<section class="metrics">
-
-  <div class="section-heading">
-    <span>02</span>
-    SYSTEM METRICS
-  </div>
-
-  <div class="metrics-grid">
-
-    <div class="metric">
-
-      <small>
-        SYSTEM STATUS
-      </small>
-
-      <strong class="online-text">
-        ONLINE
-      </strong>
-
-    </div>
-
-
-    <div class="metric">
-
-      <small>
-        ACTIVE PROJECTS
-      </small>
-
-      <strong>
-        04
-      </strong>
-
-    </div>
-
-
-    <div class="metric">
-
-      <small>
-        EXPERIMENTS
-      </small>
-
-      <strong>
-        03
-      </strong>
-
-    </div>
-
-
-    <div class="metric">
-
-      <small>
-        DATASETS
-      </small>
-
-      <strong>
-        128
-      </strong>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer>
-
-  <strong>
-    DEEPRDMM AKADEMY
-  </strong>
-
-  <span>
-    L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE
-  </span>
-
-  <small>
-    DIGITAL RESEARCH LAB // 01
-  </small>
-
-</footer>
-
-
-<!-- =========================================================
-     FINAL STYLES
-========================================================= -->
-
-<style>
-
-.lab-control,
-.metrics{
-
-  width:
-    min(1100px,calc(100% - 30px));
-
-  margin:
-    0 auto 45px;
-
-}
-
-
-.section-heading{
-
-  display:flex;
-
-  align-items:center;
-
-  gap:12px;
-
-  margin-bottom:18px;
-
-  color:#dffaff;
-
-  font-size:13px;
-
-  font-weight:800;
-
-  letter-spacing:3px;
-
-}
-
-.section-heading span{
-
-  color:#00dcff;
-
-  font-size:10px;
-
-}
-
-
-.control-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:12px;
-
-}
-
-
-.control-card{
-
-  min-height:135px;
-
-  padding:18px;
-
-  text-align:left;
-
-  color:#eafaff;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(8,25,45,.92),
-      rgba(3,12,24,.92)
-    );
-
-  border:
-    1px solid
-    rgba(0,220,255,.16);
-
-  border-radius:16px;
-
-  cursor:pointer;
-
-  transition:
-    transform .2s,
-    border-color .2s,
-    box-shadow .2s;
-
-}
-
-
-.control-card:hover{
-
-  transform:
-    translateY(-4px);
-
-  border-color:
-    rgba(0,220,255,.6);
-
-  box-shadow:
-    0 12px 35px
-    rgba(0,170,255,.12);
-
-}
-
-
-.control-icon{
-
-  font-size:27px;
-
-  margin-bottom:15px;
-
-}
-
-
-.control-card strong{
-
-  display:block;
-
-  font-size:11px;
-
-  letter-spacing:1.5px;
-
-}
-
-
-.control-card small{
-
-  display:block;
-
-  margin-top:7px;
-
-  color:#71869d;
-
-  font-size:9px;
-
-  line-height:1.5;
-
-}
-
-
-/* =========================================================
-   WORKSPACE
-========================================================= */
-
-.workspace{
-
-  display:none;
-
-  width:
-    min(900px,calc(100% - 30px));
-
-  margin:
-    0 auto 45px;
-
-  padding:24px;
-
-  border:
-    1px solid
-    rgba(0,220,255,.25);
-
-  border-radius:20px;
-
-  background:
-    rgba(4,15,29,.9);
-
-  box-shadow:
-    0 0 45px
-    rgba(0,160,255,.08);
-
-}
-
-
-.workspace-header{
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:15px;
-
-}
-
-
-.workspace-label{
-
-  color:#00dcff;
-
-  font-size:9px;
-
-  letter-spacing:3px;
-
-  margin-bottom:8px;
-
-}
-
-
-.workspace h3{
-
-  font-size:22px;
-
-  letter-spacing:1px;
-
-}
-
-
-.close-workspace{
-
-  width:34px;
-  height:34px;
-
-  border:
-    1px solid
-    rgba(0,220,255,.3);
-
-  border-radius:9px;
-
-  background:
-    rgba(0,220,255,.04);
-
-  color:#00dcff;
-
-  font-size:22px;
-
-  cursor:pointer;
-
-}
-
-
-#workspaceDescription{
-
-  margin-top:14px;
-
-  color:#8da3b7;
-
-  font-size:13px;
-
-  line-height:1.7;
-
-}
-
-
-.workspace-content{
-
-  margin-top:20px;
-
-}
-
-
-.module-item{
-
-  margin-top:10px;
-
-  padding:15px;
-
-  border:
-    1px solid
-    rgba(0,220,255,.10);
-
-  border-radius:12px;
-
-  background:
-    rgba(255,255,255,.025);
-
-}
-
-
-.module-item strong{
-
-  display:block;
-
-  font-size:11px;
-
-  letter-spacing:1px;
-
-}
-
-
-.module-item small{
-
-  display:block;
-
-  margin-top:6px;
-
-  color:#72879b;
-
-  font-size:10px;
-
-  line-height:1.6;
-
-}
-
-
-.module-action{
-
-  margin-top:10px;
-
-  padding:8px 12px;
-
-  border:
-    1px solid
-    #00dcff;
-
-  border-radius:7px;
-
-  background:transparent;
-
-  color:#00dcff;
-
-  font-size:9px;
-
-  cursor:pointer;
-
-}
-
-
-/* =========================================================
-   METRICS
-========================================================= */
-
-.metrics-grid{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,1fr);
-
-  gap:12px;
-
-}
-
-
-.metric{
-
-  padding:22px;
-
-  border:
-    1px solid
-    rgba(0,220,255,.12);
-
-  border-radius:14px;
-
-  background:
-    rgba(6,20,36,.72);
-
-}
-
-
-.metric small{
-
-  display:block;
-
-  color:#71869d;
-
-  font-size:9px;
-
-  letter-spacing:1px;
-
-}
-
-
-.metric strong{
-
-  display:block;
-
-  margin-top:10px;
-
-  color:#00dcff;
-
-  font-size:27px;
-
-}
-
-
-.metric .online-text{
-
-  color:#00ff9d;
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer{
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  gap:8px;
-
-  padding:
-    45px
-    20px
-    55px;
-
-  border-top:
-    1px solid
-    rgba(0,220,255,.10);
-
-  color:#526b80;
-
-  text-align:center;
-
-}
-
-
-footer strong{
-
-  color:#00dcff;
-
-  font-size:10px;
-
-  letter-spacing:3px;
-
-}
-
-
-footer span{
-
-  font-size:8px;
-
-  letter-spacing:2px;
-
-}
-
-
-footer small{
-
-  margin-top:5px;
-
-  font-size:8px;
-
-  letter-spacing:2px;
-
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:700px){
-
-  .control-grid{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-  .metrics-grid{
-
-    grid-template-columns:
-      repeat(2,1fr);
-
-  }
-
-}
-
-
-@media(max-width:420px){
-
-  .control-grid{
-
-    gap:9px;
-
-  }
-
-  .control-card{
-
-    min-height:120px;
-
-    padding:14px;
-
-  }
-
-  .control-icon{
-
-    font-size:23px;
-
-  }
-
-  .workspace{
-
-    padding:18px;
-
-  }
-
-}
-
-</style>
-
-
-<!-- =========================================================
-     MODULE ENGINE
-========================================================= -->
-
-<script>
-
-const modules = {
-
-  dashboard:{
-
-    title:
-      "RESEARCH DASHBOARD",
-
-    description:
-      "Vue générale de l'activité scientifique du laboratoire.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          SYSTEM STATUS
-        </strong>
-
-        <small>
-          Le réseau de recherche RDMM-01
-          fonctionne normalement.
-        </small>
-
-      </div>
-
-      <div class="module-item">
-
-        <strong>
-          ACTIVE RESEARCH
-        </strong>
-
-        <small>
-          04 projets scientifiques
-          actuellement enregistrés.
-        </small>
-
-      </div>
-
-      <div class="module-item">
-
-        <strong>
-          DATA STREAM
-        </strong>
-
-        <small>
-          Flux de données scientifiques
-          actif.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  projects:{
-
-    title:
-      "RESEARCH PROJECTS",
-
-    description:
-      "Projets scientifiques du Digital Lab.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          ORBIT-001
-        </strong>
-
-        <small>
-          Recherche sur les systèmes
-          orbitaux et les satellites.
-        </small>
-
-        <button
-          class="module-action"
-          onclick="moduleMessage('ORBIT-001')"
-        >
-          EXPLORER
-        </button>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          TERRA-002
-        </strong>
-
-        <small>
-          Étude de la Terre,
-          de l'environnement et
-          des systèmes naturels.
-        </small>
-
-        <button
-          class="module-action"
-          onclick="moduleMessage('TERRA-002')"
-        >
-          EXPLORER
-        </button>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          NOVA-003
-        </strong>
-
-        <small>
-          Recherche sur les
-          technologies futures.
-        </small>
-
-        <button
-          class="module-action"
-          onclick="moduleMessage('NOVA-003')"
-        >
-          EXPLORER
-        </button>
-
-      </div>
-
-    `
-
-  },
-
-
-  simulations:{
-
-    title:
-      "SIMULATION CENTER",
-
-    description:
-      "Centre numérique destiné aux simulations scientifiques.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          PLANETARY SYSTEM
-        </strong>
-
-        <small>
-          Simulation Terre,
-          Soleil et satellite
-          actuellement affichée
-          dans le laboratoire.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          FUTURE SIMULATIONS
-        </strong>
-
-        <small>
-          De nouveaux environnements
-          interactifs pourront être
-          ajoutés ici.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  experiments:{
-
-    title:
-      "SCIENTIFIC EXPERIMENTS",
-
-    description:
-      "Environnement de recherche expérimentale.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          EXP-001 // ORBITAL DYNAMICS
-        </strong>
-
-        <small>
-          Étude des mouvements orbitaux
-          et des trajectoires.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          EXP-002 // EARTH SYSTEM
-        </strong>
-
-        <small>
-          Observation des systèmes
-          terrestres.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          EXP-003 // AI ANALYSIS
-        </strong>
-
-        <small>
-          Analyse de données
-          scientifiques avec intelligence
-          artificielle.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  data:{
-
-    title:
-      "RESEARCH DATA CENTER",
-
-    description:
-      "Centre de données scientifiques du laboratoire.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          🌍 EARTH DATA
-        </strong>
-
-        <small>
-          Données relatives à la Terre,
-          au climat et à l'environnement.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          🌌 SPACE DATA
-        </strong>
-
-        <small>
-          Données spatiales,
-          orbitales et astronomiques.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          🧠 AI DATA
-        </strong>
-
-        <small>
-          Données destinées à la
-          recherche en intelligence
-          artificielle.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  results:{
-
-    title:
-      "RESEARCH RESULTS",
-
-    description:
-      "Visualisation des résultats scientifiques.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          ANALYSIS STATUS
-        </strong>
-
-        <small>
-          Les systèmes d'analyse
-          sont opérationnels.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          DATA QUALITY
-        </strong>
-
-        <small>
-          Niveau de démonstration :
-          98.4%.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  documentation:{
-
-    title:
-      "RESEARCH DOCUMENTATION",
-
-    description:
-      "Bibliothèque scientifique du Digital Lab.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          PROTOCOLS
-        </strong>
-
-        <small>
-          Protocoles expérimentaux
-          et méthodologies.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          REPORTS
-        </strong>
-
-        <small>
-          Rapports scientifiques
-          et analyses.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          TECHNICAL RESOURCES
-        </strong>
-
-        <small>
-          Documentation technique
-          du laboratoire.
-        </small>
-
-      </div>
-
-    `
-
-  },
-
-
-  settings:{
-
-    title:
-      "LAB SETTINGS",
-
-    description:
-      "Paramètres de l'environnement numérique.",
-
-    content:`
-
-      <div class="module-item">
-
-        <strong>
-          VISUALIZATION ENGINE
-        </strong>
-
-        <small>
-          Moteur de visualisation
-          scientifique actif.
-        </small>
-
-      </div>
-
-
-      <div class="module-item">
-
-        <strong>
-          ANIMATION
-        </strong>
-
-        <small>
-          Terre, satellite et Soleil
-          animés en temps réel.
-        </small>
-
-      </div>
-
-    `
-
-  }
-
-};
-
-
-function openModule(name){
-
-  const module =
-    modules[name];
-
-  if(!module){
-    return;
-  }
-
-
-  const workspace =
-    document.getElementById(
-      "workspace"
-    );
-
-  const title =
-    document.getElementById(
-      "workspaceTitle"
-    );
-
-  const description =
-    document.getElementById(
-      "workspaceDescription"
-    );
-
-
-  title.textContent =
-    module.title;
-
-  description.textContent =
-    module.description;
-
-
-  document.getElementById(
-    "workspaceContent"
-  ).innerHTML =
-    module.content;
-
-
-  workspace.style.display =
-    "block";
-
-
-  workspace.scrollIntoView({
-
-    behavior:"smooth",
-
-    block:"start"
-
-  });
-
-}
-
-
-function closeWorkspace(){
-
-  const workspace =
-    document.getElementById(
-      "workspace"
-    );
-
-  workspace.style.display =
-    "none";
-
-}
-
-
-function moduleMessage(name){
-
-  alert(
-    name +
-    " — module scientifique DeepRDMMakademy."
-  );
-
-}
-
-</script>
-
-
-<!-- =========================================================
-     FINAL
-========================================================= -->
 
 </main>
 
+
+<!-- =========================================================
+     CODE 1 — BASE TERMINÉE
+========================================================= -->
+
 </body>
-</html>
+
+      </html>
