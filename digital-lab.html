@@ -814,127 +814,489 @@ function resize(){
 
 window.addEventListener("resize",resize);
 resize();
+Code de remplacement — Visualisation scientifique V2
 
 function draw(){
 
- ctx.clearRect(0,0,w,h);
+  ctx.clearRect(0,0,w,h);
 
- /* particles */
+  const cx = w / 2;
+  const cy = h / 2;
 
- for(const p of particles){
+  /* =========================
+     ÉTOILES — PROFONDEUR
+  ========================= */
 
-  p.y-=p.speed;
+  for(let i=0;i<120;i++){
 
-  if(p.y<0){
-   p.y=h;
-   p.x=Math.random()*w;
+    const x = (i * 83.17) % w;
+    const y = (i * 47.31) % h;
+    const size = 0.4 + ((i * 13) % 10) / 12;
+
+    ctx.beginPath();
+    ctx.arc(x,y,size,0,Math.PI*2);
+
+    ctx.fillStyle =
+      i % 9 === 0
+      ? "rgba(70,220,255,.85)"
+      : "rgba(255,255,255,.45)";
+
+    ctx.fill();
   }
 
+  /* =========================
+     ANIMATION
+  ========================= */
+
+  angle += .0025;
+
+  /* =========================
+     SOLEIL
+  ========================= */
+
+  const sunX = cx + w * .32;
+  const sunY = cy - h * .20;
+
+  const sunRadius = Math.min(w,h) * .065;
+
+  const sunGlow = ctx.createRadialGradient(
+    sunX,
+    sunY,
+    sunRadius * .2,
+    sunX,
+    sunY,
+    sunRadius * 4
+  );
+
+  sunGlow.addColorStop(0,"rgba(255,255,220,.65)");
+  sunGlow.addColorStop(.25,"rgba(255,210,80,.30)");
+  sunGlow.addColorStop(.60,"rgba(255,140,20,.08)");
+  sunGlow.addColorStop(1,"rgba(255,80,0,0)");
+
   ctx.beginPath();
-  ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-  ctx.fillStyle="rgba(25,230,255,.65)";
+  ctx.arc(
+    sunX,
+    sunY,
+    sunRadius * 4,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fillStyle = sunGlow;
   ctx.fill();
- }
 
- const cx=w/2;
- const cy=h/2;
+  const sun = ctx.createRadialGradient(
+    sunX - sunRadius*.3,
+    sunY - sunRadius*.3,
+    2,
+    sunX,
+    sunY,
+    sunRadius
+  );
 
- angle+=.003;
+  sun.addColorStop(0,"#fffde0");
+  sun.addColorStop(.35,"#ffe76b");
+  sun.addColorStop(.75,"#ffad25");
+  sun.addColorStop(1,"#ff6418");
 
- ctx.save();
- ctx.translate(cx,cy);
+  ctx.beginPath();
+  ctx.arc(
+    sunX,
+    sunY,
+    sunRadius,
+    0,
+    Math.PI*2
+  );
 
- /* orbital rings */
+  ctx.fillStyle = sun;
+  ctx.shadowBlur = 25;
+  ctx.shadowColor = "rgba(255,180,40,.8)";
+  ctx.fill();
+  ctx.shadowBlur = 0;
 
- for(let i=0;i<3;i++){
+
+  /* =========================
+     TERRE
+  ========================= */
+
+  ctx.save();
+  ctx.translate(cx,cy);
+
+  const r = Math.min(w,h) * .20;
+
+
+  /* Atmosphère */
+
+  const atmosphere = ctx.createRadialGradient(
+    -r*.35,
+    -r*.40,
+    r*.15,
+    0,
+    0,
+    r*1.15
+  );
+
+  atmosphere.addColorStop(
+    0,
+    "rgba(80,230,255,.28)"
+  );
+
+  atmosphere.addColorStop(
+    .65,
+    "rgba(20,130,255,.14)"
+  );
+
+  atmosphere.addColorStop(
+    1,
+    "rgba(0,170,255,0)"
+  );
+
+  ctx.beginPath();
+  ctx.arc(0,0,r*1.15,0,Math.PI*2);
+  ctx.fillStyle = atmosphere;
+  ctx.fill();
+
+
+  /* =========================
+     SURFACE TERRESTRE
+  ========================= */
+
+  const earth = ctx.createRadialGradient(
+    -r*.38,
+    -r*.42,
+    r*.04,
+    0,
+    0,
+    r
+  );
+
+  earth.addColorStop(0,"#79f1ff");
+  earth.addColorStop(.25,"#2495ff");
+  earth.addColorStop(.55,"#0861c4");
+  earth.addColorStop(.78,"#03254e");
+  earth.addColorStop(1,"#010817");
+
+  ctx.beginPath();
+  ctx.arc(0,0,r,0,Math.PI*2);
+
+  ctx.fillStyle = earth;
+
+  ctx.shadowBlur = 30;
+  ctx.shadowColor = "rgba(20,150,255,.65)";
+
+  ctx.fill();
+
+  ctx.shadowBlur = 0;
+
+
+  /* =========================
+     CONTINENTS
+  ========================= */
+
+  ctx.save();
+
+  ctx.beginPath();
+  ctx.arc(0,0,r,0,Math.PI*2);
+  ctx.clip();
+
+  const rotation = Math.sin(angle) * r * .45;
+
+  ctx.fillStyle = "rgba(55,190,125,.78)";
+
+  function continent(x,y,rx,ry){
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      x + rotation,
+      y,
+      Math.max(2,Math.abs(rx*Math.cos(angle))),
+      ry,
+      .25,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+  }
+
+  continent(-r*.42,-r*.20,r*.22,r*.12);
+  continent(-r*.20,r*.02,r*.28,r*.15);
+  continent(r*.18,-r*.25,r*.24,r*.13);
+  continent(r*.34,r*.18,r*.19,r*.11);
+  continent(-r*.30,r*.34,r*.17,r*.09);
+
+
+  /* =========================
+     JOUR / NUIT
+  ========================= */
+
+  const dayNight = ctx.createLinearGradient(
+    -r,
+    0,
+    r,
+    0
+  );
+
+  dayNight.addColorStop(
+    0,
+    "rgba(0,0,15,.02)"
+  );
+
+  dayNight.addColorStop(
+    .42,
+    "rgba(0,0,20,.08)"
+  );
+
+  dayNight.addColorStop(
+    .54,
+    "rgba(0,0,25,.38)"
+  );
+
+  dayNight.addColorStop(
+    .68,
+    "rgba(0,0,25,.72)"
+  );
+
+  dayNight.addColorStop(
+    1,
+    "rgba(0,0,10,.94)"
+  );
+
+  ctx.beginPath();
+  ctx.arc(0,0,r,0,Math.PI*2);
+
+  ctx.fillStyle = dayNight;
+  ctx.fill();
+
+
+  /* =========================
+     LUMIÈRES DE LA VILLE
+  ========================= */
+
+  ctx.fillStyle = "rgba(255,220,90,.72)";
+
+  for(let i=0;i<35;i++){
+
+    const lx = -r*.30 + (i%7)*r*.085;
+    const ly = -r*.38 + (Math.floor(i/7))*r*.13;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      lx + rotation*.25,
+      ly,
+      1,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fill();
+  }
+
+  ctx.restore();
+
+
+  /* =========================
+     NUAGES
+  ========================= */
+
+  ctx.save();
+
+  ctx.beginPath();
+  ctx.arc(0,0,r*1.01,0,Math.PI*2);
+  ctx.clip();
+
+  ctx.strokeStyle = "rgba(220,250,255,.15)";
+  ctx.lineWidth = r*.025;
+
+  for(let i=-2;i<=2;i++){
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      rotation*.25,
+      i*r*.20,
+      r*.90,
+      r*.075,
+      .12,
+      0,
+      Math.PI*2
+    );
+
+    ctx.stroke();
+  }
+
+  ctx.restore();
+
+
+  /* =========================
+     CONTOUR ATMOSPHÉRIQUE
+  ========================= */
+
+  ctx.beginPath();
+  ctx.arc(0,0,r,0,Math.PI*2);
+
+  ctx.strokeStyle = "rgba(80,235,255,.70)";
+  ctx.lineWidth = 2;
+
+  ctx.shadowBlur = 14;
+  ctx.shadowColor = "rgba(0,210,255,.8)";
+
+  ctx.stroke();
+
+  ctx.shadowBlur = 0;
+
+
+  /* =========================
+     ORBITE DU SATELLITE
+  ========================= */
+
+  const satelliteAngle = angle * 4;
 
   ctx.beginPath();
 
   ctx.ellipse(
-   0,
-   0,
-   70+i*27,
-   28+i*12,
-   angle+i*.8,
-   0,
-   Math.PI*2
+    0,
+    0,
+    r*1.55,
+    r*.68,
+    0,
+    0,
+    Math.PI*2
   );
 
-  ctx.strokeStyle="rgba(25,230,255,.22)";
-  ctx.lineWidth=1;
+  ctx.strokeStyle = "rgba(30,220,255,.20)";
+  ctx.lineWidth = 1;
   ctx.stroke();
- }
 
- /* planet */
 
- const r=Math.min(w,h)*.16;
+  /* =========================
+     SATELLITE
+  ========================= */
 
- const gradient=ctx.createRadialGradient(
-  -r*.35,-r*.4,2,
-  0,0,r
- );
+  const sx = Math.cos(satelliteAngle) * r * 1.55;
+  const sy = Math.sin(satelliteAngle) * r * .68;
 
- gradient.addColorStop(0,"#79edff");
- gradient.addColorStop(.45,"#1677ff");
- gradient.addColorStop(1,"#02152f");
+  ctx.save();
 
- ctx.beginPath();
- ctx.arc(0,0,r,0,Math.PI*2);
+  ctx.translate(sx,sy);
+  ctx.rotate(satelliteAngle);
 
- ctx.fillStyle=gradient;
- ctx.shadowBlur=25;
- ctx.shadowColor="rgba(25,230,255,.5)";
- ctx.fill();
 
- ctx.shadowBlur=0;
+  /* panneaux */
 
- /* latitude */
+  ctx.fillStyle = "#155fc0";
 
- ctx.strokeStyle="rgba(150,245,255,.2)";
+  ctx.fillRect(
+    -r*.34,
+    -r*.045,
+    r*.22,
+    r*.09
+  );
 
- for(let i=-2;i<=2;i++){
+  ctx.fillRect(
+    r*.12,
+    -r*.045,
+    r*.22,
+    r*.09
+  );
+
+
+  /* corps */
+
+  ctx.fillStyle = "#edfaff";
+
+  ctx.fillRect(
+    -r*.12,
+    -r*.075,
+    r*.24,
+    r*.15
+  );
+
+
+  /* antenne */
+
+  ctx.strokeStyle = "#d8f7ff";
+  ctx.lineWidth = 1;
 
   ctx.beginPath();
 
-  ctx.ellipse(
-   0,
-   i*r*.22,
-   r,
-   r*.13,
-   0,
-   0,
-   Math.PI*2
+  ctx.moveTo(0,0);
+  ctx.lineTo(r*.25,-r*.20);
+
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  ctx.arc(
+    r*.25,
+    -r*.20,
+    r*.045,
+    0,
+    Math.PI*2
   );
 
   ctx.stroke();
- }
 
- /* satellite */
 
- const sx=Math.cos(angle*3)*145;
- const sy=Math.sin(angle*3)*55;
+  /* signal */
 
- ctx.save();
+  ctx.fillStyle = "#00eaff";
 
- ctx.translate(sx,sy);
- ctx.rotate(angle*3);
+  ctx.shadowBlur = 12;
+  ctx.shadowColor = "rgba(0,220,255,.9)";
 
- ctx.fillStyle="#eaf7ff";
- ctx.fillRect(-5,-3,10,6);
+  ctx.beginPath();
 
- ctx.fillStyle="#1677ff";
- ctx.fillRect(-17,-3,9,6);
- ctx.fillRect(8,-3,9,6);
+  ctx.arc(
+    0,
+    0,
+    r*.025,
+    0,
+    Math.PI*2
+  );
 
- ctx.restore();
+  ctx.fill();
 
- ctx.restore();
+  ctx.shadowBlur = 0;
 
- requestAnimationFrame(draw);
+  ctx.restore();
+
+
+  /* =========================
+     INFORMATIONS SCIENTIFIQUES
+  ========================= */
+
+  ctx.fillStyle = "rgba(120,220,255,.70)";
+
+  ctx.font = Math.max(9,w*.024) + "px Arial";
+
+  ctx.fillText(
+    "EARTH // DAY-NIGHT",
+    -w*.43,
+    h*.39
+  );
+
+  ctx.fillText(
+    "SATELLITE // ORBITAL",
+    -w*.43,
+    h*.44
+  );
+
+  ctx.fillText(
+    "SOLAR SOURCE // ACTIVE",
+    -w*.43,
+    h*.49
+  );
+
+
+  ctx.restore();
+
+  requestAnimationFrame(draw);
 }
 
-  draw();
-
+draw();
 </script>
 <!-- ============================= -->
 <!-- DEEPRDMM DIGITAL LAB — DASHBOARD -->
