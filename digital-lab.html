@@ -596,6 +596,1086 @@ body::after{
      CODE 1 — BASE TERMINÉE
 ========================================================= -->
 
-</body>
+<!-- =========================================================
+     DEEPRDMM DIGITAL LAB
+     CODE 2 — SCIENTIFIC VISUALIZATION ENGINE
+========================================================= -->
+
+<script>
+
+const canvas = document.getElementById("labCanvas");
+const ctx = canvas.getContext("2d");
+
+let W = 0;
+let H = 0;
+
+let earthRotation = 0;
+let satelliteRotation = 0;
+
+let stars = [];
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
+function resizeLab(){
+
+  const rect = canvas.getBoundingClientRect();
+
+  const dpr =
+    Math.min(
+      window.devicePixelRatio || 1,
+      2
+    );
+
+  canvas.width =
+    rect.width * dpr;
+
+  canvas.height =
+    rect.height * dpr;
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+  W = rect.width;
+  H = rect.height;
+
+  createStars();
+
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+function createStars(){
+
+  stars = [];
+
+  const amount =
+    W < 600 ? 120 : 220;
+
+  for(let i = 0; i < amount; i++){
+
+    stars.push({
+
+      x:Math.random() * W,
+
+      y:Math.random() * H,
+
+      size:
+        .3 + Math.random() * 1.4,
+
+      alpha:
+        .25 + Math.random() * .75,
+
+      phase:
+        Math.random() * Math.PI * 2,
+
+      speed:
+        .003 + Math.random() * .012
+
+    });
+
+  }
+
+}
+
+
+function drawStars(){
+
+  for(const star of stars){
+
+    star.phase += star.speed;
+
+    const pulse =
+      .65 +
+      Math.sin(star.phase) * .35;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      star.x,
+      star.y,
+      star.size,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle =
+      `rgba(190,235,255,${star.alpha * pulse})`;
+
+    ctx.fill();
+
+  }
+
+}
+
+
+/* =========================================================
+   SPACE BACKGROUND
+========================================================= */
+
+function drawSpace(){
+
+  const gradient =
+    ctx.createRadialGradient(
+      W * .5,
+      H * .48,
+      10,
+      W * .5,
+      H * .48,
+      Math.max(W,H) * .75
+    );
+
+  gradient.addColorStop(
+    0,
+    "#071a32"
+  );
+
+  gradient.addColorStop(
+    .45,
+    "#020b19"
+  );
+
+  gradient.addColorStop(
+    1,
+    "#00030a"
+  );
+
+  ctx.fillStyle = gradient;
+
+  ctx.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
+
+}
+
+
+/* =========================================================
+   SUN
+========================================================= */
+
+function drawSun(cx,cy){
+
+  const sunX =
+    cx + W * .35;
+
+  const sunY =
+    cy - H * .27;
+
+  const radius =
+    Math.min(W,H) * .065;
+
+
+  /* GLOW */
+
+  const glow =
+    ctx.createRadialGradient(
+      sunX,
+      sunY,
+      radius * .15,
+      sunX,
+      sunY,
+      radius * 5
+    );
+
+  glow.addColorStop(
+    0,
+    "rgba(255,245,180,.60)"
+  );
+
+  glow.addColorStop(
+    .25,
+    "rgba(255,190,55,.25)"
+  );
+
+  glow.addColorStop(
+    .55,
+    "rgba(255,100,20,.08)"
+  );
+
+  glow.addColorStop(
+    1,
+    "rgba(255,50,0,0)"
+  );
+
+  ctx.beginPath();
+
+  ctx.arc(
+    sunX,
+    sunY,
+    radius * 5,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = glow;
+
+  ctx.fill();
+
+
+  /* SUN */
+
+  const sun =
+    ctx.createRadialGradient(
+      sunX - radius * .35,
+      sunY - radius * .35,
+      radius * .05,
+      sunX,
+      sunY,
+      radius
+    );
+
+  sun.addColorStop(
+    0,
+    "#fffde9"
+  );
+
+  sun.addColorStop(
+    .35,
+    "#ffe36a"
+  );
+
+  sun.addColorStop(
+    .72,
+    "#ff9e24"
+  );
+
+  sun.addColorStop(
+    1,
+    "#ff5717"
+  );
+
+  ctx.beginPath();
+
+  ctx.arc(
+    sunX,
+    sunY,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = sun;
+
+  ctx.shadowBlur = 30;
+
+  ctx.shadowColor =
+    "rgba(255,175,40,.9)";
+
+  ctx.fill();
+
+  ctx.shadowBlur = 0;
+
+
+  /* FLARES */
+
+  ctx.save();
+
+  ctx.translate(
+    sunX,
+    sunY
+  );
+
+  ctx.rotate(
+    earthRotation * .12
+  );
+
+  ctx.strokeStyle =
+    "rgba(255,190,50,.20)";
+
+  ctx.lineWidth = 2;
+
+  for(let i = 0; i < 10; i++){
+
+    const angle =
+      (Math.PI * 2 / 10) * i;
+
+    const inner =
+      radius * 1.25;
+
+    const outer =
+      radius *
+      (
+        1.5 +
+        Math.sin(
+          earthRotation * 2 + i
+        ) * .18
+      );
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      Math.cos(angle) * inner,
+      Math.sin(angle) * inner
+    );
+
+    ctx.lineTo(
+      Math.cos(angle) * outer,
+      Math.sin(angle) * outer
+    );
+
+    ctx.stroke();
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   EARTH
+========================================================= */
+
+function drawEarth(cx,cy){
+
+  const radius =
+    Math.min(W,H) * .22;
+
+
+  /* ATMOSPHERE */
+
+  const atmosphere =
+    ctx.createRadialGradient(
+      cx - radius * .35,
+      cy - radius * .4,
+      radius * .15,
+      cx,
+      cy,
+      radius * 1.35
+    );
+
+  atmosphere.addColorStop(
+    0,
+    "rgba(100,240,255,.22)"
+  );
+
+  atmosphere.addColorStop(
+    .55,
+    "rgba(20,145,255,.12)"
+  );
+
+  atmosphere.addColorStop(
+    .82,
+    "rgba(0,130,255,.07)"
+  );
+
+  atmosphere.addColorStop(
+    1,
+    "rgba(0,150,255,0)"
+  );
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius * 1.35,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle =
+    atmosphere;
+
+  ctx.fill();
+
+
+  /* EARTH */
+
+  const earth =
+    ctx.createRadialGradient(
+      cx - radius * .38,
+      cy - radius * .42,
+      radius * .03,
+      cx,
+      cy,
+      radius
+    );
+
+  earth.addColorStop(
+    0,
+    "#79f2ff"
+  );
+
+  earth.addColorStop(
+    .22,
+    "#279cff"
+  );
+
+  earth.addColorStop(
+    .48,
+    "#086bd0"
+  );
+
+  earth.addColorStop(
+    .75,
+    "#04325f"
+  );
+
+  earth.addColorStop(
+    1,
+    "#010916"
+  );
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle = earth;
+
+  ctx.shadowBlur = 35;
+
+  ctx.shadowColor =
+    "rgba(0,170,255,.65)";
+
+  ctx.fill();
+
+  ctx.shadowBlur = 0;
+
+
+  /* CLIP */
+
+  ctx.save();
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.clip();
+
+
+  /* =======================================================
+     CONTINENTS
+  ======================================================= */
+
+  const shift =
+    Math.sin(earthRotation) *
+    radius *
+    .42;
+
+
+  ctx.fillStyle =
+    "rgba(55,190,120,.78)";
+
+
+  function continent(
+    px,
+    py,
+    rx,
+    ry,
+    rotation
+  ){
+
+    ctx.save();
+
+    ctx.translate(
+      cx + px + shift,
+      cy + py
+    );
+
+    ctx.rotate(rotation);
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      0,
+      0,
+      Math.max(
+        2,
+        Math.abs(
+          rx *
+          Math.cos(
+            earthRotation * .8
+          )
+        )
+      ),
+      ry,
+      0,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+    ctx.restore();
+
+  }
+
+
+  continent(
+    -radius*.43,
+    -radius*.22,
+    radius*.21,
+    radius*.12,
+    -.3
+  );
+
+  continent(
+    -radius*.20,
+    radius*.02,
+    radius*.28,
+    radius*.15,
+    .2
+  );
+
+  continent(
+    radius*.16,
+    -radius*.27,
+    radius*.25,
+    radius*.13,
+    -.2
+  );
+
+  continent(
+    radius*.35,
+    radius*.16,
+    radius*.18,
+    radius*.10,
+    .25
+  );
+
+  continent(
+    -radius*.31,
+    radius*.34,
+    radius*.17,
+    radius*.09,
+    -.15
+  );
+
+
+  /* =======================================================
+     NIGHT SIDE
+  ======================================================= */
+
+  const night =
+    ctx.createLinearGradient(
+      cx - radius,
+      cy,
+      cx + radius,
+      cy
+    );
+
+  night.addColorStop(
+    0,
+    "rgba(0,0,12,.02)"
+  );
+
+  night.addColorStop(
+    .42,
+    "rgba(0,0,18,.06)"
+  );
+
+  night.addColorStop(
+    .53,
+    "rgba(0,0,20,.22)"
+  );
+
+  night.addColorStop(
+    .63,
+    "rgba(0,0,25,.55)"
+  );
+
+  night.addColorStop(
+    .78,
+    "rgba(0,0,20,.84)"
+  );
+
+  night.addColorStop(
+    1,
+    "rgba(0,0,8,.98)"
+  );
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle =
+    night;
+
+  ctx.fill();
+
+
+  /* =======================================================
+     CITY LIGHTS
+  ======================================================= */
+
+  ctx.fillStyle =
+    "rgba(255,220,90,.78)";
+
+  for(let i = 0; i < 50; i++){
+
+    const lx =
+      cx -
+      radius * .43 +
+      (i % 10) *
+      radius * .085 +
+      shift * .22;
+
+    const ly =
+      cy -
+      radius * .43 +
+      Math.floor(i / 10) *
+      radius * .14;
+
+    if(
+      lx >
+      cx -
+      radius * .03
+    ){
+
+      ctx.beginPath();
+
+      ctx.arc(
+        lx,
+        ly,
+        1,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+    }
+
+  }
+
+
+  /* =======================================================
+     CLOUDS
+  ======================================================= */
+
+  ctx.strokeStyle =
+    "rgba(225,250,255,.15)";
+
+  ctx.lineWidth =
+    radius * .025;
+
+  for(let i = -2; i <= 2; i++){
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      cx + shift * .18,
+      cy + i * radius * .20,
+      radius * .88,
+      radius * .075,
+      .12,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+  }
+
+  ctx.restore();
+
+
+  /* EARTH EDGE */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    radius,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.strokeStyle =
+    "rgba(80,235,255,.75)";
+
+  ctx.lineWidth = 2;
+
+  ctx.shadowBlur = 15;
+
+  ctx.shadowColor =
+    "rgba(0,220,255,.8)";
+
+  ctx.stroke();
+
+  ctx.shadowBlur = 0;
+
+
+  return radius;
+
+}
+
+
+/* =========================================================
+   SATELLITE
+========================================================= */
+
+function drawSatellite(
+  cx,
+  cy,
+  earthRadius
+){
+
+  satelliteRotation += .006;
+
+
+  /* ORBIT */
+
+  ctx.beginPath();
+
+  ctx.ellipse(
+    cx,
+    cy,
+    earthRadius * 1.75,
+    earthRadius * .72,
+    0,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.strokeStyle =
+    "rgba(0,220,255,.22)";
+
+  ctx.lineWidth = 1;
+
+  ctx.stroke();
+
+
+  /* POSITION */
+
+  const satelliteX =
+    cx +
+    Math.cos(
+      satelliteRotation
+    ) *
+    earthRadius *
+    1.75;
+
+  const satelliteY =
+    cy +
+    Math.sin(
+      satelliteRotation
+    ) *
+    earthRadius *
+    .72;
+
+
+  ctx.save();
+
+  ctx.translate(
+    satelliteX,
+    satelliteY
+  );
+
+  ctx.rotate(
+    satelliteRotation
+  );
+
+
+  /* SIGNAL GLOW */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    earthRadius * .08,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle =
+    "rgba(0,230,255,.15)";
+
+  ctx.fill();
+
+
+  /* PANELS */
+
+  ctx.fillStyle =
+    "#155fc4";
+
+  ctx.fillRect(
+    -earthRadius * .42,
+    -earthRadius * .045,
+    earthRadius * .25,
+    earthRadius * .09
+  );
+
+  ctx.fillRect(
+    earthRadius * .17,
+    -earthRadius * .045,
+    earthRadius * .25,
+    earthRadius * .09
+  );
+
+
+  /* PANEL DETAILS */
+
+  ctx.strokeStyle =
+    "rgba(170,235,255,.55)";
+
+  ctx.lineWidth = .6;
+
+  for(const side of [-1,1]){
+
+    const px =
+      side *
+      earthRadius *
+      .30;
+
+    for(let i = -1; i <= 1; i++){
+
+      ctx.beginPath();
+
+      ctx.moveTo(
+        px + i * earthRadius * .05,
+        -earthRadius * .045
+      );
+
+      ctx.lineTo(
+        px + i * earthRadius * .05,
+        earthRadius * .045
+      );
+
+      ctx.stroke();
+
+    }
+
+  }
+
+
+  /* BODY */
+
+  ctx.fillStyle =
+    "#edfaff";
+
+  ctx.fillRect(
+    -earthRadius * .14,
+    -earthRadius * .09,
+    earthRadius * .28,
+    earthRadius * .18
+  );
+
+
+  /* BODY DETAIL */
+
+  ctx.fillStyle =
+    "#6c8fa8";
+
+  ctx.fillRect(
+    -earthRadius * .07,
+    -earthRadius * .06,
+    earthRadius * .14,
+    earthRadius * .04
+  );
+
+
+  /* ANTENNA */
+
+  ctx.strokeStyle =
+    "#d9f8ff";
+
+  ctx.lineWidth = 1;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    0,
+    -earthRadius * .09
+  );
+
+  ctx.lineTo(
+    earthRadius * .23,
+    -earthRadius * .28
+  );
+
+  ctx.stroke();
+
+
+  ctx.beginPath();
+
+  ctx.arc(
+    earthRadius * .23,
+    -earthRadius * .28,
+    earthRadius * .05,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+
+  /* SIGNAL */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    earthRadius * .025,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fillStyle =
+    "#00eaff";
+
+  ctx.shadowBlur = 15;
+
+  ctx.shadowColor =
+    "#00eaff";
+
+  ctx.fill();
+
+  ctx.shadowBlur = 0;
+
+
+  ctx.restore();
+
+}
+
+
+/* =========================================================
+   INFORMATION
+========================================================= */
+
+function drawInformation(){
+
+  const size =
+    Math.max(
+      9,
+      W * .020
+    );
+
+  ctx.font =
+    size + "px Arial";
+
+  ctx.fillStyle =
+    "rgba(120,220,255,.70)";
+
+  ctx.fillText(
+    "EARTH // DAY-NIGHT",
+    25,
+    H - 70
+  );
+
+  ctx.fillText(
+    "SATELLITE // ORBITAL",
+    25,
+    H - 48
+  );
+
+  ctx.fillText(
+    "SOLAR SOURCE // ACTIVE",
+    25,
+    H - 26
+  );
+
+}
+
+
+/* =========================================================
+   MAIN ANIMATION
+========================================================= */
+
+function animateLab(){
+
+  ctx.clearRect(
+    0,
+    0,
+    W,
+    H
+  );
+
+
+  drawSpace();
+
+  drawStars();
+
+
+  const cx =
+    W / 2;
+
+  const cy =
+    H / 2;
+
+
+  drawSun(
+    cx,
+    cy
+  );
+
+
+  const earthRadius =
+    drawEarth(
+      cx,
+      cy
+    );
+
+
+  drawSatellite(
+    cx,
+    cy,
+    earthRadius
+  );
+
+
+  drawInformation();
+
+
+  earthRotation += .004;
+
+
+  requestAnimationFrame(
+    animateLab
+  );
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+window.addEventListener(
+  "resize",
+  resizeLab
+);
+
+resizeLab();
+
+animateLab();
+
+</script></body>
 
       </html>
