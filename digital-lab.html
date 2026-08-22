@@ -581,7 +581,979 @@
       </div>
 
     </section>
+<!-- =========================================================
+     DEEPRDMM DIGITAL LAB
+     3D SCIENTIFIC VISUALIZATION
+========================================================= -->
 
+<script type="module">
+
+import * as THREE from
+  "https://unpkg.com/three@0.160.0/build/three.module.js";
+
+import { OrbitControls } from
+  "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+
+/* =========================================================
+   CANVAS EXISTANT
+========================================================= */
+
+const canvas =
+  document.getElementById("spaceCanvas");
+
+if (!canvas) {
+
+  console.error(
+    "DEEPRDMM VISUALIZATION ERROR: spaceCanvas introuvable."
+  );
+
+} else {
+
+
+/* =========================================================
+   SCENE
+========================================================= */
+
+const scene =
+  new THREE.Scene();
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+const camera =
+  new THREE.PerspectiveCamera(
+    45,
+    canvas.clientWidth /
+    canvas.clientHeight,
+    0.1,
+    5000
+  );
+
+camera.position.set(
+  0,
+  80,
+  230
+);
+
+
+/* =========================================================
+   RENDERER
+========================================================= */
+
+const renderer =
+  new THREE.WebGLRenderer({
+
+    canvas: canvas,
+
+    antialias: true,
+
+    alpha: false
+
+  });
+
+
+renderer.setPixelRatio(
+  Math.min(
+    window.devicePixelRatio || 1,
+    2
+  )
+);
+
+renderer.setSize(
+  canvas.clientWidth,
+  canvas.clientHeight,
+  false
+);
+
+renderer.setClearColor(
+  0x010611,
+  1
+);
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+const controls =
+  new OrbitControls(
+    camera,
+    renderer.domElement
+  );
+
+controls.enableDamping = true;
+
+controls.dampingFactor =
+  0.05;
+
+controls.minDistance =
+  70;
+
+controls.maxDistance =
+  450;
+
+controls.enablePan =
+  false;
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+const starGeometry =
+  new THREE.BufferGeometry();
+
+const starCount =
+  window.innerWidth < 600
+    ? 5000
+    : 10000;
+
+const starPositions =
+  new Float32Array(
+    starCount * 3
+  );
+
+
+for (
+  let i = 0;
+  i < starCount;
+  i++
+) {
+
+  const i3 =
+    i * 3;
+
+  starPositions[i3] =
+    (Math.random() - 0.5) *
+    3000;
+
+  starPositions[i3 + 1] =
+    (Math.random() - 0.5) *
+    3000;
+
+  starPositions[i3 + 2] =
+    (Math.random() - 0.5) *
+    3000;
+
+}
+
+
+starGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(
+    starPositions,
+    3
+  )
+);
+
+
+const starMaterial =
+  new THREE.PointsMaterial({
+
+    color: 0xffffff,
+
+    size:
+      window.innerWidth < 600
+        ? 1.1
+        : 1.4,
+
+    sizeAttenuation: true
+
+  });
+
+
+const stars =
+  new THREE.Points(
+    starGeometry,
+    starMaterial
+  );
+
+
+scene.add(stars);
+
+
+/* =========================================================
+   AMBIENT LIGHT
+========================================================= */
+
+const ambientLight =
+  new THREE.AmbientLight(
+    0x6d8fa8,
+    0.22
+  );
+
+scene.add(
+  ambientLight
+);
+
+
+/* =========================================================
+   SUN
+========================================================= */
+
+const sunGroup =
+  new THREE.Group();
+
+scene.add(
+  sunGroup
+);
+
+
+const sunGeometry =
+  new THREE.SphereGeometry(
+    20,
+    64,
+    64
+  );
+
+
+const sunMaterial =
+  new THREE.MeshBasicMaterial({
+
+    color: 0xffffff
+
+  });
+
+
+const sun =
+  new THREE.Mesh(
+    sunGeometry,
+    sunMaterial
+  );
+
+
+sunGroup.add(
+  sun
+);
+
+
+/* =========================================================
+   SUN GLOW
+========================================================= */
+
+const glowGeometry =
+  new THREE.SphereGeometry(
+    28,
+    32,
+    32
+  );
+
+
+const glowMaterial =
+  new THREE.MeshBasicMaterial({
+
+    color: 0x8fdcff,
+
+    transparent: true,
+
+    opacity: 0.10,
+
+    side: THREE.BackSide
+
+  });
+
+
+const sunGlow =
+  new THREE.Mesh(
+    glowGeometry,
+    glowMaterial
+  );
+
+
+sunGroup.add(
+  sunGlow
+);
+
+
+/* =========================================================
+   SUN LIGHT
+========================================================= */
+
+const sunLight =
+  new THREE.PointLight(
+    0xffffff,
+    4.5,
+    1500
+  );
+
+
+sunGroup.add(
+  sunLight
+);
+
+
+/* =========================================================
+   EARTH ORBIT
+========================================================= */
+
+const earthOrbit =
+  new THREE.EllipseCurve(
+
+    0,
+    0,
+
+    115,
+    115,
+
+    0,
+    Math.PI * 2,
+
+    false,
+
+    0
+
+  );
+
+
+const orbitPoints =
+  earthOrbit.getPoints(
+    256
+  );
+
+
+const orbitGeometry =
+  new THREE.BufferGeometry()
+    .setFromPoints(
+      orbitPoints.map(
+        point =>
+          new THREE.Vector3(
+            point.x,
+            0,
+            point.y
+          )
+      )
+    );
+
+
+const orbitMaterial =
+  new THREE.LineBasicMaterial({
+
+    color: 0x00dfff,
+
+    transparent: true,
+
+    opacity: 0.18
+
+  });
+
+
+const earthOrbitLine =
+  new THREE.LineLoop(
+    orbitGeometry,
+    orbitMaterial
+  );
+
+
+scene.add(
+  earthOrbitLine
+);
+
+
+/* =========================================================
+   EARTH GROUP
+========================================================= */
+
+const earthSystem =
+  new THREE.Group();
+
+scene.add(
+  earthSystem
+);
+
+
+/* =========================================================
+   EARTH
+========================================================= */
+
+const earthGeometry =
+  new THREE.SphereGeometry(
+    13,
+    64,
+    64
+  );
+
+
+const earthMaterial =
+  new THREE.MeshPhongMaterial({
+
+    color: 0x1689d8,
+
+    shininess: 35,
+
+    specular: 0x6ddfff
+
+  });
+
+
+const earth =
+  new THREE.Mesh(
+    earthGeometry,
+    earthMaterial
+  );
+
+
+earthSystem.add(
+  earth
+);
+
+
+/* =========================================================
+   EARTH ATMOSPHERE
+========================================================= */
+
+const atmosphereGeometry =
+  new THREE.SphereGeometry(
+    13.7,
+    64,
+    64
+  );
+
+
+const atmosphereMaterial =
+  new THREE.MeshBasicMaterial({
+
+    color: 0x00bfff,
+
+    transparent: true,
+
+    opacity: 0.09,
+
+    side: THREE.BackSide
+
+  });
+
+
+const atmosphere =
+  new THREE.Mesh(
+    atmosphereGeometry,
+    atmosphereMaterial
+  );
+
+
+earthSystem.add(
+  atmosphere
+);
+
+
+/* =========================================================
+   CONTINENTS — APPROXIMATION VISUELLE
+========================================================= */
+
+const landMaterial =
+  new THREE.MeshPhongMaterial({
+
+    color: 0x39b878,
+
+    shininess: 8
+
+  });
+
+
+function createLand(
+  radius,
+  x,
+  y,
+  z,
+  scaleX,
+  scaleY
+) {
+
+  const geometry =
+    new THREE.SphereGeometry(
+      radius,
+      24,
+      16
+    );
+
+  const land =
+    new THREE.Mesh(
+      geometry,
+      landMaterial
+    );
+
+  land.scale.set(
+    scaleX,
+    scaleY,
+    0.18
+  );
+
+  land.position.set(
+    x,
+    y,
+    z
+  );
+
+  earth.add(
+    land
+  );
+
+}
+
+
+/* Afrique / Europe */
+
+createLand(
+  3.0,
+  2.5,
+  1.0,
+  11.4,
+  1.0,
+  1.6
+);
+
+
+/* Asie */
+
+createLand(
+  3.8,
+  5.0,
+  3.0,
+  10.5,
+  1.8,
+  0.8
+);
+
+
+/* Amérique */
+
+createLand(
+  3.5,
+  -6.0,
+  2.0,
+  10.2,
+  1.0,
+  1.6
+);
+
+
+/* Australie */
+
+createLand(
+  1.8,
+  6.0,
+  -4.0,
+  10.5,
+  1.2,
+  0.7
+);
+
+
+/* =========================================================
+   MOON / SATELLITE
+========================================================= */
+
+const moonOrbitRadius =
+  28;
+
+
+const moonOrbitGeometry =
+  new THREE.RingGeometry(
+    moonOrbitRadius - 0.08,
+    moonOrbitRadius + 0.08,
+    96
+  );
+
+
+const moonOrbitMaterial =
+  new THREE.MeshBasicMaterial({
+
+    color: 0xffffff,
+
+    transparent: true,
+
+    opacity: 0.14,
+
+    side: THREE.DoubleSide
+
+  });
+
+
+const moonOrbit =
+  new THREE.Mesh(
+    moonOrbitGeometry,
+    moonOrbitMaterial
+  );
+
+
+moonOrbit.rotation.x =
+  Math.PI / 2;
+
+
+earthSystem.add(
+  moonOrbit
+);
+
+
+/* =========================================================
+   MOON
+========================================================= */
+
+const moon =
+  new THREE.Mesh(
+
+    new THREE.SphereGeometry(
+      2.8,
+      32,
+      32
+    ),
+
+    new THREE.MeshStandardMaterial({
+
+      color: 0xbfc7cc,
+
+      metalness: 0.2,
+
+      roughness: 0.85
+
+    })
+
+  );
+
+
+earthSystem.add(
+  moon
+);
+
+
+/* =========================================================
+   SATELLITE
+========================================================= */
+
+const satellite =
+  new THREE.Group();
+
+
+earthSystem.add(
+  satellite
+);
+
+
+/* Corps */
+
+const satelliteBody =
+  new THREE.Mesh(
+
+    new THREE.BoxGeometry(
+      2.4,
+      1.4,
+      1.8
+    ),
+
+    new THREE.MeshStandardMaterial({
+
+      color: 0xd9e7ed,
+
+      metalness: 0.8,
+
+      roughness: 0.25
+
+    })
+
+  );
+
+
+satellite.add(
+  satelliteBody
+);
+
+
+/* Panneau gauche */
+
+const panelMaterial =
+  new THREE.MeshStandardMaterial({
+
+    color: 0x155fc4,
+
+    metalness: 0.7,
+
+    roughness: 0.3
+
+  });
+
+
+const leftPanel =
+  new THREE.Mesh(
+
+    new THREE.BoxGeometry(
+      4,
+      0.12,
+      1.5
+    ),
+
+    panelMaterial
+
+  );
+
+
+leftPanel.position.x =
+  -3.1;
+
+
+satellite.add(
+  leftPanel
+);
+
+
+/* Panneau droit */
+
+const rightPanel =
+  new THREE.Mesh(
+
+    new THREE.BoxGeometry(
+      4,
+      0.12,
+      1.5
+    ),
+
+    panelMaterial
+
+  );
+
+
+rightPanel.position.x =
+  3.1;
+
+
+satellite.add(
+  rightPanel
+);
+
+
+/* Antenne */
+
+const antenna =
+  new THREE.Mesh(
+
+    new THREE.CylinderGeometry(
+      0.08,
+      0.08,
+      2.5,
+      12
+    ),
+
+    new THREE.MeshBasicMaterial({
+
+      color: 0xffffff
+
+    })
+
+  );
+
+
+antenna.position.y =
+  1.8;
+
+
+satellite.add(
+  antenna
+);
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+let earthAngle =
+  0;
+
+let moonAngle =
+  0;
+
+let satelliteAngle =
+  0;
+
+
+function animate() {
+
+  requestAnimationFrame(
+    animate
+  );
+
+
+  /* Terre sur elle-même */
+
+  earth.rotation.y +=
+    0.006;
+
+
+  /* Nuage atmosphérique */
+
+  atmosphere.rotation.y +=
+    0.008;
+
+
+  /* Terre autour du Soleil */
+
+  earthAngle +=
+    0.0015;
+
+
+  earthSystem.position.x =
+    Math.cos(
+      earthAngle
+    ) * 115;
+
+
+  earthSystem.position.z =
+    Math.sin(
+      earthAngle
+    ) * 115;
+
+
+  /* Soleil */
+
+  sun.rotation.y +=
+    0.002;
+
+
+  sunGlow.rotation.y -=
+    0.001;
+
+
+  /* Lune */
+
+  moonAngle +=
+    0.018;
+
+
+  moon.position.x =
+    Math.cos(
+      moonAngle
+    ) * moonOrbitRadius;
+
+
+  moon.position.z =
+    Math.sin(
+      moonAngle
+    ) * moonOrbitRadius;
+
+
+  /* Satellite */
+
+  satelliteAngle +=
+    0.035;
+
+
+  satellite.position.x =
+    Math.cos(
+      satelliteAngle
+    ) * 20;
+
+
+  satellite.position.z =
+    Math.sin(
+      satelliteAngle
+    ) * 20;
+
+
+  satellite.position.y =
+    Math.sin(
+      satelliteAngle * 2
+    ) * 3;
+
+
+  satellite.rotation.y +=
+    0.025;
+
+
+  /* Rotation lente des étoiles */
+
+  stars.rotation.y +=
+    0.00008;
+
+
+  controls.update();
+
+
+  renderer.render(
+    scene,
+    camera
+  );
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+function resizeVisualization() {
+
+  const width =
+    canvas.clientWidth;
+
+  const height =
+    canvas.clientHeight;
+
+
+  if (
+    width <= 0 ||
+    height <= 0
+  ) {
+
+    return;
+
+  }
+
+
+  camera.aspect =
+    width / height;
+
+
+  camera.updateProjectionMatrix();
+
+
+  renderer.setSize(
+    width,
+    height,
+    false
+  );
+
+}
+
+
+window.addEventListener(
+  "resize",
+  resizeVisualization
+);
+
+
+resizeVisualization();
+
+
+/* =========================================================
+   START
+========================================================= */
+
+animate();
+
+
+console.log(
+  "DEEPRDMM DIGITAL LAB // 3D VISUALIZATION ONLINE"
+);
+
+console.log(
+  "EARTH // ORBIT ACTIVE"
+);
+
+console.log(
+  "MOON // ORBIT ACTIVE"
+);
+
+console.log(
+  "SATELLITE // ORBIT ACTIVE"
+);
+
+console.log(
+  "SOLAR SYSTEM // ACTIVE"
+);
+
+}
+
+</script>
 
   </main>
 
