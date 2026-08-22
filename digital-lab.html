@@ -586,6 +586,650 @@
   </main>
 
 
-</body>
+<!-- =========================================================
+     DEEPRDMM DIGITAL LAB — CONTROL CENTER
+     CODE 2
+========================================================= --><style>
+
+.lab-control{
+  width:min(1100px,calc(100% - 30px));
+  margin:45px auto;
+}
+
+.lab-section-title{
+  margin-bottom:20px;
+  color:#00dcff;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+
+.lab-section-title span{
+  color:#60758c;
+  margin-right:10px;
+}
+
+.lab-control-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.lab-control-card{
+  min-height:140px;
+  padding:20px;
+  border:1px solid rgba(0,220,255,.16);
+  border-radius:18px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8,27,48,.92),
+      rgba(3,12,24,.94)
+    );
+  color:#e9faff;
+  text-align:left;
+  cursor:pointer;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.lab-control-card:hover{
+  transform:translateY(-4px);
+  border-color:rgba(0,220,255,.65);
+  box-shadow:0 15px 40px rgba(0,170,255,.12);
+}
+
+.lab-control-icon{
+  font-size:28px;
+  margin-bottom:18px;
+}
+
+.lab-control-card strong{
+  display:block;
+  font-size:11px;
+  letter-spacing:1.5px;
+}
+
+.lab-control-card small{
+  display:block;
+  margin-top:8px;
+  color:#71869d;
+  font-size:9px;
+  line-height:1.5;
+}
+
+
+/* =========================
+   MODULE WINDOW
+========================= */
+
+.lab-module{
+  display:none;
+
+  width:min(900px,calc(100% - 30px));
+
+  margin:
+    0 auto
+    45px;
+
+  padding:25px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.25);
+
+  border-radius:20px;
+
+  background:
+    rgba(3,14,28,.94);
+
+  box-shadow:
+    0 0 50px
+    rgba(0,160,255,.08);
+}
+
+.lab-module-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
+
+.lab-module-label{
+  color:#00dcff;
+  font-size:9px;
+  letter-spacing:3px;
+  margin-bottom:8px;
+}
+
+.lab-module-title{
+  font-size:23px;
+  letter-spacing:1px;
+}
+
+.lab-module-close{
+  width:36px;
+  height:36px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.3);
+
+  border-radius:9px;
+
+  background:
+    rgba(0,220,255,.04);
+
+  color:#00dcff;
+
+  font-size:22px;
+
+  cursor:pointer;
+}
+
+.lab-module-description{
+  margin-top:15px;
+  color:#8da3b7;
+  font-size:13px;
+  line-height:1.7;
+}
+
+.lab-module-content{
+  margin-top:20px;
+}
+
+.lab-info{
+  padding:16px;
+  margin-top:10px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.10);
+
+  border-radius:13px;
+
+  background:
+    rgba(255,255,255,.025);
+}
+
+.lab-info strong{
+  display:block;
+  color:#e9faff;
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+.lab-info small{
+  display:block;
+  margin-top:7px;
+  color:#72879b;
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+  .lab-control-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .lab-control-card{
+    min-height:125px;
+    padding:15px;
+  }
+
+  .lab-control-icon{
+    font-size:24px;
+    margin-bottom:14px;
+  }
+
+  .lab-module{
+    padding:19px;
+  }
+
+}
+
+</style><!-- =========================================================
+     CONTROL CENTER
+========================================================= --><section class="lab-control">  <div class="lab-section-title">
+    <span>01</span>
+    LABORATORY CONTROL
+  </div>  <div class="lab-control-grid"><button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('dashboard')"
+>
+  <div class="lab-control-icon">📊</div>
+  <strong>DASHBOARD</strong>
+  <small>Activité du laboratoire</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('projects')"
+>
+  <div class="lab-control-icon">🛰️</div>
+  <strong>PROJECTS</strong>
+  <small>Projets de recherche</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('simulations')"
+>
+  <div class="lab-control-icon">🌌</div>
+  <strong>SIMULATIONS</strong>
+  <small>Centre de simulation</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('experiments')"
+>
+  <div class="lab-control-icon">🧪</div>
+  <strong>EXPERIMENTS</strong>
+  <small>Expériences scientifiques</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('data')"
+>
+  <div class="lab-control-icon">📡</div>
+  <strong>DATA CENTER</strong>
+  <small>Données scientifiques</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('results')"
+>
+  <div class="lab-control-icon">📈</div>
+  <strong>RESULTS</strong>
+  <small>Résultats de recherche</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('documentation')"
+>
+  <div class="lab-control-icon">📚</div>
+  <strong>DOCUMENTATION</strong>
+  <small>Bibliothèque scientifique</small>
+</button>
+
+
+<button
+  class="lab-control-card"
+  onclick="rdmmOpenModule('settings')"
+>
+  <div class="lab-control-icon">⚙️</div>
+  <strong>SETTINGS</strong>
+  <small>Paramètres du laboratoire</small>
+</button>
+
+  </div></section><!-- =========================================================
+     MODULE WINDOW
+========================================================= --><section
+  class="lab-module"
+  id="rdmmLabModule"
+>  <div class="lab-module-header"><div>
+
+  <div class="lab-module-label">
+    DEEPRDMM // ACTIVE MODULE
+  </div>
+
+  <h2
+    class="lab-module-title"
+    id="rdmmModuleTitle"
+  >
+    LAB MODULE
+  </h2>
+
+</div>
+
+<button
+  class="lab-module-close"
+  onclick="rdmmCloseModule()"
+>
+  ×
+</button>
+
+  </div>  <p
+    class="lab-module-description"
+    id="rdmmModuleDescription"
+  ></p>  <div
+    class="lab-module-content"
+    id="rdmmModuleContent"
+  ></div></section><!-- =========================================================
+     MODULE ENGINE
+========================================================= --><script>
+
+const rdmmModules = {
+
+  dashboard:{
+
+    title:"RESEARCH DASHBOARD",
+
+    description:
+      "Vue générale de l'activité scientifique du Digital Lab.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>SYSTEM STATUS</strong>
+        <small>
+          Le réseau de recherche DeepRDMM fonctionne normalement.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>RESEARCH NETWORK</strong>
+        <small>
+          Les systèmes scientifiques sont actuellement opérationnels.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>DATA STREAM</strong>
+        <small>
+          Flux de données scientifiques actif.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  projects:{
+
+    title:"RESEARCH PROJECTS",
+
+    description:
+      "Projets scientifiques actuellement présentés dans le laboratoire.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>ORBIT-001</strong>
+        <small>
+          Étude des systèmes orbitaux et des satellites.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>TERRA-002</strong>
+        <small>
+          Recherche sur la Terre et les systèmes naturels.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>NOVA-003</strong>
+        <small>
+          Recherche sur les technologies futures.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  simulations:{
+
+    title:"SIMULATION CENTER",
+
+    description:
+      "Environnement destiné aux simulations scientifiques.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>PLANETARY SYSTEM</strong>
+        <small>
+          La visualisation scientifique principale sera intégrée
+          dans cet environnement.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>FUTURE SIMULATIONS</strong>
+        <small>
+          De nouvelles simulations pourront être ajoutées
+          progressivement.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  experiments:{
+
+    title:"SCIENTIFIC EXPERIMENTS",
+
+    description:
+      "Environnement de recherche expérimentale.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>EXP-001 // ORBITAL DYNAMICS</strong>
+        <small>
+          Étude des mouvements orbitaux et des trajectoires.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>EXP-002 // EARTH SYSTEM</strong>
+        <small>
+          Observation des systèmes terrestres.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>EXP-003 // AI ANALYSIS</strong>
+        <small>
+          Analyse de données scientifiques.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  data:{
+
+    title:"RESEARCH DATA CENTER",
+
+    description:
+      "Centre de données scientifiques du laboratoire.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>EARTH DATA</strong>
+        <small>
+          Données relatives à la Terre et à l'environnement.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>SPACE DATA</strong>
+        <small>
+          Données spatiales, orbitales et astronomiques.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>AI DATA</strong>
+        <small>
+          Données destinées à la recherche en intelligence artificielle.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  results:{
+
+    title:"RESEARCH RESULTS",
+
+    description:
+      "Visualisation des résultats scientifiques.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>ANALYSIS STATUS</strong>
+        <small>
+          Les systèmes d'analyse sont opérationnels.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>DATA QUALITY</strong>
+        <small>
+          Environnement de démonstration du Digital Lab.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  documentation:{
+
+    title:"RESEARCH DOCUMENTATION",
+
+    description:
+      "Bibliothèque scientifique du Digital Lab.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>PROTOCOLS</strong>
+        <small>
+          Protocoles expérimentaux et méthodologies.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>REPORTS</strong>
+        <small>
+          Rapports scientifiques et analyses.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>TECHNICAL RESOURCES</strong>
+        <small>
+          Documentation technique du laboratoire.
+        </small>
+      </div>
+
+    `
+
+  },
+
+
+  settings:{
+
+    title:"LAB SETTINGS",
+
+    description:
+      "Paramètres de l'environnement numérique.",
+
+    content:`
+
+      <div class="lab-info">
+        <strong>VISUALIZATION ENGINE</strong>
+        <small>
+          Moteur de visualisation scientifique.
+        </small>
+      </div>
+
+      <div class="lab-info">
+        <strong>SYSTEM CONFIGURATION</strong>
+        <small>
+          Configuration générale du Digital Lab.
+        </small>
+      </div>
+
+    `
+
+  }
+
+};
+
+
+function rdmmOpenModule(name){
+
+  const module = rdmmModules[name];
+
+  if(!module){
+    return;
+  }
+
+  document.getElementById(
+    "rdmmModuleTitle"
+  ).textContent = module.title;
+
+
+  document.getElementById(
+    "rdmmModuleDescription"
+  ).textContent = module.description;
+
+
+  document.getElementById(
+    "rdmmModuleContent"
+  ).innerHTML = module.content;
+
+
+  const panel =
+    document.getElementById(
+      "rdmmLabModule"
+    );
+
+  panel.style.display = "block";
+
+
+  panel.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+}
+
+
+function rdmmCloseModule(){
+
+  document.getElementById(
+    "rdmmLabModule"
+  ).style.display = "none";
+
+}
+
+</script></body>
 
      </html>
