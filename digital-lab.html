@@ -716,7 +716,1407 @@ main{
 
 </section>
 
+<!-- =========================================================
+     DEEPRDMM DIGITAL LAB
+     CONTROL CENTER
+========================================================= -->
 
+<section class="lab-control">
+
+  <div class="section-heading">
+
+    <span>01</span>
+
+    LABORATORY CONTROL
+
+  </div>
+
+
+  <div class="control-grid">
+
+
+    <!-- DASHBOARD -->
+
+    <button
+      class="control-card"
+      onclick="openModule('dashboard')"
+    >
+
+      <div class="control-icon">
+        📊
+      </div>
+
+      <strong>
+        DASHBOARD
+      </strong>
+
+      <small>
+        Activité du laboratoire
+      </small>
+
+    </button>
+
+
+    <!-- PROJECTS -->
+
+    <button
+      class="control-card"
+      onclick="openModule('projects')"
+    >
+
+      <div class="control-icon">
+        🛰️
+      </div>
+
+      <strong>
+        PROJECTS
+      </strong>
+
+      <small>
+        Projets de recherche
+      </small>
+
+    </button>
+
+
+    <!-- SIMULATIONS -->
+
+    <button
+      class="control-card"
+      onclick="openModule('simulations')"
+    >
+
+      <div class="control-icon">
+        ⚙️
+      </div>
+
+      <strong>
+        SIMULATIONS
+      </strong>
+
+      <small>
+        Centre de simulation
+      </small>
+
+    </button>
+
+
+    <!-- EXPERIMENTS -->
+
+    <button
+      class="control-card"
+      onclick="openModule('experiments')"
+    >
+
+      <div class="control-icon">
+        🧪
+      </div>
+
+      <strong>
+        EXPERIMENTS
+      </strong>
+
+      <small>
+        Expériences scientifiques
+      </small>
+
+    </button>
+
+
+    <!-- DATA CENTER -->
+
+    <button
+      class="control-card"
+      onclick="openModule('data')"
+    >
+
+      <div class="control-icon">
+        📡
+      </div>
+
+      <strong>
+        DATA CENTER
+      </strong>
+
+      <small>
+        Données scientifiques
+      </small>
+
+    </button>
+
+
+    <!-- RESULTS -->
+
+    <button
+      class="control-card"
+      onclick="openModule('results')"
+    >
+
+      <div class="control-icon">
+        📈
+      </div>
+
+      <strong>
+        RESULTS
+      </strong>
+
+      <small>
+        Résultats de recherche
+      </small>
+
+    </button>
+
+
+    <!-- DOCUMENTATION -->
+
+    <button
+      class="control-card"
+      onclick="openModule('documentation')"
+    >
+
+      <div class="control-icon">
+        📚
+      </div>
+
+      <strong>
+        DOCUMENTATION
+      </strong>
+
+      <small>
+        Bibliothèque scientifique
+      </small>
+
+    </button>
+
+
+    <!-- SETTINGS -->
+
+    <button
+      class="control-card"
+      onclick="openModule('settings')"
+    >
+
+      <div class="control-icon">
+        ⚙️
+      </div>
+
+      <strong>
+        SETTINGS
+      </strong>
+
+      <small>
+        Paramètres du laboratoire
+      </small>
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     WORKSPACE
+========================================================= -->
+
+<section
+  class="workspace"
+  id="workspace"
+>
+
+  <div class="workspace-header">
+
+    <div>
+
+      <div class="workspace-label">
+        RDMM // ACTIVE MODULE
+      </div>
+
+      <h3 id="workspaceTitle">
+        LAB MODULE
+      </h3>
+
+    </div>
+
+
+    <button
+      class="close-workspace"
+      onclick="closeWorkspace()"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <p id="workspaceDescription"></p>
+
+
+  <div
+    id="workspaceContent"
+    class="workspace-content"
+  ></div>
+
+</section>
+
+
+<!-- =========================================================
+     SYSTEM METRICS
+========================================================= -->
+
+<section class="metrics">
+
+  <div class="section-heading">
+
+    <span>02</span>
+
+    SYSTEM METRICS
+
+  </div>
+
+
+  <div class="metrics-grid">
+
+
+    <div class="metric">
+
+      <small>
+        SYSTEM STATUS
+      </small>
+
+      <strong class="online-text">
+        ONLINE
+      </strong>
+
+    </div>
+
+
+    <div class="metric">
+
+      <small>
+        ACTIVE PROJECTS
+      </small>
+
+      <strong>
+        04
+      </strong>
+
+    </div>
+
+
+    <div class="metric">
+
+      <small>
+        EXPERIMENTS
+      </small>
+
+      <strong>
+        03
+      </strong>
+
+    </div>
+
+
+    <div class="metric">
+
+      <small>
+        DATASETS
+      </small>
+
+      <strong>
+        128
+      </strong>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+  <strong>
+    DEEPRDMM AKADEMY
+  </strong>
+
+  <span>
+    L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE
+  </span>
+
+  <small>
+    DIGITAL RESEARCH LAB // 01
+  </small>
+
+</footer>
+
+
+<!-- =========================================================
+     CONTROL CENTER STYLES
+========================================================= -->
+
+<style>
+
+.lab-control,
+.metrics{
+
+  width:
+    min(
+      1100px,
+      calc(100% - 30px)
+    );
+
+  margin:
+    0 auto 45px;
+
+}
+
+
+.section-heading{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:12px;
+
+  margin-bottom:18px;
+
+  color:#dffaff;
+
+  font-size:13px;
+
+  font-weight:800;
+
+  letter-spacing:3px;
+
+}
+
+
+.section-heading span{
+
+  color:#00dcff;
+
+  font-size:10px;
+
+}
+
+
+/* =========================================================
+   CONTROL GRID
+========================================================= */
+
+.control-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:12px;
+
+}
+
+
+.control-card{
+
+  min-height:135px;
+
+  padding:18px;
+
+  text-align:left;
+
+  color:#eafaff;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(8,25,45,.92),
+      rgba(3,12,24,.92)
+    );
+
+  border:
+    1px solid
+    rgba(0,220,255,.16);
+
+  border-radius:16px;
+
+  cursor:pointer;
+
+  transition:
+    transform .2s,
+    border-color .2s,
+    box-shadow .2s;
+
+}
+
+
+.control-card:hover{
+
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(0,220,255,.6);
+
+  box-shadow:
+    0 12px 35px
+    rgba(0,170,255,.12);
+
+}
+
+
+.control-icon{
+
+  font-size:27px;
+
+  margin-bottom:15px;
+
+}
+
+
+.control-card strong{
+
+  display:block;
+
+  font-size:11px;
+
+  letter-spacing:1.5px;
+
+}
+
+
+.control-card small{
+
+  display:block;
+
+  margin-top:7px;
+
+  color:#71869d;
+
+  font-size:9px;
+
+  line-height:1.5;
+
+}
+
+
+/* =========================================================
+   WORKSPACE
+========================================================= */
+
+.workspace{
+
+  display:none;
+
+  width:
+    min(
+      900px,
+      calc(100% - 30px)
+    );
+
+  margin:
+    0 auto 45px;
+
+  padding:24px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.25);
+
+  border-radius:20px;
+
+  background:
+    rgba(4,15,29,.9);
+
+  box-shadow:
+    0 0 45px
+    rgba(0,160,255,.08);
+
+}
+
+
+.workspace-header{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:15px;
+
+}
+
+
+.workspace-label{
+
+  color:#00dcff;
+
+  font-size:9px;
+
+  letter-spacing:3px;
+
+  margin-bottom:8px;
+
+}
+
+
+.workspace h3{
+
+  font-size:22px;
+
+  letter-spacing:1px;
+
+}
+
+
+.close-workspace{
+
+  width:34px;
+
+  height:34px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.3);
+
+  border-radius:9px;
+
+  background:
+    rgba(0,220,255,.04);
+
+  color:#00dcff;
+
+  font-size:22px;
+
+  cursor:pointer;
+
+}
+
+
+#workspaceDescription{
+
+  margin-top:14px;
+
+  color:#8da3b7;
+
+  font-size:13px;
+
+  line-height:1.7;
+
+}
+
+
+.workspace-content{
+
+  margin-top:20px;
+
+}
+
+
+.module-item{
+
+  margin-top:10px;
+
+  padding:15px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.10);
+
+  border-radius:12px;
+
+  background:
+    rgba(255,255,255,.025);
+
+}
+
+
+.module-item strong{
+
+  display:block;
+
+  font-size:11px;
+
+  letter-spacing:1px;
+
+}
+
+
+.module-item small{
+
+  display:block;
+
+  margin-top:6px;
+
+  color:#72879b;
+
+  font-size:10px;
+
+  line-height:1.6;
+
+}
+
+
+.module-action{
+
+  margin-top:10px;
+
+  padding:
+    8px
+    12px;
+
+  border:
+    1px solid
+    #00dcff;
+
+  border-radius:7px;
+
+  background:transparent;
+
+  color:#00dcff;
+
+  font-size:9px;
+
+  cursor:pointer;
+
+}
+
+
+/* =========================================================
+   METRICS
+========================================================= */
+
+.metrics-grid{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:12px;
+
+}
+
+
+.metric{
+
+  padding:22px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.12);
+
+  border-radius:14px;
+
+  background:
+    rgba(6,20,36,.72);
+
+}
+
+
+.metric small{
+
+  display:block;
+
+  color:#71869d;
+
+  font-size:9px;
+
+  letter-spacing:1px;
+
+}
+
+
+.metric strong{
+
+  display:block;
+
+  margin-top:10px;
+
+  color:#00dcff;
+
+  font-size:27px;
+
+}
+
+
+.metric .online-text{
+
+  color:#00ff9d;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:
+    45px
+    20px
+    55px;
+
+  border-top:
+    1px solid
+    rgba(0,220,255,.10);
+
+  color:#526b80;
+
+  text-align:center;
+
+}
+
+
+footer strong{
+
+  color:#00dcff;
+
+  font-size:10px;
+
+  letter-spacing:3px;
+
+}
+
+
+footer span{
+
+  font-size:8px;
+
+  letter-spacing:2px;
+
+}
+
+
+footer small{
+
+  margin-top:5px;
+
+  font-size:8px;
+
+  letter-spacing:2px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+  .control-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+
+  .metrics-grid{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+}
+
+
+@media(max-width:420px){
+
+  .control-grid{
+
+    gap:9px;
+
+  }
+
+
+  .control-card{
+
+    min-height:120px;
+
+    padding:14px;
+
+  }
+
+
+  .control-icon{
+
+    font-size:23px;
+
+  }
+
+
+  .workspace{
+
+    padding:18px;
+
+  }
+
+}
+
+</style>
+
+
+<!-- =========================================================
+     MODULE ENGINE
+========================================================= -->
+
+<script>
+
+const modules = {
+
+  dashboard:{
+
+    title:
+      "RESEARCH DASHBOARD",
+
+    description:
+      "Vue générale de l'activité scientifique du laboratoire.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          SYSTEM STATUS
+        </strong>
+
+        <small>
+          Le réseau de recherche RDMM-01
+          fonctionne normalement.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          ACTIVE RESEARCH
+        </strong>
+
+        <small>
+          04 projets scientifiques
+          actuellement enregistrés.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          DATA STREAM
+        </strong>
+
+        <small>
+          Flux de données scientifiques
+          actif.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  projects:{
+
+    title:
+      "RESEARCH PROJECTS",
+
+    description:
+      "Projets scientifiques du Digital Lab.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          ORBIT-001
+        </strong>
+
+        <small>
+          Recherche sur les systèmes
+          orbitaux et les satellites.
+        </small>
+
+        <button
+          class="module-action"
+          onclick="moduleMessage('ORBIT-001')"
+        >
+          EXPLORER
+        </button>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          TERRA-002
+        </strong>
+
+        <small>
+          Étude de la Terre,
+          de l'environnement et
+          des systèmes naturels.
+        </small>
+
+        <button
+          class="module-action"
+          onclick="moduleMessage('TERRA-002')"
+        >
+          EXPLORER
+        </button>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          NOVA-003
+        </strong>
+
+        <small>
+          Recherche sur les
+          technologies futures.
+        </small>
+
+        <button
+          class="module-action"
+          onclick="moduleMessage('NOVA-003')"
+        >
+          EXPLORER
+        </button>
+
+      </div>
+
+    `
+
+  },
+
+
+  simulations:{
+
+    title:
+      "SIMULATION CENTER",
+
+    description:
+      "Centre numérique destiné aux simulations scientifiques.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          PLANETARY SYSTEM
+        </strong>
+
+        <small>
+          Simulation Terre,
+          Soleil et satellite
+          qui sera intégrée
+          dans le laboratoire.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          FUTURE SIMULATIONS
+        </strong>
+
+        <small>
+          De nouveaux environnements
+          interactifs pourront être
+          ajoutés ici.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  experiments:{
+
+    title:
+      "SCIENTIFIC EXPERIMENTS",
+
+    description:
+      "Environnement de recherche expérimentale.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          EXP-001 // ORBITAL DYNAMICS
+        </strong>
+
+        <small>
+          Étude des mouvements orbitaux
+          et des trajectoires.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          EXP-002 // EARTH SYSTEM
+        </strong>
+
+        <small>
+          Observation des systèmes
+          terrestres.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          EXP-003 // AI ANALYSIS
+        </strong>
+
+        <small>
+          Analyse de données
+          scientifiques avec intelligence
+          artificielle.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  data:{
+
+    title:
+      "RESEARCH DATA CENTER",
+
+    description:
+      "Centre de données scientifiques du laboratoire.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          🌍 EARTH DATA
+        </strong>
+
+        <small>
+          Données relatives à la Terre,
+          au climat et à l'environnement.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          🌌 SPACE DATA
+        </strong>
+
+        <small>
+          Données spatiales,
+          orbitales et astronomiques.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          🧠 AI DATA
+        </strong>
+
+        <small>
+          Données destinées à la
+          recherche en intelligence
+          artificielle.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  results:{
+
+    title:
+      "RESEARCH RESULTS",
+
+    description:
+      "Visualisation des résultats scientifiques.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          ANALYSIS STATUS
+        </strong>
+
+        <small>
+          Les systèmes d'analyse
+          sont opérationnels.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          DATA QUALITY
+        </strong>
+
+        <small>
+          Niveau de démonstration :
+          98.4%.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  documentation:{
+
+    title:
+      "RESEARCH DOCUMENTATION",
+
+    description:
+      "Bibliothèque scientifique du Digital Lab.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          PROTOCOLS
+        </strong>
+
+        <small>
+          Protocoles expérimentaux
+          et méthodologies.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          REPORTS
+        </strong>
+
+        <small>
+          Rapports scientifiques
+          et analyses.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          TECHNICAL RESOURCES
+        </strong>
+
+        <small>
+          Documentation technique
+          du laboratoire.
+        </small>
+
+      </div>
+
+    `
+
+  },
+
+
+  settings:{
+
+    title:
+      "LAB SETTINGS",
+
+    description:
+      "Paramètres de l'environnement numérique.",
+
+    content:`
+
+      <div class="module-item">
+
+        <strong>
+          VISUALIZATION ENGINE
+        </strong>
+
+        <small>
+          Moteur de visualisation
+          scientifique prêt.
+        </small>
+
+      </div>
+
+
+      <div class="module-item">
+
+        <strong>
+          ANIMATION
+        </strong>
+
+        <small>
+          Terre, satellite et Soleil
+          seront animés dans
+          la visualisation.
+        </small>
+
+      </div>
+
+    `
+
+  }
+
+};
+
+
+/* =========================================================
+   OPEN MODULE
+========================================================= */
+
+function openModule(name){
+
+  const module =
+    modules[name];
+
+  if(!module){
+
+    return;
+
+  }
+
+
+  const workspace =
+    document.getElementById(
+      "workspace"
+    );
+
+
+  const title =
+    document.getElementById(
+      "workspaceTitle"
+    );
+
+
+  const description =
+    document.getElementById(
+      "workspaceDescription"
+    );
+
+
+  const content =
+    document.getElementById(
+      "workspaceContent"
+    );
+
+
+  title.textContent =
+    module.title;
+
+
+  description.textContent =
+    module.description;
+
+
+  content.innerHTML =
+    module.content;
+
+
+  workspace.style.display =
+    "block";
+
+
+  workspace.scrollIntoView({
+
+    behavior:"smooth",
+
+    block:"start"
+
+  });
+
+}
+
+
+/* =========================================================
+   CLOSE WORKSPACE
+========================================================= */
+
+function closeWorkspace(){
+
+  const workspace =
+    document.getElementById(
+      "workspace"
+    );
+
+
+  workspace.style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   MODULE MESSAGE
+========================================================= */
+
+function moduleMessage(name){
+
+  alert(
+    name +
+    " — module scientifique DeepRDMMakademy."
+  );
+
+}
+
+      </script>
 </main>
 
 
