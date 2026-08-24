@@ -691,28 +691,919 @@ main{
 >
 
 
-  <div class="visualization-label">
+  <!-- =========================================================
+     DEEPRDMM DIGITAL LAB
+     CODE 3 — VISUALISATION 3D ULTRA
+     SYSTÈME SOLAIRE / JOUR & NUIT / TERRE 3D
+========================================================= -->
 
-    RDMM // SCIENTIFIC VISUALIZATION
+<div id="deep3dLab">
 
-  </div>
+    <div id="lab3dTop">
+        <span>RDMM // SCIENTIFIC VISUALIZATION</span>
+        <span id="lab3dStatus">● SYSTEM ONLINE</span>
+    </div>
+
+    <div id="lab3dInfo">
+        <strong>EARTH SYSTEM</strong>
+        <span id="lab3dDate">Synchronisation...</span>
+    </div>
+
+    <div id="lab3dCanvas"></div>
+
+    <div id="lab3dControls">
+        <button id="viewEarth">🌍 TERRE</button>
+        <button id="viewSystem">☀️ SYSTÈME</button>
+        <button id="pause3D">⏸ PAUSE</button>
+        <button id="reset3D">↻ RESET</button>
+    </div>
+
+    <div id="lab3dBottom">
+        <span>DAY / NIGHT SIMULATION</span>
+        <span>REAL-TIME SYSTEM</span>
+    </div>
+
+</div>
 
 
-  <div class="visualization-status">
+<style>
 
-    ● SYSTEM READY
+/* =========================================================
+   CONTENEUR 3D
+========================================================= */
 
-  </div>
+#deep3dLab{
+    position:relative;
+    width:100%;
+    height:620px;
+    min-height:520px;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(0,120,255,.08), transparent 45%),
+        #01050c;
+    border:1px solid rgba(0,210,255,.35);
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:
+        0 0 40px rgba(0,150,255,.08),
+        inset 0 0 60px rgba(0,80,150,.08);
+}
+
+/* =========================================================
+   BARRE SUPÉRIEURE
+========================================================= */
+
+#lab3dTop{
+    position:absolute;
+    z-index:20;
+    top:0;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 18px;
+    box-sizing:border-box;
+    background:linear-gradient(
+        to bottom,
+        rgba(1,5,12,.95),
+        rgba(1,5,12,.35),
+        transparent
+    );
+    color:#00d9ff;
+    font-size:11px;
+    letter-spacing:3px;
+    pointer-events:none;
+}
+
+#lab3dStatus{
+    color:#00ffb7;
+    letter-spacing:2px;
+}
+
+/* =========================================================
+   INFORMATIONS
+========================================================= */
+
+#lab3dInfo{
+    position:absolute;
+    z-index:20;
+    top:65px;
+    left:18px;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    color:#ffffff;
+    pointer-events:none;
+}
+
+#lab3dInfo strong{
+    color:#00d9ff;
+    font-size:12px;
+    letter-spacing:3px;
+}
+
+#lab3dDate{
+    color:#91a6bb;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+/* =========================================================
+   ZONE THREE.JS
+========================================================= */
+
+#lab3dCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+
+#lab3dCanvas canvas{
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+/* =========================================================
+   CONTRÔLES
+========================================================= */
+
+#lab3dControls{
+    position:absolute;
+    z-index:30;
+    left:50%;
+    bottom:48px;
+    transform:translateX(-50%);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px;
+    width:calc(100% - 30px);
+}
+
+#lab3dControls button{
+    appearance:none;
+    border:1px solid rgba(0,210,255,.45);
+    background:rgba(0,10,20,.72);
+    color:#00d9ff;
+    padding:9px 13px;
+    border-radius:9px;
+    font-size:10px;
+    letter-spacing:1px;
+    cursor:pointer;
+    backdrop-filter:blur(8px);
+}
+
+#lab3dControls button:hover{
+    background:rgba(0,120,180,.25);
+    border-color:#00d9ff;
+}
+
+/* =========================================================
+   BAS DE L'ÉCRAN
+========================================================= */
+
+#lab3dBottom{
+    position:absolute;
+    z-index:20;
+    left:0;
+    right:0;
+    bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    padding:0 18px;
+    box-sizing:border-box;
+    color:#4e7188;
+    font-size:9px;
+    letter-spacing:2px;
+    pointer-events:none;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:600px){
+
+    #deep3dLab{
+        height:560px;
+        min-height:500px;
+        border-radius:18px;
+    }
+
+    #lab3dTop{
+        padding:13px;
+        font-size:8px;
+        letter-spacing:2px;
+    }
+
+    #lab3dInfo{
+        top:55px;
+        left:13px;
+    }
+
+    #lab3dControls{
+        bottom:42px;
+        gap:6px;
+    }
+
+    #lab3dControls button{
+        padding:8px 9px;
+        font-size:8px;
+    }
+
+    #lab3dBottom{
+        padding:0 12px;
+        font-size:7px;
+    }
+}
+
+</style>
 
 
-  <!-- =======================================================
-       VISUALISATION 3D
-       
-       LAISSÉE VIDE VOLONTAIREMENT.
+<script>
 
-       TON CODE DE VISUALISATION SERA INTÉGRÉ ICI AU CODE 3.
-  ======================================================== -->
+/* =========================================================
+   DEEPRDMM DIGITAL LAB
+   THREE.JS — CODE 3
+========================================================= */
 
+(function(){
+
+    const container = document.getElementById("lab3dCanvas");
+
+    if(!container){
+        console.error("DeepRDMM: zone 3D introuvable.");
+        return;
+    }
+
+    /* -----------------------------------------------------
+       CHARGEMENT THREE.JS
+    ----------------------------------------------------- */
+
+    function loadScript(src){
+
+        return new Promise(function(resolve,reject){
+
+            const script = document.createElement("script");
+
+            script.src = src;
+
+            script.onload = resolve;
+
+            script.onerror = reject;
+
+            document.head.appendChild(script);
+
+        });
+
+    }
+
+    async function start3D(){
+
+        try{
+
+            if(typeof THREE === "undefined"){
+
+                await loadScript(
+                    "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+                );
+
+            }
+
+            if(typeof THREE.OrbitControls === "undefined"){
+
+                await loadScript(
+                    "https://threejs.org/examples/js/controls/OrbitControls.js"
+                );
+
+            }
+
+            createWorld();
+
+        }catch(error){
+
+            console.error(
+                "DeepRDMM Digital Lab — erreur Three.js:",
+                error
+            );
+
+            document.getElementById("lab3dStatus").textContent =
+                "● 3D MODULE ERROR";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MONDE 3D
+    ===================================================== */
+
+    function createWorld(){
+
+        const scene =
+            new THREE.Scene();
+
+        scene.background =
+            new THREE.Color(0x01050c);
+
+
+        /* -------------------------------------------------
+           CAMÉRA
+        ------------------------------------------------- */
+
+        const camera =
+            new THREE.PerspectiveCamera(
+                55,
+                container.clientWidth /
+                container.clientHeight,
+                0.1,
+                5000
+            );
+
+        camera.position.set(
+            0,
+            75,
+            180
+        );
+
+
+        /* -------------------------------------------------
+           RENDERER
+        ------------------------------------------------- */
+
+        const renderer =
+            new THREE.WebGLRenderer({
+                antialias:true,
+                alpha:false
+            });
+
+        renderer.setPixelRatio(
+            Math.min(window.devicePixelRatio,2)
+        );
+
+        renderer.setSize(
+            container.clientWidth,
+            container.clientHeight
+        );
+
+        renderer.outputEncoding =
+            THREE.sRGBEncoding;
+
+        container.appendChild(
+            renderer.domElement
+        );
+
+
+        /* -------------------------------------------------
+           CONTRÔLES
+        ------------------------------------------------- */
+
+        const controls =
+            new THREE.OrbitControls(
+                camera,
+                renderer.domElement
+            );
+
+        controls.enableDamping = true;
+
+        controls.dampingFactor = 0.045;
+
+        controls.minDistance = 35;
+
+        controls.maxDistance = 420;
+
+        controls.enablePan = false;
+
+
+        /* =================================================
+           ÉTOILES
+        ================================================= */
+
+        const starGeometry =
+            new THREE.BufferGeometry();
+
+        const starCount = 7000;
+
+        const starPositions =
+            new Float32Array(
+                starCount * 3
+            );
+
+        for(
+            let i = 0;
+            i < starCount * 3;
+            i += 3
+        ){
+
+            starPositions[i] =
+                (Math.random() - .5) * 2600;
+
+            starPositions[i+1] =
+                (Math.random() - .5) * 2600;
+
+            starPositions[i+2] =
+                (Math.random() - .5) * 2600;
+
+        }
+
+        starGeometry.setAttribute(
+            "position",
+            new THREE.BufferAttribute(
+                starPositions,
+                3
+            )
+        );
+
+        const stars =
+            new THREE.Points(
+                starGeometry,
+                new THREE.PointsMaterial({
+                    color:0xffffff,
+                    size:1.15,
+                    sizeAttenuation:true
+                })
+            );
+
+        scene.add(stars);
+
+
+        /* =================================================
+           SOLEIL
+        ================================================= */
+
+        const sun =
+            new THREE.Mesh(
+                new THREE.SphereGeometry(
+                    20,
+                    48,
+                    48
+                ),
+                new THREE.MeshBasicMaterial({
+                    color:0xffffff
+                })
+            );
+
+        scene.add(sun);
+
+
+        /* LUMIÈRE SOLAIRE */
+
+        const sunLight =
+            new THREE.PointLight(
+                0xffffff,
+                3.5,
+                1800
+            );
+
+        scene.add(sunLight);
+
+
+        /* =================================================
+           SYSTÈME TERRE
+        ================================================= */
+
+        const earthOrbit =
+            new THREE.Group();
+
+        scene.add(
+            earthOrbit
+        );
+
+
+        /* -------------------------------------------------
+           TERRE
+        ------------------------------------------------- */
+
+        const earthGroup =
+            new THREE.Group();
+
+        earthOrbit.add(
+            earthGroup
+        );
+
+
+        const textureLoader =
+            new THREE.TextureLoader();
+
+
+        const earthTexture =
+            textureLoader.load(
+                "https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg"
+            );
+
+
+        const earthBump =
+            textureLoader.load(
+                "https://threejs.org/examples/textures/planets/earth_normal_2048.jpg"
+            );
+
+
+        const earth =
+            new THREE.Mesh(
+                new THREE.SphereGeometry(
+                    15,
+                    64,
+                    64
+                ),
+                new THREE.MeshPhongMaterial({
+
+                    map:earthTexture,
+
+                    normalMap:earthBump,
+
+                    normalScale:
+                        new THREE.Vector2(
+                            .35,
+                            .35
+                        ),
+
+                    shininess:8
+
+                })
+            );
+
+        earthGroup.add(
+            earth
+        );
+
+
+        /* =================================================
+           ATMOSPHÈRE
+        ================================================= */
+
+        const atmosphere =
+            new THREE.Mesh(
+
+                new THREE.SphereGeometry(
+                    15.7,
+                    64,
+                    64
+                ),
+
+                new THREE.MeshBasicMaterial({
+
+                    color:0x008cff,
+
+                    transparent:true,
+
+                    opacity:.11,
+
+                    side:THREE.BackSide
+
+                })
+
+            );
+
+        earthGroup.add(
+            atmosphere
+        );
+
+
+        /* =================================================
+           ORBITE TERRE
+        ================================================= */
+
+        const orbitCurve =
+            new THREE.RingGeometry(
+                119,
+                120,
+                128
+            );
+
+        const orbitMaterial =
+            new THREE.MeshBasicMaterial({
+
+                color:0x00bfff,
+
+                transparent:true,
+
+                opacity:.14,
+
+                side:THREE.DoubleSide
+
+            });
+
+        const orbit =
+            new THREE.Mesh(
+                orbitCurve,
+                orbitMaterial
+            );
+
+        orbit.rotation.x =
+            Math.PI / 2;
+
+        scene.add(
+            orbit
+        );
+
+
+        /* =================================================
+           LUNE
+        ================================================= */
+
+        const moonOrbit =
+            new THREE.Group();
+
+        earthGroup.add(
+            moonOrbit
+        );
+
+
+        const moon =
+            new THREE.Mesh(
+
+                new THREE.SphereGeometry(
+                    4,
+                    32,
+                    32
+                ),
+
+                new THREE.MeshPhongMaterial({
+                    color:0xaaaaaa
+                })
+
+            );
+
+        moon.position.x =
+            30;
+
+        moonOrbit.add(
+            moon
+        );
+
+
+        /* =================================================
+           VARIABLES TEMPORELLES
+        ================================================= */
+
+        let running = true;
+
+        let simulationTime = 0;
+
+
+        /* =================================================
+           ANIMATION
+        ================================================= */
+
+        function animate(){
+
+            requestAnimationFrame(
+                animate
+            );
+
+
+            if(running){
+
+                simulationTime += .003;
+
+                /* -------------------------------
+                   ROTATION TERRE
+                ------------------------------- */
+
+                earth.rotation.y += .008;
+
+                atmosphere.rotation.y += .0085;
+
+
+                /* -------------------------------
+                   ORBITE TERRE
+                ------------------------------- */
+
+                earthOrbit.rotation.y =
+                    simulationTime;
+
+
+                /* -------------------------------
+                   LUNE
+                ------------------------------- */
+
+                moonOrbit.rotation.y += .018;
+
+
+                /* -------------------------------
+                   SOLEIL
+                ------------------------------- */
+
+                sun.rotation.y += .0015;
+
+
+                /* -------------------------------
+                   ÉTOILES
+                ------------------------------- */
+
+                stars.rotation.y += .00005;
+
+            }
+
+
+            controls.update();
+
+            renderer.render(
+                scene,
+                camera
+            );
+
+        }
+
+
+        animate();
+
+
+        /* =================================================
+           DATE / HEURE RÉELLE
+        ================================================= */
+
+        function updateDate(){
+
+            const now =
+                new Date();
+
+            const date =
+                now.toLocaleDateString(
+                    "fr-FR",
+                    {
+                        weekday:"long",
+                        day:"numeric",
+                        month:"long",
+                        year:"numeric"
+                    }
+                );
+
+            const time =
+                now.toLocaleTimeString(
+                    "fr-FR"
+                );
+
+            document.getElementById(
+                "lab3dDate"
+            ).textContent =
+                date +
+                " • " +
+                time;
+
+        }
+
+        updateDate();
+
+        setInterval(
+            updateDate,
+            1000
+        );
+
+
+        /* =================================================
+           BOUTON TERRE
+        ================================================= */
+
+        document.getElementById(
+            "viewEarth"
+        ).addEventListener(
+            "click",
+            function(){
+
+                camera.position.set(
+                    0,
+                    35,
+                    65
+                );
+
+                controls.target.set(
+                    0,
+                    0,
+                    0
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           BOUTON SYSTÈME
+        ================================================= */
+
+        document.getElementById(
+            "viewSystem"
+        ).addEventListener(
+            "click",
+            function(){
+
+                camera.position.set(
+                    0,
+                    90,
+                    210
+                );
+
+                controls.target.set(
+                    0,
+                    0,
+                    0
+                );
+
+            }
+        );
+
+
+        /* =================================================
+           PAUSE
+        ================================================= */
+
+        document.getElementById(
+            "pause3D"
+        ).addEventListener(
+            "click",
+            function(){
+
+                running =
+                    !running;
+
+                this.textContent =
+                    running
+                    ? "⏸ PAUSE"
+                    : "▶ PLAY";
+
+            }
+        );
+
+
+        /* =================================================
+           RESET
+        ================================================= */
+
+        document.getElementById(
+            "reset3D"
+        ).addEventListener(
+            "click",
+            function(){
+
+                camera.position.set(
+                    0,
+                    75,
+                    180
+                );
+
+                controls.target.set(
+                    0,
+                    0,
+                    0
+                );
+
+                simulationTime =
+                    0;
+
+                earthOrbit.rotation.y =
+                    0;
+
+                earth.rotation.y =
+                    0;
+
+            }
+        );
+
+
+        /* =================================================
+           RESPONSIVE
+        ================================================= */
+
+        window.addEventListener(
+            "resize",
+            function(){
+
+                const width =
+                    container.clientWidth;
+
+                const height =
+                    container.clientHeight;
+
+                camera.aspect =
+                    width / height;
+
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(
+                    width,
+                    height
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "lab3dStatus"
+        ).textContent =
+            "● SYSTEM ONLINE";
+
+    }
+
+
+    start3D();
+
+})();
+
+</script>
 
 </section>
 
