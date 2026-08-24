@@ -1,149 +1,725 @@
-html
-<section class="lab-hero">
-  <div class="hero-label"> DEEPRDMMAKADEMY // RESEARCH SYSTEM </div>
-  <h2> ENTER THE <span> DIGITAL LAB </span> </h2>
-  <p class="hero-description"> Un environnement numérique dédié à la recherche, l'expérimentation, la simulation et l'analyse scientifique de DeepRDMMakademy. </p>
-</section>
+<!DOCTYPE html>
+<html lang="fr">
 
-<!-- ZONE 3D -->
-<section class="visualization-area" id="visualizationArea">
-  <div class="visualization-label"> RDMM // SCIENTIFIC VISUALIZATION </div>
-  <div class="visualization-status" id="datetime"> ● SYSTEM READY </div>
-</section>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>DeepRDMMakademy - Digital Lab</title>
 
 <style>
- .visualization-area {
-    position: relative;
-    width: 100%;
-    height: 90vh;
-    background: #000;
-    overflow: hidden;
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+
+  background:#020711;
+
+  color:#e9faff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  overflow-x:hidden;
+
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+body::before{
+
+  content:"";
+
+  position:fixed;
+
+  inset:0;
+
+  background:
+
+    linear-gradient(
+      rgba(0,210,255,.025) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(0,210,255,.025) 1px,
+      transparent 1px
+    );
+
+  background-size:35px 35px;
+
+  pointer-events:none;
+
+  z-index:-1;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.lab-header{
+
+  width:100%;
+
+  padding:
+    28px
+    28px
+    22px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(2,8,20,.98),
+      rgba(2,8,20,.88)
+    );
+
+  border-bottom:
+    1px solid
+    rgba(0,220,255,.18);
+
+  box-shadow:
+    0 15px 50px
+    rgba(0,150,255,.08);
+
+}
+
+
+.header-main{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:16px;
+
+}
+
+
+.logo{
+
+  width:80px;
+
+  height:80px;
+
+  flex-shrink:0;
+
+  border:
+    2px solid
+    #00d9ff;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  color:#00eaff;
+
+  font-size:25px;
+
+  font-weight:900;
+
+  box-shadow:
+    0 0 20px
+    rgba(0,220,255,.25);
+
+}
+
+
+.header-title{
+
+  flex:1;
+
+}
+
+
+.header-title h1{
+
+  font-size:22px;
+
+  letter-spacing:3px;
+
+  white-space:nowrap;
+
+}
+
+
+.header-title p{
+
+  margin-top:8px;
+
+  font-size:11px;
+
+  letter-spacing:3px;
+
+  color:#71869f;
+
+}
+
+
+.system{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  color:#00ff9d;
+
+  font-size:11px;
+
+  letter-spacing:2px;
+
+  white-space:nowrap;
+
+}
+
+
+.system-dot{
+
+  width:7px;
+
+  height:7px;
+
+  border-radius:50%;
+
+  background:#00ff9d;
+
+  box-shadow:
+    0 0 12px
+    #00ff9d;
+
+}
+
+
+/* =========================================================
+   HOME BUTTON
+========================================================= */
+
+.home-button{
+
+  display:inline-block;
+
+  margin-top:22px;
+
+  padding:
+    13px
+    22px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.35);
+
+  border-radius:12px;
+
+  color:#00dcff;
+
+  text-decoration:none;
+
+  font-size:14px;
+
+  letter-spacing:1px;
+
+  background:
+    rgba(0,180,255,.04);
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+
+  width:100%;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+
+  padding:
+    55px
+    22px
+    35px;
+
+  text-align:center;
+
+}
+
+
+.hero-label{
+
+  color:#00dfff;
+
+  font-size:11px;
+
+  letter-spacing:4px;
+
+  margin-bottom:15px;
+
+}
+
+
+.hero h2{
+
+  font-size:
+    clamp(34px,9vw,68px);
+
+  line-height:1.05;
+
+  font-weight:900;
+
+  letter-spacing:1px;
+
+}
+
+
+.hero h2 span{
+
+  color:#00dcff;
+
+  text-shadow:
+    0 0 25px
+    rgba(0,220,255,.35);
+
+}
+
+
+.hero-description{
+
+  max-width:700px;
+
+  margin:
+    25px
+    auto
+    0;
+
+  color:#91a6bb;
+
+  font-size:17px;
+
+  line-height:1.8;
+
+}
+
+
+/* =========================================================
+   VISUALIZATION AREA
+   IMPORTANT:
+   CETTE ZONE RESTE VIDE POUR LE MOMENT.
+   LA VISUALISATION 3D SERA INTÉGRÉE ICI AU CODE 3.
+========================================================= */
+
+.visualization-area{
+
+  position:relative;
+
+  width:
+    min(
+      1100px,
+      calc(100% - 30px)
+    );
+
+  height:560px;
+
+  margin:
+    25px
+    auto
+    55px;
+
+  border:
+    1px solid
+    rgba(0,220,255,.28);
+
+  border-radius:28px;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(0,80,180,.12),
+      #010812 70%
+    );
+
+  box-shadow:
+
+    inset 0 0 80px
+    rgba(0,150,255,.06),
+
+    0 0 50px
+    rgba(0,150,255,.08);
+
+}
+
+
+/* =========================================================
+   VISUALIZATION LABEL
+========================================================= */
+
+.visualization-label{
+
+  position:absolute;
+
+  top:24px;
+
+  left:24px;
+
+  z-index:10;
+
+  color:#00dcff;
+
+  font-size:10px;
+
+  letter-spacing:4px;
+
+}
+
+
+.visualization-status{
+
+  position:absolute;
+
+  top:24px;
+
+  right:24px;
+
+  z-index:10;
+
+  color:#00ff9d;
+
+  font-size:10px;
+
+  letter-spacing:2px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:700px){
+
+  .lab-header{
+
+    padding:
+      25px
+      20px
+      20px;
+
   }
- .visualization-status {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    color: #00aaff;
-    background: rgba(0,0,0,0.7);
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-family: 'Arial', monospace;
-    font-size: 13px;
-    z-index: 10;
-    border: 1px solid rgba(0,170,255,0.3);
+
+
+  .logo{
+
+    width:62px;
+
+    height:62px;
+
+    font-size:20px;
+
   }
+
+
+  .header-title h1{
+
+    font-size:17px;
+
+    letter-spacing:2px;
+
+  }
+
+
+  .header-title p{
+
+    font-size:9px;
+
+    letter-spacing:2px;
+
+  }
+
+
+  .system{
+
+    font-size:8px;
+
+  }
+
+
+  .hero{
+
+    padding:
+      45px
+      18px
+      25px;
+
+  }
+
+
+  .hero-description{
+
+    font-size:15px;
+
+  }
+
+
+  .visualization-area{
+
+    width:
+      calc(100% - 30px);
+
+    height:500px;
+
+    border-radius:24px;
+
+  }
+
+
+  .visualization-label{
+
+    top:20px;
+
+    left:18px;
+
+    font-size:9px;
+
+    letter-spacing:3px;
+
+  }
+
+
+  .visualization-status{
+
+    top:20px;
+
+    right:18px;
+
+    font-size:8px;
+
+  }
+
+}
+
+
+@media(max-width:420px){
+
+  .header-main{
+
+    gap:10px;
+
+  }
+
+
+  .logo{
+
+    width:56px;
+
+    height:56px;
+
+    font-size:18px;
+
+  }
+
+
+  .header-title h1{
+
+    font-size:14px;
+
+  }
+
+
+  .header-title p{
+
+    font-size:8px;
+
+  }
+
+
+  .system{
+
+    display:none;
+
+  }
+
+
+  .visualization-area{
+
+    height:470px;
+
+  }
+
+}
+
 </style>
 
-<!-- DEEPRDMM DIGITAL LAB 3D SCIENTIFIC VISUALIZATION -->
-<script type="module">
-import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+</head>
 
-// 1. SCENE DANS TA DIV
-const container = document.getElementById('visualizationArea');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 5000);
-camera.position.set(0, 100, 200);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement); // <- important: on met le canvas DANS ta section
+<body>
 
-// 2. CONTROLES
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.minDistance = 80;
-controls.maxDistance = 400;
 
-// 3. ETOILES
-const starGeometry = new THREE.BufferGeometry();
-const starCount = 15000;
-const starPositions = new Float32Array(starCount * 3);
-for(let i = 0; i < starCount * 3; i += 3) {
-  starPositions[i] = (Math.random() - 0.5) * 4000;
-  starPositions[i+1] = (Math.random() - 0.5) * 4000;
-  starPositions[i+2] = (Math.random() - 0.5) * 4000;
-}
-starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-scene.add(new THREE.Points(starGeometry, new THREE.PointsMaterial({color: 0xffffff, size: 1.2})));
+<!-- =========================================================
+     HEADER
+========================================================= -->
 
-// 4. SOLEIL BLANC
-const sunGroup = new THREE.Group();
-scene.add(sunGroup);
-const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(18, 64, 64),
-  new THREE.MeshBasicMaterial({ color: 0xffffff }) // BLANC
-);
-sunGroup.add(sun);
-const sunLight = new THREE.PointLight(0xffffff, 4, 2000);
-sunGroup.add(sunLight);
+<header class="lab-header">
 
-// 5. TERRE
-const earthGroup = new THREE.Group();
-scene.add(earthGroup);
-const textureLoader = new THREE.TextureLoader();
-const earth = new THREE.Mesh(
-  new THREE.SphereGeometry(12, 64, 64),
-  new THREE.MeshPhongMaterial({
-    map: textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg')
-  })
-);
-earthGroup.add(earth);
-const clouds = new THREE.Mesh(
-  new THREE.SphereGeometry(12.15, 64, 64),
-  new THREE.MeshPhongMaterial({
-    map: textureLoader.load('https://threejs.org/examples/textures/planets/earth_clouds_1024.png'),
-    transparent: true, opacity: 0.35
-  })
-);
-earthGroup.add(clouds);
+  <div class="header-main">
 
-// 6. SATELLITE
-const satellite = new THREE.Mesh(
-  new THREE.SphereGeometry(1.2, 16, 16),
-  new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.9 })
-);
-scene.add(satellite);
+    <div class="logo">
+      DR
+    </div>
 
-// 7. ANIMATION
-let time = 0;
-function animate() {
-  requestAnimationFrame(animate);
-  time += 0.01;
-  const daySpeed = 0.02;
-  const yearSpeed = 0.0015;
 
-  earth.rotation.y += daySpeed;
-  clouds.rotation.y += daySpeed * 1.08;
+    <div class="header-title">
 
-  earthGroup.position.x = Math.cos(time * yearSpeed) * 120;
-  earthGroup.position.z = Math.sin(time * yearSpeed) * 120;
+      <h1>
+        DEEP RDMM DIGITAL LAB
+      </h1>
 
-  sun.rotation.y += daySpeed * 0.4;
-  sunGroup.position.x = -earthGroup.position.x * 0.25;
-  sunGroup.position.z = -earthGroup.position.z * 0.25;
+      <p>
+        DIGITAL RESEARCH LAB // 01
+      </p>
 
-  const satAngle = time * daySpeed * 6;
-  satellite.position.x = earthGroup.position.x + Math.cos(satAngle) * 16;
-  satellite.position.y = earthGroup.position.y + Math.sin(satAngle * 0.6) * 3;
-  satellite.position.z = earthGroup.position.z + Math.sin(satAngle) * 16;
+    </div>
 
-  // DATE HEURE
-  const now = new Date();
-  document.getElementById('datetime').innerText =
-    '● ' + now.toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }) +
-    ' + now.toLocaleTimeString('fr-FR');
 
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
+    <div class="system">
 
-// 8. RESPONSIVE DANS TA DIV
-window.addEventListener('resize', () => {
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-});
-</script>
+      <span class="system-dot"></span>
+
+      SYSTEM ONLINE
+
+    </div>
+
+  </div>
+
+
+  <a
+    href="index.html"
+    class="home-button"
+  >
+    ← ACCUEIL
+  </a>
+
+</header>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+  <div class="hero-label">
+    DEEPRDMMAKADEMY // RESEARCH SYSTEM
+  </div>
+
+
+  <h2>
+
+    ENTER THE
+
+    <span>
+      DIGITAL LAB
+    </span>
+
+  </h2>
+
+
+  <p class="hero-description">
+
+    Un environnement numérique dédié à la
+    recherche, l'expérimentation, la simulation
+    et l'analyse scientifique de DeepRDMMakademy.
+
+  </p>
+
+</section>
+
+
+<!-- =========================================================
+     VISUALIZATION
+========================================================= -->
+
+<section
+  class="visualization-area"
+  id="visualizationArea"
+>
+
+
+  <div class="visualization-label">
+
+    RDMM // SCIENTIFIC VISUALIZATION
+
+  </div>
+
+
+  <div class="visualization-status">
+
+    ● SYSTEM READY
+
+  </div>
+
+
+  <!-- =======================================================
+       VISUALISATION 3D
+       
+       LAISSÉE VIDE VOLONTAIREMENT.
+
+       TON CODE DE VISUALISATION SERA INTÉGRÉ ICI AU CODE 3.
+  ======================================================== -->
+
+
+</section>
+
+
+</main>
+
+
+</body>
+
+  </html>
