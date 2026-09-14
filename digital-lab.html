@@ -1,124 +1,926 @@
-Create the foundational architecture of the DEEP RDMM DIGITAL LAB.
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080d">
+<meta name="description" content="DeepRDMMakademy — Laboratory Control Center">
+<title>Laboratory | DeepRDMMakademy</title>
 
-Do NOT redesign or remove existing content unnecessarily. Build this as a professional scientific digital laboratory.
+<style>
+:root{
+  --bg:#05080d;
+  --panel:#09111a;
+  --panel2:#0d1722;
+  --line:rgba(40,180,255,.22);
+  --cyan:#35c9ff;
+  --cyan2:#75e2ff;
+  --gold:#d7b56d;
+  --white:#edf7ff;
+  --muted:#7890a3;
+  --green:#42e6a4;
+  --danger:#ff667d;
+}
 
-BRAND:
-DEEP RDMM DIGITAL LAB
-DIGITAL RESEARCH LAB // 01
-"L’art de la science et de la technologie."
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-MAIN OBJECTIVE:
-The website must feel like a real futuristic scientific research institution, not a normal business website.
+html{
+  scroll-behavior:smooth;
+}
 
-Create these MAIN PAGES as separate routes:
+body{
+  background:
+    radial-gradient(circle at 15% 10%,rgba(20,130,200,.13),transparent 28%),
+    radial-gradient(circle at 85% 35%,rgba(30,70,150,.12),transparent 30%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100vh;
+}
 
-/research
-/experiments
-/simulations
-/education
-/discovery
-/community
-/control-center
+a{
+  color:inherit;
+  text-decoration:none;
+}
 
-IMPORTANT:
-Every main navigation item must open its corresponding page.
-Do NOT make these buttons only scroll to sections on the homepage.
+.container{
+  width:min(1180px,92%);
+  margin:auto;
+}
 
-GLOBAL NAVIGATION:
-Create a persistent professional navigation system containing:
+/* HEADER */
 
-DEEP RDMM
-RESEARCH
-EXPERIMENTS
-SIMULATIONS
-EDUCATION
-DISCOVERY
-COMMUNITY
-CONTROL CENTER
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  backdrop-filter:blur(16px);
+  background:rgba(5,8,13,.88);
+  border-bottom:1px solid var(--line);
+}
 
-Add a HOME button on internal pages.
+.nav{
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
 
-Add breadcrumbs on internal pages, for example:
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
 
-DIGITAL LAB / RESEARCH
-DIGITAL LAB / SIMULATIONS
-DIGITAL LAB / EDUCATION
+.logo{
+  width:39px;
+  height:39px;
+  border:1px solid var(--cyan);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
+  font-family:monospace;
+  font-weight:bold;
+  box-shadow:0 0 18px rgba(53,201,255,.2);
+}
 
-HOME PAGE:
+.brand-text strong{
+  display:block;
+  font-size:13px;
+  letter-spacing:1.4px;
+}
 
-Create a futuristic laboratory entrance.
+.brand-text span{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:2px;
+  margin-top:3px;
+}
 
-Header:
-DEEP RDMM DIGITAL LAB
-DIGITAL RESEARCH LAB // 01
-SYSTEM ONLINE
+.home-btn{
+  border:1px solid var(--line);
+  padding:9px 12px;
+  color:var(--cyan2);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  transition:.25s;
+}
 
-Hero title:
-EXPLORE THE DIGITAL LAB
+.home-btn:hover{
+  border-color:var(--cyan);
+  background:rgba(53,201,255,.08);
+}
 
-Hero description:
-"Un environnement numérique dédié à la recherche, l’expérimentation, la simulation, la découverte et l’éducation scientifique."
+/* HERO */
 
-Create a central visual called:
+.hero{
+  padding:55px 0 35px;
+}
 
-SCIENCE CORE
+.eyebrow{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  margin-bottom:17px;
+}
 
-The Science Core should visually represent the central intelligence/core of the laboratory.
+.hero h1{
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:400;
+  font-size:clamp(38px,10vw,78px);
+  line-height:.95;
+  letter-spacing:-2px;
+}
 
-Around it, create navigation cards for:
+.hero h1 span{
+  color:var(--cyan);
+}
 
-RESEARCH
-EXPERIMENTS
-SIMULATION CENTER
-EDUCATION
-DISCOVERY
-COMMUNITY
+.hero p{
+  max-width:700px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:22px;
+  font-size:14px;
+}
 
-Each card must open its corresponding dedicated page.
+.status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:24px;
+  color:#a9bfcd;
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1.5px;
+}
 
-Create a CONTROL CENTER access button that opens:
+.status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
 
-/control-center
+/* METRICS */
 
-DESIGN:
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  border:1px solid var(--line);
+  margin:25px 0 45px;
+}
 
-Use a dark professional scientific environment.
+.metric{
+  padding:20px 15px;
+  background:rgba(9,17,26,.75);
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
 
-Use:
+.metric:nth-child(even){
+  border-right:0;
+}
 
-- laboratory interface panels
-- technical typography
-- subtle grid systems
-- glass panels
-- scientific data interfaces
-- restrained futuristic lighting
-- precise spacing
-- subtle animations
-- professional scientific diagrams
+.metric:nth-last-child(-n+2){
+  border-bottom:0;
+}
 
-Avoid excessive neon.
-Avoid gaming aesthetics.
-Avoid generic startup design.
+.metric strong{
+  display:block;
+  font-family:Georgia,serif;
+  font-size:28px;
+  color:var(--white);
+}
 
-RESPONSIVE:
+.metric span{
+  display:block;
+  color:var(--muted);
+  font-family:monospace;
+  font-size:8px;
+  letter-spacing:1.5px;
+  margin-top:6px;
+}
 
-The entire architecture must work on desktop and Android mobile.
+/* SECTION */
 
-On mobile, create a professional menu/drawer containing all main laboratory departments.
+.section{
+  margin-bottom:58px;
+}
 
-NAVIGATION RULE:
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:15px;
+  margin-bottom:18px;
+}
 
-No important button should be decorative.
+.section-label{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
 
-Every important card or button must either:
+.section h2{
+  font-family:Georgia,serif;
+  font-weight:400;
+  font-size:28px;
+}
 
-1. open a dedicated page,
-2. perform a real interface action,
-3. or intentionally navigate to a clearly defined section.
+.section-note{
+  color:var(--muted);
+  font-size:10px;
+  font-family:monospace;
+}
 
-Prepare the architecture so additional pages can be added later without redesigning the entire system.
+/* LAB GRID */
 
-Do not build all detailed experiments and simulations yet.
+.lab-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
 
-FIRST PRIORITY:
-Build the complete navigation architecture and the seven main department pages with a consistent DEEP RDMM DIGITAL LAB identity.
+.lab-card{
+  position:relative;
+  min-height:175px;
+  padding:22px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(145deg,rgba(13,23,34,.95),rgba(6,11,17,.95));
+  overflow:hidden;
+  transition:.3s;
+}
+
+.lab-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:55px;
+  height:1px;
+  background:var(--cyan);
+  box-shadow:0 0 15px var(--cyan);
+}
+
+.lab-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(53,201,255,.55);
+}
+
+.lab-number{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:9px;
+  letter-spacing:2px;
+}
+
+.lab-icon{
+  margin-top:18px;
+  font-size:27px;
+}
+
+.lab-card h3{
+  margin-top:12px;
+  font-family:Georgia,serif;
+  font-size:23px;
+  font-weight:400;
+}
+
+.lab-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  margin-top:8px;
+  max-width:390px;
+}
+
+.open{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+/* CONTROL */
+
+.control-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.control{
+  min-height:120px;
+  padding:18px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  transition:.25s;
+}
+
+.control:hover{
+  border-color:var(--cyan);
+}
+
+.control-icon{
+  font-size:20px;
+}
+
+.control strong{
+  display:block;
+  margin-top:12px;
+  font-size:12px;
+  letter-spacing:.5px;
+}
+
+.control span{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+  font-family:monospace;
+  font-size:8px;
+}
+
+/* LIVE */
+
+.live{
+  border:1px solid var(--line);
+  background:rgba(9,17,26,.8);
+}
+
+.live-row{
+  display:grid;
+  grid-template-columns:70px 1fr auto;
+  gap:12px;
+  align-items:center;
+  padding:15px;
+  border-bottom:1px solid rgba(40,180,255,.1);
+}
+
+.live-row:last-child{
+  border-bottom:0;
+}
+
+.live-time{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:8px;
+}
+
+.live-text{
+  font-size:11px;
+  color:#b7cbd7;
+}
+
+.live-state{
+  color:var(--green);
+  font-family:monospace;
+  font-size:8px;
+}
+
+/* RESEARCH */
+
+.research-panel{
+  border:1px solid var(--line);
+  padding:20px;
+  background:
+    linear-gradient(135deg,rgba(13,23,34,.95),rgba(5,8,13,.95));
+}
+
+.research-panel h3{
+  font-family:Georgia,serif;
+  font-weight:400;
+  font-size:24px;
+}
+
+.research-panel p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  margin-top:9px;
+}
+
+.research-links{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:20px;
+}
+
+.research-link{
+  padding:13px;
+  border:1px solid var(--line);
+  font-family:monospace;
+  font-size:9px;
+  color:var(--cyan2);
+  transition:.25s;
+}
+
+.research-link:hover{
+  background:rgba(53,201,255,.08);
+  border-color:var(--cyan);
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--line);
+  padding:35px 0;
+  margin-top:20px;
+}
+
+.footer-brand{
+  font-family:Georgia,serif;
+  font-size:21px;
+}
+
+.footer-brand span{
+  color:var(--cyan);
+}
+
+footer p{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+  margin-top:8px;
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 15px;
+  margin-top:20px;
+}
+
+.footer-links a{
+  color:#91a8b7;
+  font-family:monospace;
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+.footer-links a:hover{
+  color:var(--cyan);
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+  .hero{
+    padding-top:80px;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .metric{
+    border-right:1px solid var(--line);
+    border-bottom:0;
+  }
+
+  .metric:nth-child(even){
+    border-right:1px solid var(--line);
+  }
+
+  .metric:last-child{
+    border-right:0;
+  }
+
+  .lab-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .control-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .research-links{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+@media(min-width:1000px){
+
+  .lab-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .lab-card{
+    min-height:210px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="index.html" class="brand">
+      <div class="logo">DR</div>
+      <div class="brand-text">
+        <strong>DeepRDMMakademy</strong>
+        <span>DIGITAL SCIENCE NETWORK</span>
+      </div>
+    </a>
+
+    <a href="index.html" class="home-btn">
+      ← HOME
+    </a>
+
+  </div>
+</header>
+
+
+<main>
+
+  <section class="hero container">
+
+    <div class="eyebrow">
+      DEEPRDMM // LABORATORY CONTROL CENTER
+    </div>
+
+    <h1>
+      Le laboratoire<br>
+      <span>numérique.</span>
+    </h1>
+
+    <p>
+      Un environnement centralisé pour explorer la science,
+      développer des technologies, conduire des expériences,
+      analyser des données et construire les recherches
+      de demain.
+    </p>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      SYSTEM STATUS — ONLINE
+    </div>
+
+  </section>
+
+
+  <section class="container">
+
+    <div class="metrics">
+
+      <div class="metric">
+        <strong>06</strong>
+        <span>LABORATOIRES</span>
+      </div>
+
+      <div class="metric">
+        <strong>12</strong>
+        <span>PROJETS ACTIFS</span>
+      </div>
+
+      <div class="metric">
+        <strong>04</strong>
+        <span>EXPÉRIENCES</span>
+      </div>
+
+      <div class="metric">
+        <strong>09</strong>
+        <span>DATASETS</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LABORATORIES -->
+
+  <section class="section container">
+
+    <div class="section-head">
+
+      <div>
+        <div class="section-label">
+          01 // RESEARCH DOMAINS
+        </div>
+
+        <h2>Laboratoires</h2>
+      </div>
+
+      <div class="section-note">
+        06 ACTIVE DOMAINS
+      </div>
+
+    </div>
+
+
+    <div class="lab-grid">
+
+      <a href="ai-lab.html" class="lab-card">
+        <div class="lab-number">LAB / 001</div>
+        <div class="lab-icon">🧠</div>
+        <h3>AI LAB</h3>
+        <p>
+          Intelligence artificielle, apprentissage automatique,
+          modèles, agents et systèmes intelligents.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+
+      <a href="molecular-lab.html" class="lab-card">
+        <div class="lab-number">LAB / 002</div>
+        <div class="lab-icon">🧬</div>
+        <h3>MOLECULAR LAB</h3>
+        <p>
+          Exploration moléculaire, biologie numérique,
+          structures et phénomènes microscopiques.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+
+      <a href="robotics-lab.html" class="lab-card">
+        <div class="lab-number">LAB / 003</div>
+        <div class="lab-icon">🤖</div>
+        <h3>ROBOTICS LAB</h3>
+        <p>
+          Robotique, automatisation, systèmes autonomes
+          et interaction entre machines et environnement.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+
+      <a href="science-lab.html" class="lab-card">
+        <div class="lab-number">LAB / 004</div>
+        <div class="lab-icon">⚗️</div>
+        <h3>SCIENCE LAB</h3>
+        <p>
+          Physique, chimie, biologie, mathématiques
+          et exploration expérimentale.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+
+      <a href="digital-lab.html" class="lab-card">
+        <div class="lab-number">LAB / 005</div>
+        <div class="lab-icon">⌘</div>
+        <h3>DIGITAL LAB</h3>
+        <p>
+          Développement numérique, systèmes, données,
+          logiciels et technologies émergentes.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+
+      <a href="simulation-center.html" class="lab-card">
+        <div class="lab-number">LAB / 006</div>
+        <div class="lab-icon">◉</div>
+        <h3>SIMULATION CENTER</h3>
+        <p>
+          Simulations scientifiques, modèles physiques,
+          expériences numériques et visualisation.
+        </p>
+        <div class="open">OPEN →</div>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- CONTROL CENTER -->
+
+  <section class="section container">
+
+    <div class="section-head">
+
+      <div>
+        <div class="section-label">
+          02 // LABORATORY CONTROL
+        </div>
+
+        <h2>Centre de contrôle</h2>
+      </div>
+
+      <div class="section-note">
+        SYSTEM MODULES
+      </div>
+
+    </div>
+
+
+    <div class="control-grid">
+
+      <a href="digital-lab.html" class="control">
+        <div class="control-icon">⌘</div>
+        <strong>Dashboard</strong>
+        <span>LAB OVERVIEW</span>
+      </a>
+
+      <a href="projects.html" class="control">
+        <div class="control-icon">▣</div>
+        <strong>Projects</strong>
+        <span>ACTIVE PROJECTS</span>
+      </a>
+
+      <a href="simulation-center.html" class="control">
+        <div class="control-icon">◉</div>
+        <strong>Simulations</strong>
+        <span>DIGITAL EXPERIMENTS</span>
+      </a>
+
+      <a href="experiments.html" class="control">
+        <div class="control-icon">⚗</div>
+        <strong>Expériences</strong>
+        <span>EXPERIMENT CENTER</span>
+      </a>
+
+      <a href="data.html" class="control">
+        <div class="control-icon">▤</div>
+        <strong>Données</strong>
+        <span>DATASETS & ANALYSIS</span>
+      </a>
+
+      <a href="documentation.html" class="control">
+        <div class="control-icon">≡</div>
+        <strong>Documentation</strong>
+        <span>RESEARCH DOCUMENTS</span>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- LIVE ACTIVITY -->
+
+  <section class="section container">
+
+    <div class="section-head">
+
+      <div>
+        <div class="section-label">
+          03 // LIVE SYSTEM
+        </div>
+
+        <h2>Activité du laboratoire</h2>
+      </div>
+
+      <div class="section-note">
+        LIVE ACTIVITY
+      </div>
+
+    </div>
+
+
+    <div class="live">
+
+      <div class="live-row">
+        <div class="live-time">NOW</div>
+        <div class="live-text">
+          Digital Laboratory system initialized
+        </div>
+        <div class="live-state">ONLINE</div>
+      </div>
+
+      <div class="live-row">
+        <div class="live-time">01:42</div>
+        <div class="live-text">
+          Research dataset synchronization
+        </div>
+        <div class="live-state">RUNNING</div>
+      </div>
+
+      <div class="live-row">
+        <div class="live-time">03:18</div>
+        <div class="live-text">
+          Simulation environment prepared
+        </div>
+        <div class="live-state">READY</div>
+      </div>
+
+      <div class="live-row">
+        <div class="live-time">06:51</div>
+        <div class="live-text">
+          AI research module updated
+        </div>
+        <div class="live-state">DONE</div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RESEARCH -->
+
+  <section class="section container">
+
+    <div class="section-head">
+
+      <div>
+        <div class="section-label">
+          04 // RESEARCH NETWORK
+        </div>
+
+        <h2>Recherche</h2>
+      </div>
+
+    </div>
+
+
+    <div class="research-panel">
+
+      <h3>De l'idée à la découverte.</h3>
+
+      <p>
+        Les projets de DeepRDMMakademy peuvent évoluer
+        d'une question scientifique vers une expérience,
+        des données, une analyse puis une publication.
+      </p>
+
+
+      <div class="research-links">
+
+        <a href="projects.html" class="research-link">
+          PROJECTS →
+        </a>
+
+        <a href="publications.html" class="research-link">
+          PUBLICATIONS →
+        </a>
+
+        <a href="discoveries.html" class="research-link">
+          DISCOVERIES →
+        </a>
+
+        <a href="data.html" class="research-link">
+          DATA →
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-brand">
+      Deep<span>RDMMakademy</span>
+    </div>
+
+    <p>
+      L'art de la science et de la technologie.
+      <br>
+      Laboratory Control Center.
+    </p>
+
+    <div class="footer-links">
+
+      <a href="index.html">HOME</a>
+      <a href="laboratory.html">LABORATORY</a>
+      <a href="research.html">RESEARCH</a>
+      <a href="akademy.html">AKADEMY</a>
+      <a href="journal.html">JOURNAL</a>
+      <a href="community.html">COMMUNITY</a>
+      <a href="work.html">WORK</a>
+      <a href="account.html">ACCOUNT</a>
+      <a href="admin.html">ADMIN</a>
+
+    </div>
+
+  </div>
+
+</footer>
+
+</body>
+  </html>
