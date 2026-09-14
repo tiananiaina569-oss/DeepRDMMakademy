@@ -1,572 +1,832 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#050914">
-  <meta name="description" content="DeepRDMMakademy — L'art de la science et de la technologie.">
-  <title>DeepRDMMakademy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <title>DeepRDMMakademy — L'art de la science et de la technologie</title>
 
-    html {
-      scroll-behavior: smooth;
-    }
+    <meta
+        name="description"
+        content="DeepRDMMakademy — plateforme scientifique, technologique et éducative."
+    >
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 50% 15%, rgba(20,115,255,.18), transparent 35%),
-        radial-gradient(circle at 20% 80%, rgba(0,212,255,.08), transparent 30%),
-        #050914;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-      overflow-x: hidden;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .22;
-      background-image:
-        linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
-      background-size: 45px 45px;
-      mask-image: linear-gradient(to bottom, black, transparent);
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #050814;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-    button {
-      font: inherit;
-    }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-    .app {
-      width: 100%;
-      max-width: 1400px;
-      margin: auto;
-      position: relative;
-      z-index: 1;
-    }
+        button {
+            font: inherit;
+        }
 
-    /* HEADER */
+        /* =========================
+           BACKGROUND
+        ========================= */
 
-    header {
-      min-height: 72px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      background: rgba(5,9,20,.78);
-      backdrop-filter: blur(14px);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(55, 90, 255, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 80% 30%,
+                    rgba(145, 55, 255, 0.15),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(0, 210, 255, 0.08),
+                    transparent 35%
+                ),
+                #050814;
+        }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.25;
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.025) 1px,
+                    transparent 1px
+                );
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(145deg, #1473ff, #07142e);
-      border: 1px solid rgba(0,212,255,.45);
-      box-shadow: 0 0 22px rgba(20,115,255,.28);
-      font-weight: 900;
-      color: #00d4ff;
-    }
+        /* =========================
+           NAVIGATION
+        ========================= */
 
-    .brand-name {
-      font-size: 15px;
-      font-weight: 900;
-      letter-spacing: .5px;
-    }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 18px 6%;
+            background: rgba(5, 8, 20, 0.78);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
 
-    .brand-name span {
-      color: #1473ff;
-    }
+        nav {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+        }
 
-    .brand-tagline {
-      margin-top: 3px;
-      color: #8d9bb7;
-      font-size: 8px;
-      letter-spacing: 1.4px;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
 
-    .menu-button {
-      width: 42px;
-      height: 42px;
-      border: 1px solid rgba(0,212,255,.25);
-      border-radius: 12px;
-      background: rgba(255,255,255,.04);
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(110, 210, 255, 0.7);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0, 220, 255, 0.28),
+                    rgba(80, 40, 255, 0.15)
+                );
+            box-shadow:
+                0 0 20px rgba(0, 190, 255, 0.25);
+            color: #ffffff;
+            font-size: 13px;
+        }
 
-    /* HERO */
+        .logo-text span {
+            display: block;
+        }
 
-    .hero {
-      min-height: calc(100vh - 72px);
-      padding: 52px 20px 35px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-    }
+        .logo-subtitle {
+            font-size: 9px;
+            color: #8ba0bd;
+            letter-spacing: 2px;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
 
-    .status {
-      width: fit-content;
-      padding: 8px 12px;
-      border: 1px solid rgba(0,212,255,.25);
-      border-radius: 999px;
-      background: rgba(0,212,255,.06);
-      color: #00d4ff;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      margin-bottom: 22px;
-    }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            color: #b8c5d9;
+            font-size: 14px;
+        }
 
-    .status::before {
-      content: "●";
-      margin-right: 7px;
-      font-size: 8px;
-    }
+        .nav-links a {
+            transition: 0.25s;
+        }
 
-    .hero h1 {
-      max-width: 720px;
-      font-size: clamp(42px, 13vw, 88px);
-      line-height: .94;
-      letter-spacing: -3px;
-      font-weight: 950;
-    }
+        .nav-links a:hover {
+            color: #ffffff;
+        }
 
-    .hero h1 span {
-      color: #1473ff;
-      text-shadow: 0 0 30px rgba(20,115,255,.35);
-    }
+        .nav-button {
+            padding: 11px 17px;
+            border-radius: 30px;
+            border: 1px solid rgba(92, 205, 255, 0.55);
+            background: rgba(30, 150, 255, 0.1);
+            color: #ffffff;
+        }
 
-    .hero-description {
-      max-width: 650px;
-      margin-top: 25px;
-      color: #aeb9ce;
-      font-size: 15px;
-      line-height: 1.7;
-    }
+        /* =========================
+           HERO
+        ========================= */
 
-    .hero-actions {
-      margin-top: 30px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 11px;
-      max-width: 430px;
-    }
+        .hero {
+            min-height: 100vh;
+            padding: 150px 6% 90px;
+            display: flex;
+            align-items: center;
+        }
 
-    .btn {
-      min-height: 52px;
-      padding: 14px 18px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-      cursor: pointer;
-      transition: .25s ease;
-      border: 1px solid rgba(255,255,255,.1);
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
+        .hero-container {
+            max-width: 1250px;
+            width: 100%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 70px;
+            align-items: center;
+        }
 
-    .btn-primary {
-      background: linear-gradient(135deg, #1473ff, #0754c7);
-      box-shadow: 0 10px 35px rgba(20,115,255,.25);
-    }
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            border: 1px solid rgba(100, 210, 255, 0.22);
+            border-radius: 30px;
+            color: #91dfff;
+            background: rgba(50, 150, 255, 0.07);
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
 
-    .btn-secondary {
-      background: rgba(255,255,255,.04);
-      color: #dce5f5;
-    }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #54e6ff;
+            box-shadow: 0 0 12px #54e6ff;
+        }
 
-    .btn:hover,
-    .btn:active {
-      transform: translateY(-2px);
-      border-color: rgba(0,212,255,.45);
-    }
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 82px);
+            line-height: 0.98;
+            letter-spacing: -3px;
+            margin-bottom: 24px;
+        }
 
-    /* SCIENCE ORB */
+        .hero h1 .gradient {
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #79dcff,
+                #9c7cff
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-    .orb-area {
-      height: 230px;
-      margin-top: 40px;
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
+        .hero h2 {
+            font-size: clamp(19px, 2.5vw, 28px);
+            color: #d3dceb;
+            font-weight: 400;
+            margin-bottom: 22px;
+        }
 
-    .orb {
-      width: 155px;
-      height: 155px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 35% 30%, #2b9dff, #063d8e 42%, #020817 75%);
-      box-shadow:
-        0 0 35px rgba(20,115,255,.45),
-        inset -25px -20px 35px rgba(0,0,0,.65);
-      position: relative;
-    }
+        .hero p {
+            max-width: 680px;
+            color: #8e9db5;
+            font-size: 17px;
+            line-height: 1.8;
+        }
 
-    .orb::before,
-    .orb::after {
-      content: "";
-      position: absolute;
-      inset: -20px;
-      border: 1px solid rgba(0,212,255,.28);
-      border-radius: 50%;
-      transform: rotate(25deg) scaleY(.35);
-    }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 35px;
+        }
 
-    .orb::after {
-      transform: rotate(-35deg) scaleY(.35);
-      border-color: rgba(20,115,255,.32);
-    }
+        .primary-btn,
+        .secondary-btn {
+            padding: 15px 23px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
 
-    .satellite {
-      position: absolute;
-      width: 38px;
-      height: 10px;
-      background: #d9e8ff;
-      border-radius: 3px;
-      top: 25px;
-      right: 15px;
-      box-shadow: 0 0 15px rgba(255,255,255,.4);
-      transform: rotate(-18deg);
-    }
+        .primary-btn {
+            border: 1px solid #62d9ff;
+            background: linear-gradient(
+                135deg,
+                #1266d8,
+                #6738d8
+            );
+            color: white;
+            box-shadow: 0 12px 35px rgba(44, 111, 255, 0.2);
+        }
 
-    .satellite::before,
-    .satellite::after {
-      content: "";
-      position: absolute;
-      width: 18px;
-      height: 9px;
-      background: #1473ff;
-      top: 1px;
-    }
+        .secondary-btn {
+            border: 1px solid rgba(255,255,255,0.14);
+            background: rgba(255,255,255,0.04);
+            color: #d9e2f0;
+        }
 
-    .satellite::before {
-      right: 38px;
-    }
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-2px);
+        }
 
-    .satellite::after {
-      left: 38px;
-    }
+        /* =========================
+           SCIENCE VISUAL
+        ========================= */
 
-    /* QUICK ACCESS */
+        .hero-visual {
+            min-height: 470px;
+            position: relative;
+            display: grid;
+            place-items: center;
+        }
 
-    .section {
-      padding: 30px 18px 60px;
-    }
+        .orb {
+            width: min(390px, 75vw);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            position: relative;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(82, 215, 255, 0.18),
+                    rgba(71, 59, 180, 0.1) 45%,
+                    transparent 65%
+                );
+            border: 1px solid rgba(102, 210, 255, 0.32);
+            box-shadow:
+                0 0 70px rgba(0, 180, 255, 0.12),
+                inset 0 0 60px rgba(100, 80, 255, 0.08);
+            animation: float 6s ease-in-out infinite;
+        }
 
-    .section-label {
-      color: #00d4ff;
-      font-size: 10px;
-      letter-spacing: 2px;
-      margin-bottom: 9px;
-    }
+        .orb::before,
+        .orb::after {
+            content: "";
+            position: absolute;
+            inset: 12%;
+            border-radius: 50%;
+            border: 1px solid rgba(91, 205, 255, 0.25);
+            transform: rotate(35deg) scaleX(1.35);
+        }
 
-    .section-title {
-      font-size: 28px;
-      margin-bottom: 22px;
-    }
+        .orb::after {
+            transform: rotate(-35deg) scaleX(1.35);
+        }
 
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+        .orb-core {
+            position: absolute;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255,255,255,0.45);
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(0, 224, 255, 0.5),
+                    rgba(100, 50, 255, 0.2)
+                );
+            box-shadow:
+                0 0 35px rgba(0, 220, 255, 0.3);
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
 
-    .quick-card {
-      min-height: 145px;
-      padding: 17px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,.07),
-        rgba(255,255,255,.025)
-      );
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: .25s ease;
-      cursor: pointer;
-    }
+        .node {
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #9deaff;
+            box-shadow: 0 0 18px #45d9ff;
+        }
 
-    .quick-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(0,212,255,.35);
-      box-shadow: 0 12px 35px rgba(0,0,0,.25);
-    }
+        .node:nth-child(1) {
+            top: 12%;
+            left: 45%;
+        }
 
-    .icon {
-      font-size: 25px;
-    }
+        .node:nth-child(2) {
+            top: 34%;
+            right: 7%;
+        }
 
-    .quick-card h3 {
-      font-size: 14px;
-      margin-top: 15px;
-    }
+        .node:nth-child(3) {
+            bottom: 16%;
+            right: 20%;
+        }
 
-    .quick-card p {
-      margin-top: 5px;
-      color: #8290a9;
-      font-size: 11px;
-      line-height: 1.5;
-    }
+        .node:nth-child(4) {
+            bottom: 22%;
+            left: 12%;
+        }
 
-    .arrow {
-      color: #00d4ff;
-      font-size: 18px;
-      align-self: flex-end;
-    }
+        .node:nth-child(5) {
+            top: 35%;
+            left: 7%;
+        }
 
-    /* FOOTER */
+        .visual-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            padding: 9px 15px;
+            border-radius: 20px;
+            background: rgba(7, 13, 30, 0.75);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #9eb0c9;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
 
-    footer {
-      padding: 30px 18px;
-      border-top: 1px solid rgba(255,255,255,.08);
-      color: #73809a;
-      text-align: center;
-      font-size: 11px;
-      line-height: 1.8;
-    }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
 
-    footer strong {
-      color: #fff;
-    }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
 
-    /* TABLET + DESKTOP */
+        /* =========================
+           SECTION
+        ========================= */
 
-    @media (min-width: 700px) {
-      header {
-        padding: 18px 35px;
-      }
+        section {
+            padding: 100px 6%;
+        }
 
-      .hero {
-        padding: 75px 35px;
-        display: grid;
-        grid-template-columns: 1.1fr .9fr;
-        align-items: center;
-        gap: 35px;
-      }
+        .section-container {
+            max-width: 1250px;
+            margin: auto;
+        }
 
-      .hero-actions {
-        grid-template-columns: repeat(2, 1fr);
-      }
+        .section-header {
+            max-width: 750px;
+            margin-bottom: 50px;
+        }
 
-      .orb-area {
-        height: 430px;
-      }
+        .section-tag {
+            color: #68dfff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 11px;
+            margin-bottom: 13px;
+        }
 
-      .orb {
-        width: 270px;
-        height: 270px;
-      }
+        .section-header h2 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin-bottom: 17px;
+        }
 
-      .section {
-        padding-left: 35px;
-        padding-right: 35px;
-      }
+        .section-header p {
+            color: #8494ad;
+            line-height: 1.8;
+            font-size: 16px;
+        }
 
-      .quick-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
+        /* =========================
+           LAB CARDS
+        ========================= */
 
-    @media (min-width: 1100px) {
-      .quick-grid {
-        grid-template-columns: repeat(6, 1fr);
-      }
-    }
-  </style>
+        .labs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .lab-card {
+            min-height: 235px;
+            padding: 27px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.055),
+                    rgba(255,255,255,0.018)
+                );
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lab-card::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            right: -70px;
+            top: -70px;
+            background: rgba(55, 175, 255, 0.08);
+            filter: blur(15px);
+        }
+
+        .lab-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(95, 213, 255, 0.35);
+        }
+
+        .lab-number {
+            color: #5fdcff;
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 22px;
+        }
+
+        .lab-card h3 {
+            font-size: 22px;
+            margin-bottom: 13px;
+        }
+
+        .lab-card p {
+            color: #7f8fa7;
+            line-height: 1.65;
+            font-size: 14px;
+        }
+
+        .lab-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #9ce9ff;
+            font-size: 13px;
+        }
+
+        /* =========================
+           AKADEMY
+        ========================= */
+
+        .academy {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.015);
+        }
+
+        .academy-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .academy-panel {
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            background: rgba(5, 10, 25, 0.7);
+        }
+
+        .academy-panel h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .academy-panel p {
+            color: #8595ad;
+            line-height: 1.8;
+        }
+
+        .academy-list {
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .academy-list li {
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            color: #c5d0df;
+        }
+
+        .academy-list li::before {
+            content: "✓";
+            color: #64ddff;
+            margin-right: 10px;
+        }
+
+        /* =========================
+           RESEARCH
+        ========================= */
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .research-card {
+            padding: 30px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.035);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .research-card h3 {
+            margin-bottom: 12px;
+            font-size: 21px;
+        }
+
+        .research-card p {
+            color: #8494ab;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* =========================
+           COMMUNITY / CTA
+        ========================= */
+
+        .cta {
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 950px;
+            margin: auto;
+            padding: 65px 30px;
+            border-radius: 25px;
+            border: 1px solid rgba(105, 211, 255, 0.18);
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(40, 100, 255, 0.12),
+                    transparent 60%
+                ),
+                rgba(255,255,255,0.025);
+        }
+
+        .cta-box h2 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: #8c9bb1;
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 50px 6% 30px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .footer-inner {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-brand p {
+            color: #718198;
+            line-height: 1.7;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            color: #8290a6;
+            font-size: 13px;
+        }
+
+        .footer-bottom {
+            max-width: 1250px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #56647a;
+            font-size: 11px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container,
+            .academy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 125px;
+            }
+
+            .hero-visual {
+                min-height: 390px;
+            }
+
+            .labs-grid,
+            .research-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 14px 5%;
+            }
+
+            .logo-mark {
+                width: 37px;
+                height: 37px;
+            }
+
+            .hero {
+                padding: 120px 5% 70px;
+            }
+
+            section {
+                padding: 75px 5%;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .hero p {
+                font-size: 15px;
+            }
+
+            .labs-grid,
+            .research-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lab-card {
+                min-height: auto;
+            }
+
+            .academy-panel {
+                padding: 25px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                width: 100%;
+            }
+
+            .hero-visual {
+                min-height: 330px;
+            }
+
+            .orb {
+                width: 300px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="app">
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
     <header>
-      <a href="index.html" class="brand">
-        <div class="brand-mark">DR</div>
+        <nav>
 
-        <div>
-          <div class="brand-name">
-            Deep<span>RDMM</span>akademy
-          </div>
+            <a href="#" class="logo">
+                <div class="logo-mark">DRM</div>
 
-          <div class="brand-tagline">
-            L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE
-          </div>
-        </div>
-      </a>
+                <div class="logo-text">
+                    <span>DeepRDMMakademy</span>
+                    <span class="logo-subtitle">
+                        Science • Technology • Education
+                    </span>
+                </div>
+            </a>
 
-      <button class="menu-button" aria-label="Menu">☰</button>
+            <div class="nav-links">
+                <a href="#laboratory">Laboratory</a>
+                <a href="#research">Research</a>
+                <a href="#academy">Akademy</a>
+                <a href="#community">Community</a>
+                <a href="#work">Work</a>
+                <a href="#community" class="nav-button">
+                    ＋ Suivre
+                </a>
+            </div>
+
+        </nav>
     </header>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
 
     <main>
 
-      <section class="hero">
+        <section class="hero">
 
-        <div>
+            <div class="hero-container">
 
-          <div class="status">
-            DIGITAL SCIENCE NETWORK // ONLINE
-          </div>
+                <div>
 
-          <h1>
-            COMPRENDRE.<br>
-            <span>EXPLORER.</span><br>
-            INVENTER.<br>
-            TRANSFORMER.
-          </h1>
+                    <div class="eyebrow">
+                        <span class="status-dot"></span>
+                        Digital Science & Technology Platform
+                    </div>
 
-          <p class="hero-description">
-            DeepRDMMakademy est un laboratoire numérique dédié
-            à la science, à la technologie, à l'éducation,
-            à l'expérimentation et à l'exploration du futur.
-          </p>
+                    <h1>
+                        <span class="gradient">
+                            DeepRDM
+                        </span><br>
+                        Makademy
+                    </h1>
 
-          <div class="hero-actions">
-
-            <a href="#explore" class="btn btn-primary">
-              🌍 Explorer
-            </a>
-
-            <a href="digital-lab.html" class="btn btn-secondary">
-  🔬 Digital Lab
-            </a>
-
-            <a href="#education" class="btn btn-secondary">
-              🎓 Éducation
-            </a>
-
-            <a href="#membership" class="btn btn-secondary">
-              📝 Rejoindre
-            </a>
-
-          </div>
-
-        </div>
-
-        <div class="orb-area" aria-label="Visualisation scientifique">
-
-          <div class="orb">
-            <div class="satellite"></div>
-          </div>
-
-        </div>
-
-      </section>
-
-
-      <section class="section" id="explore">
-
-        <div class="section-label">
-          DEEPRDMM // ACCESS
-        </div>
-
-        <h2 class="section-title">
-          Explorer le laboratoire
-        </h2>
-
-        <div class="quick-grid">
-
-          <a class="quick-card" href="#lab" id="lab">
-          <a class="quick-card" href="digital-lab.html">
-  <div class="icon">🔬</div>
-  <div>
-    <h3>Digital Lab</h3>
-    <p>Laboratoire numérique et expériences scientifiques.</p>
-  </div>
-  <div class="arrow">→</div>
-          </a>
-
-          <a class="quick-card" href="#education" id="education">
-            <div class="icon">🧠</div>
-            <div>
-              <h3>Éducation</h3>
-              <p>Sciences, mathématiques et parcours d'apprentissage.</p>
-            </div>
-            <div class="arrow">→</div>
-          </a>
-
-          <a class="quick-card" href="#space">
-            <div class="icon">🌌</div>
-            <div>
-              <h3>Univers</h3>
-              <p>Explorer l'espace et les mystères du cosmos.</p>
-            </div>
-            <div class="arrow">→</div>
-          </a>
-
-          <a class="quick-card" href="#ocean">
-            <div class="icon">🌊</div>
-            <div>
-              <h3>Océan</h3>
-              <p>Découvrir les profondeurs et la vie marine.</p>
-            </div>
-            <div class="arrow">→</div>
-          </a>
-
-          <a class="quick-card" href="#simulations">
-            <div class="icon">⚙️</div>
-            <div>
-              <h3>Simulations</h3>
-              <p>Expérimenter des phénomènes scientifiques.</p>
-            </div>
-            <div class="arrow">→</div>
-          </a>
-
-          <a class="quick-card" href="#membership" id="membership">
-            <div class="icon">🪪</div>
-            <div>
-              <h3>Devenir membre</h3>
-              <p>Rejoindre la communauté DeepRDMMakademy.</p>
-            </div>
-            <div class="arrow">→</div>
-          </a>
-
-        </div>
-
-      </section>
-
-    </main>
-
-    <footer>
-      <strong>DeepRDMMakademy</strong><br>
-      L'art de la science et de la technologie.<br><br>
-      COMPRENDRE • EXPLORER • INVENTER • TRANSFORMER<br><br>
-      © 2026 DeepRDMMakademy
-    </footer>
-
-  </div>
-
-</body>
-  </html>
+                    <h2>
+                        L'art de la science et 
