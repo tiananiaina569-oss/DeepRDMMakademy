@@ -1,1 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050914">
+<meta name="description" content="DeepRDMMakademy — Results Center, résultats scientifiques, simulations et analyses.">
+<title>Results Center — DeepRDMMakademy</title>
 
+<style>
+:root{
+    --bg:#050914;
+    --bg2:#08111f;
+    --panel:#0a1423;
+    --panel2:#0d192b;
+    --cyan:#20d9ff;
+    --cyan2:#75ecff;
+    --gold:#d8b35a;
+    --gold2:#f0d487;
+    --white:#eef7ff;
+    --muted:#8192a8;
+    --line:rgba(32,217,255,.18);
+    --line2:rgba(216,179,90,.22);
+    --green:#48e6a2;
+    --orange:#ffbd62;
+    --red:#ff7187;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 20% 10%,rgba(32,217,255,.07),transparent 28%),
+        radial-gradient(circle at 85% 30%,rgba(216,179,90,.05),transparent 25%),
+        var(--bg);
+    color:var(--white);
+    font-family:Arial,Helvetica,sans-serif;
+    line-height:1.6;
+    min-height:100vh;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input{
+    font:inherit;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+/* HEADER */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(18px);
+    background:rgba(5,9,20,.88);
+    border-bottom:1px solid var(--line);
+}
+
+.nav{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+}
+
+.brand{
+    font-size:15px;
+    font-weight:800;
+    letter-spacing:.08em;
+    white-space:nowrap;
+}
+
+.brand span{
+    color:var(--cyan);
+}
+
+.system{
+    font-family:monospace;
+    font-size:10px;
+    letter-spacing:.12em;
+    color:var(--green);
+    border:1px solid rgba(72,230,162,.25);
+    padding:7px 9px;
+    white-space:nowrap;
+}
+
+.nav-links{
+    display:none;
+}
+
+/* HERO */
+
+.hero{
+    padding:58px 0 38px;
+}
+
+.eyebrow{
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    margin-bottom:13px;
+}
+
+.hero h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:400;
+    font-size:clamp(38px,10vw,76px);
+    line-height:1;
+    margin-bottom:18px;
+}
+
+.hero h1 span{
+    color:var(--gold2);
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:700px;
+    font-size:15px;
+}
+
+.hero-meta{
+    margin-top:25px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.meta{
+    border:1px solid var(--line);
+    background:rgba(8,17,31,.7);
+    padding:8px 10px;
+    font-family:monospace;
+    font-size:10px;
+    color:#a9bfd3;
+}
+
+/* METRICS */
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
+    margin:15px 0 35px;
+}
+
+.metric{
+    background:linear-gradient(145deg,var(--panel2),rgba(8,16,29,.72));
+    border:1px solid var(--line);
+    padding:17px;
+    min-height:105px;
+    position:relative;
+    overflow:hidden;
+}
+
+.metric:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:32px;
+    height:1px;
+    background:var(--cyan);
+}
+
+.metric small{
+    display:block;
+    color:var(--muted);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.12em;
+    margin-bottom:8px;
+}
+
+.metric strong{
+    display:block;
+    font-size:25px;
+    color:var(--white);
+}
+
+.metric em{
+    color:var(--cyan);
+    font-size:10px;
+    font-style:normal;
+}
+
+/* SECTION */
+
+.section{
+    padding:28px 0;
+}
+
+.section-head{
+    margin-bottom:20px;
+}
+
+.section-code{
+    color:var(--gold);
+    font-family:monospace;
+    font-size:10px;
+    letter-spacing:.16em;
+    margin-bottom:7px;
+}
+
+.section h2{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:30px;
+    font-weight:400;
+}
+
+.section-intro{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px;
+}
+
+/* RESULT CORE */
+
+.core{
+    border:1px solid var(--line);
+    background:
+        linear-gradient(rgba(32,217,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(32,217,255,.035) 1px,transparent 1px),
+        var(--panel);
+    background-size:25px 25px;
+    min-height:250px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.core-ring{
+    width:145px;
+    height:145px;
+    border:1px solid rgba(32,217,255,.45);
+    border-radius:50%;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 45px rgba(32,217,255,.08);
+}
+
+.core-ring:before,
+.core-ring:after{
+    content:"";
+    position:absolute;
+    border:1px dashed rgba(216,179,90,.35);
+    border-radius:50%;
+}
+
+.core-ring:before{
+    width:190px;
+    height:85px;
+    transform:rotate(22deg);
+}
+
+.core-ring:after{
+    width:85px;
+    height:190px;
+    transform:rotate(-22deg);
+}
+
+.core-center{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    background:radial-gradient(circle,#75ecff 0,#20d9ff 25%,#0b2536 65%,transparent 70%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-family:monospace;
+    font-size:10px;
+    letter-spacing:.1em;
+    z-index:2;
+}
+
+.core-label{
+    position:absolute;
+    bottom:18px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:var(--muted);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.14em;
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    gap:7px;
+    overflow-x:auto;
+    padding-bottom:7px;
+    margin-bottom:18px;
+    scrollbar-width:none;
+}
+
+.filters::-webkit-scrollbar{
+    display:none;
+}
+
+.filter{
+    flex:0 0 auto;
+    border:1px solid var(--line);
+    background:transparent;
+    color:#9fb1c4;
+    padding:9px 12px;
+    cursor:pointer;
+    font-family:monospace;
+    font-size:10px;
+}
+
+.filter.active,
+.filter:hover{
+    color:var(--cyan2);
+    border-color:rgba(32,217,255,.55);
+    background:rgba(32,217,255,.07);
+}
+
+/* RESULT CARDS */
+
+.results{
+    display:grid;
+    gap:12px;
+}
+
+.result-card{
+    background:linear-gradient(145deg,var(--panel2),rgba(6,13,25,.9));
+    border:1px solid var(--line);
+    padding:18px;
+    position:relative;
+}
+
+.result-card:hover{
+    border-color:rgba(32,217,255,.42);
+}
+
+.result-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.result-id{
+    color:var(--gold);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.12em;
+}
+
+.status{
+    font-family:monospace;
+    font-size:9px;
+    padding:5px 7px;
+    border:1px solid;
+    white-space:nowrap;
+}
+
+.status.valid{
+    color:var(--green);
+    border-color:rgba(72,230,162,.3);
+}
+
+.status.preliminary{
+    color:var(--orange);
+    border-color:rgba(255,189,98,.3);
+}
+
+.status.archived{
+    color:#9caabd;
+    border-color:rgba(156,170,189,.25);
+}
+
+.result-card h3{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:21px;
+    font-weight:400;
+    margin-bottom:7px;
+}
+
+.result-card p{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:15px;
+}
+
+.result-data{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:7px;
+    margin-bottom:15px;
+}
+
+.data-box{
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(0,0,0,.13);
+    padding:9px;
+}
+
+.data-box small{
+    display:block;
+    color:#66788d;
+    font-family:monospace;
+    font-size:8px;
+    margin-bottom:3px;
+}
+
+.data-box strong{
+    font-size:12px;
+    font-weight:500;
+}
+
+.result-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+}
+
+.action{
+    border:1px solid var(--line);
+    padding:8px 10px;
+    font-family:monospace;
+    font-size:9px;
+    color:#a9bfd3;
+    transition:.2s;
+}
+
+.action:hover{
+    color:var(--cyan2);
+    border-color:rgba(32,217,255,.5);
+}
+
+/* ANALYSIS */
+
+.analysis-grid{
+    display:grid;
+    gap:10px;
+}
+
+.analysis-card{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:17px;
+}
+
+.analysis-card .number{
+    font-family:monospace;
+    font-size:26px;
+    color:var(--cyan);
+}
+
+.analysis-card h3{
+    font-size:13px;
+    margin:4px 0;
+}
+
+.analysis-card p{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* PIPELINE */
+
+.pipeline{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:20px;
+}
+
+.pipeline-list{
+    display:grid;
+    gap:8px;
+}
+
+.step{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:1px solid rgba(32,217,255,.1);
+    padding:12px;
+}
+
+.step-num{
+    width:28px;
+    height:28px;
+    border:1px solid var(--cyan);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:10px;
+    flex-shrink:0;
+}
+
+.step strong{
+    display:block;
+    font-size:12px;
+}
+
+.step span{
+    display:block;
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* ACTIVITY */
+
+.activity{
+    border:1px solid var(--line);
+    background:var(--panel);
+}
+
+.activity-row{
+    display:flex;
+    gap:12px;
+    padding:13px;
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.activity-row:last-child{
+    border-bottom:0;
+}
+
+.dot{
+    width:7px;
+    height:7px;
+    background:var(--cyan);
+    border-radius:50%;
+    margin-top:7px;
+    flex-shrink:0;
+    box-shadow:0 0 10px rgba(32,217,255,.7);
+}
+
+.activity-row strong{
+    display:block;
+    font-size:11px;
+}
+
+.activity-row span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* CONTROL */
+
+.control{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.control a{
+    border:1px solid var(--line);
+    background:rgba(8,17,31,.8);
+    padding:15px 11px;
+    font-family:monospace;
+    font-size:10px;
+    color:#a9bfd3;
+    transition:.2s;
+}
+
+.control a:hover{
+    border-color:rgba(32,217,255,.5);
+    color:var(--cyan2);
+    transform:translateY(-1px);
+}
+
+.control b{
+    display:block;
+    color:var(--cyan);
+    margin-bottom:5px;
+    font-size:9px;
+}
+
+/* CTA */
+
+.cta{
+    margin:30px 0 55px;
+    padding:25px 18px;
+    border:1px solid var(--line2);
+    background:linear-gradient(145deg,rgba(216,179,90,.05),rgba(32,217,255,.03));
+}
+
+.cta h2{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:27px;
+    font-weight:400;
+    margin-bottom:7px;
+}
+
+.cta p{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:17px;
+}
+
+.cta-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.cta-link{
+    border:1px solid var(--gold);
+    padding:9px 12px;
+    color:var(--gold2);
+    font-family:monospace;
+    font-size:10px;
+}
+
+/* FOOTER */
+
+footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    color:#5f7085;
+}
+
+.footer-grid{
+    display:grid;
+    gap:18px;
+}
+
+.footer-brand{
+    font-weight:700;
+    color:#b7c5d4;
+    font-size:13px;
+}
+
+.footer-brand span{
+    color:var(--cyan);
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.footer-links a{
+    font-family:monospace;
+    font-size:9px;
+}
+
+.footer-copy{
+    font-size:9px;
+    font-family:monospace;
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+    .nav-links{
+        display:flex;
+        gap:18px;
+        margin-left:auto;
+    }
+
+    .nav-links a{
+        color:#8295aa;
+        font-family:monospace;
+        font-size:10px;
+    }
+
+    .nav-links a:hover{
+        color:var(--cyan);
+    }
+
+    .metrics{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .results{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .analysis-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .control{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .pipeline-list{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .step{
+        min-height:100px;
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .footer-grid{
+        grid-template-columns:1fr auto;
+        align-items:center;
+    }
+}
+
+@media(min-width:1000px){
+
+    .hero{
+        padding-top:90px;
+    }
+
+    .hero h1{
+        max-width:800px;
+    }
+
+    .results{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .result-card{
+        min-height:350px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <a href="index.html" class="brand">
+            Deep<span>RDM</span>Makademy
+        </a>
+
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="laboratory.html">LABORATORY</a>
+            <a href="research.html">RESEARCH</a>
+            <a href="data.html">DATA</a>
+        </div>
+
+        <div class="system">● SYSTEM ONLINE</div>
+
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="container">
+
+        <div class="eyebrow">LAB.RESULTS / SCIENTIFIC OUTPUT</div>
+
+        <h1>
+            Results <span>Center.</span>
+        </h1>
+
+        <p>
+            Centralisez les résultats issus des expériences, simulations,
+            analyses de données et travaux de recherche de DeepRDMMakademy.
+        </p>
+
+        <div class="hero-meta">
+            <div class="meta">RESULT ENGINE // ONLINE</div>
+            <div class="meta">VALIDATION PIPELINE // ACTIVE</div>
+            <div class="meta">ARCHIVE // READY</div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="container">
+
+    <div class="metrics">
+
+        <div class="metric">
+            <small>RESULTS REGISTERED</small>
+            <strong>27</strong>
+            <em>+04 ce mois</em>
+        </div>
+
+        <div class="metric">
+            <small>VALIDATED</small>
+            <strong>14</strong>
+            <em>résultats validés</em>
+        </div>
+
+        <div class="metric">
+            <small>PRELIMINARY</small>
+            <strong>09</strong>
+            <em>en analyse</em>
+        </div>
+
+        <div class="metric">
+            <small>ARCHIVED</small>
+            <strong>04</strong>
+            <em>historique</em>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-code">01 // RESULTS CORE</div>
+            <h2>Scientific Result Core</h2>
+            <p class="section-intro">
+                Le centre où les données expérimentales deviennent des résultats interprétables.
+            </p>
+        </div>
+
+        <div class="core">
+
+            <div class="core-ring">
+                <div class="core-center">RDM</div>
+            </div>
+
+            <div class="core-label">
+                DATA → ANALYSIS → RESULT → VALIDATION
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-code">02 // RESULT REGISTRY</div>
+            <h2>Résultats scientifiques</h2>
+            <p class="section-intro">
+                Explorez les résultats produits par les différents laboratoires.
+            </p>
+        </div>
+
+        <div class="filters">
+
+            <button class="filter active" data-filter="all">
+                TOUS
+            </button>
+
+            <button class="filter" data-filter="ai">
+                AI
+            </button>
+
+            <button class="filter" data-filter="molecular">
+                MOLECULAR
+            </button>
+
+            <button class="filter" data-filter="robotics">
+                ROBOTICS
+            </button>
+
+            <button class="filter" data-filter="science">
+                SCIENCE
+            </button>
+
+            <button class="filter" data-filter="digital">
+                DIGITAL
+            </button>
+
+        </div>
+
+
+        <div class="results">
+
+            <article class="result-card" data-category="ai">
+
+                <div class="result-top">
+                    <div class="result-id">RESULT / AI-RES-001</div>
+                    <div class="status valid">VALIDATED</div>
+                </div>
+
+                <h3>Scientific Data Intelligence</h3>
+
+                <p>
+                    Analyse automatisée de données scientifiques et détection
+                    de structures pertinentes dans plusieurs datasets.
+                </p>
+
+                <div class="result-data">
+                    <div class="data-box">
+                        <small>ACCURACY</small>
+                        <strong>94.8%</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>DATASET</small>
+                        <strong>AI-DATA-001</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>PROJECT</small>
+                        <strong>PRJ-AI-001</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>DATE</small>
+                        <strong>2026-09-12</strong>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <a class="action" href="projects.html">PROJECT</a>
+                    <a class="action" href="data.html">DATA</a>
+                    <a class="action" href="experiments.html">EXPERIMENT</a>
+                </div>
+
+            </article>
+
+
+            <article class="result-card" data-category="molecular">
+
+                <div class="result-top">
+                    <div class="result-id">RESULT / MOL-RES-002</div>
+                    <div class="status valid">VALIDATED</div>
+                </div>
+
+                <h3>Genome Pattern Analysis</h3>
+
+                <p>
+                    Identification de motifs génomiques à partir d'un ensemble
+                    de données moléculaires expérimental.
+                </p>
+
+                <div class="result-data">
+                    <div class="data-box">
+                        <small>PATTERNS</small>
+                        <strong>1,842</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>DATASET</small>
+                        <strong>MOL-DATA-002</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>PROJECT</small>
+                        <strong>PRJ-MOL-001</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>STATUS</small>
+                        <strong>CONFIRMED</strong>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <a class="action" href="molecular-lab.html">LAB</a>
+                    <a class="action" href="data.html">DATA</a>
+                    <a class="action" href="experiments.html">EXPERIMENT</a>
+                </div>
+
+            </article>
+
+
+            <article class="result-card" data-category="robotics">
+
+                <div class="result-top">
+                    <div class="result-id">RESULT / ROB-RES-003</div>
+                    <div class="status preliminary">PRELIMINARY</div>
+                </div>
+
+                <h3>Autonomous Rover Navigation</h3>
+
+                <p>
+                    Premiers résultats d'un système de navigation autonome
+                    basé sur perception et décision embarquées.
+                </p>
+
+                <div class="result-data">
+                    <div class="data-box">
+                        <small>NAVIGATION</small>
+                        <strong>87.2%</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>EXPERIMENT</small>
+                        <strong>EXP-ROB-004</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>PROJECT</small>
+                        <strong>PRJ-ROB-001</strong>
+                    </div>
+                    <div class="data-box">
+                        <small>REVIEW</small>
+                        <strong>ONGOING</strong>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <a class="action" href="robotics-lab.html">LAB</a>
+                    <a class="action" href="experime
