@@ -1,1 +1,1081 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b12">
+<meta name="description" content="Experiments — DeepRDMMakademy Digital Laboratory">
+<title>Experiments — DeepRDMMakademy</title>
 
+<style>
+:root{
+    --bg:#050b12;
+    --panel:#09131d;
+    --panel2:#0c1924;
+    --line:#12384a;
+    --cyan:#32d8ff;
+    --cyan2:#79e9ff;
+    --gold:#d8b45b;
+    --gold2:#f0d58a;
+    --text:#e8f3f7;
+    --muted:#7f9aa6;
+    --green:#55e6a5;
+    --shadow:0 18px 50px rgba(0,0,0,.35);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 15% 0%,rgba(0,190,255,.08),transparent 28%),
+        radial-gradient(circle at 90% 20%,rgba(216,180,91,.06),transparent 25%),
+        var(--bg);
+    color:var(--text);
+    font-family:Arial,Helvetica,sans-serif;
+    line-height:1.6;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(5,11,18,.92);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(50,216,255,.12);
+}
+
+.nav{
+    min-height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.brand{
+    font-family:Georgia,serif;
+    font-size:17px;
+    letter-spacing:.03em;
+}
+
+.brand span{
+    color:var(--cyan);
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:var(--green);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.1em;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 12px var(--green);
+}
+
+.nav-links{
+    display:flex;
+    gap:6px;
+}
+
+.nav-links a{
+    border:1px solid var(--line);
+    padding:7px 9px;
+    border-radius:5px;
+    font-family:monospace;
+    font-size:9px;
+    color:var(--muted);
+}
+
+.nav-links a:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+}
+
+.hero{
+    padding:55px 0 30px;
+}
+
+.eyebrow{
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:10px;
+    letter-spacing:.17em;
+    margin-bottom:13px;
+}
+
+.hero h1{
+    font-family:Georgia,serif;
+    font-size:clamp(40px,11vw,74px);
+    font-weight:400;
+    line-height:1;
+    margin-bottom:18px;
+}
+
+.hero h1 span{
+    color:var(--gold);
+}
+
+.hero p{
+    max-width:700px;
+    color:var(--muted);
+    font-size:13px;
+}
+
+.hero-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:22px;
+}
+
+.meta{
+    border:1px solid var(--line);
+    background:rgba(9,19,29,.65);
+    padding:8px 10px;
+    border-radius:4px;
+    color:#a7c0ca;
+    font-family:monospace;
+    font-size:9px;
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    border-top:1px solid var(--line);
+    border-left:1px solid var(--line);
+    margin:20px 0 45px;
+}
+
+.metric{
+    padding:20px 15px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:rgba(9,19,29,.55);
+}
+
+.metric-number{
+    font-family:Georgia,serif;
+    color:var(--cyan);
+    font-size:28px;
+}
+
+.metric-label{
+    color:var(--muted);
+    font-family:monospace;
+    font-size:8px;
+    letter-spacing:.11em;
+    margin-top:4px;
+}
+
+.section{
+    padding:18px 0 48px;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.section-kicker{
+    color:var(--gold);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.17em;
+    margin-bottom:5px;
+}
+
+.section h2{
+    font-family:Georgia,serif;
+    font-size:27px;
+    font-weight:400;
+}
+
+.section-note{
+    color:var(--muted);
+    font-size:10px;
+}
+
+.experiment-grid{
+    display:grid;
+    gap:14px;
+}
+
+.experiment{
+    position:relative;
+    overflow:hidden;
+    background:
+        linear-gradient(145deg,rgba(13,30,42,.95),rgba(7,15,23,.95));
+    border:1px solid var(--line);
+    padding:19px;
+    box-shadow:var(--shadow);
+}
+
+.experiment::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    width:3px;
+    height:100%;
+    background:var(--cyan);
+    opacity:.75;
+}
+
+.experiment-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.experiment-id{
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.12em;
+}
+
+.experiment h3{
+    font-family:Georgia,serif;
+    font-size:20px;
+    font-weight:400;
+    margin:6px 0;
+}
+
+.experiment-desc{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:16px;
+}
+
+.state{
+    white-space:nowrap;
+    font-family:monospace;
+    font-size:8px;
+    letter-spacing:.08em;
+    padding:5px 7px;
+    border:1px solid;
+    border-radius:3px;
+}
+
+.state.running{
+    color:var(--green);
+    border-color:rgba(85,230,165,.4);
+}
+
+.state.review{
+    color:var(--gold2);
+    border-color:rgba(240,213,138,.4);
+}
+
+.state.complete{
+    color:var(--cyan2);
+    border-color:rgba(121,233,255,.35);
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-family:monospace;
+    font-size:8px;
+    margin-bottom:6px;
+}
+
+.progress{
+    height:5px;
+    background:#071019;
+    border:1px solid #102b38;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,var(--cyan),var(--gold));
+}
+
+.experiment-data{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+    margin:16px 0;
+}
+
+.data-box{
+    padding:10px;
+    border:1px solid rgba(18,56,74,.8);
+    background:rgba(4,10,16,.5);
+}
+
+.data-box small{
+    display:block;
+    color:var(--muted);
+    font-family:monospace;
+    font-size:7px;
+    letter-spacing:.09em;
+}
+
+.data-box strong{
+    display:block;
+    margin-top:3px;
+    font-size:11px;
+    font-weight:400;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.btn{
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    min-height:37px;
+    padding:8px 12px;
+    border:1px solid var(--line);
+    background:#08131d;
+    color:#b8d0d9;
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:.03em;
+    transition:.2s ease;
+}
+
+.btn:hover{
+    border-color:var(--cyan);
+    color:var(--cyan);
+    transform:translateY(-1px);
+}
+
+.btn.primary{
+    border-color:rgba(50,216,255,.45);
+    color:var(--cyan);
+}
+
+.btn.gold{
+    border-color:rgba(216,180,91,.4);
+    color:var(--gold2);
+}
+
+.pipeline{
+    display:grid;
+    gap:9px;
+}
+
+.step{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    border:1px solid var(--line);
+    background:rgba(9,19,29,.7);
+    padding:13px;
+}
+
+.step-number{
+    width:32px;
+    height:32px;
+    flex:0 0 32px;
+    display:grid;
+    place-items:center;
+    border:1px solid var(--cyan);
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:9px;
+}
+
+.step h3{
+    font-size:12px;
+    font-weight:500;
+}
+
+.step p{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.activity{
+    border:1px solid var(--line);
+    background:rgba(8,18,27,.72);
+}
+
+.activity-row{
+    display:flex;
+    gap:12px;
+    padding:14px;
+    border-bottom:1px solid rgba(18,56,74,.7);
+}
+
+.activity-row:last-child{
+    border-bottom:0;
+}
+
+.activity-time{
+    min-width:48px;
+    color:var(--gold);
+    font-family:monospace;
+    font-size:8px;
+}
+
+.activity-text{
+    color:#aac1ca;
+    font-size:10px;
+}
+
+.activity-text strong{
+    color:var(--text);
+    font-weight:500;
+}
+
+.control-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
+}
+
+.control{
+    border:1px solid var(--line);
+    background:#08131d;
+    padding:14px;
+    min-height:88px;
+    transition:.2s ease;
+}
+
+.control:hover{
+    border-color:var(--cyan);
+    transform:translateY(-2px);
+}
+
+.control-code{
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:8px;
+}
+
+.control h3{
+    margin-top:6px;
+    font-size:12px;
+    font-weight:500;
+}
+
+.control p{
+    color:var(--muted);
+    font-size:9px;
+    margin-top:3px;
+}
+
+.cta{
+    margin:5px 0 50px;
+    padding:25px 20px;
+    border:1px solid rgba(216,180,91,.35);
+    background:
+        radial-gradient(circle at 100% 0%,rgba(216,180,91,.08),transparent 35%),
+        #08131d;
+}
+
+.cta h2{
+    font-family:Georgia,serif;
+    font-size:25px;
+    font-weight:400;
+}
+
+.cta p{
+    color:var(--muted);
+    font-size:11px;
+    margin:9px 0 17px;
+}
+
+footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    color:var(--muted);
+}
+
+.footer-top{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.footer-brand{
+    font-family:Georgia,serif;
+    color:var(--text);
+}
+
+.footer-brand span{
+    color:var(--cyan);
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    font-family:monospace;
+    font-size:8px;
+}
+
+.footer-links a:hover{
+    color:var(--cyan);
+}
+
+.copyright{
+    margin-top:20px;
+    font-family:monospace;
+    font-size:8px;
+}
+
+@media(min-width:700px){
+
+    .metrics{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .experiment-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .pipeline{
+        grid-template-columns:repeat(5,1fr);
+    }
+
+    .control-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .hero{
+        padding-top:75px;
+    }
+}
+
+@media(min-width:1050px){
+
+    .experiment-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .hero p{
+        font-size:14px;
+    }
+
+    .section h2{
+        font-size:31px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container nav">
+
+    <a href="index.html" class="brand">
+        Deep<span>RDM</span>Makademy
+    </a>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        SYSTEM ONLINE
+    </div>
+
+    <nav class="nav-links">
+        <a href="laboratory.html">LAB</a>
+        <a href="research.html">RESEARCH</a>
+    </nav>
+
+</div>
+</header>
+
+
+<main>
+
+<section class="hero">
+<div class="container">
+
+    <div class="eyebrow">
+        DIGITAL LABORATORY // EXPERIMENT ENGINE
+    </div>
+
+    <h1>
+        Experi<span>ments.</span>
+    </h1>
+
+    <p>
+        Centre de suivi des expériences scientifiques et technologiques
+        de DeepRDMMakademy. Chaque expérience suit un cycle contrôlé :
+        hypothèse, protocole, exécution, données, analyse et résultat.
+    </p>
+
+    <div class="hero-meta">
+        <div class="meta">SESSION // EXP-2026</div>
+        <div class="meta">MODE // RESEARCH</div>
+        <div class="meta">STATUS // ACTIVE</div>
+    </div>
+
+</div>
+</section>
+
+
+<section class="container">
+
+<div class="metrics">
+
+    <div class="metric">
+        <div class="metric-number">38</div>
+        <div class="metric-label">TOTAL EXPERIMENTS</div>
+    </div>
+
+    <div class="metric">
+        <div class="metric-number">07</div>
+        <div class="metric-label">RUNNING</div>
+    </div>
+
+    <div class="metric">
+        <div class="metric-number">19</div>
+        <div class="metric-label">COMPLETED</div>
+    </div>
+
+    <div class="metric">
+        <div class="metric-number">12</div>
+        <div class="metric-label">UNDER REVIEW</div>
+    </div>
+
+</div>
+
+</section>
+
+
+<section class="section">
+<div class="container">
+
+<div class="section-head">
+    <div>
+        <div class="section-kicker">EXPERIMENT REGISTRY</div>
+        <h2>Expériences actives</h2>
+    </div>
+
+    <div class="section-note">
+        LIVE RESEARCH
+    </div>
+</div>
+
+
+<div class="experiment-grid">
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-AI-001</div>
+            <h3>Scientific Data Intelligence</h3>
+        </div>
+
+        <span class="state running">
+            RUNNING
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Analyse automatique de structures et tendances présentes
+        dans des jeux de données scientifiques.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>72%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:72%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Artificial Intelligence</strong>
+        </div>
+
+        <div class="data-box">
+            <small>DATASET</small>
+            <strong>SCI-DATA-12</strong>
+        </div>
+
+        <div class="data-box">
+            <small>ITERATIONS</small>
+            <strong>1,284</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Active</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="ai-lab.html">VIEW LAB</a>
+        <a class="btn" href="data.html">DATA</a>
+        <a class="btn" href="results.html">RESULTS</a>
+    </div>
+
+</article>
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-MOL-002</div>
+            <h3>Protein Interaction Mapping</h3>
+        </div>
+
+        <span class="state review">
+            REVIEW
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Cartographie expérimentale des interactions entre structures
+        biomoléculaires à partir de données analysées.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>81%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:81%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Molecular Biology</strong>
+        </div>
+
+        <div class="data-box">
+            <small>DATASET</small>
+            <strong>MOL-PROT-08</strong>
+        </div>
+
+        <div class="data-box">
+            <small>RESULTS</small>
+            <strong>146</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Review</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="molecular-lab.html">VIEW LAB</a>
+        <a class="btn" href="data.html">DATA</a>
+        <a class="btn gold" href="results.html">RESULTS</a>
+    </div>
+
+</article>
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-ROB-003</div>
+            <h3>Autonomous Rover Navigation</h3>
+        </div>
+
+        <span class="state running">
+            RUNNING
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Évaluation d'un système autonome de navigation, perception
+        environnementale et prise de décision.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>63%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:63%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Robotics</strong>
+        </div>
+
+        <div class="data-box">
+            <small>PROTOTYPE</small>
+            <strong>ROVER-04</strong>
+        </div>
+
+        <div class="data-box">
+            <small>TEST RUNS</small>
+            <strong>87</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Active</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="robotics-lab.html">VIEW LAB</a>
+        <a class="btn" href="data.html">DATA</a>
+        <a class="btn" href="results.html">RESULTS</a>
+    </div>
+
+</article>
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-SCI-004</div>
+            <h3>Climate Data Analysis</h3>
+        </div>
+
+        <span class="state complete">
+            COMPLETE
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Étude de données environnementales destinée à identifier
+        des tendances et relations entre plusieurs variables.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>100%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:100%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Earth Science</strong>
+        </div>
+
+        <div class="data-box">
+            <small>DATASET</small>
+            <strong>CLIMATE-002</strong>
+        </div>
+
+        <div class="data-box">
+            <small>OBSERVATIONS</small>
+            <strong>8,421</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Completed</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="science-lab.html">VIEW LAB</a>
+        <a class="btn" href="data.html">DATA</a>
+        <a class="btn gold" href="results.html">RESULTS</a>
+    </div>
+
+</article>
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-DIG-005</div>
+            <h3>Digital Laboratory Platform</h3>
+        </div>
+
+        <span class="state running">
+            RUNNING
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Test progressif de l'architecture numérique du laboratoire :
+        données, modules, navigation et systèmes expérimentaux.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>61%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:61%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Digital Science</strong>
+        </div>
+
+        <div class="data-box">
+            <small>BUILD</small>
+            <strong>DRM-LAB-01</strong>
+        </div>
+
+        <div class="data-box">
+            <small>MODULES</small>
+            <strong>24</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Active</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="digital-lab.html">DIGITAL LAB</a>
+        <a class="btn" href="projects.html">PROJECTS</a>
+        <a class="btn" href="documentation.html">DOCUMENTATION</a>
+    </div>
+
+</article>
+
+
+<article class="experiment">
+
+    <div class="experiment-head">
+
+        <div>
+            <div class="experiment-id">EXP-PHY-006</div>
+            <h3>Orbital Physics Model</h3>
+        </div>
+
+        <span class="state review">
+            REVIEW
+        </span>
+
+    </div>
+
+    <p class="experiment-desc">
+        Étude numérique d'un modèle orbital permettant d'explorer
+        les relations entre altitude, vitesse et trajectoire.
+    </p>
+
+    <div class="progress-label">
+        <span>PROGRESS</span>
+        <span>88%</span>
+    </div>
+
+    <div class="progress">
+        <span style="width:88%"></span>
+    </div>
+
+    <div class="experiment-data">
+
+        <div class="data-box">
+            <small>DOMAIN</small>
+            <strong>Physics</strong>
+        </div>
+
+        <div class="data-box">
+            <small>MODEL</small>
+            <strong>ORBIT-001</strong>
+        </div>
+
+        <div class="data-box">
+            <small>RUNS</small>
+            <strong>214</strong>
+        </div>
+
+        <div class="data-box">
+            <small>STATUS</small>
+            <strong>Review</strong>
+        </div>
+
+    </div>
+
+    <div class="actions">
+        <a class="btn primary" href="simulation-center.html">SIMULATION</a>
+        <a class="btn" href="data.html">DATA</a>
+        <a class="btn gold" href="results.html">RESULTS</a>
+    </div>
+
+</article>
+
+
+</div>
+
+</div>
+</section>
+
+
+<section class="section">
+<div class="container">
+
+<div class="section-head">
+    <div>
+        <di
