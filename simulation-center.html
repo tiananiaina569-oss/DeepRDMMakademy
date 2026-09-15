@@ -1,1 +1,959 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050912">
+  <meta name="description" content="DeepRDMMakademy — Simulation Center">
+  <title>Simulation Center — DeepRDMMakademy</title>
 
+  <style>
+    :root {
+      --bg: #050912;
+      --panel: #09111d;
+      --panel-2: #0c1624;
+      --line: rgba(0, 210, 255, 0.22);
+      --cyan: #00d9ff;
+      --cyan-soft: #7eeeff;
+      --gold: #d8b45a;
+      --white: #eef7ff;
+      --muted: #8191a5;
+      --green: #38e6a1;
+      --danger: #ff667d;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(0, 174, 255, 0.10), transparent 35%),
+        radial-gradient(circle at 100% 30%, rgba(102, 65, 255, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 28px));
+      margin: auto;
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5, 9, 18, 0.92);
+      backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--cyan);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--green);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(56, 230, 161, 0.8);
+    }
+
+    .nav {
+      display: flex;
+      gap: 8px;
+      padding-bottom: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav a {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border: 1px solid rgba(0, 210, 255, 0.14);
+      border-radius: 4px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+    }
+
+    .nav a:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 54px 0 35px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin-bottom: 12px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin-bottom: 14px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 10vw, 72px);
+      line-height: 1;
+      font-weight: 500;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-code {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+
+    /* METRICS */
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 15px 0 35px;
+    }
+
+    .metric {
+      padding: 18px 14px;
+      border: 1px solid var(--line);
+      background: rgba(9, 17, 29, 0.7);
+    }
+
+    .metric-number {
+      color: var(--cyan);
+      font-family: Georgia, serif;
+      font-size: 27px;
+    }
+
+    .metric-label {
+      margin-top: 4px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* SECTION */
+
+    section {
+      padding: 30px 0;
+    }
+
+    .section-heading {
+      margin-bottom: 18px;
+    }
+
+    .section-heading span {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1.7px;
+    }
+
+    .section-heading h2 {
+      margin-top: 5px;
+      font-family: Georgia, serif;
+      font-size: 29px;
+      font-weight: 500;
+    }
+
+    .section-heading p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* SIMULATION CORE */
+
+    .simulation-core {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(rgba(0, 217, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.025) 1px, transparent 1px),
+        var(--panel);
+      background-size: 30px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .core-label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 1.3px;
+    }
+
+    .orbit-system {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      width: 240px;
+      height: 240px;
+      transform: translate(-50%, -50%);
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(0, 217, 255, 0.23);
+      border-radius: 50%;
+      transform: rotate(-18deg) scaleY(0.45);
+    }
+
+    .orbit.two {
+      inset: 28px;
+      transform: rotate(35deg) scaleY(0.52);
+      border-color: rgba(216, 180, 90, 0.3);
+    }
+
+    .orbit.three {
+      inset: 57px;
+      transform: rotate(-50deg) scaleY(0.62);
+      border-color: rgba(126, 238, 255, 0.25);
+    }
+
+    .planet {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 25%, #dffbff, #00a9d4 30%, #075179 65%, #031c31);
+      box-shadow:
+        0 0 25px rgba(0, 217, 255, 0.65),
+        0 0 70px rgba(0, 217, 255, 0.18);
+    }
+
+    .satellite {
+      position: absolute;
+      top: 31px;
+      left: 174px;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--gold);
+      background: var(--bg);
+      box-shadow: 0 0 15px rgba(216, 180, 90, 0.8);
+      transform: rotate(45deg);
+    }
+
+    .core-readout {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .readout {
+      padding: 9px;
+      border: 1px solid rgba(0, 217, 255, 0.12);
+      background: rgba(5, 9, 18, 0.7);
+    }
+
+    .readout small {
+      display: block;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 8px;
+    }
+
+    .readout strong {
+      display: block;
+      margin-top: 2px;
+      color: var(--cyan-soft);
+      font-family: monospace;
+      font-size: 11px;
+    }
+
+    /* CONTROL */
+
+    .control-panel {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .control-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .control-title h3 {
+      font-family: Georgia, serif;
+      font-size: 21px;
+      font-weight: 500;
+    }
+
+    .control-title span {
+      color: var(--green);
+      font-family: monospace;
+      font-size: 9px;
+    }
+
+    .fields {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .field select,
+    .field input {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid rgba(0, 217, 255, 0.2);
+      outline: none;
+      background: #060d17;
+      color: var(--white);
+      border-radius: 3px;
+    }
+
+    .field select:focus,
+    .field input:focus {
+      border-color: var(--cyan);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    .btn {
+      min-height: 44px;
+      border: 1px solid var(--cyan);
+      background: rgba(0, 217, 255, 0.08);
+      color: var(--cyan);
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .btn.primary {
+      background: var(--cyan);
+      color: #03111a;
+      font-weight: 700;
+    }
+
+    .btn.gold {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(216, 180, 90, 0.06);
+    }
+
+    .btn:hover {
+      filter: brightness(1.15);
+    }
+
+    /* SIMULATIONS */
+
+    .simulation-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .simulation-card {
+      display: block;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      transition: 0.2s ease;
+    }
+
+    .simulation-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(0, 217, 255, 0.55);
+    }
+
+    .sim-number {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 10px;
+    }
+
+    .simulation-card h3 {
+      margin: 8px 0 6px;
+      font-family: Georgia, serif;
+      font-size: 21px;
+      font-weight: 500;
+    }
+
+    .simulation-card p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sim-status {
+      display: inline-block;
+      margin-top: 13px;
+      padding: 5px 8px;
+      border: 1px solid rgba(56, 230, 161, 0.25);
+      color: var(--green);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* ACTIVITY */
+
+    .activity {
+      border-left: 1px solid var(--line);
+    }
+
+    .activity-item {
+      position: relative;
+      padding: 14px 14px 14px 20px;
+      border-bottom: 1px solid rgba(0, 217, 255, 0.10);
+    }
+
+    .activity-item::before {
+      content: "";
+      position: absolute;
+      top: 21px;
+      left: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px rgba(0, 217, 255, 0.7);
+    }
+
+    .activity-time {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    .activity-item p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* CONTROL CENTER */
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .control-link {
+      display: block;
+      padding: 15px 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .control-link strong {
+      display: block;
+      color: var(--white);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .control-link span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .control-link:hover {
+      border-color: var(--cyan);
+    }
+
+    /* FOOTER */
+
+    footer {
+      margin-top: 40px;
+      padding: 30px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .footer-brand {
+      color: var(--white);
+      font-family: Georgia, serif;
+      font-size: 18px;
+    }
+
+    .footer-brand span {
+      color: var(--cyan);
+    }
+
+    footer p {
+      margin-top: 6px;
+      font-size: 11px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+    }
+
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    /* TABLET */
+
+    @media (min-width: 650px) {
+      .metrics {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .fields {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .simulation-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .control-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .core-readout {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* DESKTOP */
+
+    @media (min-width: 900px) {
+      .header-inner {
+        min-height: 72px;
+      }
+
+      .nav {
+        padding: 0 0 0 20px;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        padding: 90px 0 55px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .simulation-layout {
+        display: grid;
+        grid-template-columns: 1.35fr 0.65fr;
+        gap: 18px;
+        align-items: start;
+      }
+
+      .simulation-core {
+        min-height: 480px;
+      }
+
+      .orbit-system {
+        width: 320px;
+        height: 320px;
+      }
+
+      .satellite {
+        top: 43px;
+        left: 232px;
+      }
+
+      .control-panel {
+        margin-top: 0;
+      }
+
+      .simulation-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="brand">
+          Deep<span>RDMMakademy</span>
+        </a>
+
+        <div class="status">
+          <span class="status-dot"></span>
+          SYSTEM ONLINE
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="laboratory.html">Laboratory</a>
+        <a href="digital-lab.html">Digital Lab</a>
+        <a href="research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+      <div class="container">
+
+        <div class="eyebrow">
+          DIGITAL LABORATORY / SIMULATION ENGINE
+        </div>
+
+        <h1>Simulation Center.</h1>
+
+        <p>
+          Un environnement numérique dédié à la modélisation,
+          l'expérimentation, l'analyse et la visualisation des phénomènes
+          scientifiques et technologiques.
+        </p>
+
+        <div class="hero-code">
+          SIM.CENTER // ENGINE READY
+        </div>
+
+      </div>
+    </section>
+
+    <!-- METRICS -->
+
+    <section>
+      <div class="container">
+
+        <div class="metrics">
+
+          <div class="metric">
+            <div class="metric-number">08</div>
+            <div class="metric-label">Simulations</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-number">04</div>
+            <div class="metric-label">En cours</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-number">16</div>
+            <div class="metric-label">Modèles</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-number">27</div>
+            <div class="metric-label">Résultats</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SIMULATION ENGINE -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-heading">
+          <span>01 / SIMULATION ENGINE</span>
+          <h2>Laboratoire de simulation</h2>
+          <p>
+            Configure un modèle, définis ses paramètres et prépare une
+            expérience numérique.
+          </p>
+        </div>
+
+        <div class="simulation-layout">
+
+          <div class="simulation-core">
+
+            <div class="core-label">
+              LIVE MODEL / ORBIT-001
+            </div>
+
+            <div class="orbit-system">
+
+              <div class="orbit"></div>
+              <div class="orbit two"></div>
+              <div class="orbit three"></div>
+
+              <div class="planet"></div>
+
+              <div class="satellite"></div>
+
+            </div>
+
+            <div class="core-readout">
+
+              <div class="readout">
+                <small>MODEL</small>
+                <strong>ORBIT-001</strong>
+              </div>
+
+              <div class="readout">
+                <small>STATUS</small>
+                <strong id="simStatus">READY</strong>
+              </div>
+
+              <div class="readout">
+                <small>TIME</small>
+                <strong id="simTime">00.00 s</strong>
+              </div>
+
+              <div class="readout">
+                <small>ENGINE</small>
+                <strong>CORE-01</strong>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="control-panel">
+
+            <div class="control-title">
+              <h3>Parameters</h3>
+              <span>READY</span>
+            </div>
+
+            <div class="fields">
+
+              <div class="field">
+                <label for="body">Corps central</label>
+
+                <select id="body">
+                  <option>Terre</option>
+                  <option>Soleil</option>
+                  <option>Lune</option>
+                  <option>Mars</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="altitude">Altitude initiale</label>
+
+                <input
+                  id="altitude"
+                  type="number"
+                  value="400"
+                  min="1"
+                >
+              </div>
+
+              <div class="field">
+                <label for="velocity">Vitesse initiale</label>
+
+                <input
+                  id="velocity"
+                  type="number"
+                  value="7.67"
+                  min="0"
+                  step="0.01"
+                >
+              </div>
+
+              <div class="field">
+                <label for="duration">Durée</label>
+
+                <input
+                  id="duration"
+                  type="number"
+                  value="120"
+                  min="1"
+                >
+              </div>
+
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="btn primary"
+                id="launchBtn"
+                type="button"
+              >
+                ▶ Lancer
+              </button>
+
+              <button
+                class="btn"
+                id="pauseBtn"
+                type="button"
+              >
+                II Pause
+              </button>
+
+              <button
+                class="btn gold"
+                id="resetBtn"
+                type="button"
+              >
+                ↻ Réinitialiser
+              </button>
+
+              <a
+                href="data.html"
+                class="btn"
+                style="display:flex;align-items:center;justify-content:center;"
+              >
+                Données
+              </a>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- AVAILABLE SIMULATIONS -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-heading">
+          <span>02 / SIMULATION LIBRARY</span>
+          <h2>Expériences disponibles</h2>
+          <p>
+            Les futurs modèles pourront être connectés au moteur de simulation
+            avancé de la plateforme.
+          </p>
+        </div>
+
+        <div class="simulation-grid">
+
+          <a href="simulation-center.html" class="simulation-card">
+            <div class="sim-number">ORBIT-001</div>
+            <h3>Orbital Mechanics</h3>
+            <p>
+              Étude numérique d'une trajectoire orbitale autour d'un corps
+              central.
+            </p>
+            <span class="sim-status">ACTIVE</span>
+          </a>
+
+          <a href="simulation-center.html" class="simulation-card">
+            <div class="sim-number">CLIMATE-002</div>
+            <h3>Climate Model</h3>
+         
