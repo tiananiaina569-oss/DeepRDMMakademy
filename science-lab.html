@@ -1,1 +1,943 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Science Lab — DeepRDMMakademy</title>
+  <meta name="description" content="Science Lab — laboratoire scientifique numérique de DeepRDMMakademy.">
+  <meta name="theme-color" content="#050914">
+
+  <style>
+    :root {
+      --bg: #050914;
+      --bg-soft: #09111f;
+      --panel: #0b1424;
+      --panel-2: #0e192b;
+      --line: rgba(63, 191, 255, 0.22);
+      --line-strong: rgba(63, 191, 255, 0.48);
+      --cyan: #48d7ff;
+      --cyan-soft: #8ce8ff;
+      --gold: #d8b66b;
+      --gold-soft: #f0d898;
+      --white: #f4f8ff;
+      --text: #c4cfdf;
+      --muted: #718096;
+      --green: #55e6a5;
+      --red: #ff7184;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(40, 150, 255, 0.10), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(80, 210, 255, 0.07), transparent 28%),
+        linear-gradient(145deg, #03060d, var(--bg) 45%, #07111f);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 14, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 0 18px rgba(72, 215, 255, 0.15);
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-name {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 15px;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+    }
+
+    .brand-status {
+      margin-top: 1px;
+      color: var(--green);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+    }
+
+    .home-link {
+      border: 1px solid var(--line);
+      padding: 9px 12px;
+      color: var(--cyan-soft);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      transition: 0.25s;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      border-color: var(--cyan);
+      background: rgba(72, 215, 255, 0.07);
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 64px 0 38px;
+      position: relative;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+
+    .hero h1 {
+      max-width: 760px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 12vw, 88px);
+      line-height: 0.95;
+      font-weight: 400;
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-soft);
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin-top: 22px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 17px;
+      border: 1px solid var(--line-strong);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      transition: 0.25s;
+    }
+
+    .btn-primary {
+      background: rgba(72, 215, 255, 0.09);
+      color: var(--cyan-soft);
+    }
+
+    .btn-secondary {
+      color: var(--gold-soft);
+      border-color: rgba(216, 182, 107, 0.35);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--cyan);
+      box-shadow: 0 8px 30px rgba(72, 215, 255, 0.10);
+    }
+
+    /* METRICS */
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 24px 0 56px;
+    }
+
+    .metric {
+      padding: 18px;
+      background: rgba(11, 20, 36, 0.78);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 1.2px;
+    }
+
+    .metric-value {
+      margin-top: 7px;
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+    }
+
+    .metric-status {
+      color: var(--green);
+      font-family: monospace;
+      font-size: 9px;
+      margin-top: 3px;
+    }
+
+    /* SCIENCE CORE */
+
+    section {
+      padding: 28px 0 60px;
+    }
+
+    .section-head {
+      margin-bottom: 20px;
+    }
+
+    .section-code {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 2px;
+      margin-bottom: 7px;
+    }
+
+    .section-head h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      font-weight: 400;
+    }
+
+    .science-core {
+      position: relative;
+      min-height: 310px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle, rgba(72,215,255,0.08), transparent 42%),
+        var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .core-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(72,215,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(72,215,255,0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .core-orbit {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(72,215,255,0.26);
+      border-radius: 50%;
+      transform: rotate(28deg);
+    }
+
+    .core-orbit::before,
+    .core-orbit::after {
+      content: "";
+      position: absolute;
+      inset: 25px;
+      border: 1px solid rgba(216,182,107,0.22);
+      border-radius: 50%;
+    }
+
+    .core-orbit::after {
+      inset: 60px;
+      border-color: rgba(72,215,255,0.34);
+    }
+
+    .core-node {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(72,215,255,0.18), rgba(5,9,20,0.95));
+      box-shadow:
+        0 0 25px rgba(72,215,255,0.16),
+        inset 0 0 25px rgba(72,215,255,0.08);
+      z-index: 2;
+    }
+
+    .core-node strong {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .core-node small {
+      position: absolute;
+      bottom: -25px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    .core-label {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    .core-live {
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      color: var(--green);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* DOMAINS */
+
+    .domains {
+      display: grid;
+      gap: 10px;
+    }
+
+    .domain {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px;
+      background: linear-gradient(135deg, rgba(14,25,43,0.9), rgba(7,14,26,0.92));
+      border: 1px solid var(--line);
+      transition: 0.25s;
+    }
+
+    .domain:hover {
+      border-color: var(--line-strong);
+      transform: translateY(-2px);
+    }
+
+    .domain-number {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(216,182,107,0.4);
+      color: var(--gold-soft);
+      display: grid;
+      place-items: center;
+      font-family: monospace;
+      font-size: 9px;
+      flex-shrink: 0;
+    }
+
+    .domain h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      font-weight: 400;
+    }
+
+    .domain p {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    /* PROJECTS */
+
+    .projects {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 19px;
+    }
+
+    .project-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .project-code {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    .project h3 {
+      margin-top: 6px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      font-weight: 400;
+    }
+
+    .project-status {
+      color: var(--green);
+      font-family: monospace;
+      font-size: 8px;
+      white-space: nowrap;
+    }
+
+    .project p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 10px 0 15px;
+    }
+
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 8px;
+      margin-bottom: 6px;
+    }
+
+    .progress {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--gold));
+    }
+
+    /* CONTROL CENTER */
+
+    .control {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .control-card {
+      min-height: 105px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: rgba(10,19,34,0.85);
+      transition: 0.25s;
+    }
+
+    .control-card:hover {
+      border-color: var(--cyan);
+      background: rgba(72,215,255,0.05);
+      transform: translateY(-2px);
+    }
+
+    .control-icon {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 15px;
+    }
+
+    .control-card h3 {
+      margin-top: 8px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .control-card p {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* ACTIVITY */
+
+    .activity {
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 12px;
+      padding: 15px 17px;
+      border-bottom: 1px solid rgba(63,191,255,0.10);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-time {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 9px;
+    }
+
+    .activity-text {
+      color: var(--text);
+      font-size: 11px;
+    }
+
+    .activity-text span {
+      color: var(--gold-soft);
+    }
+
+    /* CTA */
+
+    .cta {
+      padding: 28px;
+      border: 1px solid rgba(216,182,107,0.30);
+      background:
+        radial-gradient(circle at 80% 30%, rgba(216,182,107,0.08), transparent 30%),
+        var(--panel);
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 400;
+    }
+
+    .cta p {
+      color: var(--muted);
+      font-size: 12px;
+      max-width: 600px;
+      margin: 10px auto 20px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 35px 0;
+      margin-top: 10px;
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+    }
+
+    .footer-description {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 11px;
+      max-width: 420px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .footer-links a {
+      color: var(--text);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.7px;
+    }
+
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    .copyright {
+      margin-top: 24px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* TABLET */
+
+    @media (min-width: 650px) {
+      .metrics {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .domains {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .projects {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .control {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr;
+      }
+    }
+
+    /* DESKTOP */
+
+    @media (min-width: 900px) {
+      .hero {
+        padding-top: 100px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .science-core {
+        min-height: 380px;
+      }
+
+      .core-orbit {
+        width: 280px;
+        height: 280px;
+      }
+
+      .core-node {
+        width: 120px;
+        height: 120px;
+      }
+
+      .core-node strong {
+        font-size: 25px;
+      }
+
+      .domains {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="container nav">
+
+      <a href="index.html" class="brand" aria-label="Retour à l'accueil">
+        <div class="brand-mark">DRM</div>
+
+        <div class="brand-text">
+          <div class="brand-name">DeepRDMMakademy</div>
+          <div class="brand-status">● SYSTEM ONLINE</div>
+        </div>
+      </a>
+
+      <a href="laboratory.html" class="home-link">
+        ← LABORATORY
+      </a>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+      <div class="container">
+
+        <div class="eyebrow">
+          SCIENCE DIVISION // LAB-04
+        </div>
+
+        <h1>
+          Science <span>Lab.</span>
+        </h1>
+
+        <p>
+          Un environnement numérique dédié à l'exploration scientifique,
+          à l'expérimentation, à l'analyse des phénomènes naturels et
+          à la transformation des connaissances en résultats.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">
+            EXPLORER LES PROJETS
+          </a>
+
+          <a href="experiments.html" class="btn btn-secondary">
+            EXPÉRIENCES
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- METRICS -->
+
+    <section>
+      <div class="container">
+
+        <div class="metrics">
+
+          <div class="metric">
+            <div class="metric-label">ACTIVE PROJECTS</div>
+            <div class="metric-value">06</div>
+            <div class="metric-status">● ACTIVE</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">EXPERIMENTS</div>
+            <div class="metric-value">18</div>
+            <div class="metric-status">● RUNNING</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">DATASETS</div>
+            <div class="metric-value">27</div>
+            <div class="metric-status">● AVAILABLE</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-label">DOMAINS</div>
+            <div class="metric-value">07</div>
+            <div class="metric-status">● CONNECTED</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SCIENCE CORE -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">SCIENCE.CORE / 0xSC-04</div>
+          <h2>Scientific Core</h2>
+        </div>
+
+        <div class="science-core">
+
+          <div class="core-grid"></div>
+
+          <div class="core-label">
+            SCIENTIFIC SYSTEM / CORE NODE
+          </div>
+
+          <div class="core-orbit"></div>
+
+          <div class="core-node">
+            <strong>SCI</strong>
+            <small>ANALYSIS CORE</small>
+          </div>
+
+          <div class="core-live">
+            ● DATA STREAM ACTIVE
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- RESEARCH DOMAINS -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">RESEARCH NETWORK / 07 DOMAINS</div>
+          <h2>Domaines scientifiques</h2>
+        </div>
+
+        <div class="domains">
+
+          <article class="domain">
+            <div class="domain-number">01</div>
+            <div>
+              <h3>Physique</h3>
+              <p>
+                Étude des lois fondamentales, des interactions,
+                de l'énergie et des systèmes physiques.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">02</div>
+            <div>
+              <h3>Chimie</h3>
+              <p>
+                Analyse de la matière, des réactions et des
+                transformations moléculaires.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">03</div>
+            <div>
+              <h3>Astronomie</h3>
+              <p>
+                Exploration des objets célestes, des systèmes
+                planétaires et de l'univers.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">04</div>
+            <div>
+              <h3>Sciences de la Terre</h3>
+              <p>
+                Observation du climat, de la géologie,
+                des océans et des systèmes terrestres.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">05</div>
+            <div>
+              <h3>Environnement</h3>
+              <p>
+                Analyse des écosystèmes, de la biodiversité
+                et des interactions environnementales.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">06</div>
+            <div>
+              <h3>Sciences expérimentales</h3>
+              <p>
+                Conception d'expériences, collecte de données
+                et validation des hypothèses.
+              </p>
+            </div>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">07</div>
+            <div>
+              <h3>Data Science scientifique</h3>
+              <p>
+                Utilisation des données et des modèles
+                numériques pour comprendre les phénomènes.
+              </p>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+
+    <section id="projects">
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">ACTIVE RESEARCH / PROJECTS</div>
+          <h2>Projets scientifiques</h2>
+        </div>
+
+        <div class="projects">
+
+         
