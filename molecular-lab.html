@@ -1,1 +1,941 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080d">
+<meta name="description" content="DeepRDMMakademy Molecular Lab — Biologie moléculaire, génomique, bioinformatique et recherche biomoléculaire.">
+<title>Molecular Lab — DeepRDMMakademy</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#05080d;
+    --panel:#091019;
+    --panel2:#0c141e;
+    --line:rgba(0,210,255,.18);
+    --cyan:#00d9ff;
+    --cyan2:#65ecff;
+    --gold:#d7b56d;
+    --white:#f1f7fb;
+    --muted:#8293a4;
+    --green:#46e0a1;
+    --danger:#ff637d;
+    --shadow:0 18px 60px rgba(0,0,0,.35);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+        radial-gradient(circle at 80% 10%,rgba(0,217,255,.09),transparent 30%),
+        radial-gradient(circle at 10% 40%,rgba(80,80,255,.06),transparent 28%),
+        var(--bg);
+    color:var(--white);
+    font-family:Inter,Arial,sans-serif;
+    line-height:1.6;
+    min-height:100vh;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(5,8,13,.88);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
+}
+
+.nav{
+    min-height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    min-width:0;
+}
+
+.logo{
+    width:38px;
+    height:38px;
+    border:1px solid var(--cyan);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:var(--cyan);
+    font-family:"Space Mono",monospace;
+    font-size:12px;
+    box-shadow:0 0 22px rgba(0,217,255,.15);
+    flex-shrink:0;
+}
+
+.brand-text{
+    min-width:0;
+}
+
+.brand-name{
+    font-family:"Libre Baskerville",serif;
+    font-size:15px;
+    white-space:nowrap;
+}
+
+.system{
+    color:var(--green);
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+    letter-spacing:1.3px;
+    margin-top:2px;
+}
+
+.system::before{
+    content:"";
+    width:6px;
+    height:6px;
+    display:inline-block;
+    background:var(--green);
+    border-radius:50%;
+    margin-right:5px;
+    box-shadow:0 0 10px var(--green);
+}
+
+.home-link{
+    border:1px solid var(--line);
+    padding:9px 12px;
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    letter-spacing:.8px;
+    color:var(--cyan2);
+    transition:.2s;
+}
+
+.home-link:hover{
+    border-color:var(--cyan);
+    background:rgba(0,217,255,.06);
+}
+
+.hero{
+    padding:55px 0 35px;
+}
+
+.eyebrow{
+    color:var(--cyan);
+    font-family:"Space Mono",monospace;
+    font-size:10px;
+    letter-spacing:2px;
+    margin-bottom:15px;
+}
+
+.hero h1{
+    font-family:"Libre Baskerville",serif;
+    font-size:clamp(35px,10vw,72px);
+    line-height:1.05;
+    font-weight:400;
+    max-width:800px;
+}
+
+.hero h1 span{
+    color:var(--cyan);
+}
+
+.hero p{
+    color:var(--muted);
+    max-width:680px;
+    margin-top:20px;
+    font-size:15px;
+}
+
+.status-line{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:25px;
+}
+
+.status{
+    border:1px solid var(--line);
+    padding:8px 11px;
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    color:#a9bbc9;
+}
+
+.status strong{
+    color:var(--green);
+}
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin:20px 0 42px;
+}
+
+.metric{
+    background:linear-gradient(145deg,var(--panel),#071019);
+    border:1px solid var(--line);
+    padding:18px;
+    box-shadow:var(--shadow);
+}
+
+.metric-label{
+    color:var(--muted);
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+    letter-spacing:1.2px;
+}
+
+.metric-value{
+    font-size:28px;
+    margin-top:6px;
+    font-weight:700;
+}
+
+.section{
+    padding:35px 0;
+}
+
+.section-head{
+    margin-bottom:20px;
+}
+
+.section-tag{
+    color:var(--gold);
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    letter-spacing:2px;
+}
+
+.section h2{
+    font-family:"Libre Baskerville",serif;
+    font-size:27px;
+    font-weight:400;
+    margin-top:8px;
+}
+
+.section-description{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:8px;
+}
+
+.molecular-core{
+    border:1px solid var(--line);
+    background:
+        radial-gradient(circle at center,rgba(0,217,255,.1),transparent 38%),
+        var(--panel);
+    min-height:300px;
+    position:relative;
+    overflow:hidden;
+    display:grid;
+    place-items:center;
+    box-shadow:var(--shadow);
+}
+
+.core{
+    width:105px;
+    height:105px;
+    border:1px solid var(--cyan);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    position:relative;
+    box-shadow:
+        0 0 35px rgba(0,217,255,.2),
+        inset 0 0 25px rgba(0,217,255,.08);
+}
+
+.core::before,
+.core::after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(0,217,255,.38);
+    border-radius:50%;
+}
+
+.core::before{
+    width:175px;
+    height:65px;
+    transform:rotate(28deg);
+}
+
+.core::after{
+    width:175px;
+    height:65px;
+    transform:rotate(-28deg);
+}
+
+.core-inner{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:rgba(0,217,255,.15);
+    border:1px solid var(--cyan2);
+    box-shadow:0 0 25px rgba(0,217,255,.5);
+}
+
+.atom{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 15px var(--cyan);
+}
+
+.atom.a1{top:25%;left:25%}
+.atom.a2{top:23%;right:24%}
+.atom.a3{bottom:22%;left:28%}
+.atom.a4{bottom:24%;right:27%}
+
+.core-label{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    color:var(--muted);
+}
+
+.domain-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+}
+
+.domain{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:19px;
+    transition:.2s;
+}
+
+.domain:hover{
+    border-color:rgba(0,217,255,.55);
+    transform:translateY(-2px);
+}
+
+.domain-number{
+    color:var(--gold);
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+}
+
+.domain h3{
+    margin-top:11px;
+    font-size:17px;
+}
+
+.domain p{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:7px;
+}
+
+.project-list{
+    display:grid;
+    gap:12px;
+}
+
+.project{
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,var(--panel),var(--panel2));
+    padding:19px;
+}
+
+.project-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.project-code{
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+    color:var(--gold);
+}
+
+.project h3{
+    margin-top:6px;
+    font-size:16px;
+}
+
+.progress{
+    height:5px;
+    background:#111c27;
+    margin-top:16px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:linear-gradient(90deg,var(--cyan),var(--gold));
+}
+
+.project-meta{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+    margin-top:8px;
+}
+
+.control-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.control{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:17px;
+    min-height:105px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    transition:.2s;
+}
+
+.control:hover{
+    border-color:var(--cyan);
+    background:#0b1620;
+}
+
+.control-icon{
+    color:var(--cyan);
+    font-family:"Space Mono",monospace;
+    font-size:13px;
+}
+
+.control strong{
+    font-size:12px;
+}
+
+.control small{
+    color:var(--muted);
+    font-size:9px;
+}
+
+.activity{
+    border-left:1px solid var(--line);
+}
+
+.activity-item{
+    padding:15px 15px 15px 20px;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    position:relative;
+}
+
+.activity-item::before{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--cyan);
+    left:-4px;
+    top:22px;
+    box-shadow:0 0 12px rgba(0,217,255,.7);
+}
+
+.activity-time{
+    color:var(--gold);
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+}
+
+.activity-text{
+    font-size:12px;
+    margin-top:4px;
+}
+
+.activity-text span{
+    color:var(--muted);
+}
+
+.research-panel{
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:22px;
+}
+
+.research-panel p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.research-actions{
+    display:grid;
+    gap:9px;
+    margin-top:18px;
+}
+
+.action{
+    display:block;
+    border:1px solid var(--line);
+    padding:12px 14px;
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    color:var(--cyan2);
+    transition:.2s;
+}
+
+.action:hover{
+    border-color:var(--cyan);
+    background:rgba(0,217,255,.06);
+}
+
+.back{
+    padding:45px 0 60px;
+    text-align:center;
+}
+
+.back a{
+    display:inline-block;
+    border:1px solid var(--cyan);
+    padding:13px 18px;
+    color:var(--cyan);
+    font-family:"Space Mono",monospace;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+footer{
+    border-top:1px solid var(--line);
+    padding:28px 0;
+}
+
+.footer-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.footer-grid a{
+    color:var(--muted);
+    font-family:"Space Mono",monospace;
+    font-size:8px;
+}
+
+.footer-copy{
+    color:#536474;
+    font-size:9px;
+    margin-top:18px;
+}
+
+@media(min-width:650px){
+    .metrics{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .domain-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .project-list{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .control-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .research-actions{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media(min-width:950px){
+    .hero{
+        padding:85px 0 50px;
+    }
+
+    .domain-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .molecular-core{
+        min-height:390px;
+    }
+
+    .core{
+        width:135px;
+        height:135px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <a href="index.html" class="brand">
+            <div class="logo">DRM</div>
+
+            <div class="brand-text">
+                <div class="brand-name">DeepRDMMakademy</div>
+                <div class="system">SYSTEM ONLINE</div>
+            </div>
+        </a>
+
+        <a href="laboratory.html" class="home-link">
+            ← LABORATORY
+        </a>
+
+    </div>
+</header>
+
+<main>
+
+<section class="hero">
+    <div class="container">
+
+        <div class="eyebrow">MOLECULAR RESEARCH DIVISION // 02</div>
+
+        <h1>
+            Molecular <span>Lab.</span>
+        </h1>
+
+        <p>
+            Explorer la matière vivante à l'échelle moléculaire.
+            Génétique, biologie moléculaire, génomique, bioinformatique
+            et analyse biomoléculaire dans un environnement numérique
+            de recherche.
+        </p>
+
+        <div class="status-line">
+            <div class="status">STATUS: <strong>ONLINE</strong></div>
+            <div class="status">LAB: MOLECULAR-02</div>
+            <div class="status">MODE: RESEARCH</div>
+        </div>
+
+    </div>
+</section>
+
+
+<section>
+    <div class="container metrics">
+
+        <div class="metric">
+            <div class="metric-label">MOLECULAR PROJECTS</div>
+            <div class="metric-value">05</div>
+        </div>
+
+        <div class="metric">
+            <div class="metric-label">EXPERIMENTS</div>
+            <div class="metric-value">14</div>
+        </div>
+
+        <div class="metric">
+            <div class="metric-label">DATASETS</div>
+            <div class="metric-value">21</div>
+        </div>
+
+        <div class="metric">
+            <div class="metric-label">RESEARCH DOMAINS</div>
+            <div class="metric-value">06</div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-tag">MOLECULAR CORE</div>
+            <h2>Biological Intelligence Layer</h2>
+            <p class="section-description">
+                Visualisation conceptuelle du cœur moléculaire du laboratoire.
+            </p>
+        </div>
+
+        <div class="molecular-core">
+
+            <div class="atom a1"></div>
+            <div class="atom a2"></div>
+            <div class="atom a3"></div>
+            <div class="atom a4"></div>
+
+            <div class="core">
+                <div class="core-inner"></div>
+            </div>
+
+            <div class="core-label">
+                MOLECULAR CORE // READY
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-tag">RESEARCH DOMAINS</div>
+            <h2>Domaines moléculaires</h2>
+            <p class="section-description">
+                Les principaux axes de recherche du Molecular Lab.
+            </p>
+        </div>
+
+        <div class="domain-grid">
+
+            <a href="projects.html" class="domain">
+                <div class="domain-number">01 // GENOMICS</div>
+                <h3>Génomique</h3>
+                <p>
+                    Étude, organisation et analyse des génomes
+                    et de leurs variations.
+                </p>
+            </a>
+
+            <a href="projects.html" class="domain">
+                <div class="domain-number">02 // MOLECULAR BIOLOGY</div>
+                <h3>Biologie moléculaire</h3>
+                <p>
+                    ADN, ARN, protéines et mécanismes
+                    moléculaires du vivant.
+                </p>
+            </a>
+
+            <a href="data.html" class="domain">
+                <div class="domain-number">03 // BIOINFORMATICS</div>
+                <h3>Bioinformatique</h3>
+                <p>
+                    Analyse informatique de données biologiques
+                    et moléculaires.
+                </p>
+            </a>
+
+            <a href="experiments.html" class="domain">
+                <div class="domain-number">04 // BIOMOLECULAR ANALYSIS</div>
+                <h3>Analyse biomoléculaire</h3>
+                <p>
+                    Étude des interactions et propriétés
+                    des biomolécules.
+                </p>
+            </a>
+
+            <a href="projects.html" class="domain">
+                <div class="domain-number">05 // CELLULAR SYSTEMS</div>
+                <h3>Systèmes cellulaires</h3>
+                <p>
+                    Comprendre les mécanismes cellulaires
+                    à travers leurs composants moléculaires.
+                </p>
+            </a>
+
+            <a href="documentation.html" class="domain">
+                <div class="domain-number">06 // MOLECULAR DATA</div>
+                <h3>Données moléculaires</h3>
+                <p>
+                    Organisation, documentation et exploitation
+                    des données expérimentales.
+                </p>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-tag">ACTIVE PROJECTS</div>
+            <h2>Recherche en cours</h2>
+        </div>
+
+        <div class="project-list">
+
+            <div class="project">
+
+                <div class="project-top">
+                    <div>
+                        <div class="project-code">MOL-001</div>
+                        <h3>Genome Pattern Analysis</h3>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <span style="width:68%"></span>
+                </div>
+
+                <div class="project-meta">
+                    <span>PROGRESS</span>
+                    <span>68%</span>
+                </div>
+
+            </div>
+
+
+            <div class="project">
+
+                <div class="project-top">
+                    <div>
+                        <div class="project-code">MOL-002</div>
+                        <h3>Protein Interaction Mapping</h3>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <span style="width:46%"></span>
+                </div>
+
+                <div class="project-meta">
+                    <span>PROGRESS</span>
+                    <span>46%</span>
+                </div>
+
+            </div>
+
+
+            <div class="project">
+
+                <div class="project-top">
+                    <div>
+                        <div class="project-code">MOL-003</div>
+                        <h3>Biological Data Engine</h3>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <span style="width:31%"></span>
+                </div>
+
+                <div class="project-meta">
+                    <span>PROGRESS</span>
+                    <span>31%</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-tag">LAB CONTROL</div>
+            <h2>Molecular Lab Control Center</h2>
+        </div>
+
+        <div class="control-grid">
+
+            <a href="laboratory.html" class="control">
+                <div class="control-icon">01</div>
+                <strong>Laboratory</strong>
+                <small>Vue générale des laboratoires</small>
+            </a>
+
+            <a href="projects.html" class="control">
+                <div class="control-icon">02</div>
+                <strong>Projects</strong>
+                <small>Projets moléculaires</small>
+            </a>
+
+            <a href="experiments.html" class="control">
+                <div class="control-icon">03</div>
+                <strong>Experiments</strong>
+                <small>Expériences et protocoles</small>
+            </a>
+
+            <a href="data.html" class="control">
+                <div class="control-icon">04</div>
+                <strong>Data</strong>
+                <small>Données biologiques</small>
+            </a>
+
+            <a href="documentation.html" class="control">
+                <div class="control-icon">05</div>
+                <strong>Documentation</strong>
+                <small>Notes et documentation</small>
+            </a>
+
+            <a href="research.html" class="control">
+                <div class="control-icon">06</div>
+                <strong>Research</strong>
+                <small>Centre de recherche</small>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-head">
+            <div class="section-tag">LIVE LAB ACTIVITY</div>
+            <h2>Activité moléculaire</h2>
+        </div>
+
+        <div class="activity">
+
+            <div class="activity-item">
+                <div class="activity-time">08:41 // MOL-001</div>
+                <div class="activity-text">
+                    Analyse génomique mise à jour.
+                    <span>Dataset #GEN-204</span>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-time">08:27 // MOL-002</div>
+                <div class="activity-text">
+                    Nouveau résultat biomoléculaire enregistré.
+                    <span>Experiment #EXP-117</span>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-time">08:03 // DATA</div>
+                <div class="activity-text">
+                    Dataset synchronisé.
+                    <span>21 datasets disponibles</span>
+                </div>
+         
