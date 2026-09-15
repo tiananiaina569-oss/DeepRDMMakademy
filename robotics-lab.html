@@ -1,1 +1,977 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Robotics Lab — DeepRDMMakademy</title>
+
+  <meta
+    name="description"
+    content="Robotics Lab — laboratoire numérique de robotique, autonomie, perception et systèmes embarqués de DeepRDMMakademy."
+  >
+
+  <style>
+    :root {
+      --bg: #05070b;
+      --panel: #0a0f16;
+      --panel-2: #0d141d;
+      --cyan: #39d9ff;
+      --cyan-soft: rgba(57, 217, 255, 0.12);
+      --blue: #168cff;
+      --gold: #d6b36a;
+      --text: #edf7ff;
+      --muted: #8da0af;
+      --border: rgba(57, 217, 255, 0.20);
+      --border-gold: rgba(214, 179, 106, 0.25);
+      --success: #63e6a7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 85% 10%, rgba(22, 140, 255, 0.10), transparent 30%),
+        radial-gradient(circle at 10% 30%, rgba(57, 217, 255, 0.05), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1180px, calc(100% - 28px));
+      margin: auto;
+    }
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 7, 11, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+    }
+
+    .brand span {
+      color: var(--cyan);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--success);
+      white-space: nowrap;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    /* NAV */
+
+    .top-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: none;
+    }
+
+    .top-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-link {
+      flex: 0 0 auto;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+    }
+
+    /* HERO */
+
+    .hero {
+      padding: 60px 0 35px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .eyebrow {
+      font-family: monospace;
+      color: var(--gold);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 12vw, 82px);
+      line-height: 0.95;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      max-width: 850px;
+    }
+
+    h1 span {
+      color: var(--cyan);
+    }
+
+    .hero-text {
+      max-width: 680px;
+      color: var(--muted);
+      margin-top: 22px;
+      font-size: 15px;
+    }
+
+    .hero-meta {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta {
+      border: 1px solid var(--border);
+      background: rgba(10, 15, 22, 0.75);
+      padding: 9px 12px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    /* CORE */
+
+    .robotics-core {
+      margin: 25px 0 50px;
+      border: 1px solid var(--border);
+      background:
+        linear-gradient(135deg, rgba(57,217,255,0.06), transparent 45%),
+        var(--panel);
+      min-height: 280px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .core-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(57,217,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57,217,255,0.06) 1px, transparent 1px);
+      background-size: 35px 35px;
+    }
+
+    .robot {
+      width: 120px;
+      height: 145px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .robot-head {
+      width: 70px;
+      height: 55px;
+      margin: auto;
+      border: 2px solid var(--cyan);
+      background: #071018;
+      position: relative;
+      box-shadow: 0 0 25px rgba(57,217,255,0.15);
+    }
+
+    .robot-head::before,
+    .robot-head::after {
+      content: "";
+      position: absolute;
+      top: 21px;
+      width: 9px;
+      height: 9px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .robot-head::before {
+      left: 15px;
+    }
+
+    .robot-head::after {
+      right: 15px;
+    }
+
+    .robot-body {
+      width: 82px;
+      height: 68px;
+      margin: 8px auto 0;
+      border: 2px solid var(--blue);
+      background: #071018;
+      position: relative;
+    }
+
+    .robot-body::after {
+      content: "RDM";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+    }
+
+    .arm {
+      position: absolute;
+      width: 24px;
+      height: 65px;
+      border: 2px solid var(--cyan);
+      top: 64px;
+    }
+
+    .arm.left {
+      left: -3px;
+      transform: rotate(16deg);
+    }
+
+    .arm.right {
+      right: -3px;
+      transform: rotate(-16deg);
+    }
+
+    .core-label {
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+    }
+
+    .core-status {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      color: var(--success);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+    }
+
+    /* SECTION */
+
+    section {
+      padding: 35px 0;
+    }
+
+    .section-head {
+      margin-bottom: 22px;
+    }
+
+    .section-code {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      font-size: clamp(28px, 7vw, 45px);
+    }
+
+    .section-description {
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 700px;
+      margin-top: 8px;
+    }
+
+    /* METRICS */
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 18px;
+    }
+
+    .metric-value {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--cyan);
+      font-size: 32px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      margin-top: 5px;
+    }
+
+    /* DOMAINS */
+
+    .domain-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .domain {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 19px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .domain::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border: 1px solid var(--border);
+      right: -35px;
+      bottom: -35px;
+      transform: rotate(45deg);
+    }
+
+    .domain-number {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 10px;
+    }
+
+    .domain h3 {
+      font-size: 18px;
+      margin: 8px 0;
+      font-weight: 600;
+    }
+
+    .domain p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* PROJECTS */
+
+    .projects {
+      display: grid;
+      gap: 12px;
+    }
+
+    .project {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 19px;
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .project-id {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+    }
+
+    .project h3 {
+      font-size: 17px;
+      margin: 5px 0;
+    }
+
+    .project p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .percentage {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 12px;
+    }
+
+    .progress {
+      height: 4px;
+      background: #17202a;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+    }
+
+    /* CONTROL */
+
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .control-card {
+      min-height: 100px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.2s ease;
+    }
+
+    .control-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    .control-icon {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 16px;
+    }
+
+    .control-title {
+      font-size: 12px;
+      margin-top: 12px;
+    }
+
+    .control-arrow {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    /* ACTIVITY */
+
+    .activity {
+      border: 1px solid var(--border);
+      background: var(--panel);
+    }
+
+    .activity-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid rgba(57,217,255,0.08);
+      font-size: 12px;
+    }
+
+    .activity-row:last-child {
+      border-bottom: 0;
+    }
+
+    .activity-time {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 9px;
+    }
+
+    .activity-text {
+      color: var(--muted);
+    }
+
+    .activity-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* CTA */
+
+    .cta {
+      margin: 30px 0 50px;
+      border: 1px solid var(--border-gold);
+      background:
+        linear-gradient(120deg, rgba(214,179,106,0.07), transparent),
+        var(--panel);
+      padding: 25px;
+    }
+
+    .cta h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 25px;
+      font-weight: 500;
+    }
+
+    .cta p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 9px 0 18px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid var(--cyan);
+      padding: 11px 15px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      background: var(--cyan-soft);
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      color: var(--muted);
+      font-family: monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    /* TABLET */
+
+    @media (min-width: 650px) {
+      .metrics {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .domain-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .control-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .robotics-core {
+        min-height: 350px;
+      }
+    }
+
+    /* DESKTOP */
+
+    @media (min-width: 950px) {
+      .hero {
+        padding-top: 90px;
+      }
+
+      .domain-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .projects {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .project {
+        min-height: 210px;
+      }
+
+      .control-grid {
+        grid-template-columns: repeat(6, 1fr);
+      }
+
+      .header-inner {
+        min-height: 78px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+
+  <header>
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        Deep<span>RDM</span>Makademy
+      </a>
+
+      <div class="status">
+        <span class="status-dot"></span>
+        SYSTEM ONLINE
+      </div>
+    </div>
+
+    <div class="container">
+      <nav class="top-nav">
+        <a href="index.html" class="nav-link">HOME</a>
+        <a href="laboratory.html" class="nav-link">LABORATORY</a>
+        <a href="projects.html" class="nav-link">PROJECTS</a>
+        <a href="experiments.html" class="nav-link">EXPERIMENTS</a>
+        <a href="data.html" class="nav-link">DATA</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+      <div class="container">
+
+        <div class="eyebrow">
+          DIGITAL LABORATORY // ROBOTICS SYSTEMS
+        </div>
+
+        <h1>
+          Robotics<br>
+          <span>Lab.</span>
+        </h1>
+
+        <p class="hero-text">
+          Laboratoire numérique dédié à la conception, l'analyse et
+          l'expérimentation des systèmes robotiques, de l'autonomie
+          intelligente aux technologies embarquées.
+        </p>
+
+        <div class="hero-meta">
+          <div class="meta">ROBOTICS CORE / ACTIVE</div>
+          <div class="meta">AUTONOMY SYSTEMS</div>
+          <div class="meta">ENGINEERING MODE</div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ROBOTICS CORE -->
+
+    <div class="container">
+
+      <div class="robotics-core">
+
+        <div class="core-grid"></div>
+
+        <div class="core-label">
+          ROBOTICS CORE // RDM-RX01
+        </div>
+
+        <div class="core-status">
+          ● OPERATIONAL
+        </div>
+
+        <div class="robot">
+
+          <div class="robot-head"></div>
+
+          <div class="arm left"></div>
+          <div class="arm right"></div>
+
+          <div class="robot-body"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- METRICS -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">
+            01 // SYSTEM METRICS
+          </div>
+
+          <h2>Robotics activity.</h2>
+
+          <p class="section-description">
+            Vue synthétique des systèmes, prototypes et expériences
+            actuellement suivis dans le Robotics Lab.
+          </p>
+        </div>
+
+        <div class="metrics">
+
+          <div class="metric">
+            <div class="metric-value">04</div>
+            <div class="metric-label">ACTIVE PROJECTS</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-value">07</div>
+            <div class="metric-label">PROTOTYPES</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-value">11</div>
+            <div class="metric-label">EXPERIMENTS</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-value">05</div>
+            <div class="metric-label">AUTONOMOUS SYSTEMS</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- RESEARCH DOMAINS -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">
+            02 // RESEARCH DOMAINS
+          </div>
+
+          <h2>Robotics research.</h2>
+
+          <p class="section-description">
+            Les principaux domaines d'étude du laboratoire.
+          </p>
+        </div>
+
+        <div class="domain-grid">
+
+          <article class="domain">
+            <div class="domain-number">R-01</div>
+            <h3>Robotic Systems</h3>
+            <p>
+              Architecture, conception et intégration de systèmes robotiques.
+            </p>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">R-02</div>
+            <h3>Autonomous Navigation</h3>
+            <p>
+              Navigation autonome, localisation, trajectoires et prise de décision.
+            </p>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">R-03</div>
+            <h3>Industrial Robotics</h3>
+            <p>
+              Automatisation, manipulation, contrôle et systèmes robotisés.
+            </p>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">R-04</div>
+            <h3>Human-Robot Interaction</h3>
+            <p>
+              Interaction naturelle entre humains et systèmes intelligents.
+            </p>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">R-05</div>
+            <h3>Embedded Systems</h3>
+            <p>
+              Contrôle embarqué, capteurs, microcontrôleurs et architecture temps réel.
+            </p>
+          </article>
+
+          <article class="domain">
+            <div class="domain-number">R-06</div>
+            <h3>Robot Vision</h3>
+            <p>
+              Perception, vision artificielle, détection et compréhension de l'environnement.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">
+            03 // ACTIVE PROJECTS
+          </div>
+
+          <h2>Projects in development.</h2>
+
+          <p class="section-description">
+            Projets robotiques actuellement enregistrés dans le laboratoire.
+          </p>
+        </div>
+
+        <div class="projects">
+
+          <article class="project">
+
+            <div class="project-top">
+              <div>
+                <div class="project-id">ROB-001</div>
+                <h3>Autonomous Rover</h3>
+              </div>
+
+              <div class="percentage">76%</div>
+            </div>
+
+            <p>
+              Plateforme mobile autonome destinée à l'étude de navigation,
+              perception et contrôle.
+            </p>
+
+            <div class="progress">
+              <span style="width:76%"></span>
+            </div>
+
+          </article>
+
+
+          <article class="project">
+
+            <div class="project-top">
+              <div>
+                <div class="project-id">ROB-002</div>
+                <h3>Vision & Perception</h3>
+              </div>
+
+              <div class="percentage">58%</div>
+            </div>
+
+            <p>
+              Système expérimental de perception visuelle pour environnement
+              robotique dynamique.
+            </p>
+
+            <div class="progress">
+              <span style="width:58%"></span>
+            </div>
+
+          </article>
+
+
+          <article class="project">
+
+            <div class="project-top">
+              <div>
+                <div class="project-id">ROB-003</div>
+                <h3>Smart Manipulator</h3>
+              </div>
+
+              <div class="percentage">41%</div>
+            </div>
+
+            <p>
+              Étude d'un système de manipulation assisté par perception
+              et contrôle intelligent.
+            </p>
+
+            <div class="progress">
+              <span style="width:41%"></span>
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- CONTROL CENTER -->
+
+    <section>
+      <div class="container">
+
+        <div class="section-head">
+          <div class="section-code">
+            04 // CONTROL CENTER
+          </div>
+
+          <h2>Laboratory control.</h2>
+
+          <p class="s
