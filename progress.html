@@ -1,1 +1,1234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050b12">
+<title>Progression — DeepRDMMakademy</title>
 
+<style>
+:root{
+  --bg:#050b12;
+  --panel:#09131d;
+  --panel2:#0c1924;
+  --line:#123449;
+  --cyan:#20d9ff;
+  --cyan2:#76efff;
+  --gold:#d6b45c;
+  --white:#edf8ff;
+  --muted:#8ba5b5;
+  --green:#49e39a;
+  --red:#ff7181;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 15% 0%,rgba(20,100,135,.16),transparent 32%),
+    radial-gradient(circle at 90% 20%,rgba(110,80,20,.08),transparent 30%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.container{
+  width:min(1120px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(5,11,18,.91);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+
+.brand{
+  font-family:Georgia,serif;
+  font-size:1.02rem;
+  letter-spacing:.04em;
+  white-space:nowrap;
+}
+
+.brand span{
+  color:var(--cyan);
+}
+
+.nav-links{
+  display:none;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--green);
+  font-family:monospace;
+  font-size:.62rem;
+  letter-spacing:.08em;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+}
+
+/* HERO */
+
+.hero{
+  padding:50px 0 30px;
+}
+
+.eyebrow{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:.66rem;
+  letter-spacing:.16em;
+  margin-bottom:12px;
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-size:clamp(2.1rem,8vw,4.2rem);
+  line-height:1.05;
+  font-weight:400;
+  margin-bottom:15px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:720px;
+  font-size:.9rem;
+}
+
+/* METRICS */
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin:15px 0 30px;
+}
+
+.metric{
+  background:rgba(9,19,29,.85);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:15px;
+}
+
+.metric-value{
+  font-family:Georgia,serif;
+  color:var(--cyan2);
+  font-size:1.5rem;
+}
+
+.metric-label{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:.57rem;
+  letter-spacing:.08em;
+  margin-top:3px;
+}
+
+/* SECTION */
+
+section{
+  padding:28px 0;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  margin-bottom:15px;
+}
+
+.section-code{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:.59rem;
+  letter-spacing:.12em;
+}
+
+.section-head h2{
+  font-family:Georgia,serif;
+  font-size:1.55rem;
+  font-weight:400;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:.7rem;
+}
+
+.card{
+  background:
+    linear-gradient(145deg,rgba(12,25,36,.96),rgba(6,14,22,.96));
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:19px;
+}
+
+/* GLOBAL PROGRESS */
+
+.global-progress{
+  position:relative;
+  overflow:hidden;
+}
+
+.global-progress::after{
+  content:"";
+  position:absolute;
+  width:230px;
+  height:230px;
+  right:-130px;
+  top:-130px;
+  border:1px solid rgba(32,217,255,.13);
+  border-radius:50%;
+}
+
+.progress-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.progress-title{
+  font-family:Georgia,serif;
+  font-size:1.25rem;
+}
+
+.progress-number{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:1rem;
+}
+
+.progress-track{
+  width:100%;
+  height:10px;
+  background:#061019;
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  width:68%;
+  height:100%;
+  background:linear-gradient(90deg,var(--cyan),var(--cyan2));
+  box-shadow:0 0 18px rgba(32,217,255,.4);
+}
+
+.progress-info{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:var(--muted);
+  font-size:.67rem;
+  margin-top:9px;
+}
+
+.progress-summary{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin-top:18px;
+}
+
+.summary{
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px;
+}
+
+.summary strong{
+  display:block;
+  font-size:.9rem;
+}
+
+.summary span{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:.56rem;
+}
+
+/* SUBJECTS */
+
+.subject-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:11px;
+}
+
+.subject{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:15px;
+  background:rgba(7,16,24,.7);
+}
+
+.subject-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+
+.subject-name{
+  font-size:.83rem;
+}
+
+.subject-percent{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:.7rem;
+}
+
+.subject-track{
+  height:6px;
+  background:#061019;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.subject-fill{
+  height:100%;
+  background:var(--cyan);
+}
+
+.subject-bottom{
+  display:flex;
+  justify-content:space-between;
+  margin-top:7px;
+  color:var(--muted);
+  font-size:.61rem;
+}
+
+/* COMPETENCIES */
+
+.two-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+
+.competency-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.competency{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:11px;
+  border:1px solid var(--line);
+  border-radius:10px;
+}
+
+.comp-name{
+  font-size:.73rem;
+}
+
+.comp-domain{
+  color:var(--muted);
+  font-size:.58rem;
+}
+
+.comp-status{
+  white-space:nowrap;
+  font-family:monospace;
+  font-size:.57rem;
+}
+
+.validated{
+  color:var(--green);
+}
+
+.in-progress{
+  color:var(--gold);
+}
+
+.locked{
+  color:var(--muted);
+}
+
+/* WEAKNESSES */
+
+.weakness{
+  padding:13px;
+  border:1px solid rgba(255,113,129,.25);
+  border-radius:11px;
+  margin-bottom:9px;
+}
+
+.weakness:last-child{
+  margin-bottom:0;
+}
+
+.weakness-title{
+  color:var(--red);
+  font-family:monospace;
+  font-size:.6rem;
+  letter-spacing:.08em;
+  margin-bottom:5px;
+}
+
+.weakness h3{
+  font-family:Georgia,serif;
+  font-size:1rem;
+  font-weight:400;
+}
+
+.weakness p{
+  color:var(--muted);
+  font-size:.67rem;
+  margin:4px 0 9px;
+}
+
+.small-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:7px 11px;
+  border:1px solid var(--gold);
+  border-radius:8px;
+  color:#eed487;
+  font-family:monospace;
+  font-size:.57rem;
+}
+
+/* HISTORY */
+
+.history{
+  display:flex;
+  flex-direction:column;
+}
+
+.history-item{
+  display:grid;
+  grid-template-columns:12px 1fr auto;
+  gap:10px;
+  align-items:start;
+  padding:12px 0;
+  border-bottom:1px solid rgba(18,52,73,.7);
+}
+
+.history-item:last-child{
+  border-bottom:0;
+}
+
+.timeline-dot{
+  width:8px;
+  height:8px;
+  margin-top:6px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 9px rgba(32,217,255,.45);
+}
+
+.history-title{
+  font-size:.73rem;
+}
+
+.history-date{
+  color:var(--muted);
+  font-size:.59rem;
+}
+
+.history-result{
+  color:var(--green);
+  font-family:monospace;
+  font-size:.61rem;
+  white-space:nowrap;
+}
+
+/* OBJECTIVES */
+
+.goal{
+  margin-bottom:11px;
+}
+
+.goal:last-child{
+  margin-bottom:0;
+}
+
+.goal-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:.72rem;
+  margin-bottom:6px;
+}
+
+.goal-top span{
+  color:var(--cyan);
+  font-family:monospace;
+}
+
+.goal-track{
+  height:5px;
+  border-radius:10px;
+  background:#061019;
+  overflow:hidden;
+}
+
+.goal-fill{
+  height:100%;
+  background:var(--gold);
+}
+
+/* PATH */
+
+.path{
+  display:flex;
+  flex-direction:column;
+}
+
+.path-item{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:58px;
+  padding:8px 0 8px 12px;
+  border-left:1px solid var(--line);
+}
+
+.path-item::before{
+  content:"";
+  position:absolute;
+  left:-4px;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--line);
+}
+
+.path-item.active{
+  border-left-color:var(--cyan);
+}
+
+.path-item.active::before{
+  background:var(--cyan);
+  box-shadow:0 0 12px var(--cyan);
+}
+
+.path-number{
+  width:28px;
+  height:28px;
+  flex:none;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--line);
+  border-radius:7px;
+  font-family:monospace;
+  font-size:.6rem;
+  color:var(--muted);
+}
+
+.path-item.active .path-number{
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+
+.path-title{
+  font-size:.73rem;
+}
+
+.path-status{
+  color:var(--muted);
+  font-size:.59rem;
+}
+
+/* RECOMMENDATION */
+
+.recommendation{
+  border-color:rgba(32,217,255,.3);
+}
+
+.recommendation-label{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:.59rem;
+  letter-spacing:.12em;
+  margin-bottom:7px;
+}
+
+.recommendation h3{
+  font-family:Georgia,serif;
+  font-weight:400;
+  font-size:1.2rem;
+}
+
+.recommendation p{
+  color:var(--muted);
+  font-size:.7rem;
+  margin:6px 0 13px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:9px 14px;
+  border:1px solid var(--cyan);
+  border-radius:9px;
+  color:var(--cyan2);
+  font-family:monospace;
+  font-size:.61rem;
+  letter-spacing:.05em;
+}
+
+.btn-gold{
+  border-color:var(--gold);
+  color:#efd887;
+}
+
+/* ACTIONS */
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.action{
+  min-height:57px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:1px solid var(--line);
+  border-radius:10px;
+  color:var(--cyan2);
+  font-family:monospace;
+  font-size:.6rem;
+  transition:.2s;
+}
+
+.action:hover{
+  border-color:var(--cyan);
+  background:rgba(32,217,255,.06);
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--line);
+  margin-top:30px;
+  padding:30px 0;
+}
+
+.footer-grid{
+  display:grid;
+  gap:20px;
+}
+
+.footer-brand{
+  font-family:Georgia,serif;
+  font-size:1rem;
+}
+
+.footer-brand span{
+  color:var(--cyan);
+}
+
+footer p{
+  color:var(--muted);
+  font-size:.68rem;
+  max-width:520px;
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px 15px;
+}
+
+.footer-links a{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:.59rem;
+}
+
+.footer-links a:hover{
+  color:var(--cyan);
+}
+
+.copyright{
+  margin-top:18px;
+  color:#526b79;
+  font-family:monospace;
+  font-size:.55rem;
+}
+
+/* TABLET */
+
+@media(min-width:700px){
+
+  .nav-links{
+    display:flex;
+    gap:15px;
+  }
+
+  .nav-links a{
+    color:var(--muted);
+    font-family:monospace;
+    font-size:.6rem;
+  }
+
+  .metrics{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .subject-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .two-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .progress-summary{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr auto;
+  }
+}
+
+/* DESKTOP */
+
+@media(min-width:1000px){
+
+  .hero{
+    padding:75px 0 35px;
+  }
+
+  .subject-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .actions{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+  <div class="container nav">
+
+    <a href="akademy.html" class="brand">
+      Deep<span>RDM</span>Makademy
+    </a>
+
+    <nav class="nav-links">
+      <a href="akademy.html">AKADEMY</a>
+      <a href="courses.html">COURS</a>
+      <a href="student-dashboard.html">DASHBOARD</a>
+      <a href="evaluations.html">ÉVALUATIONS</a>
+    </nav>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE
+    </div>
+
+  </div>
+</header>
+
+
+<main>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="container">
+
+    <div class="eyebrow">
+      STUDENT.OS / PROGRESS / 0x91A
+    </div>
+
+    <h1>
+      Mesure.<br>
+      Comprends.<br>
+      Progresse.
+    </h1>
+
+    <p>
+      Un centre de progression détaillé pour suivre les compétences,
+      les matières, les évaluations et les prochaines étapes de ton
+      parcours académique.
+    </p>
+
+  </div>
+</section>
+
+
+<!-- METRICS -->
+
+<section>
+<div class="container">
+
+  <div class="metrics">
+
+    <div class="metric">
+      <div class="metric-value">68%</div>
+      <div class="metric-label">PROGRESSION GLOBALE</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-value">34</div>
+      <div class="metric-label">COMPÉTENCES VALIDÉES</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-value">17</div>
+      <div class="metric-label">ÉVALUATIONS</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-value">1 840</div>
+      <div class="metric-label">XP ACQUIS</div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+
+<!-- GLOBAL -->
+
+<section>
+<div class="container">
+
+  <div class="section-head">
+    <div>
+      <div class="section-code">01 / GLOBAL MASTERY</div>
+      <h2>Progression globale</h2>
+    </div>
+
+    <p>Niveau actuel : Lycée</p>
+  </div>
+
+
+  <div class="card global-progress">
+
+    <div class="progress-header">
+      <div class="progress-title">
+        Parcours académique
+      </div>
+
+      <div class="progress-number">
+        68%
+      </div>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+
+    <div class="progress-info">
+      <span>34 compétences validées</span>
+      <span>50 compétences prévues</span>
+    </div>
+
+
+    <div class="progress-summary">
+
+      <div class="summary">
+        <strong>34</strong>
+        <span>VALIDÉES</span>
+      </div>
+
+      <div class="summary">
+        <strong>08</strong>
+        <span>EN COURS</span>
+      </div>
+
+      <div class="summary">
+        <strong>08</strong>
+        <span>À VENIR</span>
+      </div>
+
+      <div class="summary">
+        <strong>17</strong>
+        <span>ÉVALUATIONS</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+
+<!-- SUBJECT PROGRESS -->
+
+<section>
+<div class="container">
+
+  <div class="section-head">
+    <div>
+      <div class="section-code">02 / SUBJECT MASTERY</div>
+      <h2>Progression par matière</h2>
+    </div>
+
+    <p>6 matières actives</p>
+  </div>
+
+
+  <div class="subject-grid">
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Mathématiques</span>
+        <span class="subject-percent">82%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:82%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>9 / 11 compétences</span>
+        <span>Très bon</span>
+      </div>
+    </div>
+
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Physique</span>
+        <span class="subject-percent">71%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:71%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>7 / 10 compétences</span>
+        <span>En progression</span>
+      </div>
+    </div>
+
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Biologie</span>
+        <span class="subject-percent">64%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:64%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>8 / 12 compétences</span>
+        <span>En progression</span>
+      </div>
+    </div>
+
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Informatique</span>
+        <span class="subject-percent">59%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:59%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>6 / 10 compétences</span>
+        <span>À renforcer</span>
+      </div>
+    </div>
+
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Sciences</span>
+        <span class="subject-percent">76%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:76%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>10 / 13 compétences</span>
+        <span>Bon niveau</span>
+      </div>
+    </div>
+
+
+    <div class="subject">
+      <div class="subject-top">
+        <span class="subject-name">Intelligence artificielle</span>
+        <span class="subject-percent">42%</span>
+      </div>
+
+      <div class="subject-track">
+        <div class="subject-fill" style="width:42%"></div>
+      </div>
+
+      <div class="subject-bottom">
+        <span>4 / 10 compétences</span>
+        <span>Débutant</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+
+<!-- COMPETENCIES -->
+
+<section>
+<div class="container two-grid">
+
+  <div>
+
+    <div class="section-head">
+      <div>
+        <div class="section-code">03 / COMPETENCIES</div>
+        <h2>Compétences</h2>
+      </div>
+    </div>
+
+
+    <div class="card competency-list">
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Observer un phénomène
+          </div>
+          <div class="comp-domain">
+            Méthode scientifique
+          </div>
+        </div>
+
+        <span class="comp-status validated">
+          VALIDÉ
+        </span>
+      </div>
+
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Formuler une hypothèse
+          </div>
+          <div class="comp-domain">
+            Méthode scientifique
+          </div>
+        </div>
+
+        <span class="comp-status validated">
+          VALIDÉ
+        </span>
+      </div>
+
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Analyser un graphique
+          </div>
+          <div class="comp-domain">
+            Data Science
+          </div>
+        </div>
+
+        <span class="comp-status in-progress">
+          72%
+        </span>
+      </div>
+
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Interpréter des données
+          </div>
+          <div class="comp-domain">
+            Sciences
+          </div>
+        </div>
+
+        <span class="comp-status in-progress">
+          61%
+        </span>
+      </div>
+
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Algorithmique
+          </div>
+          <div class="comp-domain">
+            Informatique
+          </div>
+        </div>
+
+        <span class="comp-status locked">
+          À VENIR
+        </span>
+      </div>
+
+
+      <div class="competency">
+        <div>
+          <div class="comp-name">
+            Modélisation scientifique
+          </div>
+          <div class="comp-domain">
+            Physique
+          </div>
+        </div>
+
+        <span class="comp-status locked">
+          À VENIR
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- WEAKNESSES -->
+
+  <div>
+
+    <div class="section-head">
+      <div>
+        <div class="section-code">04 / REMEDIATION</div>
+        <h2>À renforcer</h2>
+      </div>
+    </div>
+
+
+    <div class="card">
+
+      <div class="weakness">
+
+        <div class="weakness-title">
+          PRIORITÉ 01
+        </div>
+
+        <h3>
+          Interprétation des données
+        </h3>
+
+        <p>
+          Les dernières activités montrent une maîtrise partielle
+          des graphiques et indicateurs.
+        </p>
+
+        <a href="exercises.html" class="small-btn">
+          LANCER LES EXERCICES
+        </a>
+
+      </div>
+
+
+      <div class="weakness">
+
+        <div class="weakness-title">
+          PRIORITÉ 02
+        </div>
+
+        <h3>
+          Algorithmique
+        </h3>
+
+        <p>
+          Les fondamentaux de programmation devront être consolidés
+          avant l'accès aux notions avancées.
+        </p>
+
+        <a href="courses.html" class="small-btn">
+          REVOIR LE COURS
+        </a>
+
+      </div>
+
+
+      <div class="weakness">
+
+        <div class="weakness-title">
+          PRIORITÉ 03
+        </div>
+
+        <h3>
+          Modélisation scientifique
+        </h3>
+
+        <p>
+          Une série d'exercices préparatoires sera recommandée
+          avant la prochaine évaluation.
+        </p>
+
+        <a href="exercises.html" class="small-btn">
+          PRATIQUER
+        </a>
+
+      </div>
+
+  </div>
+  
