@@ -1,1 +1,1137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Exercises Center | DeepRDMMakademy</title>
+
+<meta name="description" content="DeepRDMMakademy — centre d'exercices et de pratique scientifique.">
+
+<style>
+:root{
+  --bg:#05080d;
+  --panel:#0a1018;
+  --panel2:#0d1520;
+  --line:#123044;
+  --cyan:#27d8ff;
+  --blue:#168cff;
+  --gold:#d9b45c;
+  --white:#f3f7fb;
+  --muted:#8b9aaa;
+  --success:#37e29b;
+  --danger:#ff6575;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(20,120,180,.16),transparent 38%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+.container{
+  width:min(1120px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,8,13,.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+
+.header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{
+  font-family:Georgia,serif;
+  font-size:18px;
+  white-space:nowrap;
+}
+
+.brand span{
+  color:var(--cyan);
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--success);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 12px var(--success);
+}
+
+.top-nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 0;
+  border-top:1px solid rgba(18,48,68,.45);
+}
+
+.top-nav a{
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  padding:7px 11px;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+.top-nav a:hover{
+  color:var(--cyan);
+  border-color:var(--cyan);
+}
+
+/* HERO */
+
+.hero{
+  padding:55px 0 30px;
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:13px;
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-size:clamp(36px,9vw,70px);
+  line-height:1.03;
+  font-weight:400;
+  margin-bottom:18px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:730px;
+  font-size:15px;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb{
+  margin:25px 0;
+  padding:12px;
+  border:1px solid var(--line);
+  background:rgba(10,16,24,.7);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.breadcrumb strong{
+  color:var(--cyan);
+}
+
+.sep{
+  color:var(--gold);
+}
+
+/* SYSTEM BAR */
+
+.system-bar{
+  display:grid;
+  grid-template-columns:1fr;
+  border:1px solid var(--line);
+  background:var(--panel);
+  margin-bottom:25px;
+}
+
+.system-item{
+  padding:16px;
+  border-bottom:1px solid var(--line);
+}
+
+.system-item:last-child{
+  border-bottom:0;
+}
+
+.system-item span{
+  display:block;
+  color:var(--muted);
+  font-family:monospace;
+  font-size:9px;
+  letter-spacing:1px;
+  margin-bottom:5px;
+}
+
+.system-item strong{
+  font-size:20px;
+}
+
+/* PANELS */
+
+.panel{
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(10,16,24,.96),rgba(6,11,17,.96));
+  padding:22px;
+  margin-bottom:20px;
+}
+
+.panel-label{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.panel h2{
+  font-family:Georgia,serif;
+  font-weight:400;
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.panel p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* SEARCH */
+
+.search-box{
+  margin-top:18px;
+}
+
+.search-box input{
+  width:100%;
+  min-height:48px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  outline:none;
+  background:#070d14;
+  color:var(--white);
+  font-family:monospace;
+  font-size:12px;
+}
+
+.search-box input:focus{
+  border-color:var(--cyan);
+}
+
+/* FILTERS */
+
+.filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:15px 0 3px;
+}
+
+.filter{
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--muted);
+  padding:8px 12px;
+  font-family:monospace;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.filter.active,
+.filter:hover{
+  color:var(--cyan);
+  border-color:var(--cyan);
+  background:rgba(39,216,255,.05);
+}
+
+/* EXERCISE GRID */
+
+.exercise-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+  margin-top:20px;
+}
+
+.exercise{
+  border:1px solid var(--line);
+  background:#080e15;
+  padding:17px;
+  transition:.2s;
+}
+
+.exercise:hover{
+  border-color:rgba(39,216,255,.5);
+  transform:translateY(-2px);
+}
+
+.exercise.hidden{
+  display:none;
+}
+
+.exercise-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.exercise-id{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:10px;
+}
+
+.badge{
+  border:1px solid var(--line);
+  padding:4px 7px;
+  color:var(--muted);
+  font-family:monospace;
+  font-size:8px;
+}
+
+.exercise h3{
+  font-size:17px;
+  margin:10px 0 6px;
+}
+
+.exercise p{
+  font-size:12px;
+}
+
+.exercise-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:13px;
+}
+
+.meta{
+  padding:5px 7px;
+  border:1px solid rgba(18,48,68,.8);
+  color:var(--muted);
+  font-family:monospace;
+  font-size:8px;
+}
+
+.exercise-action{
+  display:flex;
+  margin-top:15px;
+}
+
+.exercise-action a{
+  width:100%;
+  min-height:42px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.exercise-action a:hover{
+  background:rgba(39,216,255,.1);
+}
+
+/* PRACTICE ENGINE */
+
+.practice{
+  border-color:rgba(39,216,255,.35);
+  background:
+    radial-gradient(circle at 90% 10%,rgba(39,216,255,.08),transparent 35%),
+    var(--panel);
+}
+
+.question{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid var(--line);
+  background:#070d14;
+}
+
+.question-number{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+.question h3{
+  margin:10px 0;
+  font-size:18px;
+}
+
+.answers{
+  display:grid;
+  gap:8px;
+  margin-top:15px;
+}
+
+.answer{
+  width:100%;
+  text-align:left;
+  padding:13px;
+  border:1px solid var(--line);
+  background:#09111a;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:12px;
+}
+
+.answer:hover{
+  border-color:var(--cyan);
+  color:var(--white);
+}
+
+.answer.selected{
+  border-color:var(--cyan);
+  color:var(--cyan);
+  background:rgba(39,216,255,.07);
+}
+
+.practice-message{
+  display:none;
+  margin-top:14px;
+  padding:12px;
+  border:1px solid var(--success);
+  color:var(--success);
+  font-family:monospace;
+  font-size:10px;
+}
+
+.practice-message.show{
+  display:block;
+}
+
+.practice-actions{
+  display:grid;
+  gap:9px;
+  margin-top:15px;
+}
+
+.btn{
+  min-height:46px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  background:rgba(39,216,255,.05);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.btn.secondary{
+  border-color:var(--line);
+  color:var(--muted);
+}
+
+/* PATH */
+
+.path{
+  display:grid;
+  gap:8px;
+  margin-top:15px;
+}
+
+.path-step{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border:1px solid var(--line);
+  padding:12px;
+}
+
+.path-number{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-family:monospace;
+  font-size:9px;
+}
+
+.path-step.active{
+  border-color:var(--cyan);
+  background:rgba(39,216,255,.05);
+}
+
+.path-step.active .path-number{
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+
+.path-step.locked{
+  opacity:.45;
+}
+
+.path-step strong{
+  display:block;
+  font-size:12px;
+}
+
+.path-step span{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:8px;
+}
+
+/* ANTI CHEAT */
+
+.security-grid{
+  display:grid;
+  gap:9px;
+  margin-top:15px;
+}
+
+.security-item{
+  border:1px solid var(--line);
+  padding:12px;
+}
+
+.security-item strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:4px;
+}
+
+.security-item span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+/* FOOTER */
+
+footer{
+  margin-top:55px;
+  padding:35px 0;
+  border-top:1px solid var(--line);
+}
+
+.footer-grid{
+  display:grid;
+  gap:20px;
+}
+
+.footer-brand{
+  font-family:Georgia,serif;
+  font-size:18px;
+}
+
+.footer-brand span{
+  color:var(--cyan);
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.footer-links a{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:9px;
+}
+
+.footer-links a:hover{
+  color:var(--cyan);
+}
+
+.copyright{
+  padding-top:18px;
+  border-top:1px solid rgba(18,48,68,.5);
+  color:var(--muted);
+  font-family:monospace;
+  font-size:8px;
+}
+
+/* TABLET / DESKTOP */
+
+@media(min-width:700px){
+
+  .system-bar{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .system-item{
+    border-bottom:0;
+    border-right:1px solid var(--line);
+  }
+
+  .system-item:last-child{
+    border-right:0;
+  }
+
+  .exercise-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .practice-actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .security-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footer-grid{
+    grid-template-columns:1.3fr 2fr;
+  }
+}
+
+@media(min-width:1000px){
+
+  .hero{
+    padding-top:75px;
+  }
+
+  .exercise-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="container header-inner">
+
+    <a class="brand" href="index.html">
+      Deep<span>RDM</span>Makademy
+    </a>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE
+    </div>
+
+  </div>
+
+  <div class="container top-nav">
+    <a href="akademy.html">Akademy</a>
+    <a href="courses.html">Cours</a>
+    <a href="lesson.html">Leçon</a>
+    <a href="evaluations.html">Évaluations</a>
+    <a href="student-dashboard.html">Dashboard</a>
+  </div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="eyebrow">
+      AKADEMY / PRACTICE ENGINE / EXERCISES
+    </div>
+
+    <h1>
+      Pratiquer.<br>
+      Vérifier.<br>
+      Progresser.
+    </h1>
+
+    <p>
+      Le centre d'exercices transforme les connaissances acquises
+      pendant les leçons en compétences vérifiables. Chaque activité
+      est reliée au niveau, à la matière, au chapitre et à la compétence.
+    </p>
+
+  </div>
+
+</section>
+
+
+<div class="container">
+
+  <div class="breadcrumb">
+    <a href="akademy.html">AKADEMY</a>
+    <span class="sep">/</span>
+    <a href="courses.html">COURS</a>
+    <span class="sep">/</span>
+    <a href="lesson.html">LEÇON</a>
+    <span class="sep">/</span>
+    <strong>EXERCICES</strong>
+  </div>
+
+
+  <section class="system-bar">
+
+    <div class="system-item">
+      <span>EXERCICES DISPONIBLES</span>
+      <strong>120+</strong>
+    </div>
+
+    <div class="system-item">
+      <span>DOMAINES</span>
+      <strong>07</strong>
+    </div>
+
+    <div class="system-item">
+      <span>COMPÉTENCES</span>
+      <strong>42+</strong>
+    </div>
+
+    <div class="system-item">
+      <span>LANGUES</span>
+      <strong>02</strong>
+    </div>
+
+  </section>
+
+
+  <!-- REGISTRY -->
+
+  <section class="panel">
+
+    <div class="panel-label">
+      EXERCISE REGISTRY
+    </div>
+
+    <h2>
+      Banque d'exercices
+    </h2>
+
+    <p>
+      Les exercices sont organisés par niveau, matière, chapitre,
+      compétence et difficulté.
+    </p>
+
+    <div class="search-box">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Rechercher un exercice..."
+        aria-label="Rechercher un exercice"
+      >
+    </div>
+
+    <div class="filters">
+
+      <button class="filter active" data-filter="all">
+        TOUS
+      </button>
+
+      <button class="filter" data-filter="science">
+        SCIENCE
+      </button>
+
+      <button class="filter" data-filter="math">
+        MATHS
+      </button>
+
+      <button class="filter" data-filter="physics">
+        PHYSIQUE
+      </button>
+
+      <button class="filter" data-filter="biology">
+        BIOLOGIE
+      </button>
+
+      <button class="filter" data-filter="ai">
+        IA
+      </button>
+
+      <button class="filter" data-filter="digital">
+        DIGITAL
+      </button>
+
+    </div>
+
+
+    <div class="exercise-grid" id="exerciseGrid">
+
+      <article class="exercise" data-category="science" data-title="observer et formuler une hypothese">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-SCI-001</div>
+          <div class="badge">DÉBUTANT</div>
+        </div>
+
+        <h3>Observation scientifique</h3>
+
+        <p>
+          Identifier une observation et construire une hypothèse
+          à partir d'un phénomène simple.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">6e</span>
+          <span class="meta">Science</span>
+          <span class="meta">Compétence : raisonnement</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+
+      <article class="exercise" data-category="math" data-title="fractions calcul mathematique">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-MAT-002</div>
+          <div class="badge">DÉBUTANT</div>
+        </div>
+
+        <h3>Comprendre les fractions</h3>
+
+        <p>
+          Représenter et comparer des fractions dans différentes
+          situations mathématiques.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">5e</span>
+          <span class="meta">Mathématiques</span>
+          <span class="meta">Calcul</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+
+      <article class="exercise" data-category="physics" data-title="vitesse mouvement physique">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-PHY-003</div>
+          <div class="badge">INTERMÉDIAIRE</div>
+        </div>
+
+        <h3>Vitesse et mouvement</h3>
+
+        <p>
+          Calculer une vitesse moyenne à partir d'une distance
+          et d'une durée.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">Lycée</span>
+          <span class="meta">Physique</span>
+          <span class="meta">Mécanique</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+
+      <article class="exercise" data-category="biology" data-title="cellule biologie vivant">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-BIO-004</div>
+          <div class="badge">INTERMÉDIAIRE</div>
+        </div>
+
+        <h3>La cellule</h3>
+
+        <p>
+          Identifier les principales structures d'une cellule
+          et leurs fonctions.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">Lycée</span>
+          <span class="meta">Biologie</span>
+          <span class="meta">Cellulaire</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+
+      <article class="exercise" data-category="ai" data-title="intelligence artificielle donnees">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-AI-005</div>
+          <div class="badge">AVANCÉ</div>
+        </div>
+
+        <h3>Introduction au Machine Learning</h3>
+
+        <p>
+          Distinguer données d'entraînement, modèle et prédiction.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">Université</span>
+          <span class="meta">IA</span>
+          <span class="meta">Data Science</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+
+      <article class="exercise" data-category="digital" data-title="algorithmique programmation logique">
+
+        <div class="exercise-top">
+          <div class="exercise-id">EX-DIG-006</div>
+          <div class="badge">INTERMÉDIAIRE</div>
+        </div>
+
+        <h3>Logique algorithmique</h3>
+
+        <p>
+          Construire une séquence logique pour résoudre
+          un problème informatique.
+        </p>
+
+        <div class="exercise-meta">
+          <span class="meta">Lycée</span>
+          <span class="meta">Digital</span>
+          <span class="meta">Algorithmique</span>
+        </div>
+
+        <div class="exercise-action">
+          <a href="#practice">COMMENCER →</a>
+        </div>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRACTICE -->
+
+  <section class="panel practice" id="practice">
+
+    <div class="panel-label">
+      PRACTICE ENGINE / DEMO
+    </div>
+
+    <h2>
+      Exercice actif
+    </h2>
+
+    <p>
+      Exemple de fonctionnement du moteur d'exercices.
+      Dans la version connectée, les questions seront chargées
+      depuis la banque correspondant au niveau et aux compétences
+      de l'étudiant.
+    </p>
+
+
+    <div class="question">
+
+      <div class="question-number">
+        QUESTION 01 / 05
+      </div>
+
+      <h3>
+        Quelle étape vient généralement après l'observation
+        dans une démarche scientifique ?
+      </h3>
+
+      <div class="answers">
+
+        <button class="answer">
+          A — La conclusion
+        </button>
+
+        <button class="answer">
+          B — La formulation d'une question
+        </button>
+
+        <button class="answer">
+          C — L'archivage
+        </button>
+
+        <button class="answer">
+          D — La publication
+        </button>
+
+      </div>
+
+      <div class="practice-message" id="practiceMessage">
+        Réponse enregistrée. La validation serveur sera activée
+        avec le système de compte étudiant.
+      </div>
+
+    </div>
+
+
+    <div class="practice-actions">
+
+      <button class="btn" id="validateBtn">
+        Vérifier la réponse
+      </button>
+
+      <a class="btn secondary" href="lesson.html">
+        ← Retour à la leçon
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- LEARNING PATH -->
+
+  <section class="panel">
+
+    <div class="panel-label">
+      PROGRESSION PÉDAGOGIQUE
+    </div>
+
+    <h2>
+      Parcours de validation
+    </h2>
+
+    <p>
+      Le passage à l'étape suivante dépend de la maîtrise
+      des compétences prévues.
+    </p>
+
+    <div class="path">
+
+      <div class="path-step">
+        <div class="path-number">01</div>
+        <div>
+          <strong>Niveau</strong>
+          <span>VALIDÉ</span>
+        </div>
+      </div>
+
+      <div class="path-step">
+        <div class="path-number">02</div>
+        <div>
+          <strong>Matière</strong>
+          <span>VALIDÉE</span>
+        </div>
+      </div>
+
+      <div class="path-step">
+        <div class="path-number">03</div>
+        <div>
+          <strong>Chapitre</strong>
+          <span>VALIDÉ</span>
+        </div>
+      </div>
+
+      <div class="path-step">
+        <div class="path-number">04</div>
+        <div>
+          <strong>Leçon</strong>
+          <span>EN COURS</span>
+        </div>
+      </div>
+
+      <div class="path-step active">
+        <div class="path-number">05</div>
+        <div>
+          <strong>Exercices</strong>
+          <span>ACTIVE</span>
+        </div>
+      </div>
+
+      <div class="path-step locked">
+        <div class="path-number">06</div>
+        <div>
+          <strong>Évaluation</strong>
+          <span>VERROUILLÉE</span>
+        </div>
+      </div>
+
+      <div class="path-step locked">
+        <div class="path-number">07</div>
+        <div>
+          <strong>Validation</strong>
+          <span>VERROUILLÉE</span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- AI -->
+
+  <section class="panel">
+
+    <div class="panel-label">
+      AI EDUCATION ENGINE
+    </div>
+
+    <h2>
+      Exercices adaptatifs
+    </h2>
+
+    <p>
+      L'IA pédagogique pourra sélectionner ou générer des exercices
+      en fonction du niveau, de la matière, de la compétence,
+      de la difficulté et des erreurs précéden
