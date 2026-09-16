@@ -1,1 +1,1131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Lesson Center | DeepRDMMakademy</title>
+
+<meta name="description" content="DeepRDMMakademy — espace de leçon scientifique et technologique.">
+
+<style>
+:root{
+  --bg:#05080d;
+  --panel:#0a1018;
+  --panel2:#0d1520;
+  --line:#123044;
+  --cyan:#27d8ff;
+  --blue:#168cff;
+  --gold:#d9b45c;
+  --white:#f3f7fb;
+  --muted:#8b9aaa;
+  --success:#37e29b;
+  --danger:#ff6575;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% -10%, rgba(20,120,180,.16), transparent 38%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+  line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
+
+.container{
+  width:min(1120px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,8,13,.94);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+
+.header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand{
+  font-family:Georgia,serif;
+  font-size:18px;
+  letter-spacing:.5px;
+  white-space:nowrap;
+}
+
+.brand span{
+  color:var(--cyan);
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--success);
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 12px var(--success);
+}
+
+.top-nav{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:10px 0;
+  border-top:1px solid rgba(18,48,68,.45);
+}
+
+.top-nav a{
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  padding:7px 11px;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+.top-nav a:hover{
+  color:var(--cyan);
+  border-color:var(--cyan);
+}
+
+/* HERO */
+
+.hero{
+  padding:55px 0 30px;
+}
+
+.eyebrow{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:13px;
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-size:clamp(36px,9vw,70px);
+  line-height:1.03;
+  font-weight:400;
+  margin-bottom:18px;
+}
+
+.hero p{
+  color:var(--muted);
+  max-width:720px;
+  font-size:15px;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb{
+  margin:25px 0;
+  padding:12px;
+  border:1px solid var(--line);
+  background:rgba(10,16,24,.7);
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.breadcrumb strong{
+  color:var(--cyan);
+}
+
+.sep{
+  color:var(--gold);
+}
+
+/* LESSON STATUS */
+
+.lesson-status{
+  border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(12,24,35,.95),rgba(7,12,19,.95));
+  padding:18px;
+  margin-bottom:25px;
+}
+
+.status-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  margin-bottom:12px;
+}
+
+.status-label{
+  font-family:monospace;
+  color:var(--cyan);
+  font-size:11px;
+  letter-spacing:1px;
+}
+
+.progress-text{
+  font-family:monospace;
+  color:var(--gold);
+  font-size:11px;
+}
+
+.progress-bar{
+  height:5px;
+  background:#111d28;
+  overflow:hidden;
+}
+
+.progress-fill{
+  width:35%;
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  box-shadow:0 0 14px rgba(39,216,255,.35);
+}
+
+/* MAIN GRID */
+
+.lesson-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:22px;
+}
+
+.panel{
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(10,16,24,.96),rgba(6,11,17,.96));
+  padding:22px;
+}
+
+.panel-label{
+  font-family:monospace;
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:12px;
+}
+
+.panel h2{
+  font-family:Georgia,serif;
+  font-size:27px;
+  font-weight:400;
+  margin-bottom:13px;
+}
+
+.panel h3{
+  font-size:17px;
+  margin-bottom:9px;
+}
+
+.panel p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* LESSON CORE */
+
+.lesson-core{
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at center,rgba(24,144,190,.13),transparent 52%),
+    var(--panel);
+  position:relative;
+  overflow:hidden;
+}
+
+.lesson-core::before,
+.lesson-core::after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(39,216,255,.15);
+  border-radius:50%;
+}
+
+.lesson-core::before{
+  width:180px;
+  height:180px;
+}
+
+.lesson-core::after{
+  width:110px;
+  height:110px;
+}
+
+.core-symbol{
+  width:58px;
+  height:58px;
+  border:1px solid var(--cyan);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:20px;
+  box-shadow:0 0 25px rgba(39,216,255,.18);
+  position:relative;
+  z-index:2;
+  background:#071019;
+}
+
+.core-title{
+  margin-top:15px;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
+  position:relative;
+  z-index:2;
+}
+
+/* OBJECTIVES */
+
+.objectives{
+  display:grid;
+  gap:10px;
+  margin-top:17px;
+}
+
+.objective{
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  padding:12px;
+  border:1px solid rgba(18,48,68,.8);
+  background:rgba(8,15,22,.7);
+}
+
+.objective-icon{
+  width:25px;
+  height:25px;
+  flex:0 0 25px;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:monospace;
+  font-size:11px;
+}
+
+.objective strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:3px;
+}
+
+.objective span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* CONTENT */
+
+.lesson-content{
+  margin-top:20px;
+}
+
+.lesson-content p{
+  margin-bottom:14px;
+}
+
+.formula{
+  margin:18px 0;
+  padding:18px;
+  border-left:2px solid var(--cyan);
+  background:#070e16;
+  font-family:monospace;
+  font-size:14px;
+  color:var(--white);
+  overflow-x:auto;
+}
+
+.note{
+  margin-top:18px;
+  padding:15px;
+  border:1px solid rgba(217,180,92,.35);
+  background:rgba(217,180,92,.05);
+}
+
+.note strong{
+  color:var(--gold);
+  font-family:monospace;
+  font-size:10px;
+  letter-spacing:1px;
+  display:block;
+  margin-bottom:6px;
+}
+
+/* KEY CONCEPTS */
+
+.concepts{
+  display:grid;
+  gap:10px;
+  margin-top:16px;
+}
+
+.concept{
+  padding:15px;
+  border:1px solid var(--line);
+}
+
+.concept-number{
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:10px;
+}
+
+.concept h3{
+  margin-top:5px;
+}
+
+/* CHECKPOINT */
+
+.checkpoint{
+  border:1px solid rgba(39,216,255,.3);
+  background:rgba(20,80,110,.08);
+}
+
+.checkpoint ul{
+  margin:15px 0 0 18px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.checkpoint li{
+  margin-bottom:7px;
+}
+
+/* ACTIONS */
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:20px;
+}
+
+.btn{
+  min-height:48px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:1px solid var(--cyan);
+  background:rgba(39,216,255,.06);
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:rgba(39,216,255,.14);
+}
+
+.btn.secondary{
+  border-color:var(--line);
+  color:var(--muted);
+}
+
+.btn.gold{
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* SIDEBAR */
+
+.learning-path{
+  display:grid;
+  gap:8px;
+  margin-top:15px;
+}
+
+.step{
+  border:1px solid var(--line);
+  padding:13px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.step-number{
+  width:29px;
+  height:29px;
+  border:1px solid var(--line);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:monospace;
+  font-size:10px;
+  color:var(--muted);
+  flex:0 0 29px;
+}
+
+.step-info{
+  flex:1;
+}
+
+.step-info strong{
+  display:block;
+  font-size:12px;
+}
+
+.step-info span{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:9px;
+}
+
+.step.active{
+  border-color:var(--cyan);
+  background:rgba(39,216,255,.05);
+}
+
+.step.active .step-number{
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+
+.step.locked{
+  opacity:.48;
+}
+
+/* METADATA */
+
+.meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:15px;
+}
+
+.meta-box{
+  border:1px solid var(--line);
+  padding:12px;
+}
+
+.meta-box span{
+  display:block;
+  color:var(--muted);
+  font-family:monospace;
+  font-size:9px;
+  margin-bottom:5px;
+}
+
+.meta-box strong{
+  font-size:12px;
+}
+
+/* AI PANEL */
+
+.ai-panel{
+  border-color:rgba(39,216,255,.35);
+  background:
+    radial-gradient(circle at 90% 10%,rgba(39,216,255,.08),transparent 35%),
+    var(--panel);
+}
+
+.ai-tag{
+  display:inline-block;
+  padding:5px 8px;
+  border:1px solid var(--cyan);
+  color:var(--cyan);
+  font-family:monospace;
+  font-size:9px;
+  margin-bottom:12px;
+}
+
+.ai-list{
+  margin-top:15px;
+  display:grid;
+  gap:8px;
+}
+
+.ai-item{
+  padding:11px;
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.ai-item strong{
+  color:var(--white);
+}
+
+/* FOOTER */
+
+footer{
+  margin-top:60px;
+  padding:35px 0;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+
+.footer-grid{
+  display:grid;
+  gap:20px;
+}
+
+.footer-brand{
+  font-family:Georgia,serif;
+  font-size:18px;
+}
+
+.footer-brand span{
+  color:var(--cyan);
+}
+
+.footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.footer-links a{
+  color:var(--muted);
+  font-family:monospace;
+  font-size:10px;
+}
+
+.footer-links a:hover{
+  color:var(--cyan);
+}
+
+.copyright{
+  padding-top:20px;
+  border-top:1px solid rgba(18,48,68,.5);
+  font-family:monospace;
+  font-size:9px;
+}
+
+/* DESKTOP */
+
+@media(min-width:760px){
+
+  .top-nav{
+    justify-content:center;
+  }
+
+  .lesson-grid{
+    grid-template-columns:minmax(0,1.65fr) minmax(260px,.75fr);
+    align-items:start;
+  }
+
+  .main-column{
+    min-width:0;
+  }
+
+  .side-column{
+    position:sticky;
+    top:100px;
+  }
+
+  .actions{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .footer-grid{
+    grid-template-columns:1.3fr 2fr;
+    align-items:start;
+  }
+}
+
+@media(min-width:1050px){
+
+  .header-inner{
+    min-height:78px;
+  }
+
+  .hero{
+    padding-top:75px;
+  }
+
+  .lesson-core{
+    min-height:240px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container header-inner">
+
+    <a class="brand" href="index.html">
+      Deep<span>RDM</span>Makademy
+    </a>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE
+    </div>
+
+  </div>
+
+  <div class="container top-nav">
+    <a href="akademy.html">Akademy</a>
+    <a href="courses.html">Cours</a>
+    <a href="exercises.html">Exercices</a>
+    <a href="evaluations.html">Évaluations</a>
+    <a href="student-dashboard.html">Dashboard</a>
+  </div>
+</header>
+
+
+<main>
+
+<section class="hero">
+  <div class="container">
+
+    <div class="eyebrow">
+      AKADEMY / LEARNING SYSTEM / LESSON-001
+    </div>
+
+    <h1>
+      Comprendre<br>
+      avant de continuer.
+    </h1>
+
+    <p>
+      Une leçon DeepRDMMakademy est construite comme une unité
+      scientifique progressive : comprendre, pratiquer, vérifier,
+      puis valider la compétence avant de passer à l'étape suivante.
+    </p>
+
+  </div>
+</section>
+
+
+<div class="container">
+
+  <div class="breadcrumb">
+    <a href="akademy.html">AKADEMY</a>
+    <span class="sep">/</span>
+    <a href="courses.html">SCIENCES FONDAMENTALES</a>
+    <span class="sep">/</span>
+    <strong>LEÇON</strong>
+  </div>
+
+
+  <section class="lesson-status">
+
+    <div class="status-top">
+
+      <div class="status-label">
+        PROGRESSION DU PARCOURS
+      </div>
+
+      <div class="progress-text">
+        35% — ÉTAPE 03 / 07
+      </div>
+
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+
+  </section>
+
+
+  <div class="lesson-grid">
+
+    <!-- COLONNE PRINCIPALE -->
+
+    <div class="main-column">
+
+      <section class="panel">
+
+        <div class="panel-label">
+          CHAPITRE 01 / INTRODUCTION
+        </div>
+
+        <h2>
+          Comprendre la méthode scientifique
+        </h2>
+
+        <p>
+          Niveau : Collège · Sciences fondamentales
+        </p>
+
+        <div class="lesson-core">
+
+          <div class="core-symbol">
+            Σ
+          </div>
+
+          <div class="core-title">
+            KNOWLEDGE CORE / ACTIVE LESSON
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel" style="margin-top:20px;">
+
+        <div class="panel-label">
+          OBJECTIFS D'APPRENTISSAGE
+        </div>
+
+        <h2>
+          À la fin de cette leçon
+        </h2>
+
+        <div class="objectives">
+
+          <div class="objective">
+            <div class="objective-icon">01</div>
+            <div>
+              <strong>Identifier</strong>
+              <span>Reconnaître les principales étapes d'une démarche scientifique.</span>
+            </div>
+          </div>
+
+          <div class="objective">
+            <div class="objective-icon">02</div>
+            <div>
+              <strong>Expliquer</strong>
+              <span>Comprendre pourquoi une hypothèse doit être testée.</span>
+            </div>
+          </div>
+
+          <div class="objective">
+            <div class="objective-icon">03</div>
+            <div>
+              <strong>Appliquer</strong>
+              <span>Construire une démarche simple à partir d'une question.</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel lesson-content">
+
+        <div class="panel-label">
+          LEÇON / CONTENU SCIENTIFIQUE
+        </div>
+
+        <h2>
+          01 — Observer et poser une question
+        </h2>
+
+        <p>
+          La science commence souvent par une observation.
+          Une observation permet de remarquer un phénomène,
+          une différence ou un comportement que l'on souhaite comprendre.
+        </p>
+
+        <p>
+          À partir de cette observation, le chercheur formule une
+          question précise. Cette question constitue le point de départ
+          de la recherche.
+        </p>
+
+        <div class="formula">
+          OBSERVATION → QUESTION → HYPOTHÈSE → EXPÉRIENCE → DONNÉES → CONCLUSION
+        </div>
+
+        <h2>
+          02 — Formuler une hypothèse
+        </h2>
+
+        <p>
+          Une hypothèse est une explication possible proposée pour
+          répondre à une question scientifique. Elle doit pouvoir être
+          testée par une expérience ou par l'analyse de données.
+        </p>
+
+        <div class="note">
+
+          <strong>POINT IMPORTANT</strong>
+
+          <p>
+            Une hypothèse n'est pas une certitude.
+            C'est une proposition que l'on va confronter aux observations
+            et aux résultats obtenus.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel">
+
+        <div class="panel-label">
+          CONCEPTS CLÉS
+        </div>
+
+        <h2>
+          Ce qu'il faut retenir
+        </h2>
+
+        <div class="concepts">
+
+          <div class="concept">
+            <div class="concept-number">CONCEPT 01</div>
+            <h3>Observation</h3>
+            <p>
+              Information obtenue en observant directement un phénomène
+              ou en utilisant un instrument.
+            </p>
+          </div>
+
+          <div class="concept">
+            <div class="concept-number">CONCEPT 02</div>
+            <h3>Hypothèse</h3>
+            <p>
+              Explication possible qui peut être testée.
+            </p>
+          </div>
+
+          <div class="concept">
+            <div class="concept-number">CONCEPT 03</div>
+            <h3>Expérience</h3>
+            <p>
+              Procédure organisée permettant de recueillir des données
+              pour tester une hypothèse.
+            </p>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel checkpoint">
+
+        <div class="panel-label">
+          CHECKPOINT
+        </div>
+
+        <h2>
+          Avant de continuer
+        </h2>
+
+        <p>
+          Vérifie que tu peux répondre aux questions suivantes sans
+          regarder la leçon.
+        </p>
+
+        <ul>
+          <li>Qu'est-ce qu'une observation scientifique ?</li>
+          <li>Pourquoi formule-t-on une hypothèse ?</li>
+          <li>Quelle est la différence entre une hypothèse et une conclusion ?</li>
+          <li>Pourquoi une expérience doit-elle produire des données ?</li>
+        </ul>
+
+      </section>
+
+
+      <section class="panel ai-panel">
+
+        <div class="ai-tag">
+          AI EDUCATION CORE
+        </div>
+
+        <h2>
+          Assistant pédagogique
+        </h2>
+
+        <p>
+          Le futur système d'IA pourra analyser les réponses de
+          l'étudiant et identifier les notions qui nécessitent une
+          explication supplémentaire.
+        </p>
+
+        <div class="ai-list">
+
+          <div class="ai-item">
+            <strong>Explication adaptative</strong><br>
+            Reformulation selon le niveau de l'étudiant.
+          </div>
+
+          <div class="ai-item">
+            <strong>Remédiation ciblée</strong><br>
+            Exercices supplémentaires sur les compétences faibles.
+          </div>
+
+          <div class="ai-item">
+            <strong>Préparation à l'évaluation</strong><br>
+            Questions générées selon le chapitre et le niveau.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel">
+
+        <div class="panel-label">
+          ACTIONS D'APPRENTISSAGE
+        </div>
+
+        <h2>
+          Étape suivante
+        </h2>
+
+        <p>
+          La leçon doit être comprise avant d'ouvrir l'étape suivante.
+          Les exercices permettront de vérifier cette compréhension.
+        </p>
+
+        <div class="actions">
+
+          <a class="btn secondary" href="courses.html">
+            ← Retour aux cours
+          </a>
+
+          <a class="btn" href="exercises.html">
+            Commencer les exercices →
+          </a>
+
+          <a class="btn gold" href="student-dashboard.html">
+            Voir ma progression
+          </a>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- COLONNE PARCOURS -->
+
+    <aside class="side-column">
+
+      <section class="panel">
+
+        <div class="panel-label">
+          LEARNING PATH
+        </div>
+
+        <h2>
+          Parcours
+        </h2>
+
+        <div class="learning-path">
+
+          <div class="step">
+            <div class="step-number">01</div>
+            <div class="step-info">
+              <strong>Niveau</strong>
+              <span>COLLÈGE</span>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">02</div>
+            <div class="step-info">
+              <strong>Matière</strong>
+              <span>SCIENCES</span>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">03</div>
+            <div class="step-info">
+              <strong>Chapitre</strong>
+              <span>INTRODUCTION</span>
+            </div>
+          </div>
+
+          <div class="step active">
+            <div class="step-number">04</div>
+            <div class="step-info">
+              <strong>Leçon</strong>
+              <span>ACTIVE</span>
+            </div>
+          </div>
+
+          <div class="step locked">
+            <div class="step-number">05</div>
+            <div class="step-info">
+              <strong>Exercices</strong>
+              <span>VERROUILLÉ</span>
+            </div>
+          </div>
+
+          <div class="step locked">
+            <div class="step-number">06</div>
+            <div class="step-info">
+              <strong>Évaluation</strong>
+              <span>VERROUILLÉ</span>
+            </div>
+          </div>
+
+          <div class="step locked">
+            <div class="step-number">07</div>
+            <div class="step-info">
+              <strong>Validation</strong>
+              <span>VERROUILLÉ</span>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section class="panel" style="margin-top:20px;">
+
+        <div class="panel-label">
+          LESSON DATA
+        </div>
+
+   
