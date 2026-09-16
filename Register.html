@@ -1,1 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Créer un compte DeepRDMMakademy">
+<title>Créer un compte — DeepRDMMakademy</title>
 
+<style>
+:root{
+    --bg:#03070c;
+    --panel:#07111a;
+    --line:rgba(0,210,255,.22);
+    --cyan:#00d9ff;
+    --cyan-soft:#73efff;
+    --gold:#d9b45b;
+    --white:#eef9ff;
+    --muted:#8295a5;
+    --green:#43e69a;
+    --red:#ff7373;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(0,160,220,.12),transparent 34%),
+        radial-gradient(circle at 0% 100%,rgba(110,70,180,.08),transparent 35%),
+        var(--bg);
+    color:var(--white);
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(0,210,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,210,255,.025) 1px,transparent 1px);
+    background-size:35px 35px;
+    mask-image:linear-gradient(to bottom,black,transparent);
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+.header{
+    min-height:72px;
+    padding:18px 16px;
+    border-bottom:1px solid var(--line);
+    background:rgba(3,7,12,.88);
+    backdrop-filter:blur(12px);
+}
+
+.header-inner{
+    max-width:1150px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.brand{
+    font-size:18px;
+    font-weight:800;
+    letter-spacing:.7px;
+}
+
+.brand span{
+    color:var(--cyan);
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:9px;
+    letter-spacing:1.5px;
+    color:#91a6b5;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#38e69a;
+    box-shadow:0 0 12px rgba(56,230,154,.8);
+}
+
+.page{
+    width:min(100%,1150px);
+    margin:auto;
+    padding:35px 16px 60px;
+}
+
+.layout{
+    max-width:950px;
+    margin:auto;
+    display:grid;
+    gap:18px;
+}
+
+.intro{
+    padding:8px 2px;
+}
+
+.back{
+    color:var(--cyan-soft);
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.eyebrow{
+    color:var(--gold);
+    font-size:10px;
+    letter-spacing:2.5px;
+    font-weight:700;
+    margin-top:30px;
+    margin-bottom:12px;
+}
+
+h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:38px;
+    line-height:1.05;
+    font-weight:500;
+    margin-bottom:14px;
+}
+
+.subtitle{
+    color:#91a6b5;
+    font-size:14px;
+    line-height:1.7;
+    max-width:700px;
+}
+
+.steps{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px;
+    margin-top:24px;
+}
+
+.step{
+    border:1px solid rgba(0,210,255,.12);
+    background:rgba(0,210,255,.025);
+    padding:12px 9px;
+}
+
+.step-number{
+    color:var(--cyan);
+    font-family:monospace;
+    font-size:10px;
+    margin-bottom:6px;
+}
+
+.step-title{
+    color:#b6c9d4;
+    font-size:9px;
+    letter-spacing:.6px;
+}
+
+.card{
+    position:relative;
+    padding:24px 18px;
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,rgba(7,17,26,.98),rgba(4,11,18,.96));
+    box-shadow:0 20px 70px rgba(0,0,0,.28);
+}
+
+.card::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    width:70px;
+    height:2px;
+    background:var(--cyan);
+    box-shadow:0 0 18px rgba(0,217,255,.5);
+}
+
+.code{
+    color:#526878;
+    font-family:monospace;
+    font-size:9px;
+    letter-spacing:1.5px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    gap:16px;
+}
+
+.group{
+    margin-bottom:0;
+}
+
+label{
+    display:block;
+    color:#b8cad5;
+    font-size:11px;
+    letter-spacing:.8px;
+    margin-bottom:7px;
+}
+
+input,
+select{
+    width:100%;
+    min-height:50px;
+    padding:13px 14px;
+    border-radius:2px;
+    border:1px solid rgba(0,210,255,.18);
+    background:#030a10;
+    color:var(--white);
+    outline:none;
+}
+
+select{
+    appearance:auto;
+}
+
+input:focus,
+select:focus{
+    border-color:rgba(0,217,255,.65);
+    box-shadow:0 0 0 3px rgba(0,217,255,.06);
+}
+
+input::placeholder{
+    color:#536775;
+}
+
+.password-wrap{
+    position:relative;
+}
+
+.password-wrap input{
+    padding-right:70px;
+}
+
+.show{
+    position:absolute;
+    right:8px;
+    top:8px;
+    height:34px;
+    padding:0 8px;
+    border:1px solid rgba(0,217,255,.15);
+    background:#07131c;
+    color:#8ca5b5;
+    cursor:pointer;
+    font-size:9px;
+}
+
+.password-strength{
+    margin-top:7px;
+    height:3px;
+    background:#14222c;
+    overflow:hidden;
+}
+
+.strength-bar{
+    width:0;
+    height:100%;
+    transition:.25s;
+}
+
+.strength-text{
+    margin-top:6px;
+    color:#617887;
+    font-size:9px;
+}
+
+.check{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    margin-top:18px;
+    color:#718693;
+    font-size:10px;
+    line-height:1.6;
+}
+
+.check input{
+    flex:0 0 15px;
+    width:15px;
+    min-height:15px;
+    margin-top:2px;
+    padding:0;
+    accent-color:var(--cyan);
+}
+
+.check a{
+    color:var(--cyan-soft);
+}
+
+.submit{
+    width:100%;
+    min-height:52px;
+    margin-top:20px;
+    border:1px solid var(--cyan);
+    background:linear-gradient(90deg,rgba(0,217,255,.12),rgba(0,217,255,.04));
+    color:var(--white);
+    cursor:pointer;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.7px;
+}
+
+.submit:hover{
+    background:rgba(0,217,255,.13);
+    box-shadow:0 0 25px rgba(0,217,255,.12);
+}
+
+.submit:disabled{
+    opacity:.6;
+    cursor:wait;
+}
+
+.message{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border:1px solid rgba(0,217,255,.18);
+    background:rgba(0,217,255,.04);
+    color:#9fddea;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.message.error{
+    border-color:rgba(255,115,115,.3);
+    background:rgba(255,115,115,.05);
+    color:#ff9b9b;
+}
+
+.login{
+    margin-top:18px;
+    padding-top:18px;
+    border-top:1px solid rgba(0,210,255,.1);
+    text-align:center;
+    color:#6f8594;
+    font-size:11px;
+    line-height:1.7;
+}
+
+.login a{
+    color:var(--cyan-soft);
+    font-weight:700;
+}
+
+.info{
+    margin-top:18px;
+    padding:15px;
+    border:1px solid rgba(217,180,91,.16);
+    background:rgba(217,180,91,.035);
+}
+
+.info-title{
+    color:var(--gold);
+    font-size:9px;
+    letter-spacing:1.5px;
+    margin-bottom:7px;
+}
+
+.info p{
+    color:#718592;
+    font-size:10px;
+    line-height:1.6;
+}
+
+.footer{
+    border-top:1px solid rgba(0,210,255,.1);
+    padding:24px 16px;
+    text-align:center;
+    color:#4f6370;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+@media(min-width:700px){
+    .page{
+        padding-top:60px;
+    }
+
+    .layout{
+        grid-template-columns:.85fr 1.15fr;
+        align-items:start;
+    }
+
+    .intro{
+        padding-top:25px;
+    }
+
+    h1{
+        font-size:50px;
+    }
+
+    .card{
+        padding:32px;
+    }
+
+    .grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .full{
+        grid-column:1 / -1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+
+        <a href="index.html" class="brand">
+            Deep<span>RDM</span>Makademy
+        </a>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+    </div>
+</header>
+
+
+<main class="page">
+
+<div class="layout">
+
+    <section class="intro">
+
+        <a href="index.html" class="back">← ACCUEIL</a>
+
+        <div class="eyebrow">
+            IDENTITY CORE // REGISTER-001
+        </div>
+
+        <h1>
+            Entre dans<br>
+            le laboratoire.
+        </h1>
+
+        <p class="subtitle">
+            Crée ton identité DeepRDMMakademy.
+            Elle servira ensuite à conserver ton parcours,
+            tes apprentissages, tes recherches et tes activités.
+        </p>
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="step-number">01</div>
+                <div class="step-title">IDENTITÉ</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">02</div>
+                <div class="step-title">APPRENTISSAGE</div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">03</div>
+                <div class="step-title">PROGRESSION</div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card">
+
+        <div class="code">
+            DEEPRDM // ACCOUNT REGISTRATION
+        </div>
+
+        <form id="registerForm">
+
+            <div class="grid">
+
+                <div class="group">
+                    <label for="firstName">PRÉNOM</label>
+                    <input
+                        type="text"
+                        id="firstName"
+                        placeholder="Votre prénom"
+                        autocomplete="given-name"
+                        required
+                    >
+                </div>
+
+                <div class="group">
+                    <label for="lastName">NOM</label>
+                    <input
+                        type="text"
+                        id="lastName"
+                        placeholder="Votre nom"
+                        autocomplete="family-name"
+                        required
+                    >
+                </div>
+
+                <div class="group full">
+                    <label for="email">ADRESSE EMAIL</label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="exemple@email.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="group">
+                    <label for="country">PAYS</label>
+                    <input
+                        type="text"
+                        id="country"
+                        placeholder="Votre pays"
+                        autocomplete="country-name"
+                        required
+                    >
+                </div>
+
+                <div class="group">
+                    <label for="level">NIVEAU ACTUEL</label>
+                    <select id="level" required>
+                        <option value="">Sélectionner</option>
+                        <option>Collège</option>
+                        <option>Lycée</option>
+                        <option>Université</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+
+                <div class="group full">
+                    <label for="password">MOT DE PASSE</label>
+
+                    <div class="password-wrap">
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Créer un mot de passe"
+                            autocomplete="new-password"
+                            minlength="8"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show"
+                            id="showPassword"
+                        >
+                            AFFICHER
+                        </button>
+
+                    </div>
+
+                    <div class="password-strength">
+                        <div
+                            class="strength-bar"
+                            id="strengthBar"
+                        ></div>
+                    </div>
+
+                    <div
+                        class="strength-text"
+                        id="strengthText"
+                    >
+                        8 caractères minimum.
+                    </div>
+
+                </div>
+
+                <div class="group full">
+                    <label for="confirmPassword">
+                        CONFIRMATION DU MOT DE PASSE
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Répéter le mot de passe"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+            </div>
+
+
+            <label class="check">
+
+                <input
+                    type="checkbox"
+                    id="terms"
+                    required
+                >
+
+                <span>
+                    J'accepte les conditions d'utilisation de
+                    DeepRDMMakademy et comprends que mon compte
+                    sera soumis au système d'accès et de permissions
+                    de la plateforme.
+                </span>
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="submit"
+                id="submitButton"
+            >
+                CRÉER MON COMPTE →
+            </button>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </form>
+
+
+        <div class="login">
+            Tu possèdes déjà un compte ?
+            <br>
+            <a href="login.html">
+                Se connecter →
+            </a>
+        </div>
+
+
+        <div class="info">
+
+            <div class="info-title">
+                ARCHITECTURE // ACCOUNT
+            </div>
+
+            <p>
+                Cette interface prépare le système de comptes.
+                L'enregistrement réel, le stockage sécurisé des
+                mots de passe, les sessions et les permissions
+                seront gérés par le backend.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+</main>
+
+
+<footer class="footer">
+    DEEPRDMMAKADEMY // ACCOUNT CORE
+    <br><br>
+    L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE
+</footer>
+
+
+<script>
+
+const form = document.getElementById("registerForm");
+
+const password = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmPassword");
+
+const showPassword = document.getElementById("showPassword");
+
+const strengthBar = document.getElementById("strengthBar");
+const strengthText = document.getElementById("strengthText");
+
+const message = document.getElementById("message");
+const submitButton = document.getElementById("submitButton");
+
+
+showPassword.addEventListener("click", () => {
+
+    const visible = password.type === "text";
+
+    password.type = visible ? "password" : "text";
+    confirmPassword.type = visible ? "password" : "text";
+
+    showPassword.textContent =
+        visible ? "AFFICHER" : "MASQUER";
+
+});
+
+
+password.addEventListener("input", () => {
+
+    const value = password.value;
+
+    let score = 0;
+
+    if(value.length >= 8) score++;
+    if(value.length >= 12) score++;
+    if(/[A-Z]/.test(value)) score++;
+    if(/[0-9]/.test(value)) score++;
+    if(/[^A-Za-z0-9]/.test(value)) score++;
+
+    const widths = [
+        "0%",
+        "20%",
+        "40%",
+        "60%",
+        "80%",
+        "100%"
+    ];
+
+    strengthBar.style.width = widths[score];
+
+    if(score <= 1){
+        strengthText.textContent = "Mot de passe faible.";
+    }
+    else if(score <= 3){
+        strengthText.textContent = "Mot de passe moyen.";
+    }
+    else{
+        strengthText.textContent = "Mot de passe fort.";
+    }
+
+});
+
+
+form.addEventListener("submit", (event) => {
+
+    event.preventDefault();
+
+    message.style.display = "none";
+    message.className = "message";
+
+    if(password.value !== confirmPassword.value){
+
+        message.style.display = "block";
+        message.className = "message error";
+        message.textContent =
+            "Les deux mots de passe ne correspondent pas.";
+
+        return;
+    }
+
+
+    if(password.value.length < 8){
+
+        message.style.display = "block";
+        message.className = "message error";
+        message.textContent =
+            "Le mot de passe doit contenir au moins 8 caractères.";
+
+        return;
+    }
+
+
+    submitButton.disabled = true;
+    submitButton.textContent =
+        "PRÉPARATION DU COMPTE...";
+
+
+    setTimeout(() => {
+
+        message.style.display = "block";
+        message.className = "message";
+
+        message.textContent =
+            "La structure d'inscription est prête. Le stockage réel du compte sera activé avec le backend et la base de données Hostinger.";
+
+        submitButton.disabled = false;
+        submitButton.textContent =
+            "CRÉER MON COMPTE →";
+
+    }, 1200);
+
+});
+
+</script>
+
+</body>
+  </html>
