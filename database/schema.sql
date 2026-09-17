@@ -1,100 +1,152 @@
 /* ============================================================
    DEEPRDMMAKADEMY
-   BASE DE DONNÉES COMPLÈTE
-   Authentification + Architecture pédagogique
-   Préscolaire → Primaire → Collège → Lycée → Université → Master
+   DATABASE SCHEMA — INTERNATIONAL EDUCATION PLATFORM
+   ============================================================
+
+   Architecture générale :
+
+   UTILISATEURS
+       ↓
+   PROFILS / RÔLES
+       ↓
+   NIVEAUX ÉDUCATIFS
+       ↓
+   FILIÈRES
+       ↓
+   SPÉCIALISATIONS
+       ↓
+   PROGRAMMES
+       ↓
+   MATIÈRES
+       ↓
+   CHAPITRES
+       ↓
+   LEÇONS
+       ↓
+   COMPÉTENCES
+       ↓
+   EXERCICES / QUESTIONS
+       ↓
+   ÉVALUATIONS
+       ↓
+   VALIDATION
+       ↓
+   PROGRESSION
+
+   Architecture prévue pour :
+   - plusieurs pays
+   - plusieurs systèmes éducatifs
+   - plusieurs langues
+   - plusieurs filières
+   - plusieurs niveaux
+   - enseignement classique
+   - formation professionnelle
+   - enseignement supérieur
+   - recherche
+   - communauté
+   - paiements futurs
+
+   Compatible MySQL / MariaDB.
    ============================================================ */
-
-CREATE DATABASE IF NOT EXISTS deeprdmmakademy
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
-
-USE deeprdmmakademy;
 
 
 /* ============================================================
-   1. UTILISATEURS
+   1. USERS
    ============================================================ */
 
-CREATE TABLE users (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    uuid CHAR(36) NOT NULL,
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    uuid CHAR(36) NOT NULL UNIQUE,
 
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    email VARCHAR(190) NOT NULL,
 
-    country VARCHAR(100) DEFAULT NULL,
-    current_level VARCHAR(100) DEFAULT NULL,
-    class_group VARCHAR(100) DEFAULT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
 
     password_hash VARCHAR(255) NOT NULL,
 
-    status ENUM(
-        'pending',
-        'active',
-        'suspended',
-        'inactive',
-        'deleted'
-    ) NOT NULL DEFAULT 'active',
+    phone VARCHAR(50) NULL,
+    country_code CHAR(2) NULL,
+    preferred_language VARCHAR(10) NOT NULL DEFAULT 'fr',
 
-    requested_level VARCHAR(100) DEFAULT NULL,
-    recommended_level VARCHAR(100) DEFAULT NULL,
-    validated_level VARCHAR(100) DEFAULT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'active',
 
-    email_verified_at DATETIME DEFAULT NULL,
-    last_login_at DATETIME DEFAULT NULL,
+    email_verified_at DATETIME NULL,
+
+    requested_level VARCHAR(100) NULL,
+    recommended_level VARCHAR(100) NULL,
+    validated_level VARCHAR(100) NULL,
+    current_level VARCHAR(100) NULL,
+
+    class_group VARCHAR(100) NULL,
+
+    last_login_at DATETIME NULL,
+    last_activity_at DATETIME NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_users_uuid (uuid),
-    UNIQUE KEY uq_users_email (email),
-    KEY idx_users_status (status),
-    KEY idx_users_level (current_level),
-    KEY idx_users_class (class_group)
-) ENGINE=InnoDB;
+    INDEX idx_users_email (email),
+    INDEX idx_users_status (status),
+    INDEX idx_users_country (country_code),
+    INDEX idx_users_language (preferred_language),
+    INDEX idx_users_current_level (current_level)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   2. RÔLES
+   2. ROLES
    ============================================================ */
 
-CREATE TABLE roles (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    description VARCHAR(255) DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS roles (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_roles_name (name)
-) ENGINE=InnoDB;
+    code VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT NULL,
 
-INSERT INTO roles (name, description) VALUES
-('visitor', 'Visiteur non authentifié'),
-('candidate', 'Candidat en attente de validation'),
-('student', 'Étudiant'),
-('member', 'Membre'),
-('researcher', 'Chercheur'),
-('educator', 'Éducateur'),
-('developer', 'Développeur'),
-('responsible', 'Responsable'),
-('admin', 'Administrateur'),
-('super_admin', 'Super administrateur');
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   3. RELATION UTILISATEURS / RÔLES
+   3. DEFAULT ROLES
    ============================================================ */
 
-CREATE TABLE user_roles (
+INSERT IGNORE INTO roles (code, name, description) VALUES
+('visitor', 'Visitor', 'Utilisateur non connecté'),
+('candidate', 'Candidate', 'Candidat à l''inscription ou à un programme'),
+('student', 'Student', 'Élève ou étudiant'),
+('member', 'Member', 'Membre de la communauté'),
+('researcher', 'Researcher', 'Chercheur'),
+('educator', 'Educator', 'Enseignant ou formateur'),
+('developer', 'Developer', 'Développeur autorisé sur certains espaces de travail'),
+('responsible', 'Responsible', 'Responsable d''un espace ou d''une équipe'),
+('admin', 'Administrator', 'Administrateur'),
+('super_admin', 'Super Administrator', 'Administrateur principal');
+
+
+/* ============================================================
+   4. USER ROLES
+   ============================================================ */
+
+CREATE TABLE IF NOT EXISTS user_roles (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
     user_id BIGINT UNSIGNED NOT NULL,
     role_id BIGINT UNSIGNED NOT NULL,
 
-    assigned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    assigned_by BIGINT UNSIGNED NULL,
 
-    PRIMARY KEY (user_id, role_id),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    UNIQUE KEY uq_user_role (user_id, role_id),
 
     CONSTRAINT fk_user_roles_user
         FOREIGN KEY (user_id)
@@ -104,625 +156,585 @@ CREATE TABLE user_roles (
     CONSTRAINT fk_user_roles_role
         FOREIGN KEY (role_id)
         REFERENCES roles(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_user_roles_assigned_by
+        FOREIGN KEY (assigned_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   4. TENTATIVES DE CONNEXION
+   5. LOGIN ATTEMPTS
    ============================================================ */
 
-CREATE TABLE login_attempts (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
-    email VARCHAR(190) NOT NULL,
-    ip_address VARCHAR(45) DEFAULT NULL,
+    email VARCHAR(255) NULL,
+    user_id BIGINT UNSIGNED NULL,
+
+    ip_address VARCHAR(45) NULL,
+    user_agent TEXT NULL,
+
+    success TINYINT(1) NOT NULL DEFAULT 0,
 
     attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    successful TINYINT(1) NOT NULL DEFAULT 0,
 
-    PRIMARY KEY (id),
-    KEY idx_login_email (email),
-    KEY idx_login_time (attempted_at)
-) ENGINE=InnoDB;
+    INDEX idx_login_email (email),
+    INDEX idx_login_user (user_id),
+    INDEX idx_login_ip (ip_address),
+    INDEX idx_login_time (attempted_at),
+
+    CONSTRAINT fk_login_attempt_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   5. SESSIONS
+   6. SESSIONS
    ============================================================ */
 
-CREATE TABLE sessions (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS sessions (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
     user_id BIGINT UNSIGNED NOT NULL,
-    session_token_hash CHAR(64) NOT NULL,
 
-    ip_address VARCHAR(45) DEFAULT NULL,
-    user_agent TEXT DEFAULT NULL,
+    session_token_hash VARCHAR(255) NOT NULL UNIQUE,
+
+    ip_address VARCHAR(45) NULL,
+    user_agent TEXT NULL,
+
+    expires_at DATETIME NOT NULL,
+    last_seen_at DATETIME NULL,
+
+    revoked_at DATETIME NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    expires_at DATETIME NOT NULL,
-    last_activity_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_session_token (session_token_hash),
-    KEY idx_sessions_user (user_id),
-    KEY idx_sessions_expiry (expires_at),
+    INDEX idx_sessions_user (user_id),
+    INDEX idx_sessions_expiry (expires_at),
 
     CONSTRAINT fk_sessions_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   6. JOURNAL D'AUDIT
+   7. AUDIT LOGS
    ============================================================ */
 
-CREATE TABLE audit_logs (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS audit_logs (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
-    user_id BIGINT UNSIGNED DEFAULT NULL,
+    user_id BIGINT UNSIGNED NULL,
 
-    action VARCHAR(100) NOT NULL,
-    entity_type VARCHAR(100) DEFAULT NULL,
-    entity_id BIGINT UNSIGNED DEFAULT NULL,
+    action VARCHAR(150) NOT NULL,
+    entity_type VARCHAR(100) NULL,
+    entity_id BIGINT UNSIGNED NULL,
 
-    ip_address VARCHAR(45) DEFAULT NULL,
-    details JSON DEFAULT NULL,
+    ip_address VARCHAR(45) NULL,
+    user_agent TEXT NULL,
+
+    details JSON NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (id),
-    KEY idx_audit_user (user_id),
-    KEY idx_audit_action (action),
-    KEY idx_audit_date (created_at),
+    INDEX idx_audit_user (user_id),
+    INDEX idx_audit_action (action),
+    INDEX idx_audit_entity (entity_type, entity_id),
+    INDEX idx_audit_date (created_at),
 
     CONSTRAINT fk_audit_user
         FOREIGN KEY (user_id)
         REFERENCES users(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   7. NIVEAUX D'ÉDUCATION
+   8. EDUCATION LEVELS
    ============================================================ */
 
-CREATE TABLE education_levels (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS education_levels (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
-    code VARCHAR(50) NOT NULL,
+    code VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(150) NOT NULL,
-    description TEXT DEFAULT NULL,
 
-    education_stage ENUM(
-        'preschool',
-        'primary',
-        'middle_school',
-        'high_school',
-        'university',
-        'master'
-    ) NOT NULL,
+    stage VARCHAR(100) NOT NULL,
 
-    sort_order INT NOT NULL DEFAULT 0,
+    sequence_number INT NOT NULL DEFAULT 0,
+
+    description TEXT NULL,
+
     is_active TINYINT(1) NOT NULL DEFAULT 1,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_education_level_code (code),
-    KEY idx_education_stage (education_stage),
-    KEY idx_education_order (sort_order)
-) ENGINE=InnoDB;
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-INSERT INTO education_levels
-(code, name, description, education_stage, sort_order)
+    INDEX idx_levels_stage (stage),
+    INDEX idx_levels_sequence (sequence_number)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+
+/* ============================================================
+   9. BASE EDUCATION LEVELS
+   ============================================================ */
+
+INSERT IGNORE INTO education_levels
+(code, name, stage, sequence_number, description)
 VALUES
 
-/* PRÉSCOLAIRE */
-('PS', 'Petite Section', 'Éveil et premières découvertes.', 'preschool', 10),
-('MS', 'Moyenne Section', 'Développement des compétences fondamentales.', 'preschool', 20),
-('GS', 'Grande Section', 'Préparation à l''entrée au primaire.', 'preschool', 30),
+/* Préscolaire */
+('PS', 'Petite Section', 'Preschool', 10, 'Premier niveau préscolaire'),
+('MS', 'Moyenne Section', 'Preschool', 20, 'Deuxième niveau préscolaire'),
+('GS', 'Grande Section', 'Preschool', 30, 'Troisième niveau préscolaire'),
 
-/* PRIMAIRE */
-('CP1', 'Cours Préparatoire 1', 'Première année du primaire.', 'primary', 40),
-('CP2', 'Cours Préparatoire 2', 'Deuxième année du primaire.', 'primary', 50),
-('CE1', 'Cours Élémentaire 1', 'Troisième année du primaire.', 'primary', 60),
-('CE2', 'Cours Élémentaire 2', 'Quatrième année du primaire.', 'primary', 70),
-('CM1', 'Cours Moyen 1', 'Cinquième année du primaire.', 'primary', 80),
-('CM2', 'Cours Moyen 2', 'Sixième année du primaire.', 'primary', 90),
+/* Primaire */
+('CP1', 'Cours Préparatoire 1', 'Primary', 40, 'Début du primaire'),
+('CP2', 'Cours Préparatoire 2', 'Primary', 50, 'Deuxième année du primaire'),
+('CE1', 'Cours Élémentaire 1', 'Primary', 60, 'Troisième année du primaire'),
+('CE2', 'Cours Élémentaire 2', 'Primary', 70, 'Quatrième année du primaire'),
+('CM1', 'Cours Moyen 1', 'Primary', 80, 'Cinquième année du primaire'),
+('CM2', 'Cours Moyen 2', 'Primary', 90, 'Sixième année du primaire'),
 
-/* COLLÈGE */
-('6E', 'Sixième', 'Première année du collège.', 'middle_school', 100),
-('5E', 'Cinquième', 'Deuxième année du collège.', 'middle_school', 110),
-('4E', 'Quatrième', 'Troisième année du collège.', 'middle_school', 120),
-('3E', 'Troisième', 'Fin du collège.', 'middle_school', 130),
+/* Collège */
+('6E', 'Sixième', 'Middle School', 100, 'Premier niveau du collège'),
+('5E', 'Cinquième', 'Middle School', 110, 'Deuxième niveau du collège'),
+('4E', 'Quatrième', 'Middle School', 120, 'Troisième niveau du collège'),
+('3E', 'Troisième', 'Middle School', 130, 'Dernier niveau du collège'),
 
-/* LYCÉE */
-('2NDE', 'Seconde', 'Première année du lycée.', 'high_school', 140),
-('1ERE', 'Première', 'Deuxième année du lycée.', 'high_school', 150),
-('TERMINALE', 'Terminale', 'Année de préparation au baccalauréat.', 'high_school', 160),
+/* Lycée */
+('2NDE', 'Seconde', 'High School', 140, 'Premier niveau du lycée'),
+('1ERE', 'Première', 'High School', 150, 'Deuxième niveau du lycée'),
+('TERMINALE', 'Terminale', 'High School', 160, 'Dernier niveau du lycée'),
 
-/* UNIVERSITÉ */
-('L1', 'Licence 1', 'Première année universitaire.', 'university', 170),
-('L2', 'Licence 2', 'Deuxième année universitaire.', 'university', 180),
-('L3', 'Licence 3', 'Troisième année universitaire.', 'university', 190),
+/* Université */
+('L1', 'Licence 1', 'Undergraduate', 170, 'Première année universitaire'),
+('L2', 'Licence 2', 'Undergraduate', 180, 'Deuxième année universitaire'),
+('L3', 'Licence 3', 'Undergraduate', 190, 'Troisième année universitaire'),
 
-/* MASTER */
-('M1', 'Master 1', 'Première année de Master.', 'master', 200),
-('M2', 'Master 2', 'Deuxième année de Master.', 'master', 210);
+/* Master */
+('M1', 'Master 1', 'Graduate', 200, 'Première année de master'),
+('M2', 'Master 2', 'Graduate', 210, 'Deuxième année de master'),
 
+/* Extension future */
+('D1', 'Doctorat 1', 'Doctorate', 220, 'Première étape du doctorat'),
+('D2', 'Doctorat 2', 'Doctorate', 230, 'Deuxième étape du doctorat'),
+('D3', 'Doctorat 3', 'Doctorate', 240, 'Troisième étape du doctorat'),
 
-/* ============================================================
-   8. FILIÈRES
-   ============================================================ */
-
-CREATE TABLE fields (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    code VARCHAR(50) NOT NULL,
-    name VARCHAR(200) NOT NULL,
-    description TEXT DEFAULT NULL,
-
-    education_stage ENUM(
-        'general',
-        'technical',
-        'professional',
-        'university',
-        'master'
-    ) NOT NULL DEFAULT 'general',
-
-    icon VARCHAR(100) DEFAULT NULL,
-    sort_order INT NOT NULL DEFAULT 0,
-    is_active TINYINT(1) NOT NULL DEFAULT 1,
-
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_field_code (code),
-    KEY idx_field_stage (education_stage)
-) ENGINE=InnoDB;
+/* Formation professionnelle */
+('PRO1', 'Formation Professionnelle 1', 'Professional', 250, 'Formation professionnelle'),
+('PRO2', 'Formation Professionnelle 2', 'Professional', 260, 'Formation professionnelle avancée'),
+('PRO3', 'Formation Professionnelle 3', 'Professional', 270, 'Formation professionnelle spécialisée');
 
 
 /* ============================================================
-   9. FILIÈRES PRINCIPALES
+   10. EDUCATION FIELDS
    ============================================================ */
 
-INSERT INTO fields
-(code, name, description, education_stage, sort_order)
+CREATE TABLE IF NOT EXISTS education_fields (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    code VARCHAR(80) NOT NULL UNIQUE,
+    name VARCHAR(150) NOT NULL,
+
+    description TEXT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_fields_name (name)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+
+/* ============================================================
+   11. MAJOR INTERNATIONAL FIELDS
+   ============================================================ */
+
+INSERT IGNORE INTO education_fields
+(code, name, description)
 VALUES
 
 ('GENERAL', 'Enseignement général',
- 'Formation générale et fondamentale.',
- 'general', 10),
+ 'Socle général et disciplines fondamentales'),
 
 ('SCIENCES', 'Sciences',
- 'Mathématiques, physique, chimie, sciences de la vie et de la Terre.',
- 'general', 20),
+ 'Sciences naturelles et sciences fondamentales'),
 
-('LETTRES', 'Lettres et langues',
- 'Français, langues, littérature, philosophie et sciences humaines.',
- 'general', 30),
+('MATHEMATICS', 'Mathématiques',
+ 'Mathématiques fondamentales et appliquées'),
 
-('HUMANITIES', 'Sciences humaines',
- 'Histoire, géographie, sociologie, psychologie et disciplines associées.',
- 'general', 40),
+('PHYSICS', 'Physique',
+ 'Physique fondamentale et appliquée'),
 
-('ECONOMIE', 'Économie et gestion',
- 'Économie, gestion, finance, comptabilité et commerce.',
- 'general', 50),
+('CHEMISTRY', 'Chimie',
+ 'Chimie fondamentale et appliquée'),
 
-('DROIT', 'Droit',
- 'Droit et sciences juridiques.',
- 'university', 60),
+('BIOLOGY', 'Biologie',
+ 'Sciences biologiques'),
 
-('INFORMATIQUE', 'Informatique',
- 'Informatique, programmation, systèmes et technologies numériques.',
- 'university', 70),
+('MEDICINE', 'Médecine et santé',
+ 'Médecine et sciences de la santé'),
 
-('IA', 'Intelligence artificielle',
- 'Intelligence artificielle, machine learning et science des données.',
- 'university', 80),
+('PHARMACY', 'Pharmacie',
+ 'Sciences pharmaceutiques'),
 
-('INGENIERIE', 'Sciences de l''ingénieur',
- 'Ingénierie et technologies.',
- 'university', 90),
+('DENTISTRY', 'Odontologie',
+ 'Médecine dentaire'),
 
-('MEDECINE', 'Médecine et santé',
- 'Sciences médicales et disciplines de santé.',
- 'university', 100),
+('NURSING', 'Soins infirmiers',
+ 'Sciences infirmières et soins'),
 
-('PHARMACIE', 'Pharmacie',
- 'Sciences pharmaceutiques.',
- 'university', 110),
+('BIOMEDICAL', 'Sciences biomédicales',
+ 'Sciences biomédicales'),
 
-('BIOLOGIE', 'Biologie',
- 'Biologie, microbiologie et sciences du vivant.',
- 'university', 120),
+('COMPUTER_SCIENCE', 'Informatique',
+ 'Informatique et sciences computationnelles'),
 
-('CHIMIE', 'Chimie',
- 'Chimie fondamentale et appliquée.',
- 'university', 130),
+('ARTIFICIAL_INTELLIGENCE', 'Intelligence artificielle',
+ 'IA et systèmes intelligents'),
 
-('PHYSIQUE', 'Physique',
- 'Physique fondamentale et appliquée.',
- 'university', 140),
+('DATA_SCIENCE', 'Data Science',
+ 'Données, statistiques et analyse'),
 
-('MATHEMATIQUES', 'Mathématiques',
- 'Mathématiques fondamentales et appliquées.',
- 'university', 150),
+('CYBERSECURITY', 'Cybersécurité',
+ 'Sécurité informatique et réseaux'),
+
+('ENGINEERING', 'Ingénierie',
+ 'Sciences de l''ingénieur'),
+
+('SOFTWARE_ENGINEERING', 'Génie logiciel',
+ 'Conception et développement logiciel'),
+
+('ELECTRICAL_ENGINEERING', 'Génie électrique',
+ 'Électricité, électronique et systèmes'),
+
+('MECHANICAL_ENGINEERING', 'Génie mécanique',
+ 'Mécanique et systèmes industriels'),
+
+('CIVIL_ENGINEERING', 'Génie civil',
+ 'Construction et infrastructures'),
+
+('CHEMICAL_ENGINEERING', 'Génie chimique',
+ 'Procédés et industrie chimique'),
 
 ('ARCHITECTURE', 'Architecture',
- 'Architecture, urbanisme et construction.',
- 'university', 160),
+ 'Architecture, construction et conception'),
 
-('AGRONOMIE', 'Agronomie',
- 'Agriculture, agronomie et sciences environnementales.',
- 'university', 170),
+('AGRICULTURE', 'Agriculture',
+ 'Sciences agricoles'),
 
-('ENVIRONNEMENT', 'Environnement',
- 'Sciences environnementales et développement durable.',
- 'university', 180),
+('ENVIRONMENT', 'Environnement',
+ 'Sciences environnementales'),
 
-('COMMUNICATION', 'Communication et médias',
- 'Communication, médias, journalisme et relations publiques.',
- 'university', 190),
+('EARTH_SCIENCE', 'Sciences de la Terre',
+ 'Géologie, géophysique et disciplines associées'),
 
-('ARTS', 'Arts et design',
- 'Arts, design, création numérique et audiovisuel.',
- 'university', 200),
+('ASTRONOMY', 'Astronomie et espace',
+ 'Astronomie, astrophysique et sciences spatiales'),
+
+('ECONOMICS', 'Économie',
+ 'Sciences économiques'),
+
+('BUSINESS', 'Gestion et management',
+ 'Management, gestion et organisation'),
+
+('COMMERCE', 'Commerce',
+ 'Commerce et activités commerciales'),
+
+('FINANCE', 'Finance',
+ 'Finance et marchés'),
+
+('ACCOUNTING', 'Comptabilité',
+ 'Comptabilité et audit'),
+
+('MARKETING', 'Marketing',
+ 'Marketing et stratégie commerciale'),
+
+('LAW', 'Droit',
+ 'Sciences juridiques'),
+
+('POLITICAL_SCIENCE', 'Sciences politiques',
+ 'Politique et institutions'),
+
+('INTERNATIONAL_RELATIONS', 'Relations internationales',
+ 'Relations internationales et géopolitique'),
+
+('SOCIOLOGY', 'Sociologie',
+ 'Étude des sociétés'),
+
+('PSYCHOLOGY', 'Psychologie',
+ 'Sciences psychologiques'),
+
+('PHILOSOPHY', 'Philosophie',
+ 'Philosophie et pensée critique'),
+
+('HISTORY', 'Histoire',
+ 'Sciences historiques'),
+
+('GEOGRAPHY', 'Géographie',
+ 'Sciences géographiques'),
+
+('HUMANITIES', 'Sciences humaines',
+ 'Humanités et sciences humaines'),
+
+('LANGUAGES', 'Langues',
+ 'Langues, linguistique et littérature'),
+
+('LITERATURE', 'Littérature',
+ 'Littérature et études littéraires'),
+
+('COMMUNICATION', 'Communication',
+ 'Communication et médias'),
+
+('JOURNALISM', 'Journalisme',
+ 'Journalisme et médias'),
 
 ('EDUCATION', 'Sciences de l''éducation',
- 'Pédagogie, enseignement et formation.',
- 'university', 210),
+ 'Pédagogie et éducation'),
 
-('TOURISME', 'Tourisme et hôtellerie',
- 'Tourisme, hôtellerie et gestion touristique.',
- 'university', 220),
+('ARTS', 'Arts',
+ 'Arts et pratiques artistiques'),
 
-('COMMERCE', 'Commerce et marketing',
- 'Commerce, marketing et développement commercial.',
- 'university', 230),
+('DESIGN', 'Design',
+ 'Design graphique, produit et numérique'),
+
+('MUSIC', 'Musique',
+ 'Études musicales'),
+
+('FILM', 'Cinéma et audiovisuel',
+ 'Production audiovisuelle'),
+
+('SPORT', 'Sport et activité physique',
+ 'Sciences du sport'),
+
+('TOURISM', 'Tourisme',
+ 'Tourisme et hôtellerie'),
+
+('HOSPITALITY', 'Hôtellerie',
+ 'Hôtellerie et restauration'),
 
 ('TRANSPORT', 'Transport et logistique',
- 'Transport, logistique et supply chain.',
- 'university', 240),
+ 'Transport, logistique et supply chain'),
 
-('SCIENCES_POLITIQUES', 'Sciences politiques',
- 'Politique, relations internationales et administration.',
- 'university', 250),
+('MARITIME', 'Sciences maritimes',
+ 'Navigation et sciences maritimes'),
 
-('SOCIOLOGIE', 'Sociologie',
- 'Étude des sociétés et des phénomènes sociaux.',
- 'university', 260),
+('AVIATION', 'Aviation',
+ 'Aéronautique et aviation'),
 
-('PSYCHOLOGIE', 'Psychologie',
- 'Étude du comportement et des processus mentaux.',
- 'university', 270);
+('SOCIAL_WORK', 'Travail social',
+ 'Travail social et accompagnement'),
+
+('RELIGION_CULTURE', 'Culture et études religieuses',
+ 'Culture, histoire des religions et patrimoine');
 
 
 /* ============================================================
-   10. SPÉCIALITÉS / DOMAINES UNIVERSITAIRES
+   12. SPECIALIZATIONS
    ============================================================ */
 
-CREATE TABLE specializations (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS specializations (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
     field_id BIGINT UNSIGNED NOT NULL,
 
-    code VARCHAR(80) NOT NULL,
+    code VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(200) NOT NULL,
-    description TEXT DEFAULT NULL,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_specialization_code (code),
-    KEY idx_specialization_field (field_id),
+    description TEXT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_specializations_field (field_id),
 
     CONSTRAINT fk_specialization_field
         FOREIGN KEY (field_id)
-        REFERENCES fields(id)
+        REFERENCES education_fields(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   11. SPÉCIALITÉS INFORMATIQUES
+   13. COMPUTER SCIENCE SPECIALIZATIONS
    ============================================================ */
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'DEV_WEB',
     'Développement Web',
-    'HTML, CSS, JavaScript, PHP, bases de données et applications web.'
-FROM fields WHERE code = 'INFORMATIQUE';
+    'Développement frontend, backend et full stack'
+FROM education_fields
+WHERE code = 'COMPUTER_SCIENCE';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'DEV_MOBILE',
     'Développement Mobile',
-    'Création d''applications mobiles Android et iOS.'
-FROM fields WHERE code = 'INFORMATIQUE';
+    'Applications mobiles Android et iOS'
+FROM education_fields
+WHERE code = 'COMPUTER_SCIENCE';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
-    'CYBERSECURITY',
-    'Cybersécurité',
-    'Sécurité informatique, réseaux, systèmes et protection des données.'
-FROM fields WHERE code = 'INFORMATIQUE';
+    'SOFTWARE_ENGINEERING',
+    'Software Engineering',
+    'Architecture et ingénierie logicielle'
+FROM education_fields
+WHERE code = 'SOFTWARE_ENGINEERING';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
+(field_id, code, name, description)
+SELECT
+    id,
+    'NETWORK_ENGINEERING',
+    'Réseaux',
+    'Réseaux informatiques et infrastructures'
+FROM education_fields
+WHERE code = 'COMPUTER_SCIENCE';
+
+INSERT IGNORE INTO specializations
+(field_id, code, name, description)
+SELECT
+    id,
+    'CYBERSECURITY_ENGINEERING',
+    'Cybersécurité',
+    'Sécurité des systèmes et infrastructures'
+FROM education_fields
+WHERE code = 'CYBERSECURITY';
+
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'DATA_SCIENCE',
     'Data Science',
-    'Analyse de données, statistiques et science des données.'
-FROM fields WHERE code = 'INFORMATIQUE';
+    'Analyse et modélisation des données'
+FROM education_fields
+WHERE code = 'DATA_SCIENCE';
 
-INSERT INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'SOFTWARE_ENGINEERING',
-    'Génie logiciel',
-    'Conception, développement et maintenance de logiciels.'
-FROM fields WHERE code = 'INFORMATIQUE';
-
-
-/* ============================================================
-   12. SPÉCIALITÉS IA
-   ============================================================ */
-
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'MACHINE_LEARNING',
     'Machine Learning',
-    'Apprentissage automatique et modèles prédictifs.'
-FROM fields WHERE code = 'IA';
+    'Apprentissage automatique'
+FROM education_fields
+WHERE code = 'ARTIFICIAL_INTELLIGENCE';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'DEEP_LEARNING',
     'Deep Learning',
-    'Réseaux neuronaux et apprentissage profond.'
-FROM fields WHERE code = 'IA';
+    'Réseaux neuronaux et apprentissage profond'
+FROM education_fields
+WHERE code = 'ARTIFICIAL_INTELLIGENCE';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'COMPUTER_VISION',
-    'Vision par ordinateur',
-    'Analyse et compréhension des images et vidéos.'
-FROM fields WHERE code = 'IA';
+    'Computer Vision',
+    'Vision artificielle et traitement d''images'
+FROM education_fields
+WHERE code = 'ARTIFICIAL_INTELLIGENCE';
 
-INSERT INTO specializations
+INSERT IGNORE INTO specializations
 (field_id, code, name, description)
 SELECT
     id,
     'NLP',
-    'Traitement du langage naturel',
-    'Compréhension et génération automatique du langage.'
-FROM fields WHERE code = 'IA';
+    'Natural Language Processing',
+    'Traitement automatique du langage'
+FROM education_fields
+WHERE code = 'ARTIFICIAL_INTELLIGENCE';
 
 
 /* ============================================================
-   13. MATIÈRES
+   14. SUBJECTS
    ============================================================ */
 
-CREATE TABLE subjects (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS subjects (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
-    code VARCHAR(80) NOT NULL,
+    code VARCHAR(100) NOT NULL UNIQUE,
     name VARCHAR(200) NOT NULL,
-    description TEXT DEFAULT NULL,
 
-    category VARCHAR(100) DEFAULT NULL,
+    field_id BIGINT UNSIGNED NULL,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_subject_code (code),
-    KEY idx_subject_category (category)
-) ENGINE=InnoDB;
+    description TEXT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_subject_field (field_id),
+
+    CONSTRAINT fk_subject_field
+        FOREIGN KEY (field_id)
+        REFERENCES education_fields(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
 
 
 /* ============================================================
-   14. MATIÈRES FONDAMENTALES
+   15. CORE SUBJECT CATALOG
    ============================================================ */
 
-INSERT INTO subjects
-(code, name, description, category)
+INSERT IGNORE INTO subjects
+(code, name, description)
 VALUES
 
-('MATH', 'Mathématiques',
- 'Nombres, calcul, géométrie, algèbre, analyse et probabilités.',
- 'Sciences'),
+/* Sciences */
+('MATHEMATICS', 'Mathématiques', 'Mathématiques'),
+('ALGEBRA', 'Algèbre', 'Algèbre'),
+('GEOMETRY', 'Géométrie', 'Géométrie'),
+('CALCULUS', 'Calcul différentiel et intégral', 'Calcul avancé'),
+('STATISTICS', 'Statistiques', 'Statistiques'),
+('PROBABILITY', 'Probabilités', 'Probabilités'),
+('PHYSICS', 'Physique', 'Physique'),
+('CHEMISTRY', 'Chimie', 'Chimie'),
+('BIOLOGY', 'Biologie', 'Biologie'),
+('SVT', 'Sciences de la Vie et de la Terre', 'SVT'),
+('ASTRONOMY', 'Astronomie', 'Astronomie'),
+('ASTROPHYSICS', 'Astrophysique', 'Astrophysique'),
+('GEOLOGY', 'Géologie', 'Géologie'),
+('GEOPHYSICS', 'Géophysique', 'Géophysique'),
 
-('PHYSICS', 'Physique',
- 'Mécanique, énergie, électricité, optique et physique moderne.',
- 'Sciences'),
-
-('CHEMISTRY', 'Chimie',
- 'Structure de la matière, réactions chimiques et chimie appliquée.',
- 'Sciences'),
-
-('BIOLOGY', 'Sciences de la vie et biologie',
- 'Étude du vivant et des organismes.',
- 'Sciences'),
-
-('SVT', 'Sciences de la Vie et de la Terre',
- 'Biologie, géologie, environnement et sciences de la Terre.',
- 'Sciences'),
-
-('FRENCH', 'Français',
- 'Langue française, expression, grammaire et littérature.',
- 'Langues'),
-
-('ENGLISH', 'Anglais',
- 'Langue anglaise et communication.',
- 'Langues'),
-
-('MALAGASY', 'Malagasy',
- 'Langue et culture malgaches.',
- 'Langues'),
-
-('SPANISH', 'Espagnol',
- 'Langue espagnole et civilisation.',
- 'Langues'),
-
-('GERMAN', 'Allemand',
- 'Langue allemande et civilisation.',
- 'Langues'),
-
-('HISTORY', 'Histoire',
- 'Étude des sociétés et événements historiques.',
- 'Sciences humaines'),
-
-('GEOGRAPHY', 'Géographie',
- 'Territoires, populations, environnement et espaces.',
- 'Sciences humaines'),
-
-('PHILOSOPHY', 'Philosophie',
- 'Réflexion critique, logique et pensée philosophique.',
- 'Sciences humaines'),
-
-('ECONOMICS', 'Économie',
- 'Principes économiques et fonctionnement des marchés.',
- 'Économie'),
-
-('ACCOUNTING', 'Comptabilité',
- 'Principes comptables et gestion financière.',
- 'Gestion'),
-
-('BUSINESS', 'Gestion',
- 'Management, organisation et gestion des entreprises.',
- 'Gestion'),
-
-('MARKETING', 'Marketing',
- 'Stratégie commerciale, communication et comportement du consommateur.',
- 'Commerce'),
-
-('LAW', 'Droit',
- 'Principes juridiques et institutions.',
- 'Droit'),
-
-('COMPUTER_SCIENCE', 'Informatique',
- 'Algorithmique, programmation et systèmes informatiques.',
- 'Technologie'),
-
-('PROGRAMMING', 'Programmation',
- 'Développement de logiciels et applications.',
- 'Technologie'),
-
-('ALGORITHM', 'Algorithmique',
- 'Conception et analyse des algorithmes.',
- 'Technologie'),
-
-('DATABASE', 'Bases de données',
- 'Modélisation, SQL et systèmes de gestion de bases de données.',
- 'Technologie'),
-
-('NETWORK', 'Réseaux informatiques',
- 'Communication entre systèmes et infrastructures réseau.',
- 'Technologie'),
-
-('CYBERSECURITY', 'Cybersécurité',
- 'Protection des systèmes, réseaux et données.',
- 'Technologie'),
-
-('AI', 'Intelligence artificielle',
- 'Concepts et applications de l''intelligence artificielle.',
- 'Technologie'),
-
-('DATA_SCIENCE', 'Science des données',
- 'Statistiques, données et analyse.',
- 'Technologie'),
-
-('ART', 'Arts plastiques',
- 'Expression artistique et créativité.',
- 'Arts'),
-
-('MUSIC', 'Musique',
- 'Théorie musicale, pratique et culture musicale.',
- 'Arts'),
-
-('PHYSICAL_EDUCATION', 'Éducation physique et sportive',
- 'Activité physique, sport et santé.',
- 'Sport'),
-
-('CIVIC_EDUCATION', 'Éducation civique',
- 'Citoyenneté, société et responsabilités.',
- 'Citoyenneté'),
-
-('RELIGION_CULTURE', 'Culture et société',
- 'Culture, valeurs et société.',
- 'Culture'),
-
-('TECHNOLOGY', 'Technologie',
- 'Technologies, conception et applications techniques.',
- 'Technologie'),
-
-('ENGINEERING', 'Sciences de l''ingénieur',
- 'Conception et analyse des systèmes techniques.',
- 'Ingénierie'),
-
-('AGRICULTURE', 'Agriculture',
- 'Production agricole et sciences agronomiques.',
- 'Agronomie'),
-
-('ENVIRONMENT', 'Environnement',
- 'Protection de l''environnement et développement durable.',
- 'Environnement'),
-
-('PSYCHOLOGY', 'Psychologie',
- 'Étude du comportement et des processus mentaux.',
- 'Sciences humaines'),
-
-('SOCIOLOGY', 'Sociologie',
- 'Étude des sociétés et des relations sociales.',
- 'Sciences humaines'),
-
-('COMMUNICATION', 'Communication',
- 'Communication interpersonnelle, professionnelle et médiatique.',
- 'Communication');
-
-
-/* ============================================================
-   15. ASSOCIATION NIVEAUX / MATIÈRES
-   ============================================================ */
-
-CREATE TABLE level_subjects (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    level_id BIGINT UNSIGNED NOT NULL,
-    subject_id BIGINT UNSIGNED NOT NULL,
-
-    coefficient DECIMAL(5,2) DEFAULT 1.00,
-    is_required TINYINT(1) NOT NULL DEFAULT 1,
-
-    PRIMARY KEY (id),
-
-    UNIQUE KEY uq_level_subject (level_id, subject_id),
-
-    CONSTRAINT fk_level_subject_level
-        FOREIGN KEY (level_id)
-        REFERENCES education_levels(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_level_subject_subject
-        FOREIGN KEY (subject_id)
-        REFERENCES subjects(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
-
-/* ============================================================
-   16. PROGRAMMES
-   ===============================================
+/* Langues */
+('FRENCH', 'Français', 'Langue française'),
+('ENGLISH', 'English', 'Langue anglaise'),
+('MALAGASY', 'Malagasy', 'Langue malgache'),
+('SPANISH', 'Espagnol', 'Langue espagnole'),
+('GERMAN', 'Allemand', 'Langue allemande'),
+('ITALIAN', 'Italien', 'Langue italienne'),
+('
