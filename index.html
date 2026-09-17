@@ -4,23 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>DeepRDMMakademy — Science & Technologie</title>
+  <title>DeepRDMMakademy — L'art de la science et de la technologie</title>
 
-  <meta name="description"
-        content="DeepRDMMakademy — laboratoire numérique dédié à la science, la technologie, la recherche et l'éducation.">
+  <meta
+    name="description"
+    content="DeepRDMMakademy — plateforme académique, scientifique et technologique pour apprendre, expérimenter, rechercher et développer ses compétences."
+  >
 
   <style>
     :root {
-      --bg: #05070b;
-      --panel: #0a0f17;
-      --panel2: #0d141e;
-      --line: rgba(72, 174, 220, 0.25);
-      --cyan: #54d8ff;
-      --blue: #287dff;
-      --gold: #d9b56b;
-      --white: #f2f6fa;
-      --muted: #81909f;
-      --green: #50d890;
+      --bg: #05080d;
+      --bg-soft: #09111b;
+      --panel: rgba(10, 20, 32, 0.82);
+      --cyan: #00d9ff;
+      --cyan-soft: #62eaff;
+      --gold: #d8b15a;
+      --gold-light: #f0d58b;
+      --white: #f5f8fb;
+      --text: #d2dbe5;
+      --muted: #8292a5;
+      --line: rgba(0, 217, 255, 0.22);
+      --line-gold: rgba(216, 177, 90, 0.28);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
     }
 
     * {
@@ -36,12 +41,26 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 80% 10%, rgba(24, 101, 150, .18), transparent 30%),
-        radial-gradient(circle at 20% 40%, rgba(27, 71, 125, .10), transparent 30%),
-        var(--bg);
-      color: var(--white);
+        radial-gradient(circle at 15% 10%, rgba(0, 140, 255, 0.13), transparent 30%),
+        radial-gradient(circle at 85% 25%, rgba(120, 0, 255, 0.10), transparent 28%),
+        linear-gradient(180deg, #03060a 0%, #05080d 45%, #07101a 100%);
+      color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
       overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(0, 217, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.035) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
     }
 
     a {
@@ -49,590 +68,767 @@
       text-decoration: none;
     }
 
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
     .container {
-      width: min(1180px, calc(100% - 28px));
-      margin: auto;
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
     }
 
-    /* ================= HEADER ================= */
+    /* HEADER */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(5, 7, 11, .92);
-      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--line);
+      background: rgba(3, 7, 12, 0.92);
+      backdrop-filter: blur(16px);
     }
 
-    .topbar {
-      min-height: 68px;
+    .nav {
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 18px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       min-width: 0;
     }
 
     .brand-mark {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 42px;
       border: 1px solid var(--cyan);
       border-radius: 50%;
       display: grid;
       place-items: center;
       color: var(--cyan);
-      font-family: monospace;
+      font-family: Georgia, "Times New Roman", serif;
       font-weight: bold;
-      box-shadow: 0 0 20px rgba(84, 216, 255, .16);
+      letter-spacing: -1px;
+      box-shadow:
+        0 0 18px rgba(0, 217, 255, 0.2),
+        inset 0 0 15px rgba(0, 217, 255, 0.08);
     }
 
-    .brand-text strong {
-      display: block;
-      font-size: 13px;
-      letter-spacing: .12em;
+    .brand-name {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
-    .brand-text span {
-      display: block;
-      color: var(--gold);
-      font-size: 8px;
-      letter-spacing: .18em;
-      margin-top: 3px;
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 0.66rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
     }
 
-    .system-status {
+    .nav-links {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: var(--green);
-      font-family: monospace;
-      font-size: 9px;
-      letter-spacing: .08em;
+      gap: 4px;
     }
 
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 10px var(--green);
+    .nav-links a {
+      padding: 9px 11px;
+      color: #aebdcb;
+      font-size: 0.78rem;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      transition: 0.25s ease;
     }
 
-    /* ================= HERO ================= */
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 5px;
+      border: 1px solid var(--cyan);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      transition: 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      color: var(--cyan-soft);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 217, 255, 0.08);
+    }
+
+    .btn-primary {
+      color: #031017;
+      background: var(--cyan);
+    }
+
+    .btn-primary:hover {
+      background: var(--cyan-soft);
+    }
+
+    .btn-gold {
+      border-color: var(--gold);
+      color: var(--gold-light);
+      background: rgba(216, 177, 90, 0.06);
+    }
+
+    .btn-gold:hover {
+      background: rgba(216, 177, 90, 0.12);
+    }
+
+    /* HERO */
 
     .hero {
-      padding: 58px 0 45px;
-      position: relative;
+      min-height: 680px;
+      display: flex;
+      align-items: center;
+      padding: 90px 0 80px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .eyebrow,
+    .section-kicker {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .eyebrow {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 10px;
-      letter-spacing: .2em;
-      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 20px;
     }
 
-    .hero h1 {
-      max-width: 900px;
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 1px;
+      background: var(--cyan);
+    }
+
+    h1 {
+      color: var(--white);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(42px, 12vw, 92px);
-      font-weight: 400;
-      line-height: .92;
-      letter-spacing: -.045em;
+      font-size: clamp(2.6rem, 7vw, 5.6rem);
+      line-height: 0.98;
+      letter-spacing: -2px;
+      margin-bottom: 26px;
     }
 
-    .hero h1 span {
+    h1 span {
       color: var(--cyan);
     }
 
     .hero-description {
-      max-width: 650px;
-      margin-top: 25px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.75;
+      max-width: 670px;
+      color: #a9b8c7;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 32px;
     }
 
     .hero-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 30px;
-      max-width: 560px;
-    }
-
-    .btn {
-      min-height: 48px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 16px;
-      border: 1px solid var(--line);
-      background: rgba(10, 15, 23, .8);
-      color: var(--white);
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 38px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta-chip {
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.025);
+      padding: 8px 11px;
+      color: #8fa0b2;
       font-family: monospace;
-      font-size: 10px;
-      letter-spacing: .08em;
-      transition: .25s;
+      font-size: 0.68rem;
+      text-transform: uppercase;
     }
 
-    .btn:hover {
-      border-color: var(--cyan);
-      color: var(--cyan);
-      transform: translateY(-2px);
-    }
+    /* SYSTEM PANEL */
 
-    .btn-primary {
-      background: linear-gradient(135deg, #0b3348, #10213a);
-      border-color: rgba(84, 216, 255, .5);
-    }
-
-    /* ================= ORBIT ================= */
-
-    .hero-visual {
-      min-height: 280px;
-      margin-top: 35px;
-      position: relative;
+    .hero-panel {
       border: 1px solid var(--line);
       background:
-        linear-gradient(rgba(84,216,255,.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(84,216,255,.035) 1px, transparent 1px),
-        var(--panel);
-      background-size: 32px 32px;
-      overflow: hidden;
+        linear-gradient(145deg, rgba(8, 20, 32, 0.96), rgba(4, 11, 18, 0.92));
+      box-shadow: var(--shadow);
+      padding: 24px;
     }
 
-    .visual-label {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      color: var(--muted);
+    .panel-label {
+      color: var(--gold);
       font-family: monospace;
-      font-size: 8px;
-      letter-spacing: .15em;
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
     }
 
-    .orbit {
-      position: absolute;
-      width: 210px;
-      height: 210px;
-      border: 1px solid rgba(84,216,255,.35);
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-18deg);
-    }
-
-    .orbit::before {
-      content: "";
-      position: absolute;
-      inset: 25px;
-      border: 1px dashed rgba(84,216,255,.18);
-      border-radius: 50%;
-    }
-
-    .planet {
-      position: absolute;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(circle at 30% 30%, #9aeaff, #12608a 45%, #06111b 75%);
-      box-shadow: 0 0 35px rgba(84,216,255,.45);
-    }
-
-    .satellite {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 14px var(--gold);
-      top: 7px;
-      left: 50%;
-    }
-
-    /* ================= SECTION ================= */
-
-    section {
-      padding: 42px 0;
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 15px;
+    .panel-title {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.65rem;
       margin-bottom: 20px;
     }
 
-    .section-number {
+    .system-row {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 13px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .system-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0,217,255,0.3);
+      display: grid;
+      place-items: center;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 0.8rem;
+    }
+
+    .system-name {
+      color: #dce5ed;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .system-info {
+      color: var(--muted);
+      font-size: 0.72rem;
+    }
+
+    .system-status {
+      color: #9eeaff;
+      font-family: monospace;
+      font-size: 0.62rem;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-header {
+      max-width: 760px;
+      margin-bottom: 42px;
+    }
+
+    .section-kicker {
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+
+    .section-description {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* MODULES */
+
+    .modules {
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .module {
+      min-height: 205px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 22px;
+      position: relative;
+      transition: 0.3s ease;
+    }
+
+    .module:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0,217,255,0.55);
+    }
+
+    .module-number {
+      color: rgba(0,217,255,0.5);
+      font-family: monospace;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+    }
+
+    .module h3 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    .module p {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .module-link {
+      position: absolute;
+      bottom: 18px;
+      right: 20px;
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+    }
+
+    /* EDUCATION */
+
+    .programmes-section {
+      background:
+        linear-gradient(180deg, transparent, rgba(0,217,255,0.025), transparent);
+    }
+
+    .education-map {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .education-card {
+      border: 1px solid rgba(216,177,90,0.22);
+      background: rgba(11,18,27,0.82);
+      padding: 23px;
+    }
+
+    .education-card span {
+      display: block;
       color: var(--gold);
       font-family: monospace;
-      font-size: 9px;
-      letter-spacing: .15em;
+      font-size: 0.66rem;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
     }
 
-    .section-head h2 {
-      margin-top: 7px;
+    .education-card h3 {
+      color: var(--white);
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(28px, 8vw, 48px);
-      font-weight: 400;
+      font-size: 1.25rem;
+      margin-bottom: 7px;
     }
 
-    .section-link {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 9px;
-      white-space: nowrap;
-    }
-
-    /* ================= METRICS ================= */
-
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      border-top: 1px solid var(--line);
-      border-left: 1px solid var(--line);
-    }
-
-    .metric {
-      min-height: 115px;
-      padding: 18px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      background: rgba(10,15,23,.55);
-    }
-
-    .metric strong {
-      display: block;
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .metric span {
+    .education-card p {
       color: var(--muted);
-      font-family: monospace;
-      font-size: 8px;
-      letter-spacing: .1em;
+      font-size: 0.8rem;
     }
 
-    /* ================= LAB CARDS ================= */
+    .programmes-cta {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+    }
 
-    .lab-grid {
+    /* DOMAINS */
+
+    .domain-grid {
       display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .domain {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      border-left: 2px solid var(--cyan);
+      background: rgba(8,17,27,0.72);
+      padding: 15px 17px;
+      transition: 0.25s ease;
+    }
+
+    .domain:hover {
+      background: rgba(0,217,255,0.05);
+      transform: translateX(3px);
+    }
+
+    .domain strong {
+      color: #dbe7ef;
+      font-size: 0.82rem;
+    }
+
+    /* JOURNEY */
+
+    .journey {
+      background: #04080d;
+    }
+
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border: 1px solid rgba(0,217,255,0.14);
+    }
+
+    .step {
+      min-height: 190px;
+      padding: 22px;
+      border-right: 1px solid rgba(0,217,255,0.14);
+    }
+
+    .step:last-child {
+      border-right: none;
+    }
+
+    .step-number {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 0.68rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 24px;
+    }
+
+    .step h3 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.18rem;
+      margin-bottom: 9px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 0.77rem;
+      line-height: 1.65;
+    }
+
+    /* RESEARCH */
+
+    .research-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .research-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 28px;
+    }
+
+    .research-card.gold {
+      border-color: var(--line-gold);
+    }
+
+    .research-tag {
+      color: var(--cyan);
+      font-family: monospace;
+      font-size: 0.66rem;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+    }
+
+    .research-card.gold .research-tag {
+      color: var(--gold);
+    }
+
+    .research-card h3 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.65rem;
+      margin-bottom: 12px;
+    }
+
+    .research-card p {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    /* CTA */
+
+    .final-cta {
+      padding: 105px 0;
+      text-align: center;
+    }
+
+    .final-box {
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(0,217,255,0.09), transparent 50%),
+        rgba(7,15,24,0.9);
+      padding: 60px 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .final-box h2 {
+      color: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem,5vw,3.7rem);
+      margin-bottom: 16px;
+    }
+
+    .final-box p {
+      max-width: 680px;
+      margin: 0 auto 28px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .final-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 12px;
     }
 
-    .lab-card {
-      min-height: 145px;
-      padding: 20px;
-      border: 1px solid var(--line);
-      background:
-        linear-gradient(135deg, rgba(24,55,80,.25), transparent 55%),
-        var(--panel);
-      position: relative;
-      transition: .25s;
-    }
-
-    .lab-card:hover {
-      border-color: rgba(84,216,255,.65);
-      transform: translateY(-3px);
-    }
-
-    .lab-code {
-      color: var(--gold);
-      font-family: monospace;
-      font-size: 8px;
-      letter-spacing: .15em;
-    }
-
-    .lab-card h3 {
-      margin: 18px 0 8px;
-      font-family: Georgia, serif;
-      font-size: 23px;
-      font-weight: 400;
-    }
-
-    .lab-card p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.55;
-      max-width: 480px;
-    }
-
-    .lab-arrow {
-      position: absolute;
-      right: 18px;
-      bottom: 17px;
-      color: var(--cyan);
-      font-family: monospace;
-    }
-
-    /* ================= CONTROL ================= */
-
-    .control-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .control-card {
-      min-height: 105px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 17px;
-      transition: .25s;
-    }
-
-    .control-card:hover {
-      border-color: var(--cyan);
-    }
-
-    .control-icon {
-      font-size: 18px;
-      margin-bottom: 13px;
-    }
-
-    .control-card h3 {
-      font-family: monospace;
-      font-size: 11px;
-      letter-spacing: .05em;
-    }
-
-    .control-card p {
-      color: var(--muted);
-      margin-top: 6px;
-      font-size: 10px;
-      line-height: 1.4;
-    }
-
-    /* ================= RESEARCH ================= */
-
-    .research-list {
-      border-top: 1px solid var(--line);
-    }
-
-    .research-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 18px 4px;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .research-item span {
-      color: var(--gold);
-      font-family: monospace;
-      font-size: 8px;
-    }
-
-    .research-item h3 {
-      margin-top: 6px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .research-arrow {
-      color: var(--cyan);
-      font-family: monospace;
-    }
-
-    /* ================= ACADEMY ================= */
-
-    .academy {
-      border: 1px solid rgba(217,181,107,.35);
-      background:
-        radial-gradient(circle at 90% 10%, rgba(217,181,107,.09), transparent 30%),
-        var(--panel);
-      padding: 25px 20px;
-    }
-
-    .academy h2 {
-      font-family: Georgia, serif;
-      font-weight: 400;
-      font-size: 32px;
-      margin: 10px 0;
-    }
-
-    .academy p {
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 13px;
-    }
-
-    .academy-actions {
-      display: grid;
-      gap: 10px;
-      margin-top: 22px;
-    }
-
-    /* ================= COMMUNITY ================= */
-
-    .community-box {
-      border: 1px solid var(--line);
-      padding: 25px 20px;
-      background: var(--panel);
-    }
-
-    .community-box h2 {
-      font-family: Georgia, serif;
-      font-size: 30px;
-      font-weight: 400;
-    }
-
-    .community-box p {
-      color: var(--muted);
-      line-height: 1.6;
-      margin: 12px 0 20px;
-      font-size: 13px;
-    }
-
-    /* ================= FOOTER ================= */
+    /* FOOTER */
 
     footer {
-      margin-top: 35px;
-      border-top: 1px solid var(--line);
-      padding: 35px 0 28px;
-      background: #030508;
+      border-top: 1px solid rgba(0,217,255,0.14);
+      background: #03060a;
+      padding: 45px 0 25px;
     }
 
     .footer-grid {
       display: grid;
-      gap: 25px;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 30px;
+      padding-bottom: 35px;
     }
 
-    .footer-brand {
-      font-family: Georgia, serif;
-      font-size: 22px;
+    .footer-brand p {
+      max-width: 360px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.7;
+      margin-top: 12px;
     }
 
-    .footer-brand span {
+    .footer-column h4 {
+      color: var(--gold);
+      font-family: monospace;
+      font-size: 0.66rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 13px;
+    }
+
+    .footer-column a {
+      display: block;
+      color: #8493a3;
+      font-size: 0.76rem;
+      margin: 8px 0;
+      transition: 0.2s ease;
+    }
+
+    .footer-column a:hover {
       color: var(--cyan);
     }
 
-    .footer-text {
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-      margin-top: 8px;
-    }
-
-    .footer-links {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .footer-links a {
-      color: var(--muted);
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: #596877;
       font-family: monospace;
-      font-size: 9px;
+      font-size: 0.63rem;
     }
 
-    .footer-links a:hover {
-      color: var(--cyan);
-    }
+    /* MOBILE */
 
-    .copyright {
-      margin-top: 25px;
-      color: #4d5964;
-      font-family: monospace;
-      font-size: 8px;
-      letter-spacing: .08em;
-    }
-
-    /* ================= DESKTOP ================= */
-
-    @media (min-width: 700px) {
-
-      .container {
-        width: min(1180px, calc(100% - 60px));
+    @media (max-width: 1050px) {
+      .nav-links {
+        display: none;
       }
 
-      .hero {
-        padding-top: 90px;
-      }
-
-      .hero-actions {
-        display: flex;
-      }
-
-      .btn {
-        min-width: 150px;
-      }
-
-      .hero-visual {
-        min-height: 390px;
-      }
-
-      .orbit {
-        width: 300px;
-        height: 300px;
-      }
-
-      .metrics {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .lab-grid {
+      .module-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .control-grid {
-        grid-template-columns: repeat(3, 1fr);
+      .domain-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .academy-actions {
-        display: flex;
+      .journey-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .step:nth-child(2n) {
+        border-right: none;
       }
 
       .footer-grid {
-        grid-template-columns: 1.5fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (min-width: 1000px) {
-
-      .hero {
-        min-height: 720px;
-        display: flex;
-        align-items: center;
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 22px, 1180px);
       }
 
-      .hero-inner {
+      header {
+        position: relative;
+      }
+
+      .nav {
+        padding: 13px 0;
+        flex-wrap: wrap;
+      }
+
+      .nav-actions {
         width: 100%;
         display: grid;
-        grid-template-columns: 1.05fr .95fr;
-        gap: 60px;
-        align-items: center;
+        grid-template-columns: 1fr 1fr;
       }
 
-      .hero-visual {
-        margin-top: 0;
+      .nav-actions .btn {
+        width: 100%;
       }
 
-      .lab-grid {
-        grid-template-columns: repeat(3, 1fr);
+      .hero {
+        min-height: auto;
+        padding: 65px 0 55px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 42px;
+      }
+
+      h1 {
+        letter-spacing: -1px;
+      }
+
+      .hero-description {
+        font-size: 0.94rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .module-grid,
+      .education-map,
+      .domain-grid,
+      .research-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .journey-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step,
+      .step:nth-child(2n) {
+        border-right: none;
+        border-bottom: 1px solid rgba(0,217,255,0.14);
+      }
+
+      .step:last-child {
+        border-bottom: none;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+
+      .final-cta {
+        padding: 65px 0;
+      }
+
+      .final-box {
+        padding: 42px 18px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+      }
+
+      .brand-name {
+        font-size: 0.82rem;
+      }
+
+      .brand-subtitle {
+        display: none;
+      }
+
+      .hero-panel {
+        padding: 18px;
+      }
+
+      .system-row {
+        grid-template-columns: 38px 1fr;
+      }
+
+      .system-status {
+        grid-column: 2;
       }
     }
   </style>
@@ -640,300 +836,153 @@
 
 <body>
 
-  <!-- ================= HEADER ================= -->
+<header>
+  <div class="container nav">
 
-  <header>
-    <div class="container topbar">
+    <a href="index.html" class="brand" aria-label="Accueil DeepRDMMakademy">
+      <div class="brand-mark">DRM</div>
 
-      <a href="index.html" class="brand">
-        <div class="brand-mark">DR</div>
-
-        <div class="brand-text">
-          <strong>DeepRDMMakademy</strong>
-          <span>SCIENCE • TECHNOLOGY • EDUCATION</span>
+      <div>
+        <div class="brand-name">DeepRDMMakademy</div>
+        <div class="brand-subtitle">
+          Science · Technologie · Éducation
         </div>
-      </a>
-
-      <div class="system-status">
-        <span class="status-dot"></span>
-        SYSTEM ONLINE
       </div>
+    </a>
 
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="laboratory.html">Laboratoire</a>
+      <a href="akademy.html">Akademy</a>
+      <a href="programmes.html">Programmes</a>
+      <a href="projects.html">Recherche</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-outline">Se connecter</a>
+      <a href="register.html" class="btn btn-primary">S'inscrire</a>
     </div>
-  </header>
+
+  </div>
+</header>
 
 
-  <main>
+<main>
 
-    <!-- ================= HERO ================= -->
+  <!-- HERO -->
 
-    <section class="hero">
-      <div class="container hero-inner">
+  <section class="hero">
+    <div class="container hero-grid">
 
-        <div>
+      <div>
 
-          <div class="eyebrow">
-            DEEPRDMM // DIGITAL SCIENCE NETWORK
-          </div>
+        <div class="eyebrow">
+          INSTITUTION NUMÉRIQUE
+        </div>
 
-          <h1>
-            Comprendre.<br>
-            <span>Explorer.</span><br>
-            Inventer.
-          </h1>
+        <h1>
+          Deep<span>RDM</span><br>
+          Makademy
+        </h1>
 
-          <p class="hero-description">
-            DeepRDMMakademy est un laboratoire numérique dédié à la
-            science, à la technologie, à la recherche, à l'expérimentation
-            et à l'éducation.
-          </p>
+        <p class="hero-description">
+          Une plateforme académique, scientifique et technologique conçue
+          pour apprendre, expérimenter, rechercher et développer des
+          compétences — de l'éducation fondamentale aux domaines avancés.
+        </p>
 
-          <div class="hero-actions">
+        <div class="hero-actions">
 
-            <a class="btn btn-primary" href="laboratory.html">
-              🔬 EXPLORER LE LABORATOIRE
-            </a>
+          <a href="register.html" class="btn btn-primary">
+            Commencer mon parcours
+          </a>
 
-            <a class="btn" href="akademy.html">
-              🎓 AKADEMY
-            </a>
+          <a href="programmes.html" class="btn btn-gold">
+            Voir les programmes
+          </a>
 
-            <a class="btn" href="research.html">
-              🧬 RECHERCHE
-            </a>
-
-            <a class="btn" href="community.html">
-              ◉ COMMUNAUTÉ
-            </a>
-
-          </div>
+          <a href="akademy.html" class="btn btn-outline">
+            Découvrir l'Akademy
+          </a>
 
         </div>
 
-
-        <div class="hero-visual">
-
-          <div class="visual-label">
-            DIGITAL LAB // SYSTEM VISUALIZATION // 001
-          </div>
-
-          <div class="orbit">
-            <div class="satellite"></div>
-          </div>
-
-          <div class="planet"></div>
-
+        <div class="hero-meta">
+          <div class="meta-chip">Éducation</div>
+          <div class="meta-chip">Science</div>
+          <div class="meta-chip">Technologie</div>
+          <div class="meta-chip">Recherche</div>
+          <div class="meta-chip">Innovation</div>
         </div>
 
       </div>
-    </section>
 
 
-    <!-- ================= SYSTEM ================= -->
+      <div class="hero-panel">
 
-    <section>
-      <div class="container">
+        <div class="panel-label">
+          DEEPRDM // SYSTEM ARCHITECTURE
+        </div>
 
-        <div class="section-head">
+        <div class="panel-title">
+          Un écosystème unique
+        </div>
+
+        <div class="system-row">
+          <div class="system-icon">01</div>
 
           <div>
-            <div class="section-number">01 // SYSTEM</div>
-            <h2>Le laboratoire</h2>
+            <div class="system-name">AKADEMY</div>
+            <div class="system-info">
+              Parcours pédagogiques
+            </div>
           </div>
 
-          <a class="section-link" href="laboratory.html">
-            OUVRIR →
-          </a>
-
+          <div class="system-status">
+            EDUCATION
+          </div>
         </div>
 
-
-        <div class="metrics">
-
-          <div class="metric">
-            <strong>07</strong>
-            <span>DOMAINES DE RECHERCHE</span>
-          </div>
-
-          <div class="metric">
-            <strong>06</strong>
-            <span>LABORATOIRES</span>
-          </div>
-
-          <div class="metric">
-            <strong>∞</strong>
-            <span>EXPÉRIMENTATIONS</span>
-          </div>
-
-          <div class="metric">
-            <strong>24/7</strong>
-            <span>ACCÈS NUMÉRIQUE</span>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ================= LABORATORIES ================= -->
-
-    <section>
-      <div class="container">
-
-        <div class="section-head">
+        <div class="system-row">
+          <div class="system-icon">02</div>
 
           <div>
-            <div class="section-number">02 // LABORATORY</div>
-            <h2>Domaines actifs</h2>
+            <div class="system-name">LABORATORY</div>
+            <div class="system-info">
+              Environnements scientifiques
+            </div>
           </div>
 
-          <a class="section-link" href="laboratory.html">
-            TOUS LES LABOS →
-          </a>
-
+          <div class="system-status">
+            RESEARCH
+          </div>
         </div>
 
-
-        <div class="lab-grid">
-
-          <a class="lab-card" href="ai-lab.html">
-            <div class="lab-code">LAB-01 // AI</div>
-            <h3>AI Lab</h3>
-            <p>
-              Intelligence artificielle, modèles, automatisation,
-              données et systèmes intelligents.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-
-          <a class="lab-card" href="molecular-lab.html">
-            <div class="lab-code">LAB-02 // MOLECULAR</div>
-            <h3>Molecular Lab</h3>
-            <p>
-              Exploration moléculaire, biotechnologie et sciences
-              expérimentales.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-
-          <a class="lab-card" href="robotics-lab.html">
-            <div class="lab-code">LAB-03 // ROBOTICS</div>
-            <h3>Robotics Lab</h3>
-            <p>
-              Robotique, systèmes autonomes, électronique et
-              technologies émergentes.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-
-          <a class="lab-card" href="science-lab.html">
-            <div class="lab-code">LAB-04 // SCIENCE</div>
-            <h3>Science Lab</h3>
-            <p>
-              Physique, chimie, biologie et exploration des sciences
-              fondamentales.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-
-          <a class="lab-card" href="digital-lab.html">
-            <div class="lab-code">LAB-05 // DIGITAL</div>
-            <h3>Digital Lab</h3>
-            <p>
-              Développement numérique, data science, systèmes et
-              expérimentation digitale.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-
-          <a class="lab-card" href="simulation-center.html">
-            <div class="lab-code">LAB-06 // SIMULATION</div>
-            <h3>Simulation Center</h3>
-            <p>
-              Modélisation, simulations scientifiques et futurs
-              environnements 3D.
-            </p>
-            <div class="lab-arrow">→</div>
-          </a>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ================= CONTROL ================= -->
-
-    <section>
-      <div class="container">
-
-        <div class="section-head">
+        <div class="system-row">
+          <div class="system-icon">03</div>
 
           <div>
-            <div class="section-number">03 // CONTROL CENTER</div>
-            <h2>Laboratoire numérique</h2>
+            <div class="system-name">PROGRAMMES</div>
+            <div class="system-info">
+              Niveaux · domaines · matières
+            </div>
           </div>
 
-          <a class="section-link" href="digital-lab.html">
-            DIGITAL LAB →
-          </a>
-
+          <div class="system-status">
+            CURRICULUM
+          </div>
         </div>
 
+        <div class="system-row">
+          <div class="system-icon">04</div>
 
-        <div class="control-grid">
+          <div>
+            <div class="system-name">PROJECTS</div>
+            <div class="system-info">
+              Recherche · innovation · projets
+            </div>
+          </div>
 
-          <a class="control-card" href="digital-lab.html">
-            <div class="control-icon">▦</div>
-            <h3>DASHBOARD</h3>
-            <p>Vue générale du laboratoire.</p>
-          </a>
-
-          <a class="control-card" href="research.html">
-            <div class="control-icon">◈</div>
-            <h3>PROJECTS</h3>
-            <p>Projets scientifiques et technologiques.</p>
-          </a>
-
-          <a class="control-card" href="simulation-center.html">
-            <div class="control-icon">◎</div>
-            <h3>SIMULATIONS</h3>
-            <p>Expériences et modèles numériques.</p>
-          </a>
-
-          <a class="control-card" href="experiments.html">
-            <div class="control-icon">⚗</div>
-            <h3>EXPÉRIENCES</h3>
-            <p>Travaux et expérimentations.</p>
-          </a>
-
-          <a class="control-card" href="data.html">
-            <div class="control-icon">⌘</div>
-            <h3>DONNÉES</h3>
-            <p>Datasets et informations scientifiques.</p>
-          </a>
-
-          <a class="control-card" href="documentation.html">
-            <div class="control-icon">▤</div>
-            <h3>DOCUMENTATION</h3>
-            <p>Documentation et ressources.</p>
-          </a>
-
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- ================= RESEARCH ================= -->
-
-    <section>
-      <div class="container">
-
-     
+          <div class="system-status">
+            INNOVATION
+          </div>
+   
