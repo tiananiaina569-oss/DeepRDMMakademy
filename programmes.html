@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Découvrez les programmes, niveaux, domaines, filières et matières enseignés par DeepRDMMakademy.">
+
+    <title>Programmes — DeepRDMMakademy</title>
+
+    <style>
+        :root {
+            --bg: #05080d;
+            --panel: #0a1018;
+            --panel-2: #0d1520;
+            --border: rgba(0, 210, 255, 0.18);
+            --border-strong: rgba(0, 217, 255, 0.35);
+            --gold-border: rgba(212, 175, 55, 0.28);
+
+            --cyan: #00d9ff;
+            --cyan-soft: rgba(0, 217, 255, 0.09);
+
+            --gold: #d4af37;
+
+            --white: #f4f8fb;
+            --muted: #8d9aa8;
+            --muted-2: #63707d;
+
+            --green: #35d07f;
+
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 15% 10%,
+                    rgba(0, 190, 255, 0.08),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 85% 25%,
+                    rgba(100, 50, 255, 0.07),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        /* =========================
+           TOP LINE
+        ========================= */
+
+        .top-line {
+            height: 2px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--cyan),
+                    var(--gold),
+                    var(--cyan),
+                    transparent
+                );
+        }
+
+        /* =========================
+           NAVIGATION
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(5, 8, 13, 0.95);
+            backdrop-filter: blur(16px);
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav {
+            max-width: 1250px;
+            margin: auto;
+
+            padding: 15px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-width: 0;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+
+            flex: 0 0 43px;
+
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+
+            display: grid;
+            place-items: center;
+
+            color: var(--cyan);
+
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 1px;
+
+            box-shadow:
+                0 0 20px rgba(0, 217, 255, 0.14),
+                inset 0 0 14px rgba(0, 217, 255, 0.06);
+        }
+
+        .brand-text strong {
+            display: block;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .brand-text span {
+            display: block;
+
+            color: var(--muted);
+
+            font-size: 9px;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            padding: 9px 11px;
+
+            color: #aab6c3;
+
+            font-size: 11px;
+
+            border: 1px solid transparent;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--cyan);
+
+            border-color: var(--border);
+
+            background: var(--cyan-soft);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            padding: 9px 12px;
+
+            border: 1px solid var(--cyan);
+
+            color: var(--cyan);
+
+            background: rgba(0, 217, 255, 0.05);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 217, 255, 0.13);
+        }
+
+        .nav-btn.gold {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .mobile-menu {
+            display: none;
+
+            padding: 9px 11px;
+
+            border: 1px solid var(--border);
+
+            background: transparent;
+
+            color: var(--cyan);
+
+            cursor: pointer;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding: 45px 20px 90px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 48px 34px;
+
+            border: 1px solid var(--border);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(0, 217, 255, 0.065),
+                    transparent 48%,
+                    rgba(212, 175, 55, 0.045)
+                ),
+                var(--panel);
+
+            box-shadow: var(--shadow);
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            width: 240px;
+            height: 240px;
+
+            right: -105px;
+            top: -105px;
+
+            border: 1px solid rgba(0, 217, 255, 0.13);
+
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            right: -45px;
+            top: -45px;
+
+            border: 1px solid rgba(212, 175, 55, 0.12);
+
+            border-radius: 50%;
+        }
+
+        .eyebrow {
+            color: var(--cyan);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 3px;
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            max-width: 850px;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: clamp(38px, 6vw, 64px);
+
+            font-weight: 500;
+
+            line-height: 1.03;
+
+            margin-bottom: 17px;
+        }
+
+        .hero p {
+            max-width: 780px;
+
+            color: var(--muted);
+
+            font-size: 15px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-panel {
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 10px;
+
+            padding: 14px;
+
+            border: 1px solid var(--border);
+
+            background: rgba(0, 0, 0, 0.18);
+        }
+
+        .search-box {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 13px 14px;
+
+            border: 1px solid var(--border);
+
+            outline: none;
+
+            color: var(--white);
+
+            background: var(--panel-2);
+
+            font-size: 13px;
+        }
+
+        .search-box:focus {
+            border-color: var(--border-strong);
+        }
+
+        .search-button {
+            padding: 0 20px;
+
+            border: 1px solid var(--cyan);
+
+            color: var(--cyan);
+
+            background: var(--cyan-soft);
+
+            cursor: pointer;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .section {
+            margin-top: 34px;
+        }
+
+        .section-header {
+            margin-bottom: 17px;
+        }
+
+        .section-header h2 {
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 27px;
+
+            font-weight: 500;
+        }
+
+        .section-header p {
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           EDUCATION LEVELS
+        ========================= */
+
+        .levels {
+            display: grid;
+
+            grid-template-columns: repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        .level-card {
+            position: relative;
+
+            min-height: 180px;
+
+            padding: 22px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .level-card:hover {
+            transform: translateY(-3px);
+
+            border-color: var(--border-strong);
+
+            background: var(--panel-2);
+        }
+
+        .level-number {
+            color: var(--gold);
+
+            font-family: monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 16px;
+        }
+
+        .level-card h3 {
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 20px;
+
+            font-weight: 500;
+
+            margin-bottom: 8px;
+        }
+
+        .level-card p {
+            color: var(--muted);
+
+            font-size: 12px;
+
+            margin-bottom: 16px;
+        }
+
+        .level-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 5px;
+        }
+
+        .level-tag {
+            padding: 4px 7px;
+
+            border: 1px solid var(--border);
+
+            color: #9aa8b5;
+
+            font-family: monospace;
+
+            font-size: 9px;
+
+            letter-spacing: 0.5px;
+        }
+
+        /* =========================
+           DOMAIN GRID
+        ========================= */
+
+        .domains {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .domain-card {
+            padding: 23px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            transition: 0.2s ease;
+        }
+
+        .domain-card:hover {
+            border-color: var(--border-strong);
+
+            background: var(--panel-2);
+        }
+
+        .domain-code {
+            color: var(--cyan);
+
+            font-family: monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+        }
+
+        .domain-card h3 {
+            margin: 10px 0 7px;
+
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 19px;
+
+            font-weight: 500;
+        }
+
+        .domain-card p {
+            min-height: 58px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .domain-subjects {
+            margin-top: 15px;
+
+            padding-top: 14px;
+
+            border-top: 1px solid rgba(0, 217, 255, 0.08);
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 5px;
+        }
+
+        .subject-tag {
+            color: #7f8c99;
+
+            font-size: 10px;
+        }
+
+        .subject-tag::after {
+            content: " ·";
+
+            color: var(--gold);
+        }
+
+        .subject-tag:last-child::after {
+            display: none;
+        }
+
+        /* =========================
+           ACADEMIC STRUCTURE
+        ========================= */
+
+        .structure {
+            display: grid;
+
+            grid-template-columns: repeat(5, 1fr);
+
+            gap: 10px;
+        }
+
+        .structure-card {
+            min-height: 150px;
+
+            padding: 19px 15px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            position: relative;
+        }
+
+        .structure-number {
+            color: var(--cyan);
+
+            font-family: monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 13px;
+        }
+
+        .structure-card h3 {
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 17px;
+
+            font-weight: 500;
+
+            margin-bottom: 7px;
+        }
+
+        .structure-card p {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .structure-card::after {
+            content: "→";
+
+            position: absolute;
+
+            right: -11px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--gold);
+
+            z-index: 2;
+        }
+
+        .structure-card:last-child::after {
+            display: none;
+        }
+
+        /* =========================
+           SUBJECT CATALOG
+        ========================= */
+
+        .catalog {
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            overflow: hidden;
+        }
+
+        .catalog-header {
+            display: grid;
+
+            grid-template-columns: 1fr 2fr 1fr;
+
+            gap: 15px;
+
+            padding: 13px 17px;
+
+            border-bottom: 1px solid var(--border);
+
+            color: var(--muted-2);
+
+            font-family: monospace;
+
+            font-size: 9px;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+        }
+
+        .catalog-row {
+            display: grid;
+
+            grid-template-columns: 1fr 2fr 1fr;
+
+            gap: 15px;
+
+            padding: 18px 17px;
+
+            border-bottom: 1px solid rgba(0, 217, 255, 0.07);
+        }
+
+        .catalog-row:last-child {
+            border-bottom: 0;
+        }
+
+        .catalog-row strong {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .catalog-row span {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .catalog-code {
+            color: var(--cyan) !important;
+
+            font-family: monospace;
+
+            font-size: 10px !important;
+        }
+
+        /* =========================
+           INTERNATIONAL
+        ========================= */
+
+        .international {
+            display: grid;
+
+            grid-template-columns: 1.3fr 1fr;
+
+            gap: 12px;
+        }
+
+        .international-card {
+            padding: 27px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+        }
+
+        .international-card.gold {
+            border-color: var(--gold-border);
+        }
+
+        .international-card h3 {
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 22px;
+
+            font-weight: 500;
+
+            margin-bottom: 9px;
+        }
+
+        .international-card p {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .language-list {
+            margin-top: 18px;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 7px;
+        }
+
+        .language {
+            padding: 7px 10px;
+
+            border: 1px solid var(--border);
+
+            color: #a4b0bc;
+
+            font-size: 10px;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            margin-top: 35px;
+
+            padding: 35px 28px;
+
+            border: 1px solid var(--gold-border);
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(212, 175, 55, 0.055),
+                    transparent
+                ),
+                var(--panel);
+        }
+
+        .cta .eyebrow {
+            color: var(--gold);
+        }
+
+        .cta h2 {
+            font-family: Georgia, "Times New Roman", serif;
+
+            font-size: 29px;
+
+            font-weight: 500;
+
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            max-width: 700px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        .actions {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 21px;
+        }
+
+        .btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 44px;
+
+            padding: 0 18px;
+
+            border: 1px solid var(--cyan);
+
+            color: var(--cyan);
+
+            background: rgba(0, 217, 255, 0.06);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            background: rgba(0, 217, 255, 0.13);
+        }
+
+        .btn.gold {
+            border-color: var(--gold);
+
+            color: var(--gold);
+
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .btn.gold:hover {
+            background: rgba(212, 175, 55, 0.12);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            border-top: 1px solid var(--border);
+
+            padding: 30px 20px;
+
+            color: var(--muted);
+
+            text-align: center;
+
+            font-size: 11px;
+        }
+
+        footer strong {
+            color: var(--white);
+        }
+
+        /* =========================
+           SEARCH HIGHLIGHT
+        ========================= */
+
+        .hidden {
+            display: none !important;
+        }
+
+        .no-results {
+            display: none;
+
+            padding: 35px;
+
+            border: 1px dashed var(--border);
+
+            color: var(--muted);
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1050px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .nav.open .nav-links {
+                display: flex;
+
+                position: absolute;
+
+                top: 75px;
+
+                left: 12px;
+                right: 12px;
+
+                padding: 12px;
+
+                flex-direction: column;
+                align-items: stretch;
+
+                border: 1px solid var(--border);
+
+                background: rgba(5, 8, 13, 0.98);
+            }
+
+            .levels {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .domains {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .structure {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .structure-card::after {
+                display: none;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            main {
+                padding: 28px 14px 65px;
+            }
+
+            .brand-text span {
+                display: none;
+            }
+
+            .nav-actions {
+                display: none;
+            }
+
+            .hero {
+                padding: 32px 20px;
+            }
+
+            h1 {
+                font-size: 39px;
+            }
+
+            .search-panel {
+                flex-direction: column;
+            }
+
+            .search-button {
+                min-height: 44px;
+            }
+
+            .levels,
+            .domains,
+            .structure,
+            .international {
+                grid-template-columns: 1fr;
+            }
+
+            .catalog {
+                overflow-x: auto;
+            }
+
+            .catalog-header,
+            .catalog-row {
+                min-width: 650px;
+            }
+
+            .cta {
+                padding: 28px 20px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-line"></div>
+
+<header>
+
+    <nav class="nav" id="mainNav">
+
+        <a href="index.html"
+           class="brand"
+           aria-label="Retour à l'accueil">
+
+            <div class="brand-mark">
+                DRM
+            </div>
+
+            <div class="brand-text">
+                <strong>DeepRDMMakademy</strong>
+
+                <span>
+                    L'art de la science et de la technologie
+                </span>
+            </div>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Accueil
+            </a>
+
+            <a href="laboratory.html">
+                Laboratoire
+            </a>
+
+            <a href="akademy.html">
+                Akademy
+            </a>
+
+            <a href="courses.html">
+                Cours
+            </a>
+
+            <a href="programmes.html"
+               class="active">
+                Programmes
+            </a>
+
+            <a href="progress.html">
+                Progression
+            </a>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <a href="login.html"
+               class="nav-btn">
+                Connexion
+            </a>
+
+            <a href="register.html"
+               class="nav-btn gold">
+                S'inscrire
+            </a>
+
+        </div>
+
+
+        <button class="mobile-menu"
+                id="menuButton"
+                type="button"
+                aria-label="Ouvrir le menu">
+
+            ☰
+
+        </button>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="eyebrow">
+            DeepRDMMakademy // Academic Catalogue
+        </div>
+
+        <h1>
+            Tout ce que vous pouvez apprendre.
+        </h1>
+
+        <p>
+            Explorez l'architecture pédagogique de DeepRDMMakademy :
+            niveaux scolaires, domaines d'études, filières, matières,
+            chapitres, leçons et compétences. Le catalogue est conçu
+            pour évoluer vers une véritable école numérique internationale.
+        </p>
+
+
+        <div class="search-panel">
+
+            <input
+                id="searchInput"
+                class="search-box"
+                type="search"
+                placeholder="Rechercher une matière, une filière, un domaine..."
+                aria-label="Rechercher dans les programmes"
+            >
+
+            <button
+                id="searchButton"
+                class="search-button"
+                type="button">
+
+                Rechercher
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         LEVELS
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                01 — Parcours éducatif
+            </h2>
+
+            <p>
+                Une architecture allant de l'éducation préscolaire
+                aux études supérieures et à la recherche.
+            </p>
+
+        </div>
+
+
+        <div class="levels" id="levelsGrid">
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 01
+                </div>
+
+                <h3>
+                    Petite enfance
+                </h3>
+
+                <p>
+                    Premiers apprentissages, développement,
+                    langage, découverte et éveil.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">PS</span>
+                    <span class="level-tag">MS</span>
+                    <span class="level-tag">GS</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 02
+                </div>
+
+                <h3>
+                    Primaire
+                </h3>
+
+                <p>
+                    Construction des fondamentaux scolaires,
+                    scientifiques, linguistiques et culturels.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">CP1</span>
+                    <span class="level-tag">CP2</span>
+                    <span class="level-tag">CE1</span>
+                    <span class="level-tag">CE2</span>
+                    <span class="level-tag">CM1</span>
+                    <span class="level-tag">CM2</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 03
+                </div>
+
+                <h3>
+                    Collège
+                </h3>
+
+                <p>
+                    Approfondissement des connaissances et développement
+                    des premières spécialisations.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">6e</span>
+                    <span class="level-tag">5e</span>
+                    <span class="level-tag">4e</span>
+                    <span class="level-tag">3e</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 04
+                </div>
+
+                <h3>
+                    Lycée
+                </h3>
+
+                <p>
+                    Approfondissement disciplinaire, orientation
+                    et préparation aux études supérieures.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">Seconde</span>
+                    <span class="level-tag">Première</span>
+                    <span class="level-tag">Terminale</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 05
+                </div>
+
+                <h3>
+                    Licence
+                </h3>
+
+                <p>
+                    Études universitaires fondamentales et
+                    spécialisation progressive.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">L1</span>
+                    <span class="level-tag">L2</span>
+                    <span class="level-tag">L3</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 06
+                </div>
+
+                <h3>
+                    Master
+                </h3>
+
+                <p>
+                    Expertise, spécialisation avancée,
+                    recherche appliquée et projets.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">M1</span>
+                    <span class="level-tag">M2</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 07
+                </div>
+
+                <h3>
+                    Doctorat
+                </h3>
+
+                <p>
+                    Recherche scientifique avancée,
+                    production de connaissances et thèse.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">D1</span>
+                    <span class="level-tag">D2</span>
+                    <span class="level-tag">D3</span>
+
+                </div>
+
+            </article>
+
+
+            <article class="level-card searchable">
+
+                <div class="level-number">
+                    LEVEL 08
+                </div>
+
+                <h3>
+                    Parcours professionnels
+                </h3>
+
+                <p>
+                    Formations spécialisées orientées vers
+                    les compétences et les métiers.
+                </p>
+
+                <div class="level-list">
+
+                    <span class="level-tag">PRO1</span>
+                    <span class="level-tag">PRO2</span>
+                    <span class="level-tag">PRO3</span>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         DOMAINS
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                02 — Domaines & filières
+            </h2>
+
+            <p>
+                Les grandes familles de connaissances que
+                DeepRDMMakademy pourra proposer.
+            </p>
+
+        </div>
+
+
+        <div class="domains" id="domainsGrid">
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    SCI / 001
+                </div>
+
+                <h3>
+                    Sciences
+                </h3>
+
+                <p>
+                    Comprendre les phénomènes naturels,
+                    développer le raisonnement et expérimenter.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Mathématiques</span>
+                    <span class="subject-tag">Physique</span>
+                    <span class="subject-tag">Chimie</span>
+                    <span class="subject-tag">Biologie</span>
+                    <span class="subject-tag">Astronomie</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    TEC / 002
+                </div>
+
+                <h3>
+                    Informatique & numérique
+                </h3>
+
+                <p>
+                    Construire, programmer et comprendre les
+                    systèmes numériques modernes.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Programmation</span>
+                    <span class="subject-tag">Web</span>
+                    <span class="subject-tag">Bases de données</span>
+                    <span class="subject-tag">Réseaux</span>
+                    <span class="subject-tag">Systèmes</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    AI / 003
+                </div>
+
+                <h3>
+                    Intelligence artificielle & Data
+                </h3>
+
+                <p>
+                    Données, algorithmes, apprentissage automatique
+                    et systèmes intelligents.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Machine Learning</span>
+                    <span class="subject-tag">Deep Learning</span>
+                    <span class="subject-tag">Computer Vision</span>
+                    <span class="subject-tag">NLP</span>
+                    <span class="subject-tag">Data Science</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    ENG / 004
+                </div>
+
+                <h3>
+                    Ingénierie
+                </h3>
+
+                <p>
+                    Conception, construction, automatisation
+                    et résolution de problèmes techniques.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Électronique</span>
+                    <span class="subject-tag">Mécanique</span>
+                    <span class="subject-tag">Génie civil</span>
+                    <span class="subject-tag">Robotique</span>
+                    <span class="subject-tag">Télécoms</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    MED / 005
+                </div>
+
+                <h3>
+                    Santé & biomédical
+                </h3>
+
+                <p>
+                    Sciences médicales, biologiques, soins et
+                    technologies appliquées à la santé.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Anatomie</span>
+                    <span class="subject-tag">Physiologie</span>
+                    <span class="subject-tag">Pharmacologie</span>
+                    <span class="subject-tag">Soins</span>
+                    <span class="subject-tag">Biomédical</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    ECO / 006
+                </div>
+
+                <h3>
+                    Économie & management
+                </h3>
+
+                <p>
+                    Entreprise, finance, économie, commerce,
+                    stratégie et entrepreneuriat.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Économie</span>
+                    <span class="subject-tag">Finance</span>
+                    <span class="subject-tag">Comptabilité</span>
+                    <span class="subject-tag">Marketing</span>
+                    <span class="subject-tag">Gestion</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    LAW / 007
+                </div>
+
+                <h3>
+                    Droit & sciences politiques
+                </h3>
+
+                <p>
+                    Institutions, droit, gouvernance,
+                    relations internationales et société.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Droit</span>
+                    <span class="subject-tag">Droit civil</span>
+                    <span class="subject-tag">Droit pénal</span>
+                    <span class="subject-tag">Politique</span>
+                    <span class="subject-tag">Relations internationales</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    HUM / 008
+                </div>
+
+                <h3>
+                    Humanités & sciences sociales
+                </h3>
+
+                <p>
+                    Comprendre l'être humain, les sociétés,
+                    les cultures et leur histoire.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Histoire</span>
+                    <span class="subject-tag">Géographie</span>
+                    <span class="subject-tag">Philosophie</span>
+                    <span class="subject-tag">Sociologie</span>
+                    <span class="subject-tag">Psychologie</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    ART / 009
+                </div>
+
+                <h3>
+                    Arts, design & médias
+                </h3>
+
+                <p>
+                    Création artistique, expression visuelle,
+                    audiovisuel et communication.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Dessin</span>
+                    <span class="subject-tag">Design</span>
+                    <span class="subject-tag">Musique</span>
+                    <span class="subject-tag">Cinéma</span>
+                    <span class="subject-tag">Animation</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    AGR / 010
+                </div>
+
+                <h3>
+                    Agriculture & environnement
+                </h3>
+
+                <p>
+                    Production agricole, environnement,
+                    écologie, climat et ressources naturelles.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Agronomie</span>
+                    <span class="subject-tag">Botanique</span>
+                    <span class="subject-tag">Écologie</span>
+                    <span class="subject-tag">Climat</span>
+                    <span class="subject-tag">Environnement</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    ARC / 011
+                </div>
+
+                <h3>
+                    Architecture & construction
+                </h3>
+
+                <p>
+                    Conception des espaces, construction,
+                    urbanisme et outils numériques.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Architecture</span>
+                    <span class="subject-tag">Urbanisme</span>
+                    <span class="subject-tag">Construction</span>
+                    <span class="subject-tag">CAD</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    LNG / 012
+                </div>
+
+                <h3>
+                    Langues & littérature
+                </h3>
+
+                <p>
+                    Langues, communication, expression,
+                    littérature et maîtrise de l'écrit.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Français</span>
+                    <span class="subject-tag">Anglais</span>
+                    <span class="subject-tag">Littérature</span>
+                    <span class="subject-tag">Communication</span>
+                </div>
+
+            </article>
+
+
+            <article class="domain-card searchable">
+
+                <div class="domain-code">
+                    TRN / 013
+                </div>
+
+                <h3>
+                    Tourisme, transport & logistique
+                </h3>
+
+                <p>
+                    Mobilité, transport, tourisme, hôtellerie
+                    et gestion des chaînes logistiques.
+                </p>
+
+                <div class="domain-subjects">
+                    <span class="subject-tag">Tourisme</span>
+                    <span class="subject-tag">Hôtellerie</span>
+                    <span class="subject-tag">Logistique</span>
+                    <span class="subject-tag">Aviation</span>
+                    <span class="subject-tag">Maritime</span>
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         COURSE ARCHITECTURE
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                03 — Architecture d'une formation
+            </h2>
+
+            <p>
+                Une matière ne sera pas simplement une page de texte.
+                Elle sera structurée en véritables étapes pédagogiques.
+            </p>
+
+        </div>
+
+
+        <div class="structure">
+
+            <article class="structure-card">
+
+                <div class="structure-number">
+                    01
+                </div>
+
+                <h3>
+                    Matière
+                </h3>
+
+                <p>
+                    Domaine d'étude et connaissances
+                    principales à acquérir.
+                </p>
+
+            </article>
+
+
+            <article class="structure-card">
+
+                <div class="structure-number">
+                    02
+                </div>
+
+                <h3>
+                    Chapitres
+                </h3>
+
+                <p>
+                    Organisation progressive des
+                    connaissances.
+                </p>
+
+            </article>
+
+
+            <article class="structure-card">
+
+                <div class="structure-number">
+                    03
+                </div>
+
+                <h3>
+                    Leçons
+                </h3>
+
+                <p>
+                    Contenu pédagogique détaillé,
+                    exemples et explications.
+                </p>
+
+            </article>
+
+
+            <article class="structure-card">
+
+                <div class="structure-number">
+                    04
+                </div>
+
+                <h3>
+                    Exercices
+                </h3>
+
+                <p>
+                    Mise en pratique guidée puis
+                    autonomie progressive.
+                </p>
+
+            </article>
+
+
+            <article class="structure-card">
+
+                <div class="structure-number">
+                    05
+                </div>
+
+                <h3>
+                    Compétences
+                </h3>
+
+                <p>
+                    Validation de ce que l'élève
+                    sait réellement faire.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUBJECT CATALOG
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                04 — Exemples de matières
+            </h2>
+
+            <p>
+                Un aperçu du catalogue disciplinaire. Le catalogue
+                complet pourra évoluer avec la base pédagogique.
+            </p>
+
+        </div>
+
+
+        <div class="catalog">
+
+            <div class="catalog-header">
+
+                <span>
+                    Code
+                </span>
+
+                <span>
+                    Matière
+                </span>
+
+                <span>
+                    Domaine
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    MAT-001
+                </span>
+
+                <strong>
+                    Mathématiques
+                </strong>
+
+                <span>
+                    Sciences
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    PHY-001
+                </span>
+
+                <strong>
+                    Physique
+                </strong>
+
+                <span>
+                    Sciences
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    CHM-001
+                </span>
+
+                <strong>
+                    Chimie
+                </strong>
+
+                <span>
+                    Sciences
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    BIO-001
+                </span>
+
+                <strong>
+                    Biologie
+                </strong>
+
+                <span>
+                    Sciences
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    CSC-001
+                </span>
+
+                <strong>
+                    Informatique
+                </strong>
+
+                <span>
+                    Technologie
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    PRG-001
+                </span>
+
+                <strong>
+                    Programmation
+                </strong>
+
+                <span>
+                    Informatique
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    DAT-001
+                </span>
+
+                <strong>
+                    Data Science
+                </strong>
+
+                <span>
+                    IA & Data
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    AIM-001
+                </span>
+
+                <strong>
+                    Intelligence artificielle
+                </strong>
+
+                <span>
+                    IA & Data
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    ENG-001
+                </span>
+
+                <strong>
+                    Ingénierie
+                </strong>
+
+                <span>
+                    Engineering
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    ECO-001
+                </span>
+
+                <strong>
+                    Économie
+                </strong>
+
+                <span>
+                    Économie
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    LAW-001
+                </span>
+
+                <strong>
+                    Droit
+                </strong>
+
+                <span>
+                    Droit
+                </span>
+
+            </div>
+
+
+            <div class="catalog-row searchable">
+
+                <span class="catalog-code">
+                    LNG-001
+                </span>
+
+                <strong>
+                    Langues
+                </strong>
+
+                <span>
+                    Humanités
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         INTERNATIONAL ARCHITECTURE
+    ========================= -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <h2>
+                05 — Une école conçue pour évoluer
+            </h2>
+
+            <p>
+                Le catalogue n'est pas enfermé dans un seul système scolaire.
+            </p>
+
+        </div>
+
+
+        <div class="international">
+
+            <article class="international-card">
+
+                <h3>
+                    🌍 Architecture internationale
+                </h3>
+
+                <p>
+                    Les niveaux, programmes, matières et compétences
+                    pourront être associés à différents systèmes
+                    éducatifs, pays et référentiels sans reconstruire
+                    toute la plateforme.
+                </p>
+
+                <div class="language-list">
+
+                    <span class="language">
+                        Français
+                    </span>
+
+                    <span class="language">
+                        English
+                    </span>
+
+                    <span class="language">
+                        International
+                    </span>
+
+                    <span class="language">
+                        Extensible
+                    </span>
+
+                </div>
+
+            </article>
+
+
+            <article class="international-card gold">
+
+                <h3>
+                    ⚙️ Catalogue évolutif
+                </h3>
+
+                <p>
+                    De nouvelles matières, spécialisations,
+                    programmes, chapitres et leçons pourront être
+                    ajoutés progressivement à l'architecture
+                    pédagogique.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CTA
+    ========================= -->
+
+    <section class="cta">
+
+        <div class="eyebrow">
+            DeepRDMMakademy // Start
+        </div>
+
+        <h2>
+            Votre parcours commence par une évaluation.
+        </h2>
+
+        <p>
+            Explorez les programmes, créez votre compte puis
+            complétez votre profil éducatif. Le système pourra
+            ensuite déterminer le parcours pédagogique adapté
+            à votre situation.
+        </p>
+
+
+        <div class="actions">
+
+            <a href="register.html"
+               class="btn">
+                Créer mon compte
+            </a>
+
+            <a href="courses.html"
+               class="btn gold">
+                Explorer les cours
+            </a>
+
+            <a href="progress.html"
+               class="btn">
+                Voir la progression
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <strong>
+        DeepRDMMakademy
+    </strong>
+
+    <br>
+
+    L'art de la science et de la technologie
+
+    <br><br>
+
+    <span>
+        Academic Catalogue // Programme Architecture
+    </span>
+
+</footer>
+
+
+<script>
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+    const mainNav =
+        document.getElementById("mainNav");
+
+
+    if (menuButton && mainNav) {
+
+        menuButton.addEventListener(
+            "click",
+            function () {
+
+                mainNav.classList.toggle("open");
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       PROGRAM SEARCH
+    ========================= */
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+
+    function performSearch() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const elements =
+            document.querySelectorAll(".searchable");
+
+
+        let visibleCount = 0;
+
+
+        elements.forEach(function (element) {
+
+            const text =
+                element.textContent
+                    .toLowerCase();
+
+
+            if (
+                query === "" ||
+                text.includes(query)
+            ) {
+
+                element.classList.remove("hidden");
+
+                visibleCount++;
+
+            } else {
+
+                element.classList.add("hidden");
+
+            }
+
+        });
+
+
+        const existingMessage =
+            document.getElementById("noResults");
+
+
+        if (existingMessage) {
+
+            existingMessage.remove();
+
+        }
+
+
+        if (query !== "" && visibleCount === 0) {
+
+            const message =
+                document.createElement("div");
+
+            message.id = "noResults";
+
+            message.className = "no-results show";
+
+            message.textContent =
+                "Aucun élément du catalogue ne correspond à votre recherche.";
+
+
+            document
+                .querySelector("main")
+                .appendChild(message);
+
+        }
+
+    }
+
+
+    if (searchButton) {
+
+        searchButton.addEventListener(
+            "click",
+            performSearch
+        );
+
+    }
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            performSearch
+        );
+
+
+        searchInput.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (event.key === "Enter") {
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
