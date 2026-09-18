@@ -1,740 +1,696 @@
-/* ============================================================
-   DEEPRDMMAKADEMY
-   DATABASE SCHEMA — INTERNATIONAL EDUCATION PLATFORM
-   ============================================================
+-- ============================================================
+-- DeepRDMMakademy
+-- DATABASE FOUNDATION
+-- PHP 8.x + MySQL / MariaDB
+-- ============================================================
+-- IMPORTANT:
+-- Sélectionner la base de données DeepRDMMakademy dans
+-- phpMyAdmin avant d'importer ce fichier.
+--
+-- Ce fichier ne contient volontairement ni CREATE DATABASE
+-- ni USE.
+-- ============================================================
 
-   Architecture générale :
+SET FOREIGN_KEY_CHECKS = 0;
 
-   UTILISATEURS
-       ↓
-   PROFILS / RÔLES
-       ↓
-   NIVEAUX ÉDUCATIFS
-       ↓
-   FILIÈRES
-       ↓
-   SPÉCIALISATIONS
-       ↓
-   PROGRAMMES
-       ↓
-   MATIÈRES
-       ↓
-   CHAPITRES
-       ↓
-   LEÇONS
-       ↓
-   COMPÉTENCES
-       ↓
-   EXERCICES / QUESTIONS
-       ↓
-   ÉVALUATIONS
-       ↓
-   VALIDATION
-       ↓
-   PROGRESSION
+-- ============================================================
+-- 1. USERS / SECURITY
+-- ============================================================
 
-   Architecture prévue pour :
-   - plusieurs pays
-   - plusieurs systèmes éducatifs
-   - plusieurs langues
-   - plusieurs filières
-   - plusieurs niveaux
-   - enseignement classique
-   - formation professionnelle
-   - enseignement supérieur
-   - recherche
-   - communauté
-   - paiements futurs
+DROP TABLE IF EXISTS audit_logs;
+DROP TABLE IF EXISTS admin_actions;
+DROP TABLE IF EXISTS account_departures;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS login_attempts;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
 
-   Compatible MySQL / MariaDB.
-   ============================================================ */
-
-
-/* ============================================================
-   1. USERS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS users (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    uuid CHAR(36) NOT NULL UNIQUE,
-
+CREATE TABLE users (
+    id CHAR(36) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-
-    email VARCHAR(255) NOT NULL UNIQUE,
-
+    email VARCHAR(190) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
 
-    phone VARCHAR(50) NULL,
-    country_code CHAR(2) NULL,
-    preferred_language VARCHAR(10) NOT NULL DEFAULT 'fr',
-
     status VARCHAR(30) NOT NULL DEFAULT 'active',
+    account_type VARCHAR(30) NOT NULL DEFAULT 'member',
+
+    preferred_language VARCHAR(10) NOT NULL DEFAULT 'fr',
+    country_code VARCHAR(10) NULL,
 
     email_verified_at DATETIME NULL,
-
-    requested_level VARCHAR(100) NULL,
-    recommended_level VARCHAR(100) NULL,
-    validated_level VARCHAR(100) NULL,
-    current_level VARCHAR(100) NULL,
-
-    class_group VARCHAR(100) NULL,
-
     last_login_at DATETIME NULL,
-    last_activity_at DATETIME NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
 
-    INDEX idx_users_email (email),
-    INDEX idx_users_status (status),
-    INDEX idx_users_country (country_code),
-    INDEX idx_users_language (preferred_language),
-    INDEX idx_users_current_level (current_level)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_users_email (email),
+    KEY idx_users_status (status),
+    KEY idx_users_account_type (account_type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   2. ROLES
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS roles (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    code VARCHAR(50) NOT NULL UNIQUE,
+CREATE TABLE roles (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL,
     description TEXT NULL,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
-
-
-/* ============================================================
-   3. DEFAULT ROLES
-   ============================================================ */
-
-INSERT IGNORE INTO roles (code, name, description) VALUES
-('visitor', 'Visitor', 'Utilisateur non connecté'),
-('candidate', 'Candidate', 'Candidat à l''inscription ou à un programme'),
-('student', 'Student', 'Élève ou étudiant'),
-('member', 'Member', 'Membre de la communauté'),
-('researcher', 'Researcher', 'Chercheur'),
-('educator', 'Educator', 'Enseignant ou formateur'),
-('developer', 'Developer', 'Développeur autorisé sur certains espaces de travail'),
-('responsible', 'Responsible', 'Responsable d''un espace ou d''une équipe'),
-('admin', 'Administrator', 'Administrateur'),
-('super_admin', 'Super Administrator', 'Administrateur principal');
-
-
-/* ============================================================
-   4. USER ROLES
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS user_roles (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    user_id BIGINT UNSIGNED NOT NULL,
-    role_id BIGINT UNSIGNED NOT NULL,
-
-    assigned_by BIGINT UNSIGNED NULL,
-
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    UNIQUE KEY uq_user_role (user_id, role_id),
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_roles_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE user_roles (
+    user_id CHAR(36) NOT NULL,
+    role_id INT UNSIGNED NOT NULL,
+    assigned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (user_id, role_id),
 
     CONSTRAINT fk_user_roles_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+        FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE,
 
     CONSTRAINT fk_user_roles_role
-        FOREIGN KEY (role_id)
-        REFERENCES roles(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_user_roles_assigned_by
-        FOREIGN KEY (assigned_by)
-        REFERENCES users(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+        FOREIGN KEY (role_id) REFERENCES roles(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   5. LOGIN ATTEMPTS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS login_attempts (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    email VARCHAR(255) NULL,
-    user_id BIGINT UNSIGNED NULL,
-
+CREATE TABLE login_attempts (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id CHAR(36) NULL,
+    email VARCHAR(190) NULL,
     ip_address VARCHAR(45) NULL,
-    user_agent TEXT NULL,
-
     success TINYINT(1) NOT NULL DEFAULT 0,
-
     attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    INDEX idx_login_email (email),
-    INDEX idx_login_user (user_id),
-    INDEX idx_login_ip (ip_address),
-    INDEX idx_login_time (attempted_at),
+    PRIMARY KEY (id),
+    KEY idx_login_email_time (email, attempted_at),
+    KEY idx_login_ip_time (ip_address, attempted_at),
 
-    CONSTRAINT fk_login_attempt_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+    CONSTRAINT fk_login_attempts_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   6. SESSIONS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS sessions (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    user_id BIGINT UNSIGNED NOT NULL,
-
-    session_token_hash VARCHAR(255) NOT NULL UNIQUE,
-
+CREATE TABLE sessions (
+    id CHAR(36) NOT NULL,
+    user_id CHAR(36) NOT NULL,
+    token_hash CHAR(64) NOT NULL,
     ip_address VARCHAR(45) NULL,
     user_agent TEXT NULL,
 
     expires_at DATETIME NOT NULL,
-    last_seen_at DATETIME NULL,
-
     revoked_at DATETIME NULL,
-
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_used_at DATETIME NULL,
 
-    INDEX idx_sessions_user (user_id),
-    INDEX idx_sessions_expiry (expires_at),
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_sessions_token_hash (token_hash),
+    KEY idx_sessions_user (user_id),
+    KEY idx_sessions_expires (expires_at),
 
     CONSTRAINT fk_sessions_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+        FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   7. AUDIT LOGS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS audit_logs (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    user_id BIGINT UNSIGNED NULL,
+CREATE TABLE audit_logs (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id CHAR(36) NULL,
 
     action VARCHAR(150) NOT NULL,
     entity_type VARCHAR(100) NULL,
-    entity_id BIGINT UNSIGNED NULL,
+    entity_id VARCHAR(100) NULL,
 
     ip_address VARCHAR(45) NULL,
-    user_agent TEXT NULL,
-
     details JSON NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    INDEX idx_audit_user (user_id),
-    INDEX idx_audit_action (action),
-    INDEX idx_audit_entity (entity_type, entity_id),
-    INDEX idx_audit_date (created_at),
+    PRIMARY KEY (id),
+    KEY idx_audit_user (user_id),
+    KEY idx_audit_action (action),
+    KEY idx_audit_created (created_at),
 
     CONSTRAINT fk_audit_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+        FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   8. EDUCATION LEVELS
-   ============================================================ */
+-- ============================================================
+-- 2. INTERNATIONAL EDUCATION STRUCTURE
+-- ============================================================
 
-CREATE TABLE IF NOT EXISTS education_levels (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+DROP TABLE IF EXISTS curriculum_systems;
+DROP TABLE IF EXISTS countries;
+DROP TABLE IF EXISTS education_languages;
+DROP TABLE IF EXISTS education_levels;
+DROP TABLE IF EXISTS education_fields;
 
-    code VARCHAR(50) NOT NULL UNIQUE,
+CREATE TABLE countries (
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(150) NOT NULL,
 
-    stage VARCHAR(100) NOT NULL,
-
-    sequence_number INT NOT NULL DEFAULT 0,
-
-    description TEXT NULL,
-
-    is_active TINYINT(1) NOT NULL DEFAULT 1,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    INDEX idx_levels_stage (stage),
-    INDEX idx_levels_sequence (sequence_number)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+    PRIMARY KEY (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   9. BASE EDUCATION LEVELS
-   ============================================================ */
+CREATE TABLE education_languages (
+    code VARCHAR(10) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    native_name VARCHAR(100) NULL,
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
-INSERT IGNORE INTO education_levels
-(code, name, stage, sequence_number, description)
-VALUES
-
-/* Préscolaire */
-('PS', 'Petite Section', 'Preschool', 10, 'Premier niveau préscolaire'),
-('MS', 'Moyenne Section', 'Preschool', 20, 'Deuxième niveau préscolaire'),
-('GS', 'Grande Section', 'Preschool', 30, 'Troisième niveau préscolaire'),
-
-/* Primaire */
-('CP1', 'Cours Préparatoire 1', 'Primary', 40, 'Début du primaire'),
-('CP2', 'Cours Préparatoire 2', 'Primary', 50, 'Deuxième année du primaire'),
-('CE1', 'Cours Élémentaire 1', 'Primary', 60, 'Troisième année du primaire'),
-('CE2', 'Cours Élémentaire 2', 'Primary', 70, 'Quatrième année du primaire'),
-('CM1', 'Cours Moyen 1', 'Primary', 80, 'Cinquième année du primaire'),
-('CM2', 'Cours Moyen 2', 'Primary', 90, 'Sixième année du primaire'),
-
-/* Collège */
-('6E', 'Sixième', 'Middle School', 100, 'Premier niveau du collège'),
-('5E', 'Cinquième', 'Middle School', 110, 'Deuxième niveau du collège'),
-('4E', 'Quatrième', 'Middle School', 120, 'Troisième niveau du collège'),
-('3E', 'Troisième', 'Middle School', 130, 'Dernier niveau du collège'),
-
-/* Lycée */
-('2NDE', 'Seconde', 'High School', 140, 'Premier niveau du lycée'),
-('1ERE', 'Première', 'High School', 150, 'Deuxième niveau du lycée'),
-('TERMINALE', 'Terminale', 'High School', 160, 'Dernier niveau du lycée'),
-
-/* Université */
-('L1', 'Licence 1', 'Undergraduate', 170, 'Première année universitaire'),
-('L2', 'Licence 2', 'Undergraduate', 180, 'Deuxième année universitaire'),
-('L3', 'Licence 3', 'Undergraduate', 190, 'Troisième année universitaire'),
-
-/* Master */
-('M1', 'Master 1', 'Graduate', 200, 'Première année de master'),
-('M2', 'Master 2', 'Graduate', 210, 'Deuxième année de master'),
-
-/* Extension future */
-('D1', 'Doctorat 1', 'Doctorate', 220, 'Première étape du doctorat'),
-('D2', 'Doctorat 2', 'Doctorate', 230, 'Deuxième étape du doctorat'),
-('D3', 'Doctorat 3', 'Doctorate', 240, 'Troisième étape du doctorat'),
-
-/* Formation professionnelle */
-('PRO1', 'Formation Professionnelle 1', 'Professional', 250, 'Formation professionnelle'),
-('PRO2', 'Formation Professionnelle 2', 'Professional', 260, 'Formation professionnelle avancée'),
-('PRO3', 'Formation Professionnelle 3', 'Professional', 270, 'Formation professionnelle spécialisée');
+    PRIMARY KEY (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   10. EDUCATION FIELDS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS education_fields (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    code VARCHAR(80) NOT NULL UNIQUE,
+CREATE TABLE curriculum_systems (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    country_code VARCHAR(10) NULL,
     name VARCHAR(150) NOT NULL,
+    description TEXT NULL,
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_curriculum_country
+        FOREIGN KEY (country_code) REFERENCES countries(code)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE education_levels (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    code VARCHAR(50) NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    level_order INT NOT NULL,
+
+    stage VARCHAR(50) NULL,
     description TEXT NULL,
 
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    curriculum_system_id INT UNSIGNED NULL,
 
-    INDEX idx_fields_name (name)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_education_levels_code (code),
+    KEY idx_level_order (level_order),
 
-/* ============================================================
-   11. MAJOR INTERNATIONAL FIELDS
-   ============================================================ */
+    CONSTRAINT fk_level_curriculum
+        FOREIGN KEY (curriculum_system_id)
+        REFERENCES curriculum_systems(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT IGNORE INTO education_fields
-(code, name, description)
-VALUES
 
-('GENERAL', 'Enseignement général',
- 'Socle général et disciplines fondamentales'),
+CREATE TABLE education_fields (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
-('SCIENCES', 'Sciences',
- 'Sciences naturelles et sciences fondamentales'),
-
-('MATHEMATICS', 'Mathématiques',
- 'Mathématiques fondamentales et appliquées'),
-
-('PHYSICS', 'Physique',
- 'Physique fondamentale et appliquée'),
-
-('CHEMISTRY', 'Chimie',
- 'Chimie fondamentale et appliquée'),
-
-('BIOLOGY', 'Biologie',
- 'Sciences biologiques'),
-
-('MEDICINE', 'Médecine et santé',
- 'Médecine et sciences de la santé'),
-
-('PHARMACY', 'Pharmacie',
- 'Sciences pharmaceutiques'),
-
-('DENTISTRY', 'Odontologie',
- 'Médecine dentaire'),
-
-('NURSING', 'Soins infirmiers',
- 'Sciences infirmières et soins'),
-
-('BIOMEDICAL', 'Sciences biomédicales',
- 'Sciences biomédicales'),
-
-('COMPUTER_SCIENCE', 'Informatique',
- 'Informatique et sciences computationnelles'),
-
-('ARTIFICIAL_INTELLIGENCE', 'Intelligence artificielle',
- 'IA et systèmes intelligents'),
-
-('DATA_SCIENCE', 'Data Science',
- 'Données, statistiques et analyse'),
-
-('CYBERSECURITY', 'Cybersécurité',
- 'Sécurité informatique et réseaux'),
-
-('ENGINEERING', 'Ingénierie',
- 'Sciences de l''ingénieur'),
-
-('SOFTWARE_ENGINEERING', 'Génie logiciel',
- 'Conception et développement logiciel'),
-
-('ELECTRICAL_ENGINEERING', 'Génie électrique',
- 'Électricité, électronique et systèmes'),
-
-('MECHANICAL_ENGINEERING', 'Génie mécanique',
- 'Mécanique et systèmes industriels'),
-
-('CIVIL_ENGINEERING', 'Génie civil',
- 'Construction et infrastructures'),
-
-('CHEMICAL_ENGINEERING', 'Génie chimique',
- 'Procédés et industrie chimique'),
-
-('ARCHITECTURE', 'Architecture',
- 'Architecture, construction et conception'),
-
-('AGRICULTURE', 'Agriculture',
- 'Sciences agricoles'),
-
-('ENVIRONMENT', 'Environnement',
- 'Sciences environnementales'),
-
-('EARTH_SCIENCE', 'Sciences de la Terre',
- 'Géologie, géophysique et disciplines associées'),
-
-('ASTRONOMY', 'Astronomie et espace',
- 'Astronomie, astrophysique et sciences spatiales'),
-
-('ECONOMICS', 'Économie',
- 'Sciences économiques'),
-
-('BUSINESS', 'Gestion et management',
- 'Management, gestion et organisation'),
-
-('COMMERCE', 'Commerce',
- 'Commerce et activités commerciales'),
-
-('FINANCE', 'Finance',
- 'Finance et marchés'),
-
-('ACCOUNTING', 'Comptabilité',
- 'Comptabilité et audit'),
-
-('MARKETING', 'Marketing',
- 'Marketing et stratégie commerciale'),
-
-('LAW', 'Droit',
- 'Sciences juridiques'),
-
-('POLITICAL_SCIENCE', 'Sciences politiques',
- 'Politique et institutions'),
-
-('INTERNATIONAL_RELATIONS', 'Relations internationales',
- 'Relations internationales et géopolitique'),
-
-('SOCIOLOGY', 'Sociologie',
- 'Étude des sociétés'),
-
-('PSYCHOLOGY', 'Psychologie',
- 'Sciences psychologiques'),
-
-('PHILOSOPHY', 'Philosophie',
- 'Philosophie et pensée critique'),
-
-('HISTORY', 'Histoire',
- 'Sciences historiques'),
-
-('GEOGRAPHY', 'Géographie',
- 'Sciences géographiques'),
-
-('HUMANITIES', 'Sciences humaines',
- 'Humanités et sciences humaines'),
-
-('LANGUAGES', 'Langues',
- 'Langues, linguistique et littérature'),
-
-('LITERATURE', 'Littérature',
- 'Littérature et études littéraires'),
-
-('COMMUNICATION', 'Communication',
- 'Communication et médias'),
-
-('JOURNALISM', 'Journalisme',
- 'Journalisme et médias'),
-
-('EDUCATION', 'Sciences de l''éducation',
- 'Pédagogie et éducation'),
-
-('ARTS', 'Arts',
- 'Arts et pratiques artistiques'),
-
-('DESIGN', 'Design',
- 'Design graphique, produit et numérique'),
-
-('MUSIC', 'Musique',
- 'Études musicales'),
-
-('FILM', 'Cinéma et audiovisuel',
- 'Production audiovisuelle'),
-
-('SPORT', 'Sport et activité physique',
- 'Sciences du sport'),
-
-('TOURISM', 'Tourisme',
- 'Tourisme et hôtellerie'),
-
-('HOSPITALITY', 'Hôtellerie',
- 'Hôtellerie et restauration'),
-
-('TRANSPORT', 'Transport et logistique',
- 'Transport, logistique et supply chain'),
-
-('MARITIME', 'Sciences maritimes',
- 'Navigation et sciences maritimes'),
-
-('AVIATION', 'Aviation',
- 'Aéronautique et aviation'),
-
-('SOCIAL_WORK', 'Travail social',
- 'Travail social et accompagnement'),
-
-('RELIGION_CULTURE', 'Culture et études religieuses',
- 'Culture, histoire des religions et patrimoine');
-
-
-/* ============================================================
-   12. SPECIALIZATIONS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS specializations (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    field_id BIGINT UNSIGNED NOT NULL,
-
-    code VARCHAR(100) NOT NULL UNIQUE,
-    name VARCHAR(200) NOT NULL,
-
+    code VARCHAR(100) NOT NULL,
+    name VARCHAR(150) NOT NULL,
     description TEXT NULL,
 
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
-    INDEX idx_specializations_field (field_id),
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_fields_code (code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 3. SPECIALIZATIONS
+-- ============================================================
+
+DROP TABLE IF EXISTS specializations;
+
+CREATE TABLE specializations (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    field_id INT UNSIGNED NULL,
+
+    code VARCHAR(100) NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    description TEXT NULL,
+
+    active TINYINT(1) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_specialization_code (code),
 
     CONSTRAINT fk_specialization_field
-        FOREIGN KEY (field_id)
-        REFERENCES education_fields(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   13. COMPUTER SCIENCE SPECIALIZATIONS
-   ============================================================ */
+-- ============================================================
+-- 4. SUBJECTS
+-- ============================================================
 
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'DEV_WEB',
-    'Développement Web',
-    'Développement frontend, backend et full stack'
-FROM education_fields
-WHERE code = 'COMPUTER_SCIENCE';
+DROP TABLE IF EXISTS level_subjects;
+DROP TABLE IF EXISTS subjects;
 
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'DEV_MOBILE',
-    'Développement Mobile',
-    'Applications mobiles Android et iOS'
-FROM education_fields
-WHERE code = 'COMPUTER_SCIENCE';
+CREATE TABLE subjects (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'SOFTWARE_ENGINEERING',
-    'Software Engineering',
-    'Architecture et ingénierie logicielle'
-FROM education_fields
-WHERE code = 'SOFTWARE_ENGINEERING';
+    field_id INT UNSIGNED NULL,
 
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'NETWORK_ENGINEERING',
-    'Réseaux',
-    'Réseaux informatiques et infrastructures'
-FROM education_fields
-WHERE code = 'COMPUTER_SCIENCE';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'CYBERSECURITY_ENGINEERING',
-    'Cybersécurité',
-    'Sécurité des systèmes et infrastructures'
-FROM education_fields
-WHERE code = 'CYBERSECURITY';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'DATA_SCIENCE',
-    'Data Science',
-    'Analyse et modélisation des données'
-FROM education_fields
-WHERE code = 'DATA_SCIENCE';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'MACHINE_LEARNING',
-    'Machine Learning',
-    'Apprentissage automatique'
-FROM education_fields
-WHERE code = 'ARTIFICIAL_INTELLIGENCE';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'DEEP_LEARNING',
-    'Deep Learning',
-    'Réseaux neuronaux et apprentissage profond'
-FROM education_fields
-WHERE code = 'ARTIFICIAL_INTELLIGENCE';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'COMPUTER_VISION',
-    'Computer Vision',
-    'Vision artificielle et traitement d''images'
-FROM education_fields
-WHERE code = 'ARTIFICIAL_INTELLIGENCE';
-
-INSERT IGNORE INTO specializations
-(field_id, code, name, description)
-SELECT
-    id,
-    'NLP',
-    'Natural Language Processing',
-    'Traitement automatique du langage'
-FROM education_fields
-WHERE code = 'ARTIFICIAL_INTELLIGENCE';
-
-
-/* ============================================================
-   14. SUBJECTS
-   ============================================================ */
-
-CREATE TABLE IF NOT EXISTS subjects (
-    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-
-    code VARCHAR(100) NOT NULL UNIQUE,
+    code VARCHAR(100) NOT NULL,
     name VARCHAR(200) NOT NULL,
-
-    field_id BIGINT UNSIGNED NULL,
-
     description TEXT NULL,
+
+    active TINYINT(1) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_subject_code (code),
+
+    CONSTRAINT fk_subject_field
+        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE level_subjects (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    level_id INT UNSIGNED NOT NULL,
+    subject_id INT UNSIGNED NOT NULL,
+
+    mandatory TINYINT(1) NOT NULL DEFAULT 1,
+    coefficient DECIMAL(6,2) NOT NULL DEFAULT 1.00,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_level_subject (level_id, subject_id),
+
+    CONSTRAINT fk_level_subject_level
+        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_level_subject_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 5. PROGRAMS
+-- ============================================================
+
+DROP TABLE IF EXISTS program_subjects;
+DROP TABLE IF EXISTS programs;
+
+CREATE TABLE programs (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    level_id INT UNSIGNED NULL,
+    field_id INT UNSIGNED NULL,
+    specialization_id INT UNSIGNED NULL,
+
+    code VARCHAR(100) NOT NULL,
+    name VARCHAR(250) NOT NULL,
+    description LONGTEXT NULL,
+
+    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
+
+    duration_months INT NULL,
+
+    status VARCHAR(30) NOT NULL DEFAULT 'draft',
+
+    generation_source VARCHAR(50) NOT NULL DEFAULT 'system',
+    generated_at DATETIME NULL,
+
+    created_by CHAR(36) NULL,
+    validated_by CHAR(36) NULL,
+
+    version INT NOT NULL DEFAULT 1,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_program_code_language (code, language_code),
+
+    CONSTRAINT fk_program_level
+        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_program_field
+        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_program_specialization
+        FOREIGN KEY (specialization_id) REFERENCES specializations(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_program_creator
+        FOREIGN KEY (created_by) REFERENCES users(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_program_validator
+        FOREIGN KEY (validated_by) REFERENCES users(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE program_subjects (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    program_id BIGINT UNSIGNED NOT NULL,
+    subject_id INT UNSIGNED NOT NULL,
+
+    sequence_order INT NOT NULL DEFAULT 1,
+    weekly_hours DECIMAL(6,2) NULL,
+    coefficient DECIMAL(6,2) NOT NULL DEFAULT 1.00,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_program_subject (program_id, subject_id),
+
+    CONSTRAINT fk_program_subject_program
+        FOREIGN KEY (program_id) REFERENCES programs(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_program_subject_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 6. CHAPTERS / LESSONS
+-- ============================================================
+
+DROP TABLE IF EXISTS lesson_competencies;
+DROP TABLE IF EXISTS lesson_prerequisites;
+DROP TABLE IF EXISTS lessons;
+DROP TABLE IF EXISTS chapters;
+
+CREATE TABLE chapters (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    program_id BIGINT UNSIGNED NULL,
+    subject_id INT UNSIGNED NOT NULL,
+
+    title VARCHAR(250) NOT NULL,
+    description LONGTEXT NULL,
+
+    sequence_order INT NOT NULL DEFAULT 1,
+
+    status VARCHAR(30) NOT NULL DEFAULT 'published',
+
+    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
+
+    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
+
+    version INT NOT NULL DEFAULT 1,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_chapter_program
+        FOREIGN KEY (program_id) REFERENCES programs(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_chapter_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE lessons (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    chapter_id BIGINT UNSIGNED NOT NULL,
+
+    title VARCHAR(250) NOT NULL,
+    summary TEXT NULL,
+
+    objective LONGTEXT NULL,
+    discovery_content LONGTEXT NULL,
+    examples LONGTEXT NULL,
+    guided_practice LONGTEXT NULL,
+    independent_practice LONGTEXT NULL,
+    mini_quiz LONGTEXT NULL,
+    validation_content LONGTEXT NULL,
+
+    estimated_minutes INT NOT NULL DEFAULT 45,
+
+    sequence_order INT NOT NULL DEFAULT 1,
+
+    status VARCHAR(30) NOT NULL DEFAULT 'published',
+
+    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
+
+    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
+
+    version INT NOT NULL DEFAULT 1,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_lesson_chapter
+        FOREIGN KEY (chapter_id) REFERENCES chapters(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE lesson_prerequisites (
+    lesson_id BIGINT UNSIGNED NOT NULL,
+    prerequisite_lesson_id BIGINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (lesson_id, prerequisite_lesson_id),
+
+    CONSTRAINT fk_lesson_prereq_lesson
+        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_lesson_prereq_required
+        FOREIGN KEY (prerequisite_lesson_id) REFERENCES lessons(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 7. COMPETENCIES
+-- ============================================================
+
+DROP TABLE IF EXISTS competency_prerequisites;
+DROP TABLE IF EXISTS competencies;
+
+CREATE TABLE competencies (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    subject_id INT UNSIGNED NULL,
+    level_id INT UNSIGNED NULL,
+
+    code VARCHAR(100) NOT NULL,
+    name VARCHAR(250) NOT NULL,
+    description LONGTEXT NULL,
+
+    mastery_threshold DECIMAL(5,2) NOT NULL DEFAULT 70.00,
+
+    active TINYINT(1) NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_competency_code (code),
+
+    CONSTRAINT fk_competency_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_competency_level
+        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE lesson_competencies (
+    lesson_id BIGINT UNSIGNED NOT NULL,
+    competency_id BIGINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (lesson_id, competency_id),
+
+    CONSTRAINT fk_lesson_competency_lesson
+        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_lesson_competency_competency
+        FOREIGN KEY (competency_id) REFERENCES competencies(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE competency_prerequisites (
+    competency_id BIGINT UNSIGNED NOT NULL,
+    prerequisite_competency_id BIGINT UNSIGNED NOT NULL,
+
+    PRIMARY KEY (competency_id, prerequisite_competency_id),
+
+    CONSTRAINT fk_comp_prereq_comp
+        FOREIGN KEY (competency_id) REFERENCES competencies(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_comp_prereq_required
+        FOREIGN KEY (prerequisite_competency_id)
+        REFERENCES competencies(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 8. QUESTIONS / EXERCISES / EVALUATIONS
+-- ============================================================
+
+DROP TABLE IF EXISTS evaluation_attempt_answers;
+DROP TABLE IF EXISTS evaluation_attempts;
+DROP TABLE IF EXISTS evaluation_questions;
+DROP TABLE IF EXISTS evaluations;
+DROP TABLE IF EXISTS exercise_attempts;
+DROP TABLE IF EXISTS exercises;
+DROP TABLE IF EXISTS question_options;
+DROP TABLE IF EXISTS questions;
+
+CREATE TABLE questions (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    subject_id INT UNSIGNED NULL,
+    level_id INT UNSIGNED NULL,
+    chapter_id BIGINT UNSIGNED NULL,
+    competency_id BIGINT UNSIGNED NULL,
+
+    question_text LONGTEXT NOT NULL,
+    explanation LONGTEXT NULL,
+
+    difficulty VARCHAR(30) NOT NULL DEFAULT 'medium',
+    question_type VARCHAR(50) NOT NULL DEFAULT 'multiple_choice',
+
+    correct_answer LONGTEXT NULL,
+
+    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
+
+    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
+
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    INDEX idx_subject_field (field_id),
+    PRIMARY KEY (id),
 
-    CONSTRAINT fk_subject_field
-        FOREIGN KEY (field_id)
-        REFERENCES education_fields(id)
+    CONSTRAINT fk_question_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_question_level
+        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_question_chapter
+        FOREIGN KEY (chapter_id) REFERENCES chapters(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_question_competency
+        FOREIGN KEY (competency_id) REFERENCES competencies(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4
-  COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-/* ============================================================
-   15. CORE SUBJECT CATALOG
-   ============================================================ */
+CREATE TABLE question_options (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    question_id BIGINT UNSIGNED NOT NULL,
 
-INSERT IGNORE INTO subjects
-(code, name, description)
-VALUES
+    option_key VARCHAR(20) NOT NULL,
+    option_text LONGTEXT NOT NULL,
 
-/* Sciences */
-('MATHEMATICS', 'Mathématiques', 'Mathématiques'),
-('ALGEBRA', 'Algèbre', 'Algèbre'),
-('GEOMETRY', 'Géométrie', 'Géométrie'),
-('CALCULUS', 'Calcul différentiel et intégral', 'Calcul avancé'),
-('STATISTICS', 'Statistiques', 'Statistiques'),
-('PROBABILITY', 'Probabilités', 'Probabilités'),
-('PHYSICS', 'Physique', 'Physique'),
-('CHEMISTRY', 'Chimie', 'Chimie'),
-('BIOLOGY', 'Biologie', 'Biologie'),
-('SVT', 'Sciences de la Vie et de la Terre', 'SVT'),
-('ASTRONOMY', 'Astronomie', 'Astronomie'),
-('ASTROPHYSICS', 'Astrophysique', 'Astrophysique'),
-('GEOLOGY', 'Géologie', 'Géologie'),
-('GEOPHYSICS', 'Géophysique', 'Géophysique'),
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_question_option (question_id, option_key),
 
-/* Langues */
-('FRENCH', 'Français', 'Langue française'),
-('ENGLISH', 'English', 'Langue anglaise'),
-('MALAGASY', 'Malagasy', 'Langue malgache'),
-('SPANISH', 'Espagnol', 'Langue espagnole'),
-('GERMAN', 'Allemand', 'Langue allemande'),
-('ITALIAN', 'Italien', 'Langue italienne'),
-('
+    CONSTRAINT fk_option_question
+        FOREIGN KEY (question_id) REFERENCES questions(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE exercises (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    lesson_id BIGINT UNSIGNED NULL,
+    subject_id INT UNSIGNED NULL,
+    level_id INT UNSIGNED NULL,
+
+    title VARCHAR(250) NOT NULL,
+    instructions LONGTEXT NULL,
+
+    difficulty VARCHAR(30) NOT NULL DEFAULT 'medium',
+
+    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
+
+    status VARCHAR(30) NOT NULL DEFAULT 'published',
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_exercise_lesson
+        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_exercise_subject
+        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_exercise_level
+        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE exercise_attempts (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    exercise_id BIGINT UNSIGNED NOT NULL,
+    user_id CHAR(36) NOT NULL,
+
+    answer_data JSON NULL,
+
+    score DECIMAL(6,2) NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'submitted',
+
+    started_at DATETIME NULL,
+    submitted_at DATETIME NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT fk_exercise_attempt_exercise
+        FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_exercise_attempt_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE evaluations (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    program_id BIGINT UNSIGNED NULL,
+    subject_id
