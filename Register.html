@@ -9,9 +9,6 @@ declare(strict_types=1);
  * ============================================================
  *
  * PHP 8.x + MySQL / MariaDB
- *
- * Cette API crée un compte membre/étudiant.
- * Le profil pédagogique sera complété après l'inscription.
  * ============================================================
  */
 
@@ -52,7 +49,7 @@ header(
 
 /*
 |--------------------------------------------------------------------------
-| OPTIONS / CORS preflight
+| OPTIONS
 |--------------------------------------------------------------------------
 */
 
@@ -64,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 /*
 |--------------------------------------------------------------------------
-| JSON response helper
+| JSON response
 |--------------------------------------------------------------------------
 */
 
@@ -110,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 /*
 |--------------------------------------------------------------------------
-| Read request body
+| Read JSON
 |--------------------------------------------------------------------------
 */
 
@@ -129,12 +126,6 @@ if (
     );
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Decode JSON
-|--------------------------------------------------------------------------
-*/
 
 $input = json_decode(
     $rawInput,
@@ -157,7 +148,7 @@ if (
 
 /*
 |--------------------------------------------------------------------------
-| Read input
+| Input
 |--------------------------------------------------------------------------
 */
 
@@ -182,7 +173,7 @@ $password = (string)(
 
 /*
 |--------------------------------------------------------------------------
-| Validate first name
+| Validation
 |--------------------------------------------------------------------------
 */
 
@@ -207,12 +198,6 @@ if (mb_strlen($firstName) > 100) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Validate last name
-|--------------------------------------------------------------------------
-*/
-
 if ($lastName === '') {
 
     sendJson(
@@ -233,12 +218,6 @@ if (mb_strlen($lastName) > 100) {
     );
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| Validate email
-|--------------------------------------------------------------------------
-*/
 
 if (
     !filter_var(
@@ -266,12 +245,6 @@ if (mb_strlen($email) > 190) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Validate password
-|--------------------------------------------------------------------------
-*/
-
 if (mb_strlen($password) < 10) {
 
     sendJson(
@@ -295,7 +268,7 @@ if (mb_strlen($password) > 200) {
 
 /*
 |--------------------------------------------------------------------------
-| Database transaction
+| Database
 |--------------------------------------------------------------------------
 */
 
@@ -310,7 +283,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Check whether email already exists
+    | Check existing email
     |--------------------------------------------------------------------------
     */
 
@@ -342,7 +315,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Generate secure UUID
+    | Generate user ID
     |--------------------------------------------------------------------------
     */
 
@@ -358,7 +331,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Hash password
+    | Password hash
     |--------------------------------------------------------------------------
     */
 
@@ -408,14 +381,14 @@ try {
 
     $insertUser->execute(
         [
-            ':id'                => $userId,
-            ':first_name'        => $firstName,
-            ':last_name'         => $lastName,
-            ':email'             => $email,
-            ':password_hash'     => $passwordHash,
-            ':status'            => 'active',
-            ':account_type'      => 'member',
-            ':preferred_language'=> 'fr',
+            ':id'                 => $userId,
+            ':first_name'         => $firstName,
+            ':last_name'          => $lastName,
+            ':email'              => $email,
+            ':password_hash'      => $passwordHash,
+            ':status'             => 'active',
+            ':account_type'       => 'member',
+            ':preferred_language' => 'fr',
         ]
     );
 
@@ -442,11 +415,42 @@ try {
     $role = $roleQuery->fetch();
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Create student role if necessary
+    |--------------------------------------------------------------------------
+    */
+
     if (!$role) {
 
-        throw new RuntimeException(
-            'Student role does not exist.'
+        $createRole = $pdo->prepare(
+            'INSERT INTO roles
+            (
+                name,
+                slug,
+                description
+            )
+            VALUES
+            (
+                :name,
+                :slug,
+                :description
+            )'
         );
+
+        $createRole->execute(
+            [
+                ':name'        => 'Student',
+                ':slug'        => 'student',
+                ':description' => 'Membre inscrit dans le parcours éducatif.',
+            ]
+        );
+
+        $roleId = (int)$pdo->lastInsertId();
+
+    } else {
+
+        $roleId = (int)$role['id'];
     }
 
 
@@ -472,61 +476,7 @@ try {
     $assignRole->execute(
         [
             ':user_id' => $userId,
-            ':role_id' => $role['id'],
-        ]
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create notification preferences
-    |--------------------------------------------------------------------------
-    */
-
-    $notificationPreferences = $pdo->prepare(
-        'INSERT INTO notification_preferences
-        (
-            user_id
-        )
-        VALUES
-        (
-            :user_id
-        )'
-    );
-
-    $notificationPreferences->execute(
-        [
-            ':user_id' => $userId,
-        ]
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create empty student profile
-    |--------------------------------------------------------------------------
-    */
-
-    $studentProfile = $pdo->prepare(
-        'INSERT INTO student_profiles
-        (
-            user_id,
-            placement_status,
-            learning_language
-        )
-        VALUES
-        (
-            :user_id,
-            :placement_status,
-            :learning_language
-        )'
-    );
-
-    $studentProfile->execute(
-        [
-            ':user_id'           => $userId,
-            ':placement_status'  => 'pending',
-            ':learning_language' => 'fr',
+            ':role_id' => $roleId,
         ]
     );
 
@@ -543,14 +493,16 @@ try {
             user_id,
             action,
             entity_type,
-            entity_id
+            entity_id,
+            ip_address
         )
         VALUES
         (
             :user_id,
             :action,
             :entity_type,
-            :entity_id
+            :entity_id,
+            :ip_address
         )'
     );
 
@@ -560,13 +512,14 @@ try {
             ':action'      => 'USER_REGISTERED',
             ':entity_type' => 'user',
             ':entity_id'   => $userId,
+            ':ip_address'  => $_SERVER['REMOTE_ADDR'] ?? null,
         ]
     );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Commit transaction
+    | Commit
     |--------------------------------------------------------------------------
     */
 
@@ -586,7 +539,7 @@ try {
             'user_id' => $userId,
             'status'  => 'active',
             'role'    => 'student',
-            'next'    => 'placement',
+            'next'    => 'educational-profile',
         ],
         201
     );
@@ -594,39 +547,17 @@ try {
 
 } catch (Throwable $exception) {
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | Rollback
-    |--------------------------------------------------------------------------
-    */
-
     if (
         $pdo instanceof PDO &&
         $pdo->inTransaction()
     ) {
-
         $pdo->rollBack();
     }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Server log
-    |--------------------------------------------------------------------------
-    */
 
     error_log(
         'DeepRDMMakademy registration error: ' .
         $exception->getMessage()
     );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Public error
-    |--------------------------------------------------------------------------
-    */
 
     sendJson(
         false,
