@@ -3,13 +3,20 @@
 declare(strict_types=1);
 
 /**
+ * ============================================================
  * DeepRDMMakademy
- * User Registration API
+ * Registration API
+ * ============================================================
  *
- * PHP 8.x + MySQL/MariaDB
+ * PHP 8.x + MySQL / MariaDB
+ *
+ * Cette API crée un compte membre/étudiant.
+ * Le profil pédagogique sera complété après l'inscription.
+ * ============================================================
  */
 
 require_once __DIR__ . '/../config/database.php';
+
 
 /*
 |--------------------------------------------------------------------------
@@ -23,22 +30,41 @@ if (
     isset($_SERVER['HTTP_ORIGIN']) &&
     $_SERVER['HTTP_ORIGIN'] === $allowedOrigin
 ) {
-    header('Access-Control-Allow-Origin: ' . $allowedOrigin);
+    header(
+        'Access-Control-Allow-Origin: ' . $allowedOrigin
+    );
+
     header('Vary: Origin');
 }
 
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Authorization');
-header('Content-Type: application/json; charset=utf-8');
+header(
+    'Access-Control-Allow-Methods: POST, OPTIONS'
+);
+
+header(
+    'Access-Control-Allow-Headers: Content-Type, Authorization'
+);
+
+header(
+    'Content-Type: application/json; charset=utf-8'
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| OPTIONS / CORS preflight
+|--------------------------------------------------------------------------
+*/
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
     exit;
 }
 
+
 /*
 |--------------------------------------------------------------------------
-| Helpers
+| JSON response helper
 |--------------------------------------------------------------------------
 */
 
@@ -48,6 +74,7 @@ function sendJson(
     array $data = [],
     int $statusCode = 200
 ): never {
+
     http_response_code($statusCode);
 
     echo json_encode(
@@ -63,10 +90,548 @@ function sendJson(
     exit;
 }
 
+
 /*
 |--------------------------------------------------------------------------
 | Request method
 |--------------------------------------------------------------------------
 */
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+
+    sendJson(
+        false,
+        'Méthode non autorisée.',
+        [],
+        405
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Read request body
+|--------------------------------------------------------------------------
+*/
+
+$rawInput = file_get_contents('php://input');
+
+if (
+    $rawInput === false ||
+    trim($rawInput) === ''
+) {
+
+    sendJson(
+        false,
+        'Aucune donnée reçue.',
+        [],
+        400
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Decode JSON
+|--------------------------------------------------------------------------
+*/
+
+$input = json_decode(
+    $rawInput,
+    true
+);
+
+if (
+    !is_array($input) ||
+    json_last_error() !== JSON_ERROR_NONE
+) {
+
+    sendJson(
+        false,
+        'Les données reçues sont invalides.',
+        [],
+        400
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Read input
+|--------------------------------------------------------------------------
+*/
+
+$firstName = trim(
+    (string)($input['first_name'] ?? '')
+);
+
+$lastName = trim(
+    (string)($input['last_name'] ?? '')
+);
+
+$email = strtolower(
+    trim(
+        (string)($input['email'] ?? '')
+    )
+);
+
+$password = (string)(
+    $input['password'] ?? ''
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate first name
+|--------------------------------------------------------------------------
+*/
+
+if ($firstName === '') {
+
+    sendJson(
+        false,
+        'Le prénom est obligatoire.',
+        [],
+        422
+    );
+}
+
+if (mb_strlen($firstName) > 100) {
+
+    sendJson(
+        false,
+        'Le prénom est trop long.',
+        [],
+        422
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate last name
+|--------------------------------------------------------------------------
+*/
+
+if ($lastName === '') {
+
+    sendJson(
+        false,
+        'Le nom est obligatoire.',
+        [],
+        422
+    );
+}
+
+if (mb_strlen($lastName) > 100) {
+
+    sendJson(
+        false,
+        'Le nom est trop long.',
+        [],
+        422
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate email
+|--------------------------------------------------------------------------
+*/
+
+if (
+    !filter_var(
+        $email,
+        FILTER_VALIDATE_EMAIL
+    )
+) {
+
+    sendJson(
+        false,
+        'Adresse e-mail invalide.',
+        [],
+        422
+    );
+}
+
+if (mb_strlen($email) > 190) {
+
+    sendJson(
+        false,
+        'Adresse e-mail trop longue.',
+        [],
+        422
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate password
+|--------------------------------------------------------------------------
+*/
+
+if (mb_strlen($password) < 10) {
+
+    sendJson(
+        false,
+        'Le mot de passe doit contenir au minimum 10 caractères.',
+        [],
+        422
+    );
+}
+
+if (mb_strlen($password) > 200) {
+
+    sendJson(
+        false,
+        'Le mot de passe est trop long.',
+        [],
+        422
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Database transaction
+|--------------------------------------------------------------------------
+*/
+
+$pdo = null;
+
+try {
+
+    $pdo = getDatabaseConnection();
+
+    $pdo->beginTransaction();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check whether email already exists
+    |--------------------------------------------------------------------------
+    */
+
+    $checkUser = $pdo->prepare(
+        'SELECT id
+         FROM users
+         WHERE email = :email
+         LIMIT 1'
+    );
+
+    $checkUser->execute(
+        [
+            ':email' => $email,
+        ]
+    );
+
+    if ($checkUser->fetch()) {
+
+        $pdo->rollBack();
+
+        sendJson(
+            false,
+            'Impossible de créer le compte avec ces informations.',
+            [],
+            409
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Generate secure UUID
+    |--------------------------------------------------------------------------
+    */
+
+    $userId = sprintf(
+        '%s-%s-%s-%s-%s',
+        bin2hex(random_bytes(4)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(2)),
+        bin2hex(random_bytes(6))
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Hash password
+    |--------------------------------------------------------------------------
+    */
+
+    $passwordHash = password_hash(
+        $password,
+        PASSWORD_DEFAULT
+    );
+
+    if ($passwordHash === false) {
+
+        throw new RuntimeException(
+            'Password hashing failed.'
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create user
+    |--------------------------------------------------------------------------
+    */
+
+    $insertUser = $pdo->prepare(
+        'INSERT INTO users
+        (
+            id,
+            first_name,
+            last_name,
+            email,
+            password_hash,
+            status,
+            account_type,
+            preferred_language
+        )
+        VALUES
+        (
+            :id,
+            :first_name,
+            :last_name,
+            :email,
+            :password_hash,
+            :status,
+            :account_type,
+            :preferred_language
+        )'
+    );
+
+    $insertUser->execute(
+        [
+            ':id'                => $userId,
+            ':first_name'        => $firstName,
+            ':last_name'         => $lastName,
+            ':email'             => $email,
+            ':password_hash'     => $passwordHash,
+            ':status'            => 'active',
+            ':account_type'      => 'member',
+            ':preferred_language'=> 'fr',
+        ]
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Find student role
+    |--------------------------------------------------------------------------
+    */
+
+    $roleQuery = $pdo->prepare(
+        'SELECT id
+         FROM roles
+         WHERE slug = :slug
+         LIMIT 1'
+    );
+
+    $roleQuery->execute(
+        [
+            ':slug' => 'student',
+        ]
+    );
+
+    $role = $roleQuery->fetch();
+
+
+    if (!$role) {
+
+        throw new RuntimeException(
+            'Student role does not exist.'
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Assign student role
+    |--------------------------------------------------------------------------
+    */
+
+    $assignRole = $pdo->prepare(
+        'INSERT INTO user_roles
+        (
+            user_id,
+            role_id
+        )
+        VALUES
+        (
+            :user_id,
+            :role_id
+        )'
+    );
+
+    $assignRole->execute(
+        [
+            ':user_id' => $userId,
+            ':role_id' => $role['id'],
+        ]
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create notification preferences
+    |--------------------------------------------------------------------------
+    */
+
+    $notificationPreferences = $pdo->prepare(
+        'INSERT INTO notification_preferences
+        (
+            user_id
+        )
+        VALUES
+        (
+            :user_id
+        )'
+    );
+
+    $notificationPreferences->execute(
+        [
+            ':user_id' => $userId,
+        ]
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create empty student profile
+    |--------------------------------------------------------------------------
+    */
+
+    $studentProfile = $pdo->prepare(
+        'INSERT INTO student_profiles
+        (
+            user_id,
+            placement_status,
+            learning_language
+        )
+        VALUES
+        (
+            :user_id,
+            :placement_status,
+            :learning_language
+        )'
+    );
+
+    $studentProfile->execute(
+        [
+            ':user_id'           => $userId,
+            ':placement_status'  => 'pending',
+            ':learning_language' => 'fr',
+        ]
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit log
+    |--------------------------------------------------------------------------
+    */
+
+    $audit = $pdo->prepare(
+        'INSERT INTO audit_logs
+        (
+            user_id,
+            action,
+            entity_type,
+            entity_id
+        )
+        VALUES
+        (
+            :user_id,
+            :action,
+            :entity_type,
+            :entity_id
+        )'
+    );
+
+    $audit->execute(
+        [
+            ':user_id'     => $userId,
+            ':action'      => 'USER_REGISTERED',
+            ':entity_type' => 'user',
+            ':entity_id'   => $userId,
+        ]
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Commit transaction
+    |--------------------------------------------------------------------------
+    */
+
+    $pdo->commit();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Success
+    |--------------------------------------------------------------------------
+    */
+
+    sendJson(
+        true,
+        'Compte créé avec succès.',
+        [
+            'user_id' => $userId,
+            'status'  => 'active',
+            'role'    => 'student',
+            'next'    => 'placement',
+        ],
+        201
+    );
+
+
+} catch (Throwable $exception) {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rollback
+    |--------------------------------------------------------------------------
+    */
+
+    if (
+        $pdo instanceof PDO &&
+        $pdo->inTransaction()
+    ) {
+
+        $pdo->rollBack();
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Server log
+    |--------------------------------------------------------------------------
+    */
+
+    error_log(
+        'DeepRDMMakademy registration error: ' .
+        $exception->getMessage()
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Public error
+    |--------------------------------------------------------------------------
+    */
+
+    sendJson(
+        false,
+        'Une erreur est survenue lors de la création du compte.',
+        [],
+        500
+    );
+}
