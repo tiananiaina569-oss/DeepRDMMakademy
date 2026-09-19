@@ -1,0 +1,828 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * DeepRDMMakademy
+ * Student Profile API
+ *
+ * Purpose:
+ * - Save the educational profile of an authenticated member.
+ * - Create or update the student's profile.
+ * - Store the requested educational level.
+ * - Prepare the student for placement assessment.
+ *
+ * Endpoint:
+ * POST /api/education/student-profile.php
+ */
+
+require_once __DIR__ . '/../config/database.php';
+
+/*
+|--------------------------------------------------------------------------
+| CORS
+|--------------------------------------------------------------------------
+*/
+
+$allowedOrigin = 'https://tiananiaina569-oss.github.io';
+
+if (
+    isset($_SERVER['HTTP_ORIGIN']) &&
+    $_SERVER['HTTP_ORIGIN'] === $allowedOrigin
+) {
+    header('Access-Control-Allow-Origin: ' . $allowedOrigin);
+    header('Vary: Origin');
+}
+
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
+header('Content-Type: application/json; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Helpers
+|--------------------------------------------------------------------------
+*/
+
+function jsonResponse(
+    bool $success,
+    string $message,
+    array $data = [],
+    int $statusCode = 200
+): never {
+    http_response_code($statusCode);
+
+    echo json_encode(
+        [
+            'success' => $success,
+            'message' => $message,
+            'data' => $data,
+        ],
+        JSON_UNESCAPED_UNICODE |
+        JSON_UNESCAPED_SLASHES
+    );
+
+    exit;
+}
+
+function getAuthorizationToken(): ?string
+{
+    $header = '';
+
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        $header = trim($_SERVER['HTTP_AUTHORIZATION']);
+    } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $header = trim($_SERVER['REDIRECT_HTTP_AUTHORIZATION']);
+    } elseif (function_exists('getallheaders')) {
+        $headers = getallheaders();
+
+        foreach ($headers as $name => $value) {
+            if (strtolower($name) === 'authorization') {
+                $header = trim($value);
+                break;
+            }
+        }
+    }
+
+    if ($header === '') {
+        return null;
+    }
+
+    if (
+        !preg_match(
+            '/^Bearer\s+([a-fA-F0-9]{64})$/',
+            $header,
+            $matches
+        )
+    ) {
+        return null;
+    }
+
+    return $matches[1];
+}
+
+/*
+|--------------------------------------------------------------------------
+| Request method
+|--------------------------------------------------------------------------
+*/
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    jsonResponse(
+        false,
+        'Method not allowed.',
+        [],
+        405
+    );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Authentication
+|--------------------------------------------------------------------------
+*/
+
+$rawToken = getAuthorizationToken();
+
+if ($rawToken === null) {
+    jsonResponse(
+        false,
+        'Authentication required.',
+        [],
+        401
+    );
+}
+
+$tokenHash = hash('sha256', $rawToken);
+
+try {
+
+    $pdo = getDatabaseConnection();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Find active authenticated user
+    |--------------------------------------------------------------------------
+    */
+
+    $sessionStatement = $pdo->prepare(
+        '
+        SELECT
+            s.id AS session_id,
+            s.user_id,
+            s.expires_at,
+            s.revoked_at,
+            u.status,
+            u.account_type
+        FROM sessions s
+        INNER JOIN users u
+            ON u.id = s.user_id
+        WHERE s.token_hash = :token_hash
+        LIMIT 1
+        '
+    );
+
+    $sessionStatement->execute(
+        [
+            ':token_hash' => $tokenHash,
+        ]
+    );
+
+    $session = $sessionStatement->fetch();
+
+    if (!$session) {
+        jsonResponse(
+            false,
+            'Invalid session.',
+            [],
+            401
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validate session
+    |--------------------------------------------------------------------------
+    */
+
+    if ($session['revoked_at'] !== null) {
+        jsonResponse(
+            false,
+            'Session revoked.',
+            [],
+            401
+        );
+    }
+
+    if (
+        strtotime((string) $session['expires_at']) <= time()
+    ) {
+        jsonResponse(
+            false,
+            'Session expired.',
+            [],
+            401
+        );
+    }
+
+    if ($session['status'] !== 'active') {
+        jsonResponse(
+            false,
+            'Account is not active.',
+            [],
+            403
+        );
+    }
+
+    $userId = (string) $session['user_id'];
+
+    /*
+    |--------------------------------------------------------------------------
+    | Read JSON body
+    |--------------------------------------------------------------------------
+    */
+
+    $rawBody = file_get_contents('php://input');
+
+    if ($rawBody === false || trim($rawBody) === '') {
+        jsonResponse(
+            false,
+            'Request body is required.',
+            [],
+            400
+        );
+    }
+
+    $payload = json_decode(
+        $rawBody,
+        true
+    );
+
+    if (
+        !is_array($payload) ||
+        json_last_error() !== JSON_ERROR_NONE
+    ) {
+        jsonResponse(
+            false,
+            'Invalid JSON payload.',
+            [],
+            400
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Extract fields
+    |--------------------------------------------------------------------------
+    */
+
+    $countryCode = strtoupper(
+        trim(
+            (string) ($payload['country_code'] ?? '')
+        )
+    );
+
+    $instructionLanguage = strtolower(
+        trim(
+            (string) ($payload['instruction_language'] ?? '')
+        )
+    );
+
+    $educationStage = strtolower(
+        trim(
+            (string) ($payload['education_stage'] ?? '')
+        )
+    );
+
+    $requestedLevel = trim(
+        (string) ($payload['requested_level'] ?? '')
+    );
+
+    $educationField = strtolower(
+        trim(
+            (string) ($payload['education_field'] ?? '')
+        )
+    );
+
+    $learningGoal = strtolower(
+        trim(
+            (string) ($payload['learning_goal'] ?? '')
+        )
+    );
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validation
+    |--------------------------------------------------------------------------
+    */
+
+    $allowedLanguages = [
+        'fr',
+        'mg',
+        'en',
+    ];
+
+    $allowedStages = [
+        'preschool',
+        'primary',
+        'middle_school',
+        'secondary',
+        'higher_education',
+        'master',
+        'doctoral',
+        'professional',
+    ];
+
+    $allowedGoals = [
+        'school_success',
+        'higher_education',
+        'professional',
+        'research',
+        'skills',
+        'curiosity',
+    ];
+
+    if ($countryCode === '') {
+        jsonResponse(
+            false,
+            'Country is required.',
+            [],
+            422
+        );
+    }
+
+    if (!preg_match('/^[A-Z]{2,10}$/', $countryCode)) {
+        jsonResponse(
+            false,
+            'Invalid country code.',
+            [],
+            422
+        );
+    }
+
+    if (!in_array(
+        $instructionLanguage,
+        $allowedLanguages,
+        true
+    )) {
+        jsonResponse(
+            false,
+            'Invalid instruction language.',
+            [],
+            422
+        );
+    }
+
+    if (!in_array(
+        $educationStage,
+        $allowedStages,
+        true
+    )) {
+        jsonResponse(
+            false,
+            'Invalid education stage.',
+            [],
+            422
+        );
+    }
+
+    if ($requestedLevel === '') {
+        jsonResponse(
+            false,
+            'Requested level is required.',
+            [],
+            422
+        );
+    }
+
+    if (mb_strlen($requestedLevel) > 100) {
+        jsonResponse(
+            false,
+            'Requested level is too long.',
+            [],
+            422
+        );
+    }
+
+    if ($educationField === '') {
+        jsonResponse(
+            false,
+            'Education field is required.',
+            [],
+            422
+        );
+    }
+
+    if (!in_array(
+        $learningGoal,
+        $allowedGoals,
+        true
+    )) {
+        jsonResponse(
+            false,
+            'Invalid learning goal.',
+            [],
+            422
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verify country
+    |--------------------------------------------------------------------------
+    */
+
+    $countryStatement = $pdo->prepare(
+        '
+        SELECT id, code
+        FROM countries
+        WHERE code = :code
+        LIMIT 1
+        '
+    );
+
+    $countryStatement->execute(
+        [
+            ':code' => $countryCode,
+        ]
+    );
+
+    $country = $countryStatement->fetch();
+
+    if (!$country) {
+        jsonResponse(
+            false,
+            'Selected country is not available.',
+            [],
+            422
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verify language
+    |--------------------------------------------------------------------------
+    */
+
+    $languageStatement = $pdo->prepare(
+        '
+        SELECT id, code
+        FROM education_languages
+        WHERE code = :code
+        LIMIT 1
+        '
+    );
+
+    $languageStatement->execute(
+        [
+            ':code' => $instructionLanguage,
+        ]
+    );
+
+    $language = $languageStatement->fetch();
+
+    if (!$language) {
+        jsonResponse(
+            false,
+            'Selected instruction language is not available.',
+            [],
+            422
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verify education field
+    |--------------------------------------------------------------------------
+    */
+
+    $fieldStatement = $pdo->prepare(
+        '
+        SELECT id, code
+        FROM education_fields
+        WHERE code = :code
+        LIMIT 1
+        '
+    );
+
+    $fieldStatement->execute(
+        [
+            ':code' => $educationField,
+        ]
+    );
+
+    $field = $fieldStatement->fetch();
+
+    if (!$field) {
+        jsonResponse(
+            false,
+            'Selected education field is not available.',
+            [],
+            422
+        );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check existing profile
+    |--------------------------------------------------------------------------
+    */
+
+    $existingStatement = $pdo->prepare(
+        '
+        SELECT
+            id,
+            requested_level_id,
+            recommended_level_id,
+            validated_level_id,
+            current_level_id,
+            placement_status
+        FROM student_profiles
+        WHERE user_id = :user_id
+        LIMIT 1
+        '
+    );
+
+    $existingStatement->execute(
+        [
+            ':user_id' => $userId,
+        ]
+    );
+
+    $existingProfile = $existingStatement->fetch();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Try to resolve requested level
+    |--------------------------------------------------------------------------
+    |
+    | The frontend may send values such as:
+    | 4e, 3e, Terminale, L1, M1...
+    |
+    | We first try the exact code.
+    |
+    */
+
+    $requestedLevelId = null;
+
+    $levelStatement = $pdo->prepare(
+        '
+        SELECT id
+        FROM education_levels
+        WHERE UPPER(code) = UPPER(:code)
+        LIMIT 1
+        '
+    );
+
+    $levelStatement->execute(
+        [
+            ':code' => $requestedLevel,
+        ]
+    );
+
+    $level = $levelStatement->fetch();
+
+    if ($level) {
+        $requestedLevelId = (int) $level['id'];
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transaction
+    |--------------------------------------------------------------------------
+    */
+
+    $pdo->beginTransaction();
+
+    try {
+
+        if ($existingProfile) {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Update existing profile
+            |--------------------------------------------------------------------------
+            */
+
+            $updateStatement = $pdo->prepare(
+                '
+                UPDATE student_profiles
+                SET
+                    country_id = :country_id,
+                    instruction_language_id = :instruction_language_id,
+                    education_stage = :education_stage,
+                    requested_level_id = :requested_level_id,
+                    education_field_id = :education_field_id,
+                    learning_goal = :learning_goal,
+                    placement_status = :placement_status,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE user_id = :user_id
+                '
+            );
+
+            $updateStatement->execute(
+                [
+                    ':country_id' => (int) $country['id'],
+                    ':instruction_language_id' => (int) $language['id'],
+                    ':education_stage' => $educationStage,
+                    ':requested_level_id' => $requestedLevelId,
+                    ':education_field_id' => (int) $field['id'],
+                    ':learning_goal' => $learningGoal,
+                    ':placement_status' => 'pending',
+                    ':user_id' => $userId,
+                ]
+            );
+
+            $profileId = (string) $existingProfile['id'];
+
+            $action = 'STUDENT_PROFILE_UPDATED';
+
+        } else {
+
+            /*
+            |--------------------------------------------------------------------------
+            | Create new profile
+            |--------------------------------------------------------------------------
+            */
+
+            $profileId = sprintf(
+                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0x0fff) | 0x4000,
+                random_int(0, 0x3fff) | 0x8000,
+                random_int(0, 0xffff),
+                random_int(0, 0xffff),
+                random_int(0, 0xffff)
+            );
+
+            $insertStatement = $pdo->prepare(
+                '
+                INSERT INTO student_profiles (
+                    id,
+                    user_id,
+                    country_id,
+                    instruction_language_id,
+                    education_stage,
+                    requested_level_id,
+                    education_field_id,
+                    learning_goal,
+                    placement_status,
+                    created_at,
+                    updated_at
+                )
+                VALUES (
+                    :id,
+                    :user_id,
+                    :country_id,
+                    :instruction_language_id,
+                    :education_stage,
+                    :requested_level_id,
+                    :education_field_id,
+                    :learning_goal,
+                    :placement_status,
+                    CURRENT_TIMESTAMP,
+                    CURRENT_TIMESTAMP
+                )
+                '
+            );
+
+            $insertStatement->execute(
+                [
+                    ':id' => $profileId,
+                    ':user_id' => $userId,
+                    ':country_id' => (int) $country['id'],
+                    ':instruction_language_id' => (int) $language['id'],
+                    ':education_stage' => $educationStage,
+                    ':requested_level_id' => $requestedLevelId,
+                    ':education_field_id' => (int) $field['id'],
+                    ':learning_goal' => $learningGoal,
+                    ':placement_status' => 'pending',
+                ]
+            );
+
+            $action = 'STUDENT_PROFILE_CREATED';
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update audit log
+        |--------------------------------------------------------------------------
+        */
+
+        $auditStatement = $pdo->prepare(
+            '
+            INSERT INTO audit_logs (
+                user_id,
+                action,
+                entity_type,
+                entity_id,
+                ip_address,
+                details,
+                created_at
+            )
+            VALUES (
+                :user_id,
+                :action,
+                :entity_type,
+                :entity_id,
+                :ip_address,
+                :details,
+                CURRENT_TIMESTAMP
+            )
+            '
+        );
+
+        $auditDetails = json_encode(
+            [
+                'country_code' => $countryCode,
+                'instruction_language' => $instructionLanguage,
+                'education_stage' => $educationStage,
+                'requested_level' => $requestedLevel,
+                'requested_level_id' => $requestedLevelId,
+                'education_field' => $educationField,
+                'learning_goal' => $learningGoal,
+                'placement_status' => 'pending',
+            ],
+            JSON_UNESCAPED_UNICODE |
+            JSON_UNESCAPED_SLASHES
+        );
+
+        $auditStatement->execute(
+            [
+                ':user_id' => $userId,
+                ':action' => $action,
+                ':entity_type' => 'student_profile',
+                ':entity_id' => $profileId,
+                ':ip_address' => $_SERVER['REMOTE_ADDR'] ?? null,
+                ':details' => $auditDetails,
+            ]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Commit
+        |--------------------------------------------------------------------------
+        */
+
+        $pdo->commit();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Update session activity
+        |--------------------------------------------------------------------------
+        */
+
+        $sessionUpdate = $pdo->prepare(
+            '
+            UPDATE sessions
+            SET last_used_at = CURRENT_TIMESTAMP
+            WHERE id = :session_id
+            '
+        );
+
+        $sessionUpdate->execute(
+            [
+                ':session_id' => $session['session_id'],
+            ]
+        );
+
+        /*
+        |--------------------------------------------------------------------------
+        | Response
+        |--------------------------------------------------------------------------
+        */
+
+        jsonResponse(
+            true,
+            'Student profile saved successfully.',
+            [
+                'profile_id' => $profileId,
+                'user_id' => $userId,
+                'placement_status' => 'pending',
+                'requested_level' => $requestedLevel,
+                'requested_level_id' => $requestedLevelId,
+                'next_step' => 'placement-assessment.html',
+            ],
+            200
+        );
+
+    } catch (Throwable $exception) {
+
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+
+        error_log(
+            'DeepRDMMakademy student profile transaction error: ' .
+            $exception->getMessage()
+        );
+
+        jsonResponse(
+            false,
+            'Unable to save student profile.',
+            [],
+            500
+        );
+    }
+
+} catch (Throwable $exception) {
+
+    error_log(
+        'DeepRDMMakademy student profile API error: ' .
+        $exception->getMessage()
+    );
+
+    jsonResponse(
+        false,
+        'An internal server error occurred.',
+        [],
+        500
+    );
+}
