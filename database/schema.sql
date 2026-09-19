@@ -1,264 +1,763 @@
 -- ============================================================
--- DeepRDMMakademy
--- DATABASE FOUNDATION
--- PHP 8.x + MySQL / MariaDB
+-- DEEPRDMMAKADEMY
+-- BASE DE DONNÉES CENTRALE
 -- ============================================================
--- IMPORTANT:
--- Sélectionner la base de données DeepRDMMakademy dans
--- phpMyAdmin avant d'importer ce fichier.
 --
--- Ce fichier ne contient volontairement ni CREATE DATABASE
--- ni USE.
+-- Architecture :
+-- Authentification
+-- Membres
+-- Rôles / permissions
+-- Sessions / sécurité
+-- Audit
+-- Éducation internationale
+-- Profils étudiants
+-- Placement
+-- Niveaux
+-- Changements de niveau
+-- Domaines / spécialités
+-- Matières
+-- Programmes
+-- Chapitres
+-- Leçons
+-- Compétences
+-- Questions
+-- Exercices
+-- Évaluations
+--
+-- Langues initiales :
+-- Français / Malagasy / English
+--
 -- ============================================================
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+
 -- ============================================================
--- 1. USERS / SECURITY
+-- 1. USERS
 -- ============================================================
 
-DROP TABLE IF EXISTS audit_logs;
-DROP TABLE IF EXISTS admin_actions;
-DROP TABLE IF EXISTS account_departures;
-DROP TABLE IF EXISTS sessions;
-DROP TABLE IF EXISTS login_attempts;
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id CHAR(36) NOT NULL,
+
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
+
     email VARCHAR(190) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
 
     status VARCHAR(30) NOT NULL DEFAULT 'active',
+
     account_type VARCHAR(30) NOT NULL DEFAULT 'member',
 
     preferred_language VARCHAR(10) NOT NULL DEFAULT 'fr',
+
     country_code VARCHAR(10) NULL,
 
     email_verified_at DATETIME NULL,
+
     last_login_at DATETIME NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+
+    updated_at DATETIME NOT NULL
+        DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
-    UNIQUE KEY uq_users_email (email),
-    KEY idx_users_status (status),
-    KEY idx_users_account_type (account_type)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+    UNIQUE KEY uq_users_email (email),
+
+    KEY idx_users_status (status),
+
+    KEY idx_users_account_type (account_type),
+
+    KEY idx_users_country (country_code)
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 2. ROLES
+-- ============================================================
+
+DROP TABLE IF EXISTS roles;
 
 CREATE TABLE roles (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     name VARCHAR(100) NOT NULL,
+
     slug VARCHAR(100) NOT NULL,
+
     description TEXT NULL,
+
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
-    UNIQUE KEY uq_roles_slug (slug)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+    UNIQUE KEY uq_roles_slug (slug)
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 3. USER ROLES
+-- ============================================================
+
+DROP TABLE IF EXISTS user_roles;
 
 CREATE TABLE user_roles (
     user_id CHAR(36) NOT NULL,
+
     role_id INT UNSIGNED NOT NULL,
+
     assigned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (user_id, role_id),
 
     CONSTRAINT fk_user_roles_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
         ON DELETE CASCADE,
 
     CONSTRAINT fk_user_roles_role
-        FOREIGN KEY (role_id) REFERENCES roles(id)
+        FOREIGN KEY (role_id)
+        REFERENCES roles(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 4. LOGIN ATTEMPTS
+-- ============================================================
+
+DROP TABLE IF EXISTS login_attempts;
 
 CREATE TABLE login_attempts (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     user_id CHAR(36) NULL,
+
     email VARCHAR(190) NULL,
+
     ip_address VARCHAR(45) NULL,
+
     success TINYINT(1) NOT NULL DEFAULT 0,
+
     attempted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
-    KEY idx_login_email_time (email, attempted_at),
-    KEY idx_login_ip_time (ip_address, attempted_at),
+
+    KEY idx_login_email_time (
+        email,
+        attempted_at
+    ),
+
+    KEY idx_login_ip_time (
+        ip_address,
+        attempted_at
+    ),
 
     CONSTRAINT fk_login_attempts_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 5. SESSIONS
+-- ============================================================
+
+DROP TABLE IF EXISTS sessions;
 
 CREATE TABLE sessions (
     id CHAR(36) NOT NULL,
+
     user_id CHAR(36) NOT NULL,
+
     token_hash CHAR(64) NOT NULL,
+
     ip_address VARCHAR(45) NULL,
+
     user_agent TEXT NULL,
 
     expires_at DATETIME NOT NULL,
+
     revoked_at DATETIME NULL,
+
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
     last_used_at DATETIME NULL,
 
     PRIMARY KEY (id),
-    UNIQUE KEY uq_sessions_token_hash (token_hash),
-    KEY idx_sessions_user (user_id),
-    KEY idx_sessions_expires (expires_at),
+
+    UNIQUE KEY uq_sessions_token_hash (
+        token_hash
+    ),
+
+    KEY idx_sessions_user (
+        user_id
+    ),
+
+    KEY idx_sessions_expires (
+        expires_at
+    ),
 
     CONSTRAINT fk_sessions_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 6. AUDIT LOGS
+-- ============================================================
+
+DROP TABLE IF EXISTS audit_logs;
 
 CREATE TABLE audit_logs (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     user_id CHAR(36) NULL,
 
     action VARCHAR(150) NOT NULL,
+
     entity_type VARCHAR(100) NULL,
+
     entity_id VARCHAR(100) NULL,
 
     ip_address VARCHAR(45) NULL,
+
     details JSON NULL,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
-    KEY idx_audit_user (user_id),
-    KEY idx_audit_action (action),
-    KEY idx_audit_created (created_at),
+
+    KEY idx_audit_user (
+        user_id
+    ),
+
+    KEY idx_audit_action (
+        action
+    ),
+
+    KEY idx_audit_created (
+        created_at
+    ),
 
     CONSTRAINT fk_audit_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 
 -- ============================================================
--- 2. INTERNATIONAL EDUCATION STRUCTURE
+-- 7. COUNTRIES
 -- ============================================================
 
-DROP TABLE IF EXISTS curriculum_systems;
 DROP TABLE IF EXISTS countries;
-DROP TABLE IF EXISTS education_languages;
-DROP TABLE IF EXISTS education_levels;
-DROP TABLE IF EXISTS education_fields;
 
 CREATE TABLE countries (
     code VARCHAR(10) NOT NULL,
+
     name VARCHAR(150) NOT NULL,
 
-    PRIMARY KEY (code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    active TINYINT(1) NOT NULL DEFAULT 1,
 
+    PRIMARY KEY (code)
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 8. EDUCATION LANGUAGES
+-- ============================================================
+
+DROP TABLE IF EXISTS education_languages;
 
 CREATE TABLE education_languages (
     code VARCHAR(10) NOT NULL,
+
     name VARCHAR(100) NOT NULL,
+
     native_name VARCHAR(100) NULL,
+
     active TINYINT(1) NOT NULL DEFAULT 1,
 
     PRIMARY KEY (code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 9. CURRICULUM SYSTEMS
+-- ============================================================
+
+DROP TABLE IF EXISTS curriculum_systems;
 
 CREATE TABLE curriculum_systems (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     country_code VARCHAR(10) NULL,
-    name VARCHAR(150) NOT NULL,
+
+    code VARCHAR(100) NOT NULL,
+
+    name VARCHAR(200) NOT NULL,
+
     description TEXT NULL,
+
     active TINYINT(1) NOT NULL DEFAULT 1,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
 
-    CONSTRAINT fk_curriculum_country
-        FOREIGN KEY (country_code) REFERENCES countries(code)
-        ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    UNIQUE KEY uq_curriculum_code (code),
 
+    KEY idx_curriculum_country (country_code),
+
+    CONSTRAINT fk_curriculum_country
+        FOREIGN KEY (country_code)
+        REFERENCES countries(code)
+        ON DELETE SET NULL
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 10. EDUCATION LEVELS
+-- ============================================================
+
+DROP TABLE IF EXISTS education_levels;
 
 CREATE TABLE education_levels (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
+    curriculum_system_id INT UNSIGNED NULL,
+
     code VARCHAR(50) NOT NULL,
+
     name VARCHAR(150) NOT NULL,
+
     level_order INT NOT NULL,
 
-    stage VARCHAR(50) NULL,
-    description TEXT NULL,
+    stage VARCHAR(50) NOT NULL,
 
-    curriculum_system_id INT UNSIGNED NULL,
+    description TEXT NULL,
 
     active TINYINT(1) NOT NULL DEFAULT 1,
 
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_education_levels_code (code),
-    KEY idx_level_order (level_order),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT fk_level_curriculum
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    UNIQUE KEY uq_education_level_code (
+        curriculum_system_id,
+        code
+    ),
+
+    KEY idx_education_level_order (
+        level_order
+    ),
+
+    KEY idx_education_level_stage (
+        stage
+    ),
+
+    CONSTRAINT fk_education_level_curriculum
         FOREIGN KEY (curriculum_system_id)
         REFERENCES curriculum_systems(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 11. EDUCATION FIELDS
+-- ============================================================
+
+DROP TABLE IF EXISTS education_fields;
 
 CREATE TABLE education_fields (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     code VARCHAR(100) NOT NULL,
-    name VARCHAR(150) NOT NULL,
+
+    name VARCHAR(200) NOT NULL,
+
     description TEXT NULL,
 
     active TINYINT(1) NOT NULL DEFAULT 1,
 
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
     PRIMARY KEY (id),
-    UNIQUE KEY uq_fields_code (code)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    UNIQUE KEY uq_education_field_code (
+        code
+    )
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 
 -- ============================================================
--- 3. SPECIALIZATIONS
+-- 12. SPECIALIZATIONS
 -- ============================================================
 
 DROP TABLE IF EXISTS specializations;
 
 CREATE TABLE specializations (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
     field_id INT UNSIGNED NULL,
 
     code VARCHAR(100) NOT NULL,
-    name VARCHAR(150) NOT NULL,
+
+    name VARCHAR(200) NOT NULL,
+
     description TEXT NULL,
 
     active TINYINT(1) NOT NULL DEFAULT 1,
 
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
     PRIMARY KEY (id),
-    UNIQUE KEY uq_specialization_code (code),
+
+    UNIQUE KEY uq_specialization_code (
+        code
+    ),
+
+    KEY idx_specialization_field (
+        field_id
+    ),
 
     CONSTRAINT fk_specialization_field
-        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        FOREIGN KEY (field_id)
+        REFERENCES education_fields(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 
 -- ============================================================
--- 4. SUBJECTS
+-- 13. STUDENT PROFILES
+-- ============================================================
+--
+-- requested_level :
+-- Niveau demandé par l'étudiant.
+--
+-- recommended_level :
+-- Niveau recommandé après le placement.
+--
+-- validated_level :
+-- Niveau officiellement validé.
+--
+-- current_level :
+-- Niveau actuellement utilisé dans le parcours.
+--
+-- L'IA peut recommander.
+-- L'autorité pédagogique valide.
+--
 -- ============================================================
 
-DROP TABLE IF EXISTS level_subjects;
+DROP TABLE IF EXISTS student_profiles;
+
+CREATE TABLE student_profiles (
+    id CHAR(36) NOT NULL,
+
+    user_id CHAR(36) NOT NULL,
+
+    country_code VARCHAR(10) NULL,
+
+    curriculum_system_id INT UNSIGNED NULL,
+
+    instruction_language VARCHAR(10) NOT NULL DEFAULT 'fr',
+
+    education_stage VARCHAR(50) NULL,
+
+    requested_level VARCHAR(100) NULL,
+
+    recommended_level VARCHAR(100) NULL,
+
+    validated_level VARCHAR(100) NULL,
+
+    current_level VARCHAR(100) NULL,
+
+    education_field_id INT UNSIGNED NULL,
+
+    specialization_id INT UNSIGNED NULL,
+
+    learning_goal VARCHAR(100) NULL,
+
+    placement_status VARCHAR(40) NOT NULL DEFAULT 'not_started',
+
+    placement_started_at DATETIME NULL,
+
+    placement_completed_at DATETIME NULL,
+
+    placement_score DECIMAL(6,2) NULL,
+
+    validated_at DATETIME NULL,
+
+    validated_by CHAR(36) NULL,
+
+    profile_version INT NOT NULL DEFAULT 1,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    UNIQUE KEY uq_student_profile_user (
+        user_id
+    ),
+
+    KEY idx_student_country (
+        country_code
+    ),
+
+    KEY idx_student_curriculum (
+        curriculum_system_id
+    ),
+
+    KEY idx_student_language (
+        instruction_language
+    ),
+
+    KEY idx_student_requested_level (
+        requested_level
+    ),
+
+    KEY idx_student_recommended_level (
+        recommended_level
+    ),
+
+    KEY idx_student_validated_level (
+        validated_level
+    ),
+
+    KEY idx_student_current_level (
+        current_level
+    ),
+
+    KEY idx_student_placement_status (
+        placement_status
+    ),
+
+    CONSTRAINT fk_student_profile_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_student_profile_country
+        FOREIGN KEY (country_code)
+        REFERENCES countries(code)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_student_profile_curriculum
+        FOREIGN KEY (curriculum_system_id)
+        REFERENCES curriculum_systems(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_student_profile_language
+        FOREIGN KEY (instruction_language)
+        REFERENCES education_languages(code)
+        ON DELETE RESTRICT,
+
+    CONSTRAINT fk_student_profile_field
+        FOREIGN KEY (education_field_id)
+        REFERENCES education_fields(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_student_profile_specialization
+        FOREIGN KEY (specialization_id)
+        REFERENCES specializations(id)
+        ON DELETE SET NULL,
+
+    CONSTRAINT fk_student_profile_validator
+        FOREIGN KEY (validated_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 14. STUDENT LEVEL HISTORY
+-- ============================================================
+
+DROP TABLE IF EXISTS student_level_history;
+
+CREATE TABLE student_level_history (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+    student_profile_id CHAR(36) NOT NULL,
+
+    previous_level VARCHAR(100) NULL,
+
+    new_level VARCHAR(100) NOT NULL,
+
+    change_type VARCHAR(50) NOT NULL,
+
+    reason TEXT NULL,
+
+    source VARCHAR(50) NOT NULL DEFAULT 'system',
+
+    changed_by CHAR(36) NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    KEY idx_level_history_profile (
+        student_profile_id
+    ),
+
+    KEY idx_level_history_date (
+        created_at
+    ),
+
+    CONSTRAINT fk_level_history_profile
+        FOREIGN KEY (student_profile_id)
+        REFERENCES student_profiles(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_level_history_user
+        FOREIGN KEY (changed_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 15. STUDENT LEVEL CHANGE REQUESTS
+-- ============================================================
+
+DROP TABLE IF EXISTS student_level_change_requests;
+
+CREATE TABLE student_level_change_requests (
+    id CHAR(36) NOT NULL,
+
+    student_profile_id CHAR(36) NOT NULL,
+
+    requested_by CHAR(36) NOT NULL,
+
+    current_level VARCHAR(100) NULL,
+
+    requested_level VARCHAR(100) NOT NULL,
+
+    recommended_level VARCHAR(100) NULL,
+
+    status VARCHAR(40) NOT NULL DEFAULT 'pending',
+
+    reason TEXT NULL,
+
+    assessment_required TINYINT(1) NOT NULL DEFAULT 1,
+
+    assessment_completed TINYINT(1) NOT NULL DEFAULT 0,
+
+    reviewed_by CHAR(36) NULL,
+
+    reviewed_at DATETIME NULL,
+
+    decision_note TEXT NULL,
+
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
+    PRIMARY KEY (id),
+
+    KEY idx_level_request_profile (
+        student_profile_id
+    ),
+
+    KEY idx_level_request_user (
+        requested_by
+    ),
+
+    KEY idx_level_request_status (
+        status
+    ),
+
+    CONSTRAINT fk_level_request_profile
+        FOREIGN KEY (student_profile_id)
+        REFERENCES student_profiles(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_level_request_user
+        FOREIGN KEY (requested_by)
+        REFERENCES users(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_level_request_reviewer
+        FOREIGN KEY (reviewed_by)
+        REFERENCES users(id)
+        ON DELETE SET NULL
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 16. SUBJECTS
+-- ============================================================
+
 DROP TABLE IF EXISTS subjects;
 
 CREATE TABLE subjects (
@@ -267,58 +766,98 @@ CREATE TABLE subjects (
     field_id INT UNSIGNED NULL,
 
     code VARCHAR(100) NOT NULL,
+
     name VARCHAR(200) NOT NULL,
+
     description TEXT NULL,
 
     active TINYINT(1) NOT NULL DEFAULT 1,
 
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        ON UPDATE CURRENT_TIMESTAMP,
+
     PRIMARY KEY (id),
-    UNIQUE KEY uq_subject_code (code),
+
+    UNIQUE KEY uq_subject_code (
+        code
+    ),
+
+    KEY idx_subject_field (
+        field_id
+    ),
 
     CONSTRAINT fk_subject_field
-        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        FOREIGN KEY (field_id)
+        REFERENCES education_fields(id)
         ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
+
+
+-- ============================================================
+-- 17. LEVEL SUBJECTS
+-- ============================================================
+
+DROP TABLE IF EXISTS level_subjects;
 
 CREATE TABLE level_subjects (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     level_id INT UNSIGNED NOT NULL,
+
     subject_id INT UNSIGNED NOT NULL,
 
     mandatory TINYINT(1) NOT NULL DEFAULT 1,
+
     coefficient DECIMAL(6,2) NOT NULL DEFAULT 1.00,
 
+    sequence_order INT NOT NULL DEFAULT 1,
+
     PRIMARY KEY (id),
-    UNIQUE KEY uq_level_subject (level_id, subject_id),
+
+    UNIQUE KEY uq_level_subject (
+        level_id,
+        subject_id
+    ),
 
     CONSTRAINT fk_level_subject_level
-        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        FOREIGN KEY (level_id)
+        REFERENCES education_levels(id)
         ON DELETE CASCADE,
 
     CONSTRAINT fk_level_subject_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
+        FOREIGN KEY (subject_id)
+        REFERENCES subjects(id)
         ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_unicode_ci;
 
 
 -- ============================================================
--- 5. PROGRAMS
+-- 18. PROGRAMS
 -- ============================================================
 
-DROP TABLE IF EXISTS program_subjects;
 DROP TABLE IF EXISTS programs;
 
 CREATE TABLE programs (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 
     level_id INT UNSIGNED NULL,
+
     field_id INT UNSIGNED NULL,
+
     specialization_id INT UNSIGNED NULL,
 
     code VARCHAR(100) NOT NULL,
+
     name VARCHAR(250) NOT NULL,
+
     description LONGTEXT NULL,
 
     language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
@@ -328,369 +867,61 @@ CREATE TABLE programs (
     status VARCHAR(30) NOT NULL DEFAULT 'draft',
 
     generation_source VARCHAR(50) NOT NULL DEFAULT 'system',
+
+    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
+
     generated_at DATETIME NULL,
 
     created_by CHAR(36) NULL,
+
     validated_by CHAR(36) NULL,
 
     version INT NOT NULL DEFAULT 1,
 
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         ON UPDATE CURRENT_TIMESTAMP,
 
     PRIMARY KEY (id),
-    UNIQUE KEY uq_program_code_language (code, language_code),
+
+    UNIQUE KEY uq_program_code_language (
+        code,
+        language_code
+    ),
+
+    KEY idx_program_level (
+        level_id
+    ),
+
+    KEY idx_program_field (
+        field_id
+    ),
 
     CONSTRAINT fk_program_level
-        FOREIGN KEY (level_id) REFERENCES education_levels(id)
+        FOREIGN KEY (level_id)
+        REFERENCES education_levels(id)
         ON DELETE SET NULL,
 
     CONSTRAINT fk_program_field
-        FOREIGN KEY (field_id) REFERENCES education_fields(id)
+        FOREIGN KEY (field_id)
+        REFERENCES education_fields(id)
         ON DELETE SET NULL,
 
     CONSTRAINT fk_program_specialization
-        FOREIGN KEY (specialization_id) REFERENCES specializations(id)
+        FOREIGN KEY (specialization_id)
+        REFERENCES specializations(id)
         ON DELETE SET NULL,
 
+    CONSTRAINT fk_program_language
+        FOREIGN KEY (language_code)
+        REFERENCES education_languages(code)
+        ON DELETE RESTRICT,
+
     CONSTRAINT fk_program_creator
-        FOREIGN KEY (created_by) REFERENCES users(id)
+        FOREIGN KEY (created_by)
+        REFERENCES users(id)
         ON DELETE SET NULL,
 
     CONSTRAINT fk_program_validator
-        FOREIGN KEY (validated_by) REFERENCES users(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE program_subjects (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    program_id BIGINT UNSIGNED NOT NULL,
-    subject_id INT UNSIGNED NOT NULL,
-
-    sequence_order INT NOT NULL DEFAULT 1,
-    weekly_hours DECIMAL(6,2) NULL,
-    coefficient DECIMAL(6,2) NOT NULL DEFAULT 1.00,
-
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_program_subject (program_id, subject_id),
-
-    CONSTRAINT fk_program_subject_program
-        FOREIGN KEY (program_id) REFERENCES programs(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_program_subject_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- ============================================================
--- 6. CHAPTERS / LESSONS
--- ============================================================
-
-DROP TABLE IF EXISTS lesson_competencies;
-DROP TABLE IF EXISTS lesson_prerequisites;
-DROP TABLE IF EXISTS lessons;
-DROP TABLE IF EXISTS chapters;
-
-CREATE TABLE chapters (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    program_id BIGINT UNSIGNED NULL,
-    subject_id INT UNSIGNED NOT NULL,
-
-    title VARCHAR(250) NOT NULL,
-    description LONGTEXT NULL,
-
-    sequence_order INT NOT NULL DEFAULT 1,
-
-    status VARCHAR(30) NOT NULL DEFAULT 'published',
-
-    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
-
-    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
-
-    version INT NOT NULL DEFAULT 1,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT fk_chapter_program
-        FOREIGN KEY (program_id) REFERENCES programs(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_chapter_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE lessons (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    chapter_id BIGINT UNSIGNED NOT NULL,
-
-    title VARCHAR(250) NOT NULL,
-    summary TEXT NULL,
-
-    objective LONGTEXT NULL,
-    discovery_content LONGTEXT NULL,
-    examples LONGTEXT NULL,
-    guided_practice LONGTEXT NULL,
-    independent_practice LONGTEXT NULL,
-    mini_quiz LONGTEXT NULL,
-    validation_content LONGTEXT NULL,
-
-    estimated_minutes INT NOT NULL DEFAULT 45,
-
-    sequence_order INT NOT NULL DEFAULT 1,
-
-    status VARCHAR(30) NOT NULL DEFAULT 'published',
-
-    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
-
-    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
-
-    version INT NOT NULL DEFAULT 1,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-        ON UPDATE CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT fk_lesson_chapter
-        FOREIGN KEY (chapter_id) REFERENCES chapters(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE lesson_prerequisites (
-    lesson_id BIGINT UNSIGNED NOT NULL,
-    prerequisite_lesson_id BIGINT UNSIGNED NOT NULL,
-
-    PRIMARY KEY (lesson_id, prerequisite_lesson_id),
-
-    CONSTRAINT fk_lesson_prereq_lesson
-        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_lesson_prereq_required
-        FOREIGN KEY (prerequisite_lesson_id) REFERENCES lessons(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- ============================================================
--- 7. COMPETENCIES
--- ============================================================
-
-DROP TABLE IF EXISTS competency_prerequisites;
-DROP TABLE IF EXISTS competencies;
-
-CREATE TABLE competencies (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    subject_id INT UNSIGNED NULL,
-    level_id INT UNSIGNED NULL,
-
-    code VARCHAR(100) NOT NULL,
-    name VARCHAR(250) NOT NULL,
-    description LONGTEXT NULL,
-
-    mastery_threshold DECIMAL(5,2) NOT NULL DEFAULT 70.00,
-
-    active TINYINT(1) NOT NULL DEFAULT 1,
-
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_competency_code (code),
-
-    CONSTRAINT fk_competency_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_competency_level
-        FOREIGN KEY (level_id) REFERENCES education_levels(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE lesson_competencies (
-    lesson_id BIGINT UNSIGNED NOT NULL,
-    competency_id BIGINT UNSIGNED NOT NULL,
-
-    PRIMARY KEY (lesson_id, competency_id),
-
-    CONSTRAINT fk_lesson_competency_lesson
-        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_lesson_competency_competency
-        FOREIGN KEY (competency_id) REFERENCES competencies(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE competency_prerequisites (
-    competency_id BIGINT UNSIGNED NOT NULL,
-    prerequisite_competency_id BIGINT UNSIGNED NOT NULL,
-
-    PRIMARY KEY (competency_id, prerequisite_competency_id),
-
-    CONSTRAINT fk_comp_prereq_comp
-        FOREIGN KEY (competency_id) REFERENCES competencies(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_comp_prereq_required
-        FOREIGN KEY (prerequisite_competency_id)
-        REFERENCES competencies(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- ============================================================
--- 8. QUESTIONS / EXERCISES / EVALUATIONS
--- ============================================================
-
-DROP TABLE IF EXISTS evaluation_attempt_answers;
-DROP TABLE IF EXISTS evaluation_attempts;
-DROP TABLE IF EXISTS evaluation_questions;
-DROP TABLE IF EXISTS evaluations;
-DROP TABLE IF EXISTS exercise_attempts;
-DROP TABLE IF EXISTS exercises;
-DROP TABLE IF EXISTS question_options;
-DROP TABLE IF EXISTS questions;
-
-CREATE TABLE questions (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    subject_id INT UNSIGNED NULL,
-    level_id INT UNSIGNED NULL,
-    chapter_id BIGINT UNSIGNED NULL,
-    competency_id BIGINT UNSIGNED NULL,
-
-    question_text LONGTEXT NOT NULL,
-    explanation LONGTEXT NULL,
-
-    difficulty VARCHAR(30) NOT NULL DEFAULT 'medium',
-    question_type VARCHAR(50) NOT NULL DEFAULT 'multiple_choice',
-
-    correct_answer LONGTEXT NULL,
-
-    language_code VARCHAR(10) NOT NULL DEFAULT 'fr',
-
-    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
-
-    active TINYINT(1) NOT NULL DEFAULT 1,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT fk_question_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_question_level
-        FOREIGN KEY (level_id) REFERENCES education_levels(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_question_chapter
-        FOREIGN KEY (chapter_id) REFERENCES chapters(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_question_competency
-        FOREIGN KEY (competency_id) REFERENCES competencies(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE question_options (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    question_id BIGINT UNSIGNED NOT NULL,
-
-    option_key VARCHAR(20) NOT NULL,
-    option_text LONGTEXT NOT NULL,
-
-    PRIMARY KEY (id),
-    UNIQUE KEY uq_question_option (question_id, option_key),
-
-    CONSTRAINT fk_option_question
-        FOREIGN KEY (question_id) REFERENCES questions(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE exercises (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    lesson_id BIGINT UNSIGNED NULL,
-    subject_id INT UNSIGNED NULL,
-    level_id INT UNSIGNED NULL,
-
-    title VARCHAR(250) NOT NULL,
-    instructions LONGTEXT NULL,
-
-    difficulty VARCHAR(30) NOT NULL DEFAULT 'medium',
-
-    generated_by_ai TINYINT(1) NOT NULL DEFAULT 1,
-
-    status VARCHAR(30) NOT NULL DEFAULT 'published',
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT fk_exercise_lesson
-        FOREIGN KEY (lesson_id) REFERENCES lessons(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_exercise_subject
-        FOREIGN KEY (subject_id) REFERENCES subjects(id)
-        ON DELETE SET NULL,
-
-    CONSTRAINT fk_exercise_level
-        FOREIGN KEY (level_id) REFERENCES education_levels(id)
-        ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE exercise_attempts (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    exercise_id BIGINT UNSIGNED NOT NULL,
-    user_id CHAR(36) NOT NULL,
-
-    answer_data JSON NULL,
-
-    score DECIMAL(6,2) NULL,
-    status VARCHAR(30) NOT NULL DEFAULT 'submitted',
-
-    started_at DATETIME NULL,
-    submitted_at DATETIME NULL,
-
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    PRIMARY KEY (id),
-
-    CONSTRAINT fk_exercise_attempt_exercise
-        FOREIGN KEY (exercise_id) REFERENCES exercises(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_exercise_attempt_user
-        FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
-CREATE TABLE evaluations (
-    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-
-    program_id BIGINT UNSIGNED NULL,
-    subject_id
+     
