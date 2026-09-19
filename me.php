@@ -8,11 +8,46 @@ declare(strict_types=1);
  * Current User / Session API
  * ============================================================
  *
- * Vérifie le token de session et retourne l'utilisateur connecté.
+ * Fichier situé à la racine du projet :
+ *
+ * DeepRDMMakademy/
+ * └── me.php
+ *
+ * La configuration de la base se trouve ici :
+ *
+ * DeepRDMMakademy/
+ * └── api/
+ *     └── config/
+ *         └── database.php
+ *
+ * Fonctionnalités :
+ * - Vérification du token Bearer
+ * - Vérification de la session
+ * - Vérification de l'expiration
+ * - Vérification du statut du compte
+ * - Révocation automatique si nécessaire
+ * - Récupération des rôles
+ * - Mise à jour de last_used_at
+ * - Journalisation de l'activité
  * ============================================================
  */
 
-require_once __DIR__ . '/../config/database.php';
+
+/*
+|--------------------------------------------------------------------------
+| Database configuration
+|--------------------------------------------------------------------------
+|
+| IMPORTANT :
+| Ce fichier me.php est à la racine.
+|
+| Le bon chemin est donc :
+|
+| /api/config/database.php
+|
+*/
+
+require_once __DIR__ . '/api/config/database.php';
 
 
 /*
@@ -23,10 +58,12 @@ require_once __DIR__ . '/../config/database.php';
 
 $allowedOrigin = 'https://tiananiaina569-oss.github.io';
 
+
 if (
     isset($_SERVER['HTTP_ORIGIN']) &&
     $_SERVER['HTTP_ORIGIN'] === $allowedOrigin
 ) {
+
     header(
         'Access-Control-Allow-Origin: ' . $allowedOrigin
     );
@@ -34,13 +71,16 @@ if (
     header('Vary: Origin');
 }
 
+
 header(
     'Access-Control-Allow-Methods: GET, OPTIONS'
 );
 
+
 header(
     'Access-Control-Allow-Headers: Content-Type, Authorization'
 );
+
 
 header(
     'Content-Type: application/json; charset=utf-8'
@@ -53,7 +93,9 @@ header(
 |--------------------------------------------------------------------------
 */
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (
+    ($_SERVER['REQUEST_METHOD'] ?? '') === 'OPTIONS'
+) {
 
     http_response_code(204);
 
@@ -63,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 /*
 |--------------------------------------------------------------------------
-| JSON response
+| JSON response helper
 |--------------------------------------------------------------------------
 */
 
@@ -96,7 +138,9 @@ function sendJson(
 |--------------------------------------------------------------------------
 */
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+if (
+    ($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET'
+) {
 
     sendJson(
         false,
@@ -113,9 +157,83 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 |--------------------------------------------------------------------------
 */
 
-$authorization = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+$authorization = '';
 
-if ($authorization === '') {
+
+/*
+ * Méthode 1 :
+ * Apache / PHP fournit directement HTTP_AUTHORIZATION.
+ */
+
+if (
+    isset($_SERVER['HTTP_AUTHORIZATION'])
+) {
+
+    $authorization = trim(
+        (string)$_SERVER['HTTP_AUTHORIZATION']
+    );
+}
+
+
+/*
+ * Méthode 2 :
+ * Certains serveurs utilisent REDIRECT_HTTP_AUTHORIZATION.
+ */
+
+if (
+    $authorization === '' &&
+    isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])
+) {
+
+    $authorization = trim(
+        (string)$_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+    );
+}
+
+
+/*
+ * Méthode 3 :
+ * Certains environnements peuvent exposer
+ * l'en-tête Authorization via getallheaders().
+ */
+
+if (
+    $authorization === '' &&
+    function_exists('getallheaders')
+) {
+
+    $headers = getallheaders();
+
+    if (
+        is_array($headers)
+    ) {
+
+        foreach ($headers as $name => $value) {
+
+            if (
+                strtolower((string)$name) === 'authorization'
+            ) {
+
+                $authorization = trim(
+                    (string)$value
+                );
+
+                break;
+            }
+        }
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Authorization required
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $authorization === ''
+) {
 
     sendJson(
         false,
@@ -135,7 +253,7 @@ if ($authorization === '') {
 if (
     !preg_match(
         '/^Bearer\s+(.+)$/i',
-        trim($authorization),
+        $authorization,
         $matches
     )
 ) {
@@ -149,13 +267,19 @@ if (
 }
 
 
-$rawToken = trim($matches[1]);
+$rawToken = trim(
+    (string)$matches[1]
+);
 
 
 /*
 |--------------------------------------------------------------------------
-| Token validation
+| Token format
 |--------------------------------------------------------------------------
+|
+| Le login génère 32 octets aléatoires convertis en hexadécimal.
+| Cela produit exactement 64 caractères hexadécimaux.
+|
 */
 
 if (
@@ -175,10 +299,29 @@ if (
 }
 
 
+/*
+|--------------------------------------------------------------------------
+| Hash token
+|--------------------------------------------------------------------------
+|
+| Le token brut n'est jamais recherché directement en base.
+| La base contient uniquement son SHA-256.
+|
+*/
+
 $tokenHash = hash(
     'sha256',
     $rawToken
 );
+
+
+/*
+|--------------------------------------------------------------------------
+| Client IP
+|--------------------------------------------------------------------------
+*/
+
+$ipAddress = $_SERVER['REMOTE_ADDR'] ?? null;
 
 
 /*
@@ -189,6 +332,7 @@ $tokenHash = hash(
 
 $pdo = null;
 
+
 try {
 
     $pdo = getDatabaseConnection();
@@ -196,7 +340,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Find valid session + user
+    | Find session + user
     |--------------------------------------------------------------------------
     */
 
@@ -206,6 +350,7 @@ try {
             s.user_id,
             s.expires_at,
             s.revoked_at,
+
             u.first_name,
             u.last_name,
             u.email,
@@ -216,10 +361,14 @@ try {
             u.email_verified_at,
             u.last_login_at,
             u.created_at
+
          FROM sessions s
+
          INNER JOIN users u
             ON u.id = s.user_id
+
          WHERE s.token_hash = :token_hash
+
          LIMIT 1'
     );
 
@@ -240,7 +389,9 @@ try {
     |--------------------------------------------------------------------------
     */
 
-    if (!$session) {
+    if (
+        !$session
+    ) {
 
         sendJson(
             false,
@@ -257,7 +408,9 @@ try {
     |--------------------------------------------------------------------------
     */
 
-    if ($session['revoked_at'] !== null) {
+    if (
+        $session['revoked_at'] !== null
+    ) {
 
         sendJson(
             false,
@@ -270,22 +423,45 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Expired session
+    | Session expiration
     |--------------------------------------------------------------------------
     */
 
-    $now = new DateTimeImmutable();
+    try {
 
-    $expiresAt = new DateTimeImmutable(
-        $session['expires_at']
-    );
+        $now = new DateTimeImmutable();
+
+        $expiresAt = new DateTimeImmutable(
+            (string)$session['expires_at']
+        );
+
+    } catch (
+        Throwable $exception
+    ) {
+
+        error_log(
+            'DeepRDMMakademy invalid session expiration: ' .
+            $exception->getMessage()
+        );
+
+        sendJson(
+            false,
+            'Session invalide ou expirée.',
+            [],
+            401
+        );
+    }
 
 
-    if ($expiresAt <= $now) {
+    /*
+    |--------------------------------------------------------------------------
+    | Expired
+    |--------------------------------------------------------------------------
+    */
 
-        /*
-         * Marquer la session comme expirée.
-         */
+    if (
+        $expiresAt <= $now
+    ) {
 
         $expireSession = $pdo->prepare(
             'UPDATE sessions
@@ -316,16 +492,14 @@ try {
     | Account status
     |--------------------------------------------------------------------------
     |
-    | Même avec un token valide, l'utilisateur ne doit plus
-    | accéder au système si son compte a été désactivé.
+    | Un token encore valide ne doit pas permettre l'accès
+    | si le compte a été suspendu, bloqué ou désactivé.
     |
     */
 
-    if ($session['status'] !== 'active') {
-
-        /*
-         * Révoquer immédiatement la session.
-         */
+    if (
+        $session['status'] !== 'active'
+    ) {
 
         $revokeSession = $pdo->prepare(
             'UPDATE sessions
@@ -353,7 +527,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Update last used
+    | Update session activity
     |--------------------------------------------------------------------------
     */
 
@@ -373,7 +547,7 @@ try {
 
     /*
     |--------------------------------------------------------------------------
-    | Retrieve roles
+    | Retrieve user roles
     |--------------------------------------------------------------------------
     */
 
@@ -383,10 +557,14 @@ try {
             r.name,
             r.slug,
             r.description
+
          FROM user_roles ur
+
          INNER JOIN roles r
             ON r.id = ur.role_id
+
          WHERE ur.user_id = :user_id
+
          ORDER BY r.id ASC'
     );
 
@@ -409,12 +587,18 @@ try {
 
     $formattedRoles = [];
 
-    foreach ($roles as $role) {
+
+    foreach (
+        $roles as $role
+    ) {
 
         $formattedRoles[] = [
-            'id'          => (int)$role['id'],
-            'name'        => $role['name'],
-            'slug'        => $role['slug'],
+            'id' => (int)$role['id'],
+
+            'name' => $role['name'],
+
+            'slug' => $role['slug'],
+
             'description' => $role['description'],
         ];
     }
@@ -425,7 +609,8 @@ try {
     | Audit log
     |--------------------------------------------------------------------------
     |
-    | On ne journalise pas le token.
+    | IMPORTANT :
+    | Le token n'est jamais enregistré dans les logs.
     |
     */
 
@@ -451,11 +636,20 @@ try {
 
     $audit->execute(
         [
-            ':user_id'     => $session['user_id'],
-            ':action'      => 'SESSION_VERIFIED',
-            ':entity_type' => 'session',
-            ':entity_id'   => $session['session_id'],
-            ':ip_address'  => $_SERVER['REMOTE_ADDR'] ?? null,
+            ':user_id' =>
+                $session['user_id'],
+
+            ':action' =>
+                'SESSION_VERIFIED',
+
+            ':entity_type' =>
+                'session',
+
+            ':entity_id' =>
+                $session['session_id'],
+
+            ':ip_address' =>
+                $ipAddress,
         ]
     );
 
@@ -470,40 +664,109 @@ try {
         true,
         'Session valide.',
         [
+
+            /*
+            |--------------------------------------------------------------------------
+            | Authentication state
+            |--------------------------------------------------------------------------
+            */
+
             'authenticated' => true,
 
+
+            /*
+            |--------------------------------------------------------------------------
+            | User
+            |--------------------------------------------------------------------------
+            */
+
             'user' => [
-                'id'                 => $session['user_id'],
-                'first_name'         => $session['first_name'],
-                'last_name'          => $session['last_name'],
-                'email'              => $session['email'],
-                'status'             => $session['status'],
-                'account_type'       => $session['account_type'],
-                'preferred_language' => $session['preferred_language'],
-                'country_code'       => $session['country_code'],
-                'email_verified_at'  => $session['email_verified_at'],
-                'last_login_at'      => $session['last_login_at'],
-                'created_at'         => $session['created_at'],
+
+                'id' =>
+                    $session['user_id'],
+
+                'first_name' =>
+                    $session['first_name'],
+
+                'last_name' =>
+                    $session['last_name'],
+
+                'email' =>
+                    $session['email'],
+
+                'status' =>
+                    $session['status'],
+
+                'account_type' =>
+                    $session['account_type'],
+
+                'preferred_language' =>
+                    $session['preferred_language'],
+
+                'country_code' =>
+                    $session['country_code'],
+
+                'email_verified_at' =>
+                    $session['email_verified_at'],
+
+                'last_login_at' =>
+                    $session['last_login_at'],
+
+                'created_at' =>
+                    $session['created_at'],
             ],
 
-            'roles' => $formattedRoles,
+
+            /*
+            |--------------------------------------------------------------------------
+            | Roles
+            |--------------------------------------------------------------------------
+            */
+
+            'roles' =>
+                $formattedRoles,
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | Session
+            |--------------------------------------------------------------------------
+            */
 
             'session' => [
-                'id'         => $session['session_id'],
-                'expires_at' => $session['expires_at'],
+
+                'id' =>
+                    $session['session_id'],
+
+                'expires_at' =>
+                    $session['expires_at'],
             ],
         ],
         200
     );
 
 
-} catch (Throwable $exception) {
+} catch (
+    Throwable $exception
+) {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Error logging
+    |--------------------------------------------------------------------------
+    */
 
     error_log(
         'DeepRDMMakademy session verification error: ' .
         $exception->getMessage()
     );
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Safe error response
+    |--------------------------------------------------------------------------
+    */
 
     sendJson(
         false,
