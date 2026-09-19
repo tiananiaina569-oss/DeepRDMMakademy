@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Évaluation de placement | DeepRDMMakademy</title>
+    <title>Évaluation de positionnement | DeepRDMMakademy</title>
 
     <meta
         name="description"
-        content="Évaluation de placement pédagogique de DeepRDMMakademy."
+        content="Évaluation de positionnement pédagogique de DeepRDMMakademy."
     >
 
     <style>
         :root {
-            --bg: #05080d;
-            --panel: #0b111a;
-            --panel-2: #0e1722;
-            --border: rgba(67, 211, 255, 0.22);
-            --cyan: #43d3ff;
-            --cyan-soft: rgba(67, 211, 255, 0.12);
-            --gold: #d7b56d;
-            --white: #f4f8fb;
-            --muted: #8c9aaa;
-            --success: #58e6a7;
-            --danger: #ff6b7a;
+            --bg: #050912;
+            --bg-soft: #08111e;
+            --panel: #0b1524;
+            --panel-2: #0e1b2d;
+
+            --cyan: #45d9ff;
+            --cyan-soft: rgba(69, 217, 255, 0.10);
+            --cyan-border: rgba(69, 217, 255, 0.28);
+
+            --gold: #d9b86c;
+            --gold-soft: rgba(217, 184, 108, 0.08);
+
+            --white: #f5f8ff;
+            --text: #d9e4f2;
+            --muted: #8da0b7;
+
+            --green: #5de0a0;
+            --red: #ff667a;
+
+            --border: rgba(255,255,255,0.08);
         }
 
         * {
@@ -37,25 +46,26 @@
         body {
             margin: 0;
             min-height: 100vh;
+
             background:
                 radial-gradient(
-                    circle at 15% 0%,
-                    rgba(28, 117, 160, 0.18),
+                    circle at 90% 0%,
+                    rgba(30, 110, 180, 0.18),
                     transparent 35%
                 ),
                 radial-gradient(
-                    circle at 90% 20%,
-                    rgba(111, 72, 170, 0.12),
-                    transparent 32%
+                    circle at 0% 100%,
+                    rgba(60, 50, 150, 0.12),
+                    transparent 35%
                 ),
                 var(--bg);
-            color: var(--white);
-            font-family: Arial, Helvetica, sans-serif;
-        }
 
-        a {
-            color: inherit;
-            text-decoration: none;
+            color: var(--white);
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
         }
 
         button,
@@ -63,24 +73,29 @@
             font: inherit;
         }
 
-        button {
-            cursor: pointer;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
         .page {
-            width: min(100%, 760px);
-            margin: 0 auto;
-            padding: 18px 15px 50px;
+            width: min(100%, 920px);
+            margin: auto;
+            padding: 16px 14px 60px;
         }
 
-        /* HEADER */
 
-        .topbar {
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 25px;
+
+            padding: 8px 0 28px;
         }
 
         .brand {
@@ -89,260 +104,574 @@
             gap: 10px;
         }
 
-        .brand-logo {
-            width: 42px;
-            height: 42px;
-            border: 1px solid rgba(67, 211, 255, 0.55);
-            border-radius: 50%;
+        .logo {
+            width: 44px;
+            height: 44px;
+
             display: grid;
             place-items: center;
+
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+
             color: var(--cyan);
-            font-weight: 800;
-            font-size: 12px;
-            letter-spacing: 1px;
-            box-shadow:
-                0 0 20px rgba(67, 211, 255, 0.12),
-                inset 0 0 15px rgba(67, 211, 255, 0.08);
-        }
 
-        .brand-text strong {
-            display: block;
             font-size: 13px;
-            letter-spacing: 1px;
+            font-weight: 800;
+
+            box-shadow:
+                0 0 20px rgba(69,217,255,0.16),
+                inset 0 0 15px rgba(69,217,255,0.07);
         }
 
-        .brand-text span {
+        .brand-name {
             display: block;
-            color: var(--muted);
-            font-size: 9px;
-            letter-spacing: 1.5px;
-            margin-top: 3px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 15px;
         }
 
-        .step-counter {
+        .brand-slogan {
+            display: block;
+
+            margin-top: 3px;
+
             color: var(--muted);
-            font-size: 11px;
-            letter-spacing: 1px;
+
+            font-size: 8px;
+            letter-spacing: 1.3px;
             text-transform: uppercase;
         }
 
-        /* INTRO */
+        .back-link {
+            padding: 8px 10px;
 
-        .hero {
-            margin-bottom: 22px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+
+            color: var(--muted);
+
+            font-size: 11px;
         }
 
+        .back-link:hover {
+            color: var(--white);
+            border-color: var(--cyan-border);
+        }
+
+
+        /* =========================
+           INTRO
+        ========================= */
+
         .eyebrow {
+            margin-bottom: 9px;
+
             color: var(--cyan);
-            font-size: 10px;
+
+            font-size: 9px;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 9px;
         }
 
         h1 {
             margin: 0;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(30px, 8vw, 46px);
-            line-height: 1.05;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: clamp(29px, 8vw, 50px);
+            line-height: 1.04;
             font-weight: 500;
         }
 
-        .hero p {
+        .intro {
+            max-width: 720px;
+
+            margin: 15px 0 25px;
+
             color: var(--muted);
-            line-height: 1.7;
-            font-size: 14px;
-            margin: 15px 0 0;
+
+            font-size: 13px;
+            line-height: 1.75;
         }
 
-        .info-box {
-            border: 1px solid var(--border);
-            background: rgba(67, 211, 255, 0.05);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
 
-        .info-box strong {
-            color: var(--cyan);
-            font-size: 12px;
-        }
+        /* =========================
+           STATUS
+        ========================= */
 
-        .info-box p {
-            margin: 7px 0 0;
-            color: #b7c3cf;
+        .status {
+            display: none;
+
+            margin-bottom: 18px;
+            padding: 13px 14px;
+
+            border: 1px solid var(--cyan-border);
+            border-radius: 10px;
+
+            background: var(--cyan-soft);
+
+            color: #dff5ff;
+
             font-size: 12px;
             line-height: 1.6;
         }
 
-        /* PROGRESS */
-
-        .progress-area {
-            margin: 20px 0 25px;
+        .status.show {
+            display: block;
         }
 
-        .progress-meta {
+        .status.error {
+            border-color: rgba(255,102,122,0.40);
+            background: rgba(255,102,122,0.08);
+            color: #ffd9de;
+        }
+
+        .status.success {
+            border-color: rgba(93,224,160,0.40);
+            background: rgba(93,224,160,0.08);
+            color: #d9ffeb;
+        }
+
+
+        /* =========================
+           MEMBER LOCK
+        ========================= */
+
+        .locked {
+            display: none;
+
+            padding: 22px 17px;
+
+            border: 1px solid rgba(217,184,108,0.28);
+            border-radius: 14px;
+
+            background: var(--gold-soft);
+        }
+
+        .locked.show {
+            display: block;
+        }
+
+        .locked-icon {
+            margin-bottom: 9px;
+            font-size: 25px;
+        }
+
+        .locked h2 {
+            margin: 0 0 9px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 23px;
+            font-weight: 500;
+        }
+
+        .locked p {
+            margin: 0 0 18px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .locked-actions {
+            display: grid;
+            gap: 9px;
+        }
+
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress-panel {
+            margin-bottom: 18px;
+            padding: 14px;
+
+            border: 1px solid var(--cyan-border);
+            border-radius: 12px;
+
+            background: rgba(9,18,31,0.88);
+        }
+
+        .progress-info {
             display: flex;
             justify-content: space-between;
             gap: 10px;
-            color: var(--muted);
+
+            margin-bottom: 9px;
+
             font-size: 10px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        }
+
+        .progress-info span:first-child {
+            color: var(--muted);
+        }
+
+        .progress-info span:last-child {
+            color: var(--cyan);
         }
 
         .progress-track {
+            width: 100%;
             height: 5px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.08);
+
             overflow: hidden;
+
+            border-radius: 99px;
+
+            background: rgba(255,255,255,0.06);
         }
 
         .progress-bar {
-            width: 0%;
+            width: 0;
             height: 100%;
-            background: var(--cyan);
-            box-shadow: 0 0 14px rgba(67, 211, 255, 0.5);
-            transition: width 0.3s ease;
+
+            border-radius: inherit;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--cyan),
+                    #9ceeff
+                );
+
+            transition: width 0.25s ease;
         }
 
-        /* QUESTION CARD */
+
+        /* =========================
+           QUESTION
+        ========================= */
 
         .question-card {
+            display: none;
+
+            padding: 20px 16px;
+
+            border: 1px solid var(--cyan-border);
+            border-radius: 14px;
+
             background:
                 linear-gradient(
                     145deg,
-                    rgba(14, 23, 34, 0.97),
-                    rgba(7, 12, 18, 0.97)
+                    rgba(14,27,45,0.97),
+                    rgba(7,14,25,0.97)
                 );
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
+
             box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.25);
+                0 18px 55px rgba(0,0,0,0.25);
+        }
+
+        .question-card.active {
+            display: block;
         }
 
         .question-number {
+            margin-bottom: 9px;
+
             color: var(--gold);
-            font-size: 10px;
+
+            font-size: 9px;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-            margin-bottom: 10px;
         }
 
-        .question-text {
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: 22px;
-            line-height: 1.35;
+        .question-title {
             margin: 0 0 20px;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: clamp(19px, 5vw, 26px);
+            line-height: 1.4;
+            font-weight: 500;
         }
 
-        .answers {
+        .options {
             display: grid;
             gap: 10px;
         }
 
-        .answer {
+        .option {
             position: relative;
         }
 
-        .answer input {
+        .option input {
             position: absolute;
+
+            width: 1px;
+            height: 1px;
+
             opacity: 0;
             pointer-events: none;
         }
 
-        .answer label {
+        .option label {
             display: block;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 11px;
+
+            padding: 14px;
+
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+
             background: rgba(255,255,255,0.025);
-            color: #c5d0da;
+
+            color: var(--text);
+
+            cursor: pointer;
+
             font-size: 13px;
             line-height: 1.5;
+
             transition:
                 border-color 0.2s ease,
                 background 0.2s ease,
                 transform 0.2s ease;
         }
 
-        .answer label:hover {
-            border-color: rgba(67, 211, 255, 0.35);
+        .option label:hover {
+            border-color: var(--cyan-border);
             transform: translateY(-1px);
         }
 
-        .answer input:checked + label {
+        .option input:checked + label {
             border-color: var(--cyan);
-            background: var(--cyan-soft);
-            color: var(--white);
+
+            background:
+                rgba(69,217,255,0.10);
+
+            color: #ffffff;
+
             box-shadow:
-                inset 3px 0 0 var(--cyan);
+                0 0 0 1px rgba(69,217,255,0.08);
         }
 
-        /* NAVIGATION */
+
+        /* =========================
+           NAVIGATION
+        ========================= */
 
         .navigation {
             display: flex;
+            justify-content: space-between;
             gap: 10px;
-            margin-top: 15px;
+
+            margin-top: 18px;
         }
 
         .btn {
-            border: 0;
-            border-radius: 10px;
-            padding: 13px 17px;
-            min-height: 46px;
-            font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-            transition:
-                transform 0.2s ease,
-                opacity 0.2s ease;
+            min-height: 45px;
+
+            padding: 11px 15px;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.035);
+
+            color: var(--white);
+
+            cursor: pointer;
+
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            flex: 0 0 auto;
-            background: rgba(255,255,255,0.05);
-            color: #b9c5d0;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-color: var(--cyan-border);
         }
 
         .btn-primary {
-            flex: 1;
-            background: var(--cyan);
-            color: #031019;
+            border-color: var(--cyan);
+
+            background: rgba(69,217,255,0.09);
+
+            color: var(--cyan);
         }
 
-        /* LOADING */
+        .btn-primary:hover {
+            background: rgba(69,217,255,0.15);
+        }
+
+        .btn-gold {
+            border-color: rgba(217,184,108,0.45);
+
+            background: rgba(217,184,108,0.06);
+
+            color: var(--gold);
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-card {
+            padding: 24px 18px;
+
+            border: 1px solid var(--cyan-border);
+            border-radius: 14px;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(69,217,255,0.11),
+                    transparent 45%
+                ),
+                var(--panel);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.25);
+        }
+
+        .result-label {
+            color: var(--cyan);
+
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        .result-score {
+            margin: 9px 0 2px;
+
+            font-size: 50px;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .result-score small {
+            color: var(--muted);
+
+            font-size: 17px;
+            letter-spacing: 0;
+        }
+
+        .result-level {
+            margin: 0;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            font-size: 25px;
+            font-weight: 500;
+        }
+
+        .result-description {
+            margin: 14px 0 20px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .result-grid {
+            display: grid;
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .result-item {
+            padding: 13px;
+
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 9px;
+
+            background: rgba(255,255,255,0.025);
+        }
+
+        .result-item span {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: var(--muted);
+
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .result-item strong {
+            font-size: 13px;
+        }
+
+        .result-actions {
+            display: grid;
+            gap: 9px;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
 
         .loading {
             display: none;
-            text-align: center;
-            padding: 35px 15px;
+
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            margin-top: 14px;
+
+            color: var(--cyan);
+
+            font-size: 11px;
+        }
+
+        .loading.show {
+            display: flex;
         }
 
         .loader {
-            width: 34px;
-            height: 34px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            border: 3px solid rgba(67, 211, 255, 0.15);
+            width: 14px;
+            height: 14px;
+
+            border: 2px solid rgba(69,217,255,0.22);
             border-top-color: var(--cyan);
-            animation: spin 0.8s linear infinite;
+
+            border-radius: 50%;
+
+            animation:
+                spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -351,221 +680,220 @@
             }
         }
 
-        .loading p {
-            color: var(--muted);
-            font-size: 12px;
-        }
 
-        /* RESULT */
-
-        .result {
-            display: none;
-        }
-
-        .result-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .result-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            border: 1px solid rgba(88, 230, 167, 0.5);
-            color: var(--success);
-            display: grid;
-            place-items: center;
-            font-size: 25px;
-        }
-
-        .result-header h2 {
-            font-family: Georgia, "Times New Roman", serif;
-            font-weight: 500;
-            font-size: 30px;
-            margin: 0;
-        }
-
-        .result-header p {
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .result-grid {
-            display: grid;
-            gap: 10px;
-        }
-
-        .result-item {
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.09);
-            background: rgba(255,255,255,0.025);
-            border-radius: 10px;
-        }
-
-        .result-item span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .result-item strong {
-            font-size: 16px;
-        }
-
-        .result-note {
-            margin-top: 15px;
-            padding: 14px;
-            border-left: 2px solid var(--gold);
-            background: rgba(215, 181, 109, 0.05);
-            color: #c4cbd1;
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-        .result-actions {
-            display: grid;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* ERROR */
-
-        .error-message {
-            display: none;
-            padding: 13px;
-            margin-top: 12px;
-            border-radius: 9px;
-            border: 1px solid rgba(255, 107, 122, 0.35);
-            background: rgba(255, 107, 122, 0.07);
-            color: #ffadb6;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        /* FOOTER */
+        /* =========================
+           FOOTER
+        ========================= */
 
         footer {
-            text-align: center;
-            color: #657280;
-            font-size: 9px;
-            letter-spacing: 1px;
             margin-top: 35px;
+            padding-top: 18px;
+
+            border-top: 1px solid rgba(255,255,255,0.06);
+
+            color: #63748a;
+
+            font-size: 10px;
             line-height: 1.7;
+
+            text-align: center;
         }
 
-        @media (min-width: 700px) {
+
+        /* =========================
+           DESKTOP
+        ========================= */
+
+        @media (min-width: 650px) {
 
             .page {
-                padding-top: 35px;
+                padding: 28px 24px 70px;
             }
 
             .question-card {
+                padding: 29px;
+            }
+
+            .result-card {
                 padding: 30px;
             }
 
             .result-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .result-actions {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .locked-actions {
+                display: flex;
             }
         }
     </style>
 </head>
 
+
 <body>
 
 <div class="page">
 
-    <header class="topbar">
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
 
         <a
             href="index.html"
             class="brand"
-            aria-label="Retour à l'accueil"
+            aria-label="Retour à DeepRDMMakademy"
         >
-            <div class="brand-logo">DRM</div>
 
-            <div class="brand-text">
-                <strong>DeepRDMMakademy</strong>
-                <span>L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE</span>
+            <div class="logo">
+                DRM
             </div>
+
+            <div>
+                <span class="brand-name">
+                    DeepRDMMakademy
+                </span>
+
+                <span class="brand-slogan">
+                    L'art de la science et de la technologie
+                </span>
+            </div>
+
         </a>
 
-        <div
-            class="step-counter"
-            id="stepCounter"
+
+        <a
+            href="akademy.html"
+            class="back-link"
         >
-            1 / 10
-        </div>
+            ← Akademy
+        </a>
 
     </header>
 
 
+    <!-- =========================
+         INTRODUCTION
+    ========================= -->
+
     <main>
 
+        <div class="eyebrow">
+            AKADEMY / POSITIONNEMENT
+        </div>
+
+
+        <h1>
+            Évaluation de<br>
+            positionnement
+        </h1>
+
+
+        <p class="intro">
+            Cette évaluation permet au système pédagogique
+            de DeepRDMMakademy d'analyser plusieurs compétences
+            fondamentales afin de proposer un niveau adapté
+            à ton parcours d'apprentissage.
+        </p>
+
+
+        <!-- =========================
+             MESSAGE DE STATUT
+        ========================= -->
+
+        <div
+            id="statusBox"
+            class="status"
+            role="status"
+            aria-live="polite"
+        ></div>
+
+
+        <!-- =========================
+             ACCÈS MEMBRE
+        ========================= -->
+
         <section
-            class="hero"
-            id="introSection"
+            id="lockedPanel"
+            class="locked"
         >
 
-            <div class="eyebrow">
-                Parcours pédagogique
+            <div class="locked-icon">
+                🔐
             </div>
 
-            <h1>
-                Évaluation de placement
-            </h1>
+            <h2>
+                Accès membre
+            </h2>
 
             <p>
-                Cette évaluation permet à DeepRDMMakademy
-                d'estimer ton niveau actuel et de construire
-                un parcours adapté à tes compétences.
+                Cette évaluation fait partie du parcours
+                pédagogique de DeepRDMMakademy.
+                Crée gratuitement ton compte ou connecte-toi
+                pour commencer.
             </p>
 
-            <div class="info-box">
 
-                <strong>
-                    IMPORTANT
-                </strong>
+            <div class="locked-actions">
 
-                <p>
-                    Le niveau que tu as demandé dans ton profil
-                    n'est pas automatiquement considéré comme ton
-                    niveau définitif. Le système analyse tes réponses
-                    afin de proposer un niveau pédagogique adapté.
-                </p>
+                <a
+                    href="Register.html"
+                    class="btn btn-primary"
+                >
+                    S'INSCRIRE
+                </a>
+
+                <a
+                    href="Login.html"
+                    class="btn"
+                >
+                    SE CONNECTER
+                </a>
 
             </div>
 
         </section>
 
 
+        <!-- =========================
+             ÉVALUATION
+        ========================= -->
+
         <section
-            id="assessmentSection"
+            id="assessmentArea"
         >
 
-            <div class="progress-area">
 
-                <div class="progress-meta">
+            <!-- PROGRESSION -->
 
-                    <span id="progressText">
+            <div class="progress-panel">
+
+                <div class="progress-info">
+
+                    <span id="progressLabel">
                         Question 1 sur 10
                     </span>
 
                     <span id="progressPercent">
-                        10 %
+                        0 %
                     </span>
 
                 </div>
 
+
                 <div class="progress-track">
 
                     <div
-                        class="progress-bar"
                         id="progressBar"
+                        class="progress-bar"
                     ></div>
 
                 </div>
@@ -573,288 +901,75 @@
             </div>
 
 
-            <div
-                class="question-card"
-                id="questionCard"
+            <!-- =========================
+                 QUESTION 1
+            ========================= -->
+
+            <article
+                class="question-card active"
+                data-question="logic"
             >
 
-                <div
-                    class="question-number"
-                    id="questionNumber"
-                >
-                    QUESTION 01
+                <div class="question-number">
+                    COMPÉTENCE 01 — LOGIQUE
                 </div>
 
-                <h2
-                    class="question-text"
-                    id="questionText"
-                ></h2>
 
-                <div
-                    class="answers"
-                    id="answers"
-                ></div>
-
-            </div>
-
-
-            <div
-                class="navigation"
-                id="navigation"
-            >
-
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    id="previousButton"
-                    disabled
-                >
-                    ← PRÉCÉDENT
-                </button>
-
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="nextButton"
-                >
-                    SUIVANT →
-                </button>
-
-            </div>
-
-
-            <div
-                class="error-message"
-                id="errorMessage"
-            ></div>
-
-        </section>
-
-
-        <section
-            class="loading"
-            id="loadingSection"
-        >
-
-            <div class="loader"></div>
-
-            <p>
-                Analyse de tes réponses...
-            </p>
-
-            <p>
-                DeepRDMMakademy prépare ton orientation pédagogique.
-            </p>
-
-        </section>
-
-
-        <section
-            class="result"
-            id="resultSection"
-        >
-
-            <div class="result-header">
-
-                <div class="result-icon">
-                    ✓
-                </div>
-
-                <h2>
-                    Évaluation terminée
+                <h2 class="question-title">
+                    Quelle suite complète correctement cette série ?
+                    <br>
+                    2 — 4 — 8 — 16 — ?
                 </h2>
 
-                <p>
-                    Ton évaluation a été enregistrée.
-                    DeepRDMMakademy peut maintenant préparer
-                    la prochaine étape de ton parcours.
-                </p>
 
-            </div>
+                <div class="options">
 
+                    <div class="option">
 
-            <div class="result-grid">
+                        <input
+                            type="radio"
+                            name="logic"
+                            id="logic-0"
+                            value="0"
+                        >
 
-                <div class="result-item">
+                        <label for="logic-0">
+                            20
+                        </label>
 
-                    <span>
-                        Niveau demandé
-                    </span>
-
-                    <strong id="requestedLevelResult">
-                        —
-                    </strong>
-
-                </div>
+                    </div>
 
 
-                <div class="result-item">
+                    <div class="option">
 
-                    <span>
-                        Niveau recommandé
-                    </span>
+                        <input
+                            type="radio"
+                            name="logic"
+                            id="logic-1"
+                            value="1"
+                        >
 
-                    <strong id="recommendedLevelResult">
-                        Analyse en cours
-                    </strong>
+                        <label for="logic-1">
+                            24
+                        </label>
 
-                </div>
-
-
-                <div class="result-item">
-
-                    <span>
-                        Statut
-                    </span>
-
-                    <strong id="placementStatusResult">
-                        Évaluation terminée
-                    </strong>
-
-                </div>
+                    </div>
 
 
-                <div class="result-item">
+                    <div class="option">
 
-                    <span>
-                        Score
-                    </span>
+                        <input
+                            type="radio"
+                            name="logic"
+                            id="logic-2"
+                            value="2"
+                        >
 
-                    <strong id="scoreResult">
-                        —
-                    </strong>
+                        <label for="logic-2">
+                            32
+                        </label>
 
-                </div>
-
-            </div>
-
-
-            <div class="result-note">
-
-                Le résultat de cette évaluation constitue une
-                recommandation pédagogique. Le niveau validé,
-                lorsqu'une validation est nécessaire, sera géré
-                selon les règles pédagogiques de DeepRDMMakademy.
-
-            </div>
+                    </div>
 
 
-            <div class="result-actions">
-
-                <a
-                    href="student-dashboard.html"
-                    class="btn btn-primary"
-                    style="text-align:center;"
-                >
-                    ACCÉDER À MON ESPACE
-                </a>
-
-                <a
-                    href="akademy.html"
-                    class="btn btn-secondary"
-                    style="text-align:center;"
-                >
-                    EXPLORER L'AKADEMY
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <footer>
-
-        DeepRDMMakademy<br>
-        L'art de la science et de la technologie
-
-    </footer>
-
-</div>
-
-
-<script>
-    /*
-    |--------------------------------------------------------------------------
-    | Configuration
-    |--------------------------------------------------------------------------
-    */
-
-    const API_BASE_URL = "";
-
-    const PROFILE_ENDPOINT =
-        API_BASE_URL + "/api/education/student-profile.php";
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Assessment questions
-    |--------------------------------------------------------------------------
-    |
-    | Cette première version constitue le moteur frontend.
-    | Les résultats seront ensuite reliés au moteur pédagogique
-    | serveur et à la base de données.
-    |
-    */
-
-    const questions = [
-
-        {
-            id: "logic",
-            category: "Raisonnement",
-            question:
-                "Si tous les A sont des B et que certains B sont des C, que peut-on affirmer avec certitude ?",
-            answers: [
-                {
-                    text: "Tous les A sont des C.",
-                    score: 0
-                },
-                {
-                    text: "Aucun A n'est C.",
-                    score: 0
-                },
-                {
-                    text: "Tous les A sont des B.",
-                    score: 2
-                },
-                {
-                    text: "Tous les C sont des A.",
-                    score: 0
-                }
-            ]
-        },
-
-        {
-            id: "math",
-            category: "Mathématiques",
-            question:
-                "Un produit coûte 80 €. Son prix augmente de 25 %. Quel est son nouveau prix ?",
-            answers: [
-                {
-                    text: "90 €",
-                    score: 0
-                },
-                {
-                    text: "95 €",
-                    score: 0
-                },
-                {
-                    text: "100 €",
-                    score: 2
-                },
-                {
-                    text: "105 €",
-                    score: 0
-                }
-            ]
-        },
-
-        {
-            id: "science",
-            category: "Sciences",
-            question:
-                "Quel phénomène permet principalement aux plantes de produire de la matière organique grâce à la lumière ?",
-            answers: [
-                {
-            
+             
