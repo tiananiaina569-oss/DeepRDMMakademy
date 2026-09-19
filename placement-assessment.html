@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Évaluation de placement | DeepRDMMakademy</title>
+
+    <meta
+        name="description"
+        content="Évaluation de placement pédagogique de DeepRDMMakademy."
+    >
+
+    <style>
+        :root {
+            --bg: #05080d;
+            --panel: #0b111a;
+            --panel-2: #0e1722;
+            --border: rgba(67, 211, 255, 0.22);
+            --cyan: #43d3ff;
+            --cyan-soft: rgba(67, 211, 255, 0.12);
+            --gold: #d7b56d;
+            --white: #f4f8fb;
+            --muted: #8c9aaa;
+            --success: #58e6a7;
+            --danger: #ff6b7a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at 15% 0%,
+                    rgba(28, 117, 160, 0.18),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(111, 72, 170, 0.12),
+                    transparent 32%
+                ),
+                var(--bg);
+            color: var(--white);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .page {
+            width: min(100%, 760px);
+            margin: 0 auto;
+            padding: 18px 15px 50px;
+        }
+
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(67, 211, 255, 0.55);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: var(--cyan);
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 1px;
+            box-shadow:
+                0 0 20px rgba(67, 211, 255, 0.12),
+                inset 0 0 15px rgba(67, 211, 255, 0.08);
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
+        }
+
+        .step-counter {
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* INTRO */
+
+        .hero {
+            margin-bottom: 22px;
+        }
+
+        .eyebrow {
+            color: var(--cyan);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(30px, 8vw, 46px);
+            line-height: 1.05;
+            font-weight: 500;
+        }
+
+        .hero p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 14px;
+            margin: 15px 0 0;
+        }
+
+        .info-box {
+            border: 1px solid var(--border);
+            background: rgba(67, 211, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .info-box strong {
+            color: var(--cyan);
+            font-size: 12px;
+        }
+
+        .info-box p {
+            margin: 7px 0 0;
+            color: #b7c3cf;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* PROGRESS */
+
+        .progress-area {
+            margin: 20px 0 25px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-track {
+            height: 5px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--cyan);
+            box-shadow: 0 0 14px rgba(67, 211, 255, 0.5);
+            transition: width 0.3s ease;
+        }
+
+        /* QUESTION CARD */
+
+        .question-card {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(14, 23, 34, 0.97),
+                    rgba(7, 12, 18, 0.97)
+                );
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .question-number {
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            line-height: 1.35;
+            margin: 0 0 20px;
+        }
+
+        .answers {
+            display: grid;
+            gap: 10px;
+        }
+
+        .answer {
+            position: relative;
+        }
+
+        .answer input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .answer label {
+            display: block;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 11px;
+            background: rgba(255,255,255,0.025);
+            color: #c5d0da;
+            font-size: 13px;
+            line-height: 1.5;
+            transition:
+                border-color 0.2s ease,
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .answer label:hover {
+            border-color: rgba(67, 211, 255, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .answer input:checked + label {
+            border-color: var(--cyan);
+            background: var(--cyan-soft);
+            color: var(--white);
+            box-shadow:
+                inset 3px 0 0 var(--cyan);
+        }
+
+        /* NAVIGATION */
+
+        .navigation {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 17px;
+            min-height: 46px;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            flex: 0 0 auto;
+            background: rgba(255,255,255,0.05);
+            color: #b9c5d0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: var(--cyan);
+            color: #031019;
+        }
+
+        /* LOADING */
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 35px 15px;
+        }
+
+        .loader {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 3px solid rgba(67, 211, 255, 0.15);
+            border-top-color: var(--cyan);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* RESULT */
+
+        .result {
+            display: none;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .result-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(88, 230, 167, 0.5);
+            color: var(--success);
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+        }
+
+        .result-header h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 500;
+            font-size: 30px;
+            margin: 0;
+        }
+
+        .result-header p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .result-grid {
+            display: grid;
+            gap: 10px;
+        }
+
+        .result-item {
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background: rgba(255,255,255,0.025);
+            border-radius: 10px;
+        }
+
+        .result-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .result-item strong {
+            font-size: 16px;
+        }
+
+        .result-note {
+            margin-top: 15px;
+            padding: 14px;
+            border-left: 2px solid var(--gold);
+            background: rgba(215, 181, 109, 0.05);
+            color: #c4cbd1;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .result-actions {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* ERROR */
+
+        .error-message {
+            display: none;
+            padding: 13px;
+            margin-top: 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(255, 107, 122, 0.35);
+            background: rgba(255, 107, 122, 0.07);
+            color: #ffadb6;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: #657280;
+            font-size: 9px;
+            letter-spacing: 1px;
+            margin-top: 35px;
+            line-height: 1.7;
+        }
+
+        @media (min-width: 700px) {
+
+            .page {
+                padding-top: 35px;
+            }
+
+            .question-card {
+                padding: 30px;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <header class="topbar">
+
+        <a
+            href="index.html"
+            class="brand"
+            aria-label="Retour à l'accueil"
+        >
+            <div class="brand-logo">DRM</div>
+
+            <div class="brand-text">
+                <strong>DeepRDMMakademy</strong>
+                <span>L'ART DE LA SCIENCE ET DE LA TECHNOLOGIE</span>
+            </div>
+        </a>
+
+        <div
+            class="step-counter"
+            id="stepCounter"
+        >
+            1 / 10
+        </div>
+
+    </header>
+
+
+    <main>
+
+        <section
+            class="hero"
+            id="introSection"
+        >
+
+            <div class="eyebrow">
+                Parcours pédagogique
+            </div>
+
+            <h1>
+                Évaluation de placement
+            </h1>
+
+            <p>
+                Cette évaluation permet à DeepRDMMakademy
+                d'estimer ton niveau actuel et de construire
+                un parcours adapté à tes compétences.
+            </p>
+
+            <div class="info-box">
+
+                <strong>
+                    IMPORTANT
+                </strong>
+
+                <p>
+                    Le niveau que tu as demandé dans ton profil
+                    n'est pas automatiquement considéré comme ton
+                    niveau définitif. Le système analyse tes réponses
+                    afin de proposer un niveau pédagogique adapté.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section
+            id="assessmentSection"
+        >
+
+            <div class="progress-area">
+
+                <div class="progress-meta">
+
+                    <span id="progressText">
+                        Question 1 sur 10
+                    </span>
+
+                    <span id="progressPercent">
+                        10 %
+                    </span>
+
+                </div>
+
+                <div class="progress-track">
+
+                    <div
+                        class="progress-bar"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="question-card"
+                id="questionCard"
+            >
+
+                <div
+                    class="question-number"
+                    id="questionNumber"
+                >
+                    QUESTION 01
+                </div>
+
+                <h2
+                    class="question-text"
+                    id="questionText"
+                ></h2>
+
+                <div
+                    class="answers"
+                    id="answers"
+                ></div>
+
+            </div>
+
+
+            <div
+                class="navigation"
+                id="navigation"
+            >
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="previousButton"
+                    disabled
+                >
+                    ← PRÉCÉDENT
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="nextButton"
+                >
+                    SUIVANT →
+                </button>
+
+            </div>
+
+
+            <div
+                class="error-message"
+                id="errorMessage"
+            ></div>
+
+        </section>
+
+
+        <section
+            class="loading"
+            id="loadingSection"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                Analyse de tes réponses...
+            </p>
+
+            <p>
+                DeepRDMMakademy prépare ton orientation pédagogique.
+            </p>
+
+        </section>
+
+
+        <section
+            class="result"
+            id="resultSection"
+        >
+
+            <div class="result-header">
+
+                <div class="result-icon">
+                    ✓
+                </div>
+
+                <h2>
+                    Évaluation terminée
+                </h2>
+
+                <p>
+                    Ton évaluation a été enregistrée.
+                    DeepRDMMakademy peut maintenant préparer
+                    la prochaine étape de ton parcours.
+                </p>
+
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-item">
+
+                    <span>
+                        Niveau demandé
+                    </span>
+
+                    <strong id="requestedLevelResult">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>
+                        Niveau recommandé
+                    </span>
+
+                    <strong id="recommendedLevelResult">
+                        Analyse en cours
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>
+                        Statut
+                    </span>
+
+                    <strong id="placementStatusResult">
+                        Évaluation terminée
+                    </strong>
+
+                </div>
+
+
+                <div class="result-item">
+
+                    <span>
+                        Score
+                    </span>
+
+                    <strong id="scoreResult">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-note">
+
+                Le résultat de cette évaluation constitue une
+                recommandation pédagogique. Le niveau validé,
+                lorsqu'une validation est nécessaire, sera géré
+                selon les règles pédagogiques de DeepRDMMakademy.
+
+            </div>
+
+
+            <div class="result-actions">
+
+                <a
+                    href="student-dashboard.html"
+                    class="btn btn-primary"
+                    style="text-align:center;"
+                >
+                    ACCÉDER À MON ESPACE
+                </a>
+
+                <a
+                    href="akademy.html"
+                    class="btn btn-secondary"
+                    style="text-align:center;"
+                >
+                    EXPLORER L'AKADEMY
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        DeepRDMMakademy<br>
+        L'art de la science et de la technologie
+
+    </footer>
+
+</div>
+
+
+<script>
+    /*
+    |--------------------------------------------------------------------------
+    | Configuration
+    |--------------------------------------------------------------------------
+    */
+
+    const API_BASE_URL = "";
+
+    const PROFILE_ENDPOINT =
+        API_BASE_URL + "/api/education/student-profile.php";
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Assessment questions
+    |--------------------------------------------------------------------------
+    |
+    | Cette première version constitue le moteur frontend.
+    | Les résultats seront ensuite reliés au moteur pédagogique
+    | serveur et à la base de données.
+    |
+    */
+
+    const questions = [
+
+        {
+            id: "logic",
+            category: "Raisonnement",
+            question:
+                "Si tous les A sont des B et que certains B sont des C, que peut-on affirmer avec certitude ?",
+            answers: [
+                {
+                    text: "Tous les A sont des C.",
+                    score: 0
+                },
+                {
+                    text: "Aucun A n'est C.",
+                    score: 0
+                },
+                {
+                    text: "Tous les A sont des B.",
+                    score: 2
+                },
+                {
+                    text: "Tous les C sont des A.",
+                    score: 0
+                }
+            ]
+        },
+
+        {
+            id: "math",
+            category: "Mathématiques",
+            question:
+                "Un produit coûte 80 €. Son prix augmente de 25 %. Quel est son nouveau prix ?",
+            answers: [
+                {
+                    text: "90 €",
+                    score: 0
+                },
+                {
+                    text: "95 €",
+                    score: 0
+                },
+                {
+                    text: "100 €",
+                    score: 2
+                },
+                {
+                    text: "105 €",
+                    score: 0
+                }
+            ]
+        },
+
+        {
+            id: "science",
+            category: "Sciences",
+            question:
+                "Quel phénomène permet principalement aux plantes de produire de la matière organique grâce à la lumière ?",
+            answers: [
+                {
+            
