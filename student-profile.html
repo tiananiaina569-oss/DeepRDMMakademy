@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050912">
+    <meta name="description" content="Profil éducatif — DeepRDMMakademy">
+    <title>Profil éducatif — DeepRDMMakademy</title>
+
+    <style>
+        :root {
+            --bg: #050912;
+            --panel: #091321;
+            --panel-2: #0d1929;
+            --line: rgba(99, 230, 255, .18);
+            --cyan: #63e6ff;
+            --gold: #e7c66a;
+            --text: #eef7ff;
+            --muted: #91a4b8;
+            --danger: #ff7180;
+            --success: #65e5a6;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 10% 5%,
+                    rgba(33, 185, 232, .12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 90%,
+                    rgba(231, 198, 106, .08),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    145deg,
+                    #03060d,
+                    #07101d 55%,
+                    #040812
+                );
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: .14;
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+            background-size: 42px 42px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 1px solid rgba(99,230,255,.12);
+            background: rgba(3,7,14,.82);
+            backdrop-filter: blur(14px);
+        }
+
+        .nav {
+            width: min(1120px, 92%);
+            min-height: 72px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--cyan);
+            border-radius: 50%;
+            color: var(--cyan);
+            font-weight: 800;
+            letter-spacing: -2px;
+            box-shadow:
+                0 0 24px rgba(99,230,255,.14),
+                inset 0 0 18px rgba(99,230,255,.07);
+        }
+
+        .brand-name {
+            font-size: .94rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+        }
+
+        .brand-sub {
+            margin-top: 3px;
+            color: var(--muted);
+            font-family: monospace;
+            font-size: .59rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+        }
+
+        .logout {
+            padding: 9px 12px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            color: var(--muted);
+            background: rgba(255,255,255,.02);
+            cursor: pointer;
+            font-size: .72rem;
+        }
+
+        .logout:hover {
+            color: var(--text);
+            border-color: rgba(99,230,255,.4);
+        }
+
+        main {
+            width: min(900px, 92%);
+            margin: auto;
+            padding: 42px 0 70px;
+        }
+
+        .intro {
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            margin-bottom: 12px;
+            color: var(--gold);
+            font-family: monospace;
+            font-size: .68rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2rem, 7vw, 3.6rem);
+            font-weight: 500;
+            line-height: 1.05;
+            letter-spacing: -.035em;
+        }
+
+        .intro p {
+            max-width: 700px;
+            margin: 17px 0 0;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: .9rem;
+        }
+
+        .progress {
+            display: flex;
+            gap: 7px;
+            margin: 25px 0;
+        }
+
+        .step {
+            height: 4px;
+            flex: 1;
+            border-radius: 20px;
+            background: rgba(145,164,184,.14);
+        }
+
+        .step.active {
+            background: var(--cyan);
+            box-shadow: 0 0 12px rgba(99,230,255,.25);
+        }
+
+        .card {
+            padding: 25px;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    155deg,
+                    rgba(13,25,41,.96),
+                    rgba(5,11,21,.97)
+                );
+            box-shadow: 0 25px 80px rgba(0,0,0,.35);
+        }
+
+        .section {
+            padding: 0 0 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(145,164,184,.1);
+        }
+
+        .section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            margin: 0 0 6px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+        }
+
+        .section-description {
+            margin: 0 0 18px;
+            color: var(--muted);
+            font-size: .76rem;
+            line-height: 1.55;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #c9d7e4;
+            font-size: .72rem;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid rgba(145,164,184,.2);
+            border-radius: 10px;
+            outline: none;
+            color: var(--text);
+            background: #07101c;
+            font-size: .86rem;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: rgba(99,230,255,.7);
+            box-shadow: 0 0 0 3px rgba(99,230,255,.07);
+        }
+
+        .help {
+            margin-top: 6px;
+            color: #65788c;
+            font-size: .64rem;
+            line-height: 1.45;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .choice {
+            position: relative;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice label {
+            display: block;
+            padding: 14px;
+            margin: 0;
+            border: 1px solid rgba(145,164,184,.16);
+            border-radius: 11px;
+            cursor: pointer;
+            background: rgba(255,255,255,.018);
+            transition: .2s ease;
+        }
+
+        .choice label strong {
+            display: block;
+            color: var(--text);
+            font-size: .8rem;
+            margin-bottom: 4px;
+        }
+
+        .choice label span {
+            display: block;
+            color: var(--muted);
+            font-size: .67rem;
+            line-height: 1.45;
+        }
+
+        .choice input:checked + label {
+            border-color: rgba(99,230,255,.65);
+            background: rgba(99,230,255,.06);
+            box-shadow: inset 0 0 20px rgba(99,230,255,.03);
+        }
+
+        .notice {
+            padding: 13px;
+            margin-top: 18px;
+            border-left: 2px solid var(--gold);
+            background: rgba(231,198,106,.035);
+            color: #aebdcb;
+            font-size: .7rem;
+            line-height: 1.55;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .primary,
+        .secondary {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: .78rem;
+            letter-spacing: .04em;
+        }
+
+        .primary {
+            border: 1px solid rgba(99,230,255,.6);
+            color: #021018;
+            background: linear-gradient(
+                135deg,
+                #63e6ff,
+                #b5f4ff
+            );
+        }
+
+        .secondary {
+            border: 1px solid var(--line);
+            color: var(--muted);
+            background: transparent;
+        }
+
+        .primary:disabled {
+            opacity: .55;
+            cursor: wait;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 9px;
+            font-size: .72rem;
+            line-height: 1.5;
+        }
+
+        .message.error {
+            display: block;
+            color: #ffd9de;
+            border: 1px solid rgba(255,113,128,.3);
+            background: rgba(255,113,128,.06);
+        }
+
+        .message.success {
+            display: block;
+            color: #d9ffeb;
+            border: 1px solid rgba(101,229,166,.3);
+            background: rgba(101,229,166,.06);
+        }
+
+        footer {
+            width: min(900px, 92%);
+            margin: auto;
+            padding-bottom: 25px;
+            color: #586b7e;
+            font-size: .62rem;
+            text-align: center;
+        }
+
+        @media (min-width: 680px) {
+
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .choice-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .actions {
+                flex-direction: row;
+                justify-content: flex-end;
+            }
+
+            .primary,
+            .secondary {
+                width: auto;
+                min-width: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <header>
+        <nav class="nav">
+
+            <a class="brand" href="index.html">
+
+                <div class="logo">DRM</div>
+
+                <div>
+                    <div class="brand-name">
+                        DeepRDMMakademy
+                    </div>
+
+                    <div class="brand-sub">
+                        L'art de la science et de la technologie
+                    </div>
+                </div>
+
+            </a>
+
+            <button
+                class="logout"
+                id="logoutButton"
+                type="button"
+            >
+                QUITTER
+            </button>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="intro">
+
+            <div class="eyebrow">
+                Étape 01 / Profil éducatif
+            </div>
+
+            <h1>
+                Construisons votre parcours.
+            </h1>
+
+            <p>
+                Ces informations permettent à DeepRDMMakademy de déterminer
+                votre parcours pédagogique. Le niveau que vous indiquez ici
+                est une <strong>demande de placement</strong>, pas encore
+                votre niveau définitivement validé.
+            </p>
+
+            <div class="progress">
+                <div class="step active"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+                <div class="step"></div>
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div
+                id="message"
+                class="message"
+                role="alert"
+            ></div>
+
+
+            <form
+                id="profileForm"
+                novalidate
+            >
+
+                <!-- IDENTITÉ ÉDUCATIVE -->
+
+                <section class="section">
+
+                    <h2 class="section-title">
+                        Identité éducative
+                    </h2>
+
+                    <p class="section-description">
+                        Les informations de votre compte sont déjà connues.
+                        Nous allons maintenant définir votre contexte
+                        d'apprentissage.
+                    </p>
+
+                    <div class="grid">
+
+                        <div class="field">
+
+                            <label for="country">
+                                Pays
+                            </label>
+
+                            <select
+                                id="country"
+                                name="country_code"
+                                required
+                            >
+
+                                <option value="">
+                                    Sélectionner votre pays
+                                </option>
+
+                                <option value="MG">
+                                    Madagascar
+                                </option>
+
+                                <option value="FR">
+                                    France
+                                </option>
+
+                                <option value="BE">
+                                    Belgique
+                                </option>
+
+                                <option value="CH">
+                                    Suisse
+                                </option>
+
+                                <option value="CA">
+                                    Canada
+                                </option>
+
+                                <option value="OTHER">
+                                    Autre pays
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="instructionLanguage">
+                                Langue d'apprentissage
+                            </label>
+
+                            <select
+                                id="instructionLanguage"
+                                name="instruction_language"
+                                required
+                            >
+
+                                <option value="fr">
+                                    Français
+                                </option>
+
+                                <option value="mg">
+                                    Malagasy
+                                </option>
+
+                                <option value="en">
+                                    English
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- NIVEAU -->
+
+                <section class="section">
+
+                    <h2 class="section-title">
+                        Niveau souhaité
+                    </h2>
+
+                    <p class="section-description">
+                        Indiquez le niveau auquel vous souhaitez commencer.
+                        DeepRDMMakademy effectuera ensuite son positionnement
+                        pédagogique.
+                    </p>
+
+
+                    <div class="grid">
+
+                        <div class="field">
+
+                            <label for="educationStage">
+                                Cycle
+                            </label>
+
+                            <select
+                                id="educationStage"
+                                name="education_stage"
+                                required
+                            >
+
+                                <option value="">
+                                    Sélectionner un cycle
+                                </option>
+
+                                <option value="preschool">
+                                    Préscolaire
+                                </option>
+
+                                <option value="primary">
+                                    Primaire
+                                </option>
+
+                                <option value="middle_school">
+                                    Collège
+                                </option>
+
+                                <option value="secondary">
+                                    Lycée
+                                </option>
+
+                                <option value="higher_education">
+                                    Université
+                                </option>
+
+                                <option value="master">
+                                    Master
+                                </option>
+
+                                <option value="doctoral">
+                                    Doctorat / Recherche
+                                </option>
+
+                                <option value="professional">
+                                    Formation professionnelle
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="requestedLevel">
+                                Niveau / classe souhaité(e)
+                            </label>
+
+                            <input
+                                id="requestedLevel"
+                                name="requested_level"
+                                type="text"
+                                maxlength="100"
+                                placeholder="Ex. 4e, Terminale, L1, M1..."
+                                required
+                            >
+
+                            <div class="help">
+                                Vous pouvez utiliser l'appellation de votre
+                                système éducatif actuel.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="notice">
+                        <strong>Important :</strong>
+                        le niveau demandé ne devient pas automatiquement
+                        votre niveau validé. Un positionnement pédagogique
+                        déterminera votre niveau recommandé avant validation.
+                    </div>
+
+                </section>
+
+
+                <!-- PROGRAMME -->
+
+                <section class="section">
+
+                    <h2 class="section-title">
+                        Domaine d'apprentissage
+                    </h2>
+
+                    <p class="section-description">
+                        Sélectionnez le domaine qui correspond le mieux à
+                        votre parcours actuel. D'autres domaines pourront
+                        être ajoutés ou modifiés plus tard.
+                    </p>
+
+
+                    <div class="choice-grid">
+
+                        <div class="choice">
+
+                            <input
+                                type="radio"
+                                id="science"
+                                name="domain"
+                                value="science"
+                            >
+
+                            <label for="science">
+
+                                <strong>
+                                    Sciences
+                                </strong>
+
+                                <span>
+                                    Physique, chimie, biologie,
+                                    mathém
