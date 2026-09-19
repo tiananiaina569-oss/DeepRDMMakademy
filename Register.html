@@ -1,568 +1,824 @@
-<?php
-
-declare(strict_types=1);
-
-/**
- * ============================================================
- * DeepRDMMakademy
- * Registration API
- * ============================================================
- *
- * PHP 8.x + MySQL / MariaDB
- * ============================================================
- */
-
-require_once __DIR__ . '/../config/database.php';
-
-
-/*
-|--------------------------------------------------------------------------
-| CORS
-|--------------------------------------------------------------------------
-*/
-
-$allowedOrigin = 'https://tiananiaina569-oss.github.io';
-
-if (
-    isset($_SERVER['HTTP_ORIGIN']) &&
-    $_SERVER['HTTP_ORIGIN'] === $allowedOrigin
-) {
-    header(
-        'Access-Control-Allow-Origin: ' . $allowedOrigin
-    );
-
-    header('Vary: Origin');
-}
-
-header(
-    'Access-Control-Allow-Methods: POST, OPTIONS'
-);
-
-header(
-    'Access-Control-Allow-Headers: Content-Type, Authorization'
-);
-
-header(
-    'Content-Type: application/json; charset=utf-8'
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| OPTIONS
-|--------------------------------------------------------------------------
-*/
-
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| JSON response
-|--------------------------------------------------------------------------
-*/
-
-function sendJson(
-    bool $success,
-    string $message,
-    array $data = [],
-    int $statusCode = 200
-): never {
-
-    http_response_code($statusCode);
-
-    echo json_encode(
-        [
-            'success' => $success,
-            'message' => $message,
-            'data'    => $data,
-        ],
-        JSON_UNESCAPED_UNICODE |
-        JSON_UNESCAPED_SLASHES
-    );
-
-    exit;
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Request method
-|--------------------------------------------------------------------------
-*/
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-
-    sendJson(
-        false,
-        'Méthode non autorisée.',
-        [],
-        405
-    );
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Read JSON
-|--------------------------------------------------------------------------
-*/
-
-$rawInput = file_get_contents('php://input');
-
-if (
-    $rawInput === false ||
-    trim($rawInput) === ''
-) {
-
-    sendJson(
-        false,
-        'Aucune donnée reçue.',
-        [],
-        400
-    );
-}
-
-
-$input = json_decode(
-    $rawInput,
-    true
-);
-
-if (
-    !is_array($input) ||
-    json_last_error() !== JSON_ERROR_NONE
-) {
-
-    sendJson(
-        false,
-        'Les données reçues sont invalides.',
-        [],
-        400
-    );
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Input
-|--------------------------------------------------------------------------
-*/
-
-$firstName = trim(
-    (string)($input['first_name'] ?? '')
-);
-
-$lastName = trim(
-    (string)($input['last_name'] ?? '')
-);
-
-$email = strtolower(
-    trim(
-        (string)($input['email'] ?? '')
-    )
-);
-
-$password = (string)(
-    $input['password'] ?? ''
-);
-
-
-/*
-|--------------------------------------------------------------------------
-| Validation
-|--------------------------------------------------------------------------
-*/
-
-if ($firstName === '') {
-
-    sendJson(
-        false,
-        'Le prénom est obligatoire.',
-        [],
-        422
-    );
-}
-
-if (mb_strlen($firstName) > 100) {
-
-    sendJson(
-        false,
-        'Le prénom est trop long.',
-        [],
-        422
-    );
-}
-
-
-if ($lastName === '') {
-
-    sendJson(
-        false,
-        'Le nom est obligatoire.',
-        [],
-        422
-    );
-}
-
-if (mb_strlen($lastName) > 100) {
-
-    sendJson(
-        false,
-        'Le nom est trop long.',
-        [],
-        422
-    );
-}
-
-
-if (
-    !filter_var(
-        $email,
-        FILTER_VALIDATE_EMAIL
-    )
-) {
-
-    sendJson(
-        false,
-        'Adresse e-mail invalide.',
-        [],
-        422
-    );
-}
-
-if (mb_strlen($email) > 190) {
-
-    sendJson(
-        false,
-        'Adresse e-mail trop longue.',
-        [],
-        422
-    );
-}
-
-
-if (mb_strlen($password) < 10) {
-
-    sendJson(
-        false,
-        'Le mot de passe doit contenir au minimum 10 caractères.',
-        [],
-        422
-    );
-}
-
-if (mb_strlen($password) > 200) {
-
-    sendJson(
-        false,
-        'Le mot de passe est trop long.',
-        [],
-        422
-    );
-}
-
-
-/*
-|--------------------------------------------------------------------------
-| Database
-|--------------------------------------------------------------------------
-*/
-
-$pdo = null;
-
-try {
-
-    $pdo = getDatabaseConnection();
-
-    $pdo->beginTransaction();
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050912">
+    <meta name="description" content="Créer un compte membre DeepRDMMakademy — L'art de la science et de la technologie.">
+    <title>S'inscrire — DeepRDMMakademy</title>
+
+    <style>
+        :root{
+            --bg:#050912;
+            --panel:#0a1220;
+            --panel-2:#0d1727;
+            --line:rgba(91,210,255,.20);
+            --cyan:#63e6ff;
+            --cyan-2:#21b9e8;
+            --gold:#e7c66a;
+            --text:#eef7ff;
+            --muted:#91a4b8;
+            --danger:#ff6b7a;
+            --success:#64e6a5;
+            --shadow:0 24px 80px rgba(0,0,0,.45);
+        }
+
+        *{
+            box-sizing:border-box;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            margin:0;
+            min-height:100vh;
+            color:var(--text);
+            background:
+                radial-gradient(circle at 15% 10%,rgba(33,185,232,.12),transparent 28%),
+                radial-gradient(circle at 90% 85%,rgba(231,198,106,.08),transparent 25%),
+                linear-gradient(145deg,#03060d,#07101d 55%,#040812);
+            font-family:Arial,Helvetica,sans-serif;
+        }
+
+        body::before{
+            content:"";
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+            opacity:.18;
+            background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+            background-size:42px 42px;
+        }
+
+        a{
+            color:inherit;
+            text-decoration:none;
+        }
+
+        .page{
+            position:relative;
+            z-index:1;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+        }
+
+        header{
+            width:100%;
+            border-bottom:1px solid rgba(99,230,255,.12);
+            background:rgba(3,7,14,.78);
+            backdrop-filter:blur(14px);
+        }
+
+        .nav{
+            width:min(1120px,92%);
+            margin:auto;
+            min-height:72px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+        }
+
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .logo{
+            width:42px;
+            height:42px;
+            border:1px solid var(--cyan);
+            border-radius:50%;
+            display:grid;
+            place-items:center;
+            color:var(--cyan);
+            font-weight:800;
+            letter-spacing:-2px;
+            box-shadow:
+                0 0 24px rgba(99,230,255,.16),
+                inset 0 0 18px rgba(99,230,255,.08);
+        }
+
+        .brand-name{
+            font-weight:700;
+            letter-spacing:.04em;
+            font-size:.94rem;
+        }
+
+        .brand-sub{
+            color:var(--muted);
+            font-size:.62rem;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            margin-top:3px;
+        }
+
+        .nav-link{
+            color:var(--muted);
+            font-size:.8rem;
+            padding:10px 12px;
+            border:1px solid transparent;
+            border-radius:9px;
+        }
+
+        .nav-link:hover{
+            color:var(--text);
+            border-color:var(--line);
+            background:rgba(99,230,255,.04);
+        }
+
+        main{
+            width:min(1120px,92%);
+            margin:auto;
+            flex:1;
+            display:grid;
+            grid-template-columns:1fr;
+            gap:24px;
+            align-items:center;
+            padding:38px 0 52px;
+        }
+
+        .intro{
+            padding:8px 0;
+        }
+
+        .eyebrow{
+            color:var(--gold);
+            font-family:monospace;
+            font-size:.72rem;
+            letter-spacing:.18em;
+            text-transform:uppercase;
+            margin-bottom:14px;
+        }
+
+        h1{
+            margin:0;
+            max-width:650px;
+            font-family:Georgia,"Times New Roman",serif;
+            font-size:clamp(2.15rem,8vw,4.6rem);
+            line-height:1.02;
+            font-weight:500;
+            letter-spacing:-.035em;
+        }
+
+        .intro p{
+            max-width:620px;
+            color:var(--muted);
+            line-height:1.75;
+            font-size:.96rem;
+            margin:20px 0 0;
+        }
+
+        .features{
+            display:grid;
+            grid-template-columns:1fr;
+            gap:10px;
+            margin-top:25px;
+            max-width:650px;
+        }
+
+        .feature{
+            padding:12px 14px;
+            border-left:2px solid rgba(99,230,255,.48);
+            background:rgba(255,255,255,.018);
+            color:#b9c9d8;
+            font-size:.78rem;
+        }
+
+        .card{
+            width:100%;
+            max-width:560px;
+            margin:auto;
+            padding:24px;
+            border:1px solid var(--line);
+            border-radius:18px;
+            background:
+                linear-gradient(
+                    160deg,
+                    rgba(13,23,39,.96),
+                    rgba(5,11,21,.96)
+                );
+            box-shadow:var(--shadow);
+        }
+
+        .card-top{
+            display:flex;
+            justify-content:space-between;
+            gap:15px;
+            align-items:flex-start;
+            margin-bottom:20px;
+        }
+
+        .card h2{
+            margin:0;
+            font-family:Georgia,"Times New Roman",serif;
+            font-weight:500;
+            font-size:1.65rem;
+        }
+
+        .status{
+            font-family:monospace;
+            font-size:.62rem;
+            color:var(--cyan);
+            letter-spacing:.12em;
+            text-transform:uppercase;
+            white-space:nowrap;
+            padding-top:5px;
+        }
+
+        form{
+            display:grid;
+            gap:14px;
+        }
+
+        .row{
+            display:grid;
+            grid-template-columns:1fr;
+            gap:14px;
+        }
+
+        label{
+            display:block;
+            color:#c9d7e4;
+            font-size:.75rem;
+            margin-bottom:7px;
+            letter-spacing:.02em;
+        }
+
+        .field{
+            min-width:0;
+        }
+
+        input,
+        select{
+            width:100%;
+            border:1px solid rgba(145,164,184,.2);
+            outline:none;
+            border-radius:10px;
+            padding:13px 13px;
+            background:#07101c;
+            color:var(--text);
+            font:inherit;
+            font-size:.9rem;
+            transition:.2s ease;
+        }
+
+        input:focus,
+        select:focus{
+            border-color:rgba(99,230,255,.7);
+            box-shadow:0 0 0 3px rgba(99,230,255,.08);
+        }
+
+        input::placeholder{
+            color:#607286;
+        }
+
+        .password-wrap{
+            position:relative;
+        }
+
+        .password-wrap input{
+            padding-right:82px;
+        }
+
+        .toggle{
+            position:absolute;
+            right:8px;
+            top:50%;
+            transform:translateY(-50%);
+            border:0;
+            background:transparent;
+            color:var(--cyan);
+            cursor:pointer;
+            font-size:.68rem;
+            font-family:monospace;
+            padding:7px;
+        }
+
+        .check{
+            display:flex;
+            align-items:flex-start;
+            gap:9px;
+            color:var(--muted);
+            font-size:.72rem;
+            line-height:1.5;
+        }
+
+        .check input{
+            width:16px;
+            height:16px;
+            margin:1px 0 0;
+            accent-color:#63e6ff;
+            flex:0 0 auto;
+        }
+
+        .check a{
+            color:var(--cyan);
+        }
+
+        .submit{
+            width:100%;
+            border:1px solid rgba(99,230,255,.55);
+            border-radius:10px;
+            padding:14px 16px;
+            color:#021018;
+            background:linear-gradient(135deg,#63e6ff,#b5f4ff);
+            font-weight:800;
+            letter-spacing:.04em;
+            cursor:pointer;
+            transition:.2s ease;
+            margin-top:3px;
+        }
+
+        .submit:hover{
+            transform:translateY(-1px);
+            box-shadow:0 12px 30px rgba(99,230,255,.15);
+        }
+
+        .submit:disabled{
+            opacity:.6;
+            cursor:wait;
+            transform:none;
+        }
+
+        .message{
+            display:none;
+            padding:11px 12px;
+            border-radius:9px;
+            font-size:.75rem;
+            line-height:1.45;
+        }
+
+        .message.error{
+            display:block;
+            color:#ffd9de;
+            border:1px solid rgba(255,107,122,.3);
+            background:rgba(255,107,122,.07);
+        }
+
+        .message.success{
+            display:block;
+            color:#d9ffeb;
+            border:1px solid rgba(100,230,165,.3);
+            background:rgba(100,230,165,.07);
+        }
+
+        .login-line{
+            text-align:center;
+            color:var(--muted);
+            font-size:.75rem;
+            margin-top:2px;
+        }
+
+        .login-line a{
+            color:var(--cyan);
+            font-weight:700;
+        }
+
+        .note{
+            margin-top:17px;
+            padding-top:15px;
+            border-top:1px solid rgba(145,164,184,.1);
+            color:#65788c;
+            font-family:monospace;
+            font-size:.61rem;
+            line-height:1.65;
+        }
+
+        footer{
+            width:min(1120px,92%);
+            margin:auto;
+            padding:0 0 25px;
+            color:#586b7e;
+            font-size:.64rem;
+            text-align:center;
+        }
+
+        @media (min-width:720px){
+            main{
+                grid-template-columns:1fr 1fr;
+                gap:48px;
+                padding:60px 0 72px;
+            }
+
+            .row{
+                grid-template-columns:1fr 1fr;
+            }
+
+            .card{
+                padding:30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <header>
+        <nav class="nav" aria-label="Navigation principale">
+
+            <a
+                class="brand"
+                href="index.html"
+                aria-label="Retour à l'accueil DeepRDMMakademy"
+            >
+                <div class="logo">DRM</div>
+
+                <div>
+                    <div class="brand-name">
+                        DeepRDMMakademy
+                    </div>
+
+                    <div class="brand-sub">
+                        L'art de la science et de la technologie
+                    </div>
+                </div>
+            </a>
+
+            <a
+                class="nav-link"
+                href="Login.html"
+            >
+                Se connecter
+            </a>
+
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="intro">
+
+            <div class="eyebrow">
+                Créer votre espace
+            </div>
+
+            <h1>
+                Commencez votre parcours scientifique.
+            </h1>
+
+            <p>
+                Créez votre compte membre pour accéder à votre espace personnel,
+                suivre votre progression et construire votre parcours
+                d'apprentissage au sein de DeepRDMMakademy.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    01 — Compte personnel et progression sauvegardée
+                </div>
+
+                <div class="feature">
+                    02 — Parcours éducatif adapté à votre niveau
+                </div>
+
+                <div class="feature">
+                    03 — Accès aux cours, exercices et évaluations membres
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section
+            class="card"
+            aria-labelledby="register-title"
+        >
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Inscription membre
+                    </div>
+
+                    <h2 id="register-title">
+                        Créer un compte
+                    </h2>
+
+                </div>
+
+                <div class="status">
+                    DRM / ACCOUNT
+                </div>
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message"
+                role="alert"
+            ></div>
+
+
+            <form
+                id="registerForm"
+                novalidate
+            >
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label for="firstName">
+                            Prénom
+                        </label>
+
+                        <input
+                            id="firstName"
+                            name="first_name"
+                            type="text"
+                            autocomplete="given-name"
+                            maxlength="100"
+                            placeholder="Votre prénom"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="lastName">
+                            Nom
+                        </label>
+
+                        <input
+                            id="lastName"
+                            name="last_name"
+                            type="text"
+                            autocomplete="family-name"
+                            maxlength="100"
+                            placeholder="Votre nom"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="email">
+                        Adresse e-mail
+                    </label>
+
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        maxlength="190"
+                        placeholder="vous@exemple.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="row">
+
+                    <div class="field">
+
+                        <label for="password">
+                            Mot de passe
+                        </label>
+
+                        <div class="password-wrap">
+
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autocomplete="new-password"
+                                minlength="10"
+                                maxlength="200"
+                                placeholder="10 caractères minimum"
+                                required
+                            >
+
+                            <button
+                                class="toggle"
+                                type="button"
+                                data-target="password"
+                            >
+                                AFFICHER
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="passwordConfirm">
+                            Confirmer le mot de passe
+                        </label>
+
+                        <div class="password-wrap">
+
+                            <input
+                                id="passwordConfirm"
+                                name="password_confirm"
+                                type="password"
+                                autocomplete="new-password"
+                                minlength="10"
+                                maxlength="200"
+                                placeholder="Répéter le mot de passe"
+                                required
+                            >
+
+                            <button
+                                class="toggle"
+                                type="button"
+                                data-target="passwordConfirm"
+                            >
+                                AFFICHER
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="language">
+                        Langue principale
+                    </label>
+
+                    <select
+                        id="language"
+                        name="preferred_language"
+                    >
+
+                        <option value="fr" selected>
+                            Français
+                        </option>
+
+                        <option value="mg">
+                            Malagasy
+                        </option>
+
+                        <option value="en">
+                            English
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <label class="check">
+
+                    <input
+                        id="terms"
+                        name="terms"
+                        type="checkbox"
+                        required
+                    >
+
+                    <span>
+                        J'accepte les conditions d'utilisation et la
+                        politique de confidentialité de DeepRDMMakademy.
+                    </span>
+
+                </label>
+
+
+                <button
+                    class="submit"
+                    id="submitButton"
+                    type="submit"
+                >
+                    CRÉER MON COMPTE
+                </button>
+
+
+                <div class="login-line">
+
+                    Vous avez déjà un compte ?
+
+                    <a href="Login.html">
+                        Se connecter
+                    </a>
+
+                </div>
+
+            </form>
+
+
+            <div class="note">
+
+                L'inscription crée un compte membre.
+                Le parcours éducatif, le niveau demandé et les
+                informations pédagogiques seront configurés dans
+                l'étape suivante.
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        © 2026 DeepRDMMakademy —
+        L'art de la science et de la technologie.
+
+    </footer>
+
+</div>
+
+
+<script>
 
     /*
-    |--------------------------------------------------------------------------
-    | Check existing email
-    |--------------------------------------------------------------------------
-    */
+     * GitHub Pages est statique.
+     * L'API PHP sera exécutée sur Hostinger.
+     *
+     * Lorsque l'URL définitive du backend sera connue,
+     * Register.html sera relié à cette API.
+     */
 
-    $checkUser = $pdo->prepare(
-        'SELECT id
-         FROM users
-         WHERE email = :email
-         LIMIT 1'
-    );
+    const API_BASE_URL = "";
 
-    $checkUser->execute(
-        [
-            ':email' => $email,
-        ]
-    );
+    const REGISTER_ENDPOINT =
+        API_BASE_URL + "/api/auth/register.php";
 
-    if ($checkUser->fetch()) {
 
-        $pdo->rollBack();
+    const form =
+        document.getElementById("registerForm");
 
-        sendJson(
-            false,
-            'Impossible de créer le compte avec ces informations.',
-            [],
-            409
-        );
+    const message =
+        document.getElementById("message");
+
+    const submitButton =
+        document.getElementById("submitButton");
+
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+        message.textContent = "";
+
+        message.className =
+            "message";
+
     }
 
 
     /*
-    |--------------------------------------------------------------------------
-    | Generate user ID
-    |--------------------------------------------------------------------------
-    */
+     * Afficher / masquer les mots de passe
+     */
 
-    $userId = sprintf(
-        '%s-%s-%s-%s-%s',
-        bin2hex(random_bytes(4)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(2)),
-        bin2hex(random_bytes(6))
-    );
+    document
+        .querySelectorAll(".toggle")
+        .forEach(button => {
 
+            button.addEventListener("click", () => {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Password hash
-    |--------------------------------------------------------------------------
-    */
+                const input =
+                    document.getElementById(
+                        button.dataset.target
+                    );
 
-    $passwordHash = password_hash(
-        $password,
-        PASSWORD_DEFAULT
-    );
-
-    if ($passwordHash === false) {
-
-        throw new RuntimeException(
-            'Password hashing failed.'
-        );
-    }
+                const visible =
+                    input.type === "text";
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Create user
-    |--------------------------------------------------------------------------
-    */
-
-    $insertUser = $pdo->prepare(
-        'INSERT INTO users
-        (
-            id,
-            first_name,
-            last_name,
-            email,
-            password_hash,
-            status,
-            account_type,
-            preferred_language
-        )
-        VALUES
-        (
-            :id,
-            :first_name,
-            :last_name,
-            :email,
-            :password_hash,
-            :status,
-            :account_type,
-            :preferred_language
-        )'
-    );
-
-    $insertUser->execute(
-        [
-            ':id'                 => $userId,
-            ':first_name'         => $firstName,
-            ':last_name'          => $lastName,
-            ':email'              => $email,
-            ':password_hash'      => $passwordHash,
-            ':status'             => 'active',
-            ':account_type'       => 'member',
-            ':preferred_language' => 'fr',
-        ]
-    );
+                input.type =
+                    visible
+                    ? "password"
+                    : "text";
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Find student role
-    |--------------------------------------------------------------------------
-    */
-
-    $roleQuery = $pdo->prepare(
-        'SELECT id
-         FROM roles
-         WHERE slug = :slug
-         LIMIT 1'
-    );
-
-    $roleQuery->execute(
-        [
-            ':slug' => 'student',
-        ]
-    );
-
-    $role = $roleQuery->fetch();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create student role if necessary
-    |--------------------------------------------------------------------------
-    */
-
-    if (!$role) {
-
-        $createRole = $pdo->prepare(
-            'INSERT INTO roles
-            (
-                name,
-                slug,
-                description
-            )
-            VALUES
-            (
-                :name,
-                :slug,
-                :description
-            )'
-        );
-
-        $createRole->execute(
-            [
-                ':name'        => 'Student',
-                ':slug'        => 'student',
-                ':description' => 'Membre inscrit dans le parcours éducatif.',
-            ]
-        );
-
-        $roleId = (int)$pdo->lastInsertId();
-
-    } else {
-
-        $roleId = (int)$role['id'];
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Assign student role
-    |--------------------------------------------------------------------------
-    */
-
-    $assignRole = $pdo->prepare(
-        'INSERT INTO user_roles
-        (
-            user_id,
-            role_id
-        )
-        VALUES
-        (
-            :user_id,
-            :role_id
-        )'
-    );
-
-    $assignRole->execute(
-        [
-            ':user_id' => $userId,
-            ':role_id' => $roleId,
-        ]
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Audit log
-    |--------------------------------------------------------------------------
-    */
-
-    $audit = $pdo->prepare(
-        'INSERT INTO audit_logs
-        (
-            user_id,
-            action,
-            entity_type,
-            entity_id,
-            ip_address
-        )
-        VALUES
-        (
-            :user_id,
-            :action,
-            :entity_type,
-            :entity_id,
-            :ip_address
-        )'
-    );
-
-    $audit->execute(
-        [
-            ':user_id'     => $userId,
-            ':action'      => 'USER_REGISTERED',
-            ':entity_type' => 'user',
-            ':entity_id'   => $userId,
-            ':ip_address'  => $_SERVER['REMOTE_ADDR'] ?? null,
-        ]
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Commit
-    |--------------------------------------------------------------------------
-    */
-
-    $pdo->commit();
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Success
-    |--------------------------------------------------------------------------
-    */
-
-    sendJson(
-        true,
-        'Compte créé avec succès.',
-        [
-            'user_id' => $userId,
-            'status'  => 'active',
-            'role'    => 'student',
-            'next'    => 'educational-profile',
-        ],
-        201
-    );
-
-
-} catch (Throwable $exception) {
-
-    if (
-        $pdo instanceof PDO &&
-        $pdo->inTransaction()
-    ) {
-        $pdo->rollBack();
-    }
-
-    error_log(
-        'DeepRDMMakademy registration error: ' .
-        $exception->getMessage()
-    );
-
-    sendJson(
-        false,
-        'Une erreur est survenue lors de la création du compte.',
-        [],
-        500
-    );
-}
+                button.textContent =
+                    visi
