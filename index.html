@@ -1,988 +1,826 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-  <title>DeepRDMMakademy — L'art de la science et de la technologie</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="description"
-    content="DeepRDMMakademy — plateforme académique, scientifique et technologique pour apprendre, expérimenter, rechercher et développer ses compétences."
-  >
+    <meta name="theme-color" content="#0a0f1e">
 
-  <style>
-    :root {
-      --bg: #05080d;
-      --bg-soft: #09111b;
-      --panel: rgba(10, 20, 32, 0.82);
-      --cyan: #00d9ff;
-      --cyan-soft: #62eaff;
-      --gold: #d8b15a;
-      --gold-light: #f0d58b;
-      --white: #f5f8fb;
-      --text: #d2dbe5;
-      --muted: #8292a5;
-      --line: rgba(0, 217, 255, 0.22);
-      --line-gold: rgba(216, 177, 90, 0.28);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-    }
+    <meta name="description"
+          content="DeepRDMMakademy — Campus numérique scientifique et technologique.">
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <title>DeepRDMMakademy — Campus Numérique</title>
 
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 15% 10%, rgba(0, 140, 255, 0.13), transparent 30%),
-        radial-gradient(circle at 85% 25%, rgba(120, 0, 255, 0.10), transparent 28%),
-        linear-gradient(180deg, #03060a 0%, #05080d 45%, #07101a 100%);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.22;
-      background-image:
-        linear-gradient(rgba(0, 217, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 217, 255, 0.035) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: -1;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    /* HEADER */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 1px solid var(--line);
-      background: rgba(3, 7, 12, 0.92);
-      backdrop-filter: blur(16px);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      flex: 0 0 42px;
-      border: 1px solid var(--cyan);
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: var(--cyan);
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: bold;
-      letter-spacing: -1px;
-      box-shadow:
-        0 0 18px rgba(0, 217, 255, 0.2),
-        inset 0 0 15px rgba(0, 217, 255, 0.08);
-    }
-
-    .brand-name {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .brand-subtitle {
-      color: var(--muted);
-      font-size: 0.66rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .nav-links a {
-      padding: 9px 11px;
-      color: #aebdcb;
-      font-size: 0.78rem;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-      transition: 0.25s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--cyan);
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 5px;
-      border: 1px solid var(--cyan);
-      font-size: 0.76rem;
-      font-weight: 700;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-      transition: 0.25s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-outline {
-      color: var(--cyan-soft);
-      background: transparent;
-    }
-
-    .btn-outline:hover {
-      background: rgba(0, 217, 255, 0.08);
-    }
-
-    .btn-primary {
-      color: #031017;
-      background: var(--cyan);
-    }
-
-    .btn-primary:hover {
-      background: var(--cyan-soft);
-    }
-
-    .btn-gold {
-      border-color: var(--gold);
-      color: var(--gold-light);
-      background: rgba(216, 177, 90, 0.06);
-    }
-
-    .btn-gold:hover {
-      background: rgba(216, 177, 90, 0.12);
-    }
-
-    /* HERO */
-
-    .hero {
-      min-height: 680px;
-      display: flex;
-      align-items: center;
-      padding: 90px 0 80px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .eyebrow,
-    .section-kicker {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-bottom: 20px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 30px;
-      height: 1px;
-      background: var(--cyan);
-    }
-
-    h1 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2.6rem, 7vw, 5.6rem);
-      line-height: 0.98;
-      letter-spacing: -2px;
-      margin-bottom: 26px;
-    }
-
-    h1 span {
-      color: var(--cyan);
-    }
-
-    .hero-description {
-      max-width: 670px;
-      color: #a9b8c7;
-      font-size: 1.05rem;
-      line-height: 1.8;
-      margin-bottom: 32px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 38px;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .meta-chip {
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      background: rgba(255, 255, 255, 0.025);
-      padding: 8px 11px;
-      color: #8fa0b2;
-      font-family: monospace;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-    }
-
-    /* SYSTEM PANEL */
-
-    .hero-panel {
-      border: 1px solid var(--line);
-      background:
-        linear-gradient(145deg, rgba(8, 20, 32, 0.96), rgba(4, 11, 18, 0.92));
-      box-shadow: var(--shadow);
-      padding: 24px;
-    }
-
-    .panel-label {
-      color: var(--gold);
-      font-family: monospace;
-      font-size: 0.68rem;
-      letter-spacing: 2px;
-      margin-bottom: 18px;
-    }
-
-    .panel-title {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.65rem;
-      margin-bottom: 20px;
-    }
-
-    .system-row {
-      display: grid;
-      grid-template-columns: 44px 1fr auto;
-      gap: 12px;
-      align-items: center;
-      padding: 13px 0;
-      border-top: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .system-icon {
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(0,217,255,0.3);
-      display: grid;
-      place-items: center;
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 0.8rem;
-    }
-
-    .system-name {
-      color: #dce5ed;
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .system-info {
-      color: var(--muted);
-      font-size: 0.72rem;
-    }
-
-    .system-status {
-      color: #9eeaff;
-      font-family: monospace;
-      font-size: 0.62rem;
-    }
-
-    /* SECTIONS */
-
-    section {
-      padding: 90px 0;
-    }
-
-    .section-header {
-      max-width: 760px;
-      margin-bottom: 42px;
-    }
-
-    .section-kicker {
-      color: var(--gold);
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.1;
-      margin-bottom: 15px;
-    }
-
-    .section-description {
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    /* MODULES */
-
-    .modules {
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .module-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .module {
-      min-height: 205px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 22px;
-      position: relative;
-      transition: 0.3s ease;
-    }
-
-    .module:hover {
-      transform: translateY(-5px);
-      border-color: rgba(0,217,255,0.55);
-    }
-
-    .module-number {
-      color: rgba(0,217,255,0.5);
-      font-family: monospace;
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      margin-bottom: 28px;
-    }
-
-    .module h3 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.35rem;
-      margin-bottom: 10px;
-    }
-
-    .module p {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.7;
-    }
-
-    .module-link {
-      position: absolute;
-      bottom: 18px;
-      right: 20px;
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 0.66rem;
-      text-transform: uppercase;
-    }
-
-    /* EDUCATION */
-
-    .programmes-section {
-      background:
-        linear-gradient(180deg, transparent, rgba(0,217,255,0.025), transparent);
-    }
-
-    .education-map {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .education-card {
-      border: 1px solid rgba(216,177,90,0.22);
-      background: rgba(11,18,27,0.82);
-      padding: 23px;
-    }
-
-    .education-card span {
-      display: block;
-      color: var(--gold);
-      font-family: monospace;
-      font-size: 0.66rem;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      margin-bottom: 9px;
-    }
-
-    .education-card h3 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.25rem;
-      margin-bottom: 7px;
-    }
-
-    .education-card p {
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .programmes-cta {
-      margin-top: 28px;
-      display: flex;
-      justify-content: center;
-    }
-
-    /* DOMAINS */
-
-    .domain-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .domain {
-      min-height: 88px;
-      display: flex;
-      align-items: center;
-      border-left: 2px solid var(--cyan);
-      background: rgba(8,17,27,0.72);
-      padding: 15px 17px;
-      transition: 0.25s ease;
-    }
-
-    .domain:hover {
-      background: rgba(0,217,255,0.05);
-      transform: translateX(3px);
-    }
-
-    .domain strong {
-      color: #dbe7ef;
-      font-size: 0.82rem;
-    }
-
-    /* JOURNEY */
-
-    .journey {
-      background: #04080d;
-    }
-
-    .journey-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      border: 1px solid rgba(0,217,255,0.14);
-    }
-
-    .step {
-      min-height: 190px;
-      padding: 22px;
-      border-right: 1px solid rgba(0,217,255,0.14);
-    }
-
-    .step:last-child {
-      border-right: none;
-    }
-
-    .step-number {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 0.68rem;
-      letter-spacing: 1.5px;
-      margin-bottom: 24px;
-    }
-
-    .step h3 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.18rem;
-      margin-bottom: 9px;
-    }
-
-    .step p {
-      color: var(--muted);
-      font-size: 0.77rem;
-      line-height: 1.65;
-    }
-
-    /* RESEARCH */
-
-    .research-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .research-card {
-      border: 1px solid var(--line);
-      background: var(--panel);
-      padding: 28px;
-    }
-
-    .research-card.gold {
-      border-color: var(--line-gold);
-    }
-
-    .research-tag {
-      color: var(--cyan);
-      font-family: monospace;
-      font-size: 0.66rem;
-      letter-spacing: 1.5px;
-      margin-bottom: 16px;
-    }
-
-    .research-card.gold .research-tag {
-      color: var(--gold);
-    }
-
-    .research-card h3 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 1.65rem;
-      margin-bottom: 12px;
-    }
-
-    .research-card p {
-      color: var(--muted);
-      font-size: 0.86rem;
-      line-height: 1.75;
-      margin-bottom: 22px;
-    }
-
-    /* CTA */
-
-    .final-cta {
-      padding: 105px 0;
-      text-align: center;
-    }
-
-    .final-box {
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(circle at 50% 0%, rgba(0,217,255,0.09), transparent 50%),
-        rgba(7,15,24,0.9);
-      padding: 60px 25px;
-      box-shadow: var(--shadow);
-    }
-
-    .final-box h2 {
-      color: var(--white);
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(2rem,5vw,3.7rem);
-      margin-bottom: 16px;
-    }
-
-    .final-box p {
-      max-width: 680px;
-      margin: 0 auto 28px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-
-    .final-actions {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid rgba(0,217,255,0.14);
-      background: #03060a;
-      padding: 45px 0 25px;
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 30px;
-      padding-bottom: 35px;
-    }
-
-    .footer-brand p {
-      max-width: 360px;
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.7;
-      margin-top: 12px;
-    }
-
-    .footer-column h4 {
-      color: var(--gold);
-      font-family: monospace;
-      font-size: 0.66rem;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 13px;
-    }
-
-    .footer-column a {
-      display: block;
-      color: #8493a3;
-      font-size: 0.76rem;
-      margin: 8px 0;
-      transition: 0.2s ease;
-    }
-
-    .footer-column a:hover {
-      color: var(--cyan);
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: #596877;
-      font-family: monospace;
-      font-size: 0.63rem;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 1050px) {
-      .nav-links {
-        display: none;
-      }
-
-      .module-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .domain-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .journey-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .step:nth-child(2n) {
-        border-right: none;
-      }
-
-      .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 760px) {
-      .container {
-        width: min(100% - 22px, 1180px);
-      }
-
-      header {
-        position: relative;
-      }
-
-      .nav {
-        padding: 13px 0;
-        flex-wrap: wrap;
-      }
-
-      .nav-actions {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .nav-actions .btn {
-        width: 100%;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 65px 0 55px;
-      }
-
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 42px;
-      }
-
-      h1 {
-        letter-spacing: -1px;
-      }
-
-      .hero-description {
-        font-size: 0.94rem;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .hero-actions .btn {
-        width: 100%;
-      }
-
-      .module-grid,
-      .education-map,
-      .domain-grid,
-      .research-grid,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .journey-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .step,
-      .step:nth-child(2n) {
-        border-right: none;
-        border-bottom: 1px solid rgba(0,217,255,0.14);
-      }
-
-      .step:last-child {
-        border-bottom: none;
-      }
-
-      section {
-        padding: 65px 0;
-      }
-
-      .final-cta {
-        padding: 65px 0;
-      }
-
-      .final-box {
-        padding: 42px 18px;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .brand-mark {
-        width: 38px;
-        height: 38px;
-        flex-basis: 38px;
-      }
-
-      .brand-name {
-        font-size: 0.82rem;
-      }
-
-      .brand-subtitle {
-        display: none;
-      }
-
-      .hero-panel {
-        padding: 18px;
-      }
-
-      .system-row {
-        grid-template-columns: 38px 1fr;
-      }
-
-      .system-status {
-        grid-column: 2;
-      }
-    }
-  </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-  <div class="container nav">
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
 
-    <a href="index.html" class="brand" aria-label="Accueil DeepRDMMakademy">
-      <div class="brand-mark">DRM</div>
+<div class="background-grid"></div>
+<div class="background-glow glow-one"></div>
+<div class="background-glow glow-two"></div>
 
-      <div>
-        <div class="brand-name">DeepRDMMakademy</div>
-        <div class="brand-subtitle">
-          Science · Technologie · Éducation
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="main-header">
+
+    <a href="index.html" class="brand">
+
+        <div class="brand-logo">
+            <span>DRM</span>
         </div>
-      </div>
+
+        <div class="brand-text">
+            <strong>DeepRDMMakademy</strong>
+            <small>L'art de la science et de la technologie</small>
+        </div>
+
     </a>
 
-    <nav class="nav-links" aria-label="Navigation principale">
-      <a href="laboratory.html">Laboratoire</a>
-      <a href="akademy.html">Akademy</a>
-      <a href="programmes.html">Programmes</a>
-      <a href="projects.html">Recherche</a>
+
+    <nav class="desktop-nav">
+
+        <a href="#campus">Campus</a>
+        <a href="#laboratory">Laboratoire</a>
+        <a href="#missions">Missions</a>
+
     </nav>
 
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-outline">Se connecter</a>
-      <a href="register.html" class="btn btn-primary">S'inscrire</a>
+
+    <div class="header-actions">
+
+        <!-- FOLLOW -->
+        <button id="followButton"
+                class="btn btn-outline">
+            + Suivre
+        </button>
+
+
+        <!-- MEMBER -->
+        <button id="memberButton"
+                class="btn btn-primary">
+            Devenir membre
+        </button>
+
+
+        <!-- NOTIFICATIONS -->
+        <button id="notificationButton"
+                class="notification-button"
+                aria-label="Notifications">
+
+            <span class="bell-icon">🔔</span>
+
+            <span id="notificationBadge"
+                  class="notification-badge hidden">
+                0
+            </span>
+
+        </button>
+
     </div>
 
-  </div>
 </header>
 
 
+<!-- =========================================================
+     HERO
+========================================================= -->
+
 <main>
 
-  <!-- HERO -->
+<section class="hero">
 
-  <section class="hero">
-    <div class="container hero-grid">
+    <div class="hero-content">
 
-      <div>
-
-        <div class="eyebrow">
-          INSTITUTION NUMÉRIQUE
+        <div class="status-line">
+            <span class="status-dot"></span>
+            CAMPUS NUMÉRIQUE ACTIF
         </div>
 
         <h1>
-          Deep<span>RDM</span><br>
-          Makademy
+            Bienvenue dans
+            <span>DeepRDMMakademy</span>
         </h1>
 
         <p class="hero-description">
-          Une plateforme académique, scientifique et technologique conçue
-          pour apprendre, expérimenter, rechercher et développer des
-          compétences — de l'éducation fondamentale aux domaines avancés.
+            Un campus numérique scientifique où étudiants,
+            chercheurs, ingénieurs et passionnés travaillent,
+            apprennent et expérimentent ensemble.
         </p>
 
         <div class="hero-actions">
 
-          <a href="register.html" class="btn btn-primary">
-            Commencer mon parcours
-          </a>
+            <button class="btn btn-primary"
+                    onclick="scrollToCampus()">
+                Entrer dans le Campus
+            </button>
 
-          <a href="programmes.html" class="btn btn-gold">
-            Voir les programmes
-          </a>
-
-          <a href="akademy.html" class="btn btn-outline">
-            Découvrir l'Akademy
-          </a>
+            <a href="laboratory.html"
+               class="btn btn-outline">
+                Explorer le laboratoire
+            </a>
 
         </div>
 
-        <div class="hero-meta">
-          <div class="meta-chip">Éducation</div>
-          <div class="meta-chip">Science</div>
-          <div class="meta-chip">Technologie</div>
-          <div class="meta-chip">Recherche</div>
-          <div class="meta-chip">Innovation</div>
+    </div>
+
+
+    <div class="hero-panel">
+
+        <div class="panel-header">
+            <span>SYSTEM STATUS</span>
+            <span class="online">● ONLINE</span>
         </div>
 
-      </div>
+        <div class="system-data">
 
-
-      <div class="hero-panel">
-
-        <div class="panel-label">
-          DEEPRDM // SYSTEM ARCHITECTURE
-        </div>
-
-        <div class="panel-title">
-          Un écosystème unique
-        </div>
-
-        <div class="system-row">
-          <div class="system-icon">01</div>
-
-          <div>
-            <div class="system-name">AKADEMY</div>
-            <div class="system-info">
-              Parcours pédagogiques
+            <div>
+                <small>Campus</small>
+                <strong>ACTIVE</strong>
             </div>
-          </div>
 
-          <div class="system-status">
-            EDUCATION
-          </div>
+            <div>
+                <small>Laboratories</small>
+                <strong>06</strong>
+            </div>
+
+            <div>
+                <small>Missions</small>
+                <strong id="missionCount">--</strong>
+            </div>
+
+            <div>
+                <small>Members</small>
+                <strong id="memberCount">--</strong>
+            </div>
+
         </div>
 
-        <div class="system-row">
-          <div class="system-icon">02</div>
+    </div>
 
-          <div>
-            <div class="system-name">LABORATORY</div>
-            <div class="system-info">
-              Environnements scientifiques
-            </div>
-          </div>
+</section>
 
-          <div class="system-status">
-            RESEARCH
-          </div>
+
+<!-- =========================================================
+     PRESENTATION
+========================================================= -->
+
+<section class="section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            DEEPRDMMAKADEMY
+        </span>
+
+        <h2>
+            Un campus, pas seulement un site.
+        </h2>
+
+        <p>
+            DeepRDMMakademy réunit éducation, laboratoire,
+            recherche, expérimentation et communauté dans
+            un même environnement numérique.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SIX LABS
+========================================================= -->
+
+<section id="laboratory"
+         class="section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            LABORATORY
+        </span>
+
+        <h2>
+            Les 6 Paillasses
+        </h2>
+
+        <p>
+            Chaque laboratoire constitue un espace
+            spécialisé du Campus.
+        </p>
+
+    </div>
+
+
+    <div class="lab-grid">
+
+        <a href="ai-lab.html"
+           class="lab-card">
+
+            <span class="lab-number">01</span>
+            <span class="lab-icon">◈</span>
+
+            <h3>AI Lab</h3>
+
+            <p>
+                Intelligence artificielle,
+                modèles et systèmes intelligents.
+            </p>
+
+        </a>
+
+
+        <a href="molecular-lab.html"
+           class="lab-card">
+
+            <span class="lab-number">02</span>
+            <span class="lab-icon">⚛</span>
+
+            <h3>Molecular Lab</h3>
+
+            <p>
+                Molécules, chimie,
+                biologie et sciences du vivant.
+            </p>
+
+        </a>
+
+
+        <a href="robotics-lab.html"
+           class="lab-card">
+
+            <span class="lab-number">03</span>
+            <span class="lab-icon">▣</span>
+
+            <h3>Robotics Lab</h3>
+
+            <p>
+                Robotique, automatisation
+                et systèmes mécatroniques.
+            </p>
+
+        </a>
+
+
+        <a href="science-lab.html"
+           class="lab-card">
+
+            <span class="lab-number">04</span>
+            <span class="lab-icon">∑</span>
+
+            <h3>Science Lab</h3>
+
+            <p>
+                Physique, mathématiques,
+                sciences expérimentales.
+            </p>
+
+        </a>
+
+
+        <a href="digital-lab.html"
+           class="lab-card">
+
+            <span class="lab-number">05</span>
+            <span class="lab-icon">⌬</span>
+
+            <h3>Digital Lab</h3>
+
+            <p>
+                Technologies numériques,
+                données et informatique.
+            </p>
+
+        </a>
+
+
+        <a href="simulation-center.html"
+           class="lab-card">
+
+            <span class="lab-number">06</span>
+            <span class="lab-icon">◎</span>
+
+            <h3>Simulation Center</h3>
+
+            <p>
+                Simulations scientifiques
+                et environnements virtuels.
+            </p>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MISSIONS
+========================================================= -->
+
+<section id="missions"
+         class="section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            ACTIVE OPERATIONS
+        </span>
+
+        <h2>
+            Missions en cours
+        </h2>
+
+    </div>
+
+
+    <div id="missionsContainer"
+         class="mission-grid">
+
+        <article class="mission-card">
+
+            <span class="mission-status">
+                EN PRÉPARATION
+            </span>
+
+            <h3>
+                Mission scientifique
+            </h3>
+
+            <p>
+                Les prochaines missions seront
+                publiées depuis le Campus.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CAMPUS WALL
+========================================================= -->
+
+<section id="campus"
+         class="section campus-section">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            CAMPUS NETWORK
+        </span>
+
+        <h2>
+            Mur du Campus
+        </h2>
+
+        <p>
+            Actualités, missions, résultats et publications
+            de la communauté DeepRDMMakademy.
+        </p>
+
+    </div>
+
+
+    <!-- USER BAR -->
+
+    <div id="userBar"
+         class="user-bar hidden">
+
+        <div>
+
+            <span id="currentUserName">
+                Membre
+            </span>
+
+            <small id="currentUserRole">
+                Member
+            </small>
+
         </div>
 
-        <div class="system-row">
-          <div class="system-icon">03</div>
+        <button id="publishButton"
+                class="btn btn-primary hidden">
+            + Publier
+        </button>
 
-          <div>
-            <div class="system-name">PROGRAMMES</div>
-            <div class="system-info">
-              Niveaux · domaines · matières
-            </div>
-          </div>
+    </div>
 
-          <div class="system-status">
-            CURRICULUM
-          </div>
+
+    <!-- ADMIN PUBLISH -->
+
+    <div id="adminPublisher"
+         class="publisher-card hidden">
+
+        <div class="publisher-header">
+
+            <strong>
+                Nouvelle publication
+            </strong>
+
+            <button id="closePublisher"
+                    class="close-button">
+                ×
+            </button>
+
         </div>
 
-        <div class="system-row">
-          <div class="system-icon">04</div>
 
-          <div>
-            <div class="system-name">PROJECTS</div>
-            <div class="system-info">
-              Recherche · innovation · projets
+        <label for="publicationType">
+            Type
+        </label>
+
+        <select id="publicationType">
+
+            <option value="nouvelle_mission">
+                Nouvelle Mission
+            </option>
+
+            <option value="resultat_concours">
+                Résultat Concours
+            </option>
+
+            <option value="panne_paillasse">
+                Panne Paillasse
+            </option>
+
+            <option value="annonce">
+                Annonce
+            </option>
+
+        </select>
+
+
+        <label for="publicationContent">
+            Message
+        </label>
+
+        <textarea id="publicationContent"
+                  rows="5"
+                  placeholder="Écrire l'annonce du Campus...">
+        </textarea>
+
+
+        <button id="submitPublication"
+                class="btn btn-primary">
+            Publier l'annonce
+        </button>
+
+    </div>
+
+
+    <!-- FEED -->
+
+    <div id="campusFeed"
+         class="campus-feed">
+
+        <div class="loading">
+            Chargement du Campus...
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================================================
+     FOLLOW MODAL
+========================================================= -->
+
+<div id="followModal"
+     class="modal hidden">
+
+    <div class="modal-box">
+
+        <button class="modal-close"
+                data-close="followModal">
+            ×
+        </button>
+
+        <span class="eyebrow">
+            FOLLOW DEEPRDMMAKADEMY
+        </span>
+
+        <h2>
+            Reste connecté au Campus
+        </h2>
+
+        <p>
+            Reçois les nouvelles missions,
+            résultats et annonces importantes.
+        </p>
+
+
+        <form id="followForm">
+
+            <label for="followerName">
+                Nom
+            </label>
+
+            <input id="followerName"
+                   type="text"
+                   required
+                   placeholder="Votre nom">
+
+
+            <label for="followerEmail">
+                Email
+            </label>
+
+            <input id="followerEmail"
+                   type="email"
+                   required
+                   placeholder="vous@email.com">
+
+
+            <button type="submit"
+                    class="btn btn-primary full-width">
+                Suivre DeepRDMMakademy
+            </button>
+
+        </form>
+
+        <div id="followMessage"
+             class="form-message">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MEMBER MODAL
+========================================================= -->
+
+<div id="memberModal"
+     class="modal hidden">
+
+    <div class="modal-box large-modal">
+
+        <button class="modal-close"
+                data-close="memberModal">
+            ×
+        </button>
+
+        <span class="eyebrow">
+            ADMISSION CAMPUS
+        </span>
+
+        <h2>
+            Devenir membre
+        </h2>
+
+        <p>
+            Crée ton compte et passe le test
+            d'entrée du Campus.
+        </p>
+
+
+        <form id="memberForm">
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label for="memberFirstName">
+                        Prénom
+                    </label>
+
+                    <input id="memberFirstName"
+                           required
+                           type="text">
+
+                </div>
+
+
+                <div>
+
+                    <label for="memberLastName">
+                        Nom
+                    </label>
+
+                    <input id="memberLastName"
+                           required
+                           type="text">
+
+                </div>
+
             </div>
-          </div>
 
-          <div class="system-status">
-            INNOVATION
-          </div>
-   
+
+            <label for="memberEmail">
+                Email
+            </label>
+
+            <input id="memberEmail"
+                   required
+                   type="email">
+
+
+            <label for="memberPassword">
+                Mot de passe
+            </label>
+
+            <input id="memberPassword"
+                   required
+                   minlength="8"
+                   type="password">
+
+
+            <label for="memberLevel">
+                Niveau souhaité
+            </label>
+
+            <select id="memberLevel">
+
+                <option value="prescolaire">
+                    Préscolaire
+                </option>
+
+                <option value="primaire">
+                    Primaire
+                </option>
+
+                <option value="college">
+                    Collège
+                </option>
+
+                <option value="lycee">
+                    Lycée
+                </option>
+
+                <option value="universite">
+                    Université
+                </option>
+
+                <option value="master">
+                    Master
+                </option>
+
+                <option value="professionnel">
+                    Professionnel
+                </option>
+
+            </select>
+
+
+            <div class="entry-test">
+
+                <h3>
+                    Test d'entrée
+                </h3>
+
+                <p>
+                    Réponds aux questions suivantes.
+                </p>
+
+
+                <label>
+                    1. Combien font 12 × 5 ?
+                </label>
+
+                <select id="testQuestion1"
+                        required>
+
+                    <option value="">
+                        Sélectionner
+                    </option>
+
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+
+                </select>
+
+
+                <label>
+                    2. Quelle discipline étudie
+                    principalement la matière ?
+                </label>
+
+                <select id="testQuestion2"
+                        required>
+
+                    <option value="">
+                        Sélectionner
+                    </option>
+
+                    <option value="physique">
+                        Physique
+                    </option>
+
+                    <option value="litterature">
+                        Littérature
+                    </option>
+
+                    <option value="histoire">
+                        Histoire
+                    </option>
+
+                </select>
+
+
+                <label>
+                    3. 2 + 8 = ?
+                </label>
+
+                <select id="testQuestion3"
+                        required>
+
+                    <option value="">
+                        Sélectionner
+                    </option>
+
+                    <option value="8">8</option>
+                    <option value="10">10</option>
+                    <option value="12">12</option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit"
+                    class="btn btn-primary full-width">
+
+                Créer mon compte et envoyer ma candidature
+
+            </button>
+
+        </form>
+
+
+        <div id="memberMessage"
+             class="form-message">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     NOTIFICATIONS PANEL
+========================================================= -->
+
+<div id="notificationPanel"
+     class="notification-panel hidden">
+
+    <div class="notification-header">
+
+        <strong>
+            Notifications
+        </strong>
+
+        <button id="markNotificationsRead">
+            Tout lire
+        </button>
+
+    </div>
+
+
+    <div id="notificationList">
+
+        <div class="empty-state">
+            Aucune notification.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div id="toast"
+     class="toast">
+</div>
+
+
+<!-- =========================================================
+     FIREBASE
+========================================================= -->
+
+<script type="module"
+        src="app.js">
+</script>
+
+</body>
+</html>
