@@ -877,4 +877,730 @@ function createPublicationCard(id, publication) {
                 type="button"
                 class="reaction-button"
                 data-publication="${id}"
-             
+                data-reaction="utile_count"
+            >
+                💡
+                <span>${publication.utile_count || 0}</span>
+            </button>
+
+        </div>
+
+    `;
+
+
+    article
+        .querySelectorAll(".reaction-button")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    handleReaction(
+                        button.dataset.publication,
+                        button.dataset.reaction
+                    );
+
+                }
+            );
+
+        });
+
+
+    return article;
+}
+
+
+// ============================================================
+// RÉACTIONS
+// ============================================================
+
+async function handleReaction(
+    publicationId,
+    reactionField
+) {
+
+    if (!auth?.currentUser) {
+
+        showToast(
+            "Connecte-toi pour réagir à une publication.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const allowedFields = [
+        "likes_count",
+        "super_count",
+        "genial_count",
+        "utile_count"
+    ];
+
+
+    if (!allowedFields.includes(reactionField)) {
+        return;
+    }
+
+
+    try {
+
+        await updateDoc(
+            doc(db, "publications", publicationId),
+            {
+                [reactionField]:
+                    increment(1)
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erreur réaction :",
+            error
+        );
+
+        showToast(
+            "Impossible d'enregistrer la réaction.",
+            "error"
+        );
+
+    }
+}
+
+
+// ============================================================
+// PUBLICATION PAR STAFF
+// ============================================================
+
+function setupPublicationInterface() {
+
+    const publishButton =
+        $("publishButton");
+
+    const publisher =
+        $("adminPublisher");
+
+    const closePublisher =
+        $("closePublisher");
+
+    const submitPublication =
+        $("submitPublication");
+
+
+    if (publishButton && publisher) {
+
+        publishButton.addEventListener(
+            "click",
+            () => {
+                showElement("adminPublisher");
+            }
+        );
+
+    }
+
+
+    if (closePublisher) {
+
+        closePublisher.addEventListener(
+            "click",
+            () => {
+                hideElement("adminPublisher");
+            }
+        );
+
+    }
+
+
+    if (submitPublication) {
+
+        submitPublication.addEventListener(
+            "click",
+            publishCampusAnnouncement
+        );
+
+    }
+
+}
+
+
+async function publishCampusAnnouncement() {
+
+    if (!auth?.currentUser) {
+
+        showToast(
+            "Tu dois être connecté.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const type =
+        $("publicationType")?.value;
+
+    const content =
+        $("publicationContent")?.value.trim();
+
+
+    if (!content) {
+
+        showToast(
+            "Écris un message avant de publier.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const profileSnapshot =
+            await getDoc(
+                doc(
+                    db,
+                    "users",
+                    auth.currentUser.uid
+                )
+            );
+
+
+        if (!profileSnapshot.exists()) {
+
+            showToast(
+                "Profil utilisateur introuvable.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const profile =
+            profileSnapshot.data();
+
+
+        const publishingRoles = [
+            "technicien",
+            "researcher",
+            "educator",
+            "developer",
+            "responsible",
+            "admin",
+            "super_admin"
+        ];
+
+
+        if (!publishingRoles.includes(profile.role)) {
+
+            showToast(
+                "Ton rôle ne permet pas encore de publier.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        await addDoc(
+            collection(db, "publications"),
+            {
+                user_id: auth.currentUser.uid,
+
+                author_name:
+                    `${profile.prenom || ""} ${profile.nom || ""}`.trim(),
+
+                author_role:
+                    profile.role || "Member",
+
+                type: type,
+
+                contenu: content,
+
+                image: "",
+
+                pinned: false,
+
+                likes_count: 0,
+                super_count: 0,
+                genial_count: 0,
+                utile_count: 0,
+
+                date: serverTimestamp()
+            }
+        );
+
+
+        $("publicationContent").value = "";
+
+        hideElement("adminPublisher");
+
+        showToast(
+            "Publication envoyée sur le Mur du Campus.",
+            "success"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Erreur publication :",
+            error
+        );
+
+        showToast(
+            getFirebaseErrorMessage(error),
+            "error"
+        );
+
+    }
+}
+
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+function loadNotifications(userId) {
+
+    if (!db || !userId) {
+        return;
+    }
+
+
+    const notificationQuery =
+        query(
+            collection(db, "notifications"),
+            where("user_id", "==", userId),
+            orderBy("date", "desc"),
+            limit(30)
+        );
+
+
+    onSnapshot(
+        notificationQuery,
+
+        snapshot => {
+
+            const list =
+                $("notificationList");
+
+            const badge =
+                $("notificationBadge");
+
+
+            if (!list || !badge) {
+                return;
+            }
+
+
+            list.innerHTML = "";
+
+
+            let unreadCount = 0;
+
+
+            snapshot.forEach(documentSnapshot => {
+
+                const notification =
+                    documentSnapshot.data();
+
+
+                if (
+                    notification.lu_ou_non !== true
+                ) {
+                    unreadCount++;
+                }
+
+
+                const item =
+                    document.createElement("div");
+
+                item.className =
+                    "notification-item";
+
+
+                item.innerHTML = `
+
+                    <strong>
+                        ${escapeHtml(
+                            notification.message || "Notification"
+                        )}
+                    </strong>
+
+                    ${
+                        notification.lien
+                            ? `
+                                <a href="${escapeAttribute(notification.lien)}">
+                                    Ouvrir
+                                </a>
+                              `
+                            : ""
+                    }
+
+                `;
+
+
+                item.addEventListener(
+                    "click",
+                    () => {
+
+                        markNotificationRead(
+                            documentSnapshot.id
+                        );
+
+                    }
+                );
+
+
+                list.appendChild(item);
+
+            });
+
+
+            if (unreadCount > 0) {
+
+                badge.textContent =
+                    unreadCount;
+
+                badge.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                badge.textContent = "0";
+
+                badge.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        },
+
+        error => {
+
+            console.error(
+                "Erreur notifications :",
+                error
+            );
+
+        }
+    );
+}
+
+
+async function markNotificationRead(
+    notificationId
+) {
+
+    if (!auth?.currentUser) {
+        return;
+    }
+
+
+    try {
+
+        await updateDoc(
+            doc(
+                db,
+                "notifications",
+                notificationId
+            ),
+            {
+                lu_ou_non: true
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erreur notification :",
+            error
+        );
+
+    }
+}
+
+
+function setupNotificationPanel() {
+
+    const button =
+        $("notificationButton");
+
+    const panel =
+        $("notificationPanel");
+
+    const markAll =
+        $("markNotificationsRead");
+
+
+    if (button && panel) {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                panel.classList.toggle(
+                    "hidden"
+                );
+
+            }
+        );
+
+    }
+
+
+    if (markAll) {
+
+        markAll.addEventListener(
+            "click",
+            async () => {
+
+                if (!auth?.currentUser) {
+                    return;
+                }
+
+                showToast(
+                    "Les notifications seront marquées comme lues.",
+                    "info"
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+// ============================================================
+// COMPTEURS CAMPUS
+// ============================================================
+
+function loadMemberCount() {
+
+    if (!db) {
+        return;
+    }
+
+
+    const memberCount =
+        $("memberCount");
+
+
+    if (!memberCount) {
+        return;
+    }
+
+
+    const usersQuery =
+        query(
+            collection(db, "users"),
+            where("status", "==", "active"),
+            limit(1000)
+        );
+
+
+    onSnapshot(
+        usersQuery,
+
+        snapshot => {
+
+            memberCount.textContent =
+                snapshot.size;
+
+        },
+
+        error => {
+
+            console.error(
+                "Erreur compteur membres :",
+                error
+            );
+
+            memberCount.textContent =
+                "--";
+
+        }
+    );
+
+}
+
+
+// ============================================================
+// COMPTEUR MISSIONS
+// ============================================================
+
+function loadMissionCount() {
+
+    if (!db) {
+        return;
+    }
+
+
+    const missionCount =
+        $("missionCount");
+
+
+    if (!missionCount) {
+        return;
+    }
+
+
+    // Les missions seront connectées à leur collection
+    // officielle lorsque le moteur des missions sera installé.
+
+    missionCount.textContent = "--";
+}
+
+
+// ============================================================
+// MISSIONS
+// ============================================================
+
+function loadMissions() {
+
+    const container =
+        $("missionsContainer");
+
+
+    if (!container) {
+        return;
+    }
+
+
+    // Première version : aucune mission réelle publiée.
+
+    container.innerHTML = `
+
+        <article class="mission-card">
+
+            <span class="mission-status">
+                EN PRÉPARATION
+            </span>
+
+            <h3>
+                Prochaine mission scientifique
+            </h3>
+
+            <p>
+                Les prochaines missions seront publiées
+                depuis le Campus DeepRDMMakademy.
+            </p>
+
+        </article>
+
+    `;
+}
+
+
+// ============================================================
+// SÉCURITÉ HTML
+// ============================================================
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHtml(value);
+}
+
+
+// ============================================================
+// TYPE PUBLICATION
+// ============================================================
+
+function formatPublicationType(type) {
+
+    const labels = {
+
+        nouvelle_mission:
+            "🚀 NOUVELLE MISSION",
+
+        resultat_concours:
+            "🏆 RÉSULTAT CONCOURS",
+
+        panne_paillasse:
+            "⚠️ PANNE PAILLASSE",
+
+        annonce:
+            "📢 ANNONCE"
+
+    };
+
+
+    return labels[type] ||
+        "📢 CAMPUS";
+}
+
+
+// ============================================================
+// INITIALISATION DE L'APPLICATION
+// ============================================================
+
+function initializeDeepRDM() {
+
+    console.log(
+        "DeepRDMMakademy — Initialisation..."
+    );
+
+
+    setupModalButtons();
+
+    setupFollowForm();
+
+    setupMemberForm();
+
+    setupAuthenticationListener();
+
+    setupPublicationInterface();
+
+    setupNotificationPanel();
+
+    loadPublications();
+
+    loadMemberCount();
+
+    loadMissionCount();
+
+    loadMissions();
+
+
+    console.log(
+        "DeepRDMMakademy — Interface prête."
+    );
+}
+
+
+// ============================================================
+// DÉMARRAGE
+// ============================================================
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeDeepRDM
+    );
+
+} else {
+
+    initializeDeepRDM();
+
+}
