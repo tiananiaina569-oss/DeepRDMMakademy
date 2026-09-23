@@ -1,188 +1,90 @@
-/* =========================================================
-   DeepRDMMakademy
-   app.js
-   Campus numérique — moteur principal de l'accueil
-   ========================================================= */
+// ============================================================
+// DeepRDMMakademy
+// app.js
+// Campus numérique — Firebase + interface Home
+// ============================================================
 
-/*
-   IMPORTANT
-   ----------
-   Ce fichier utilise Firebase.
-
-   Le fichier suivant sera créé séparément :
-   firebase-config.js
-
-   Il devra exporter :
-   firebaseConfig
-*/
-
-import { initializeApp } from
-    "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 
 import {
     getAuth,
     createUserWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-} from
-    "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 import {
     getFirestore,
     collection,
-    addDoc,
-    setDoc,
     doc,
+    setDoc,
+    addDoc,
     getDoc,
-    getDocs,
+    onSnapshot,
     query,
     orderBy,
     limit,
     where,
     updateDoc,
-    serverTimestamp,
-    onSnapshot
-} from
-    "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    increment,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 import { firebaseConfig } from "./firebase-config.js";
 
-/* =========================================================
-   FIREBASE INITIALISATION
-   ========================================================= */
 
-const firebaseApp = initializeApp(firebaseConfig);
+// ============================================================
+// INITIALISATION FIREBASE
+// ============================================================
 
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+let firebaseApp;
+let auth;
+let db;
 
-/* =========================================================
-   GLOBAL STATE
-   ========================================================= */
+try {
+    firebaseApp = initializeApp(firebaseConfig);
+    auth = getAuth(firebaseApp);
+    db = getFirestore(firebaseApp);
 
-let currentUser = null;
-let currentUserData = null;
+    console.log("DeepRDMMakademy — Firebase connecté.");
+} catch (error) {
+    console.error("Erreur initialisation Firebase :", error);
+}
 
-let unsubscribeNotifications = null;
-let unsubscribePublications = null;
 
-const MEMBER_ROLES = [
-    "member",
-    "student",
-    "researcher",
-    "educator",
-    "developer",
-    "responsible",
-    "admin",
-    "super_admin"
-];
+// ============================================================
+// OUTILS INTERFACE
+// ============================================================
 
-const PUBLISHER_ROLES = [
-    "technicien",
-    "researcher",
-    "educator",
-    "developer",
-    "responsible",
-    "admin",
-    "super_admin"
-];
+function $(id) {
+    return document.getElementById(id);
+}
 
-const ADMIN_ROLES = [
-    "admin",
-    "super_admin"
-];
+function showElement(id) {
+    const element = $(id);
 
-/* =========================================================
-   DOM HELPERS
-   ========================================================= */
-
-const $ = (id) => document.getElementById(id);
-
-function showElement(element) {
     if (element) {
         element.classList.remove("hidden");
     }
 }
 
-function hideElement(element) {
+function hideElement(id) {
+    const element = $(id);
+
     if (element) {
         element.classList.add("hidden");
     }
 }
 
-function escapeHTML(value = "") {
-    return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
-
-function formatDate(timestamp) {
-    if (!timestamp) {
-        return "À l'instant";
-    }
-
-    try {
-        const date =
-            timestamp.toDate
-                ? timestamp.toDate()
-                : new Date(timestamp);
-
-        return new Intl.DateTimeFormat("fr-FR", {
-            dateStyle: "medium",
-            timeStyle: "short"
-        }).format(date);
-    } catch {
-        return "Date inconnue";
-    }
-}
-
-function initials(name = "Membre") {
-    const parts = name.trim().split(/\s+/).slice(0, 2);
-
-    return parts
-        .map((part) => part.charAt(0).toUpperCase())
-        .join("");
-}
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-let toastTimer = null;
-
-function showToast(message) {
-    const toast = $("toast");
-
-    if (!toast) {
-        return;
-    }
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 3500);
-}
-
-/* =========================================================
-   MODALS
-   ========================================================= */
-
-function openModal(id) {
+function showModal(id) {
     const modal = $(id);
 
     if (!modal) {
+        console.error("Modal introuvable :", id);
         return;
     }
 
-    showElement(modal);
-    document.body.style.overflow = "hidden";
+    modal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
 }
 
 function closeModal(id) {
@@ -192,35 +94,47 @@ function closeModal(id) {
         return;
     }
 
-    hideElement(modal);
+    modal.classList.add("hidden");
 
-    const visibleModal =
-        document.querySelector(".modal:not(.hidden)");
+    const remainingModals = document.querySelectorAll(".modal:not(.hidden)");
 
-    if (!visibleModal) {
-        document.body.style.overflow = "";
+    if (remainingModals.length === 0) {
+        document.body.classList.remove("modal-open");
     }
 }
 
-function setupModalEvents() {
-    document.querySelectorAll("[data-close]").forEach((button) => {
-        button.addEventListener("click", () => {
-            closeModal(button.dataset.close);
-        });
-    });
+function showToast(message, type = "info") {
+    const toast = $("toast");
 
-    document.querySelectorAll(".modal").forEach((modal) => {
-        modal.addEventListener("click", (event) => {
-            if (event.target === modal) {
-                closeModal(modal.id);
-            }
-        });
-    });
+    if (!toast) {
+        return;
+    }
+
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+
+    clearTimeout(window.deepRdmToastTimer);
+
+    window.deepRdmToastTimer = setTimeout(() => {
+        toast.className = "toast";
+    }, 4500);
 }
 
-/* =========================================================
-   SCROLL TO CAMPUS
-   ========================================================= */
+function setFormMessage(id, message, type = "info") {
+    const element = $(id);
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent = message;
+    element.className = `form-message ${type}`;
+}
+
+
+// ============================================================
+// NAVIGATION CAMPUS
+// ============================================================
 
 window.scrollToCampus = function () {
     const campus = $("campus");
@@ -233,645 +147,734 @@ window.scrollToCampus = function () {
     }
 };
 
-/* =========================================================
-   FOLLOWERS
-   ========================================================= */
 
-async function handleFollowerSignup(event) {
-    event.preventDefault();
+// ============================================================
+// MODALES — SUIVRE / DEVENIR MEMBRE
+// ============================================================
 
-    const name = $("followerName")?.value.trim();
-    const email = $("followerEmail")?.value.trim().toLowerCase();
-    const message = $("followMessage");
+function setupModalButtons() {
 
-    if (!name || !email) {
-        setFormMessage(
-            message,
-            "Veuillez remplir tous les champs.",
-            "error"
-        );
-        return;
+    const followButton = $("followButton");
+
+    if (followButton) {
+        followButton.addEventListener("click", () => {
+            console.log("Bouton Suivre activé.");
+            showModal("followModal");
+        });
+    } else {
+        console.warn("Bouton followButton introuvable.");
     }
 
-    try {
-        setFormMessage(
-            message,
-            "Inscription en cours...",
-            ""
-        );
 
-        /*
-           On utilise l'email comme identifiant documentaire.
-           Cela évite plusieurs inscriptions avec exactement
-           la même adresse.
-        */
+    const memberButton = $("memberButton");
 
-        const followerId = email
-            .replace(/\./g, "_")
-            .replace(/@/g, "_at_")
-            .replace(/[^a-zA-Z0-9_-]/g, "_");
+    if (memberButton) {
+        memberButton.addEventListener("click", () => {
+            console.log("Bouton Devenir membre activé.");
+            showModal("memberModal");
+        });
+    } else {
+        console.warn("Bouton memberButton introuvable.");
+    }
 
-        await setDoc(
-            doc(db, "followers", followerId),
-            {
-                nom: name,
-                email: email,
-                actif: true,
-                date_inscription: serverTimestamp(),
-                source: "campus_home"
-            },
-            {
-                merge: true
+
+    document.querySelectorAll("[data-close]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const modalId = button.dataset.close;
+
+            if (modalId) {
+                closeModal(modalId);
             }
-        );
 
-        setFormMessage(
-            message,
-            "Tu suis maintenant DeepRDMMakademy. Bienvenue dans le réseau.",
-            "success"
-        );
+        });
 
-        $("followForm")?.reset();
+    });
 
-        showToast("Inscription au suivi réussie.");
 
-        setTimeout(() => {
-            closeModal("followModal");
-        }, 1800);
+    document.querySelectorAll(".modal").forEach(modal => {
 
-    } catch (error) {
-        console.error(
-            "Erreur follower :",
-            error
-        );
+        modal.addEventListener("click", event => {
 
-        setFormMessage(
-            message,
-            firebaseErrorMessage(error),
-            "error"
-        );
-    }
+            if (event.target === modal) {
+                closeModal(modal.id);
+            }
+
+        });
+
+    });
+
+
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+
+            document.querySelectorAll(".modal:not(.hidden)").forEach(modal => {
+                closeModal(modal.id);
+            });
+
+        }
+
+    });
 }
 
-/* =========================================================
-   MEMBER REGISTRATION
-   ========================================================= */
 
-async function handleMemberRegistration(event) {
-    event.preventDefault();
+// ============================================================
+// FOLLOWER — INSCRIPTION AUX ACTUALITÉS
+// ============================================================
 
-    const firstName =
-        $("memberFirstName")?.value.trim();
+function setupFollowForm() {
 
-    const lastName =
-        $("memberLastName")?.value.trim();
+    const form = $("followForm");
 
-    const email =
-        $("memberEmail")?.value.trim().toLowerCase();
-
-    const password =
-        $("memberPassword")?.value;
-
-    const requestedLevel =
-        $("memberLevel")?.value;
-
-    const answer1 =
-        $("testQuestion1")?.value;
-
-    const answer2 =
-        $("testQuestion2")?.value;
-
-    const answer3 =
-        $("testQuestion3")?.value;
-
-    const message = $("memberMessage");
-
-    if (
-        !firstName ||
-        !lastName ||
-        !email ||
-        !password ||
-        !requestedLevel ||
-        !answer1 ||
-        !answer2 ||
-        !answer3
-    ) {
-        setFormMessage(
-            message,
-            "Veuillez compléter toutes les informations et le test d'entrée.",
-            "error"
-        );
-
+    if (!form) {
         return;
     }
 
-    if (password.length < 8) {
-        setFormMessage(
-            message,
-            "Le mot de passe doit contenir au moins 8 caractères.",
-            "error"
-        );
+    form.addEventListener("submit", async event => {
 
-        return;
-    }
+        event.preventDefault();
 
-    /*
-       Test d'entrée initial.
-       Ce test pourra être remplacé plus tard par le vrai
-       système pédagogique connecté à la base de données.
-    */
+        const name = $("followerName")?.value.trim();
+        const email = $("followerEmail")?.value.trim().toLowerCase();
 
-    let score = 0;
+        if (!name || !email) {
+            setFormMessage(
+                "followMessage",
+                "Veuillez remplir votre nom et votre email.",
+                "error"
+            );
+            return;
+        }
 
-    if (answer1 === "60") {
-        score++;
-    }
+        const submitButton = form.querySelector("button[type='submit']");
 
-    if (answer2 === "physique") {
-        score++;
-    }
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Enregistrement...";
+        }
 
-    if (answer3 === "10") {
-        score++;
-    }
+        try {
 
-    try {
-        setFormMessage(
-            message,
-            "Création du compte...",
-            ""
-        );
+            if (!db) {
+                throw new Error("Firebase Firestore n'est pas initialisé.");
+            }
 
-        const credential =
-            await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
+            const followerId = email
+                .replace(/[.#$/[\]]/g, "_");
+
+            await setDoc(
+                doc(db, "followers", followerId),
+                {
+                    nom: name,
+                    email: email,
+                    actif: true,
+                    date_inscription: serverTimestamp(),
+                    source: "deeprdmmakademy-home"
+                },
+                {
+                    merge: true
+                }
             );
 
-        const user = credential.user;
+            setFormMessage(
+                "followMessage",
+                "Inscription réussie. Tu recevras les actualités de DeepRDMMakademy.",
+                "success"
+            );
 
-        await setDoc(
-            doc(db, "users", user.uid),
-            {
-                uid: user.uid,
+            form.reset();
 
-                prenom: firstName,
-                nom: lastName,
+            showToast(
+                "Tu suis maintenant DeepRDMMakademy.",
+                "success"
+            );
 
-                email: email,
+        } catch (error) {
 
-                role: "candidate",
-                status: "pending",
+            console.error("Erreur inscription follower :", error);
 
-                niveau_demande:
-                    requestedLevel,
+            setFormMessage(
+                "followMessage",
+                getFirebaseErrorMessage(error),
+                "error"
+            );
 
-                niveau_valide: null,
+        } finally {
 
-                score_test_entree: score,
-                test_entree_total: 3,
-
-                candidature:
-                    "en_attente_validation",
-
-                date_creation:
-                    serverTimestamp(),
-
-                derniere_connexion:
-                    serverTimestamp()
-            },
-            {
-                merge: true
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "Suivre DeepRDMMakademy";
             }
-        );
 
-        /*
-           Création d'une notification interne pour
-           le système administratif.
-        */
+        }
 
-        await createAdminNotification(
-            `Nouvelle candidature : ${firstName} ${lastName}`
-        );
-
-        setFormMessage(
-            message,
-            `Compte créé. Résultat du test : ${score}/3. Ta candidature est maintenant en attente de validation.`,
-            "success"
-        );
-
-        $("memberForm")?.reset();
-
-        showToast(
-            "Compte créé. Candidature envoyée."
-        );
-
-    } catch (error) {
-        console.error(
-            "Erreur inscription :",
-            error
-        );
-
-        setFormMessage(
-            message,
-            firebaseErrorMessage(error),
-            "error"
-        );
-    }
+    });
 }
 
-/* =========================================================
-   FORM MESSAGE
-   ========================================================= */
 
-function setFormMessage(element, text, type = "") {
-    if (!element) {
+// ============================================================
+// ADMISSION — CRÉATION DU COMPTE ÉTUDIANT
+// ============================================================
+
+function setupMemberForm() {
+
+    const form = $("memberForm");
+
+    if (!form) {
         return;
     }
 
-    element.textContent = text;
-    element.className = "form-message";
+    form.addEventListener("submit", async event => {
 
-    if (type) {
-        element.classList.add(type);
-    }
-}
+        event.preventDefault();
 
-/* =========================================================
-   FIREBASE ERROR TRANSLATION
-   ========================================================= */
+        const firstName = $("memberFirstName")?.value.trim();
+        const lastName = $("memberLastName")?.value.trim();
+        const email = $("memberEmail")?.value.trim().toLowerCase();
+        const password = $("memberPassword")?.value;
+        const level = $("memberLevel")?.value;
 
-function firebaseErrorMessage(error) {
-    const code = error?.code || "";
+        const answer1 = $("testQuestion1")?.value;
+        const answer2 = $("testQuestion2")?.value;
+        const answer3 = $("testQuestion3")?.value;
 
-    const messages = {
-        "auth/email-already-in-use":
-            "Cette adresse email possède déjà un compte.",
 
-        "auth/invalid-email":
-            "L'adresse email n'est pas valide.",
+        if (
+            !firstName ||
+            !lastName ||
+            !email ||
+            !password ||
+            !level ||
+            !answer1 ||
+            !answer2 ||
+            !answer3
+        ) {
 
-        "auth/weak-password":
-            "Le mot de passe est trop faible.",
-
-        "auth/network-request-failed":
-            "Problème de connexion réseau.",
-
-        "permission-denied":
-            "Accès refusé par les règles de sécurité Firebase."
-    };
-
-    return (
-        messages[code] ||
-        "Une erreur est survenue. Vérifie les informations puis réessaie."
-    );
-}
-
-/* =========================================================
-   ADMIN NOTIFICATION
-   ========================================================= */
-
-async function createAdminNotification(message) {
-    try {
-        /*
-           Cette fonction prépare le système de notification.
-
-           Le ciblage précis des administrateurs sera renforcé
-           avec les rôles Firebase/Firestore dans les prochaines
-           étapes.
-        */
-
-        await addDoc(
-            collection(db, "notifications_admin"),
-            {
-                message,
-                lu_ou_non: false,
-                type: "candidature",
-                date: serverTimestamp()
-            }
-        );
-
-    } catch (error) {
-        /*
-           Une erreur ici ne doit pas empêcher la création
-           du compte utilisateur.
-        */
-
-        console.warn(
-            "Notification admin non créée :",
-            error
-        );
-    }
-}
-
-/* =========================================================
-   AUTHENTICATION STATE
-   ========================================================= */
-
-function listenToAuthentication() {
-    onAuthStateChanged(
-        auth,
-        async (user) => {
-
-            currentUser = user;
-
-            if (!user) {
-                currentUserData = null;
-
-                updateUserInterface();
-
-                stopNotificationListener();
-
-                return;
-            }
-
-            await loadCurrentUserData(user.uid);
-
-            updateUserInterface();
-
-            startNotificationListener(user.uid);
-        }
-    );
-}
-
-/* =========================================================
-   LOAD CURRENT USER
-   ========================================================= */
-
-async function loadCurrentUserData(uid) {
-    try {
-        const userReference =
-            doc(db, "users", uid);
-
-        const snapshot =
-            await getDoc(userReference);
-
-        if (snapshot.exists()) {
-            currentUserData =
-                snapshot.data();
+            setFormMessage(
+                "memberMessage",
+                "Veuillez remplir toutes les informations et répondre aux 3 questions.",
+                "error"
+            );
 
             return;
         }
 
-        currentUserData = {
-            uid,
-            email: currentUser?.email || "",
-            role: "member"
-        };
 
-    } catch (error) {
-        console.error(
-            "Impossible de charger le profil :",
-            error
-        );
+        if (password.length < 8) {
 
-        currentUserData = {
-            uid,
-            email: currentUser?.email || "",
-            role: "member"
-        };
+            setFormMessage(
+                "memberMessage",
+                "Le mot de passe doit contenir au moins 8 caractères.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        // Correction du test d'entrée
+        let score = 0;
+
+        if (answer1 === "60") {
+            score++;
+        }
+
+        if (answer2 === "physique") {
+            score++;
+        }
+
+        if (answer3 === "10") {
+            score++;
+        }
+
+
+        const submitButton = form.querySelector("button[type='submit']");
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Création du compte...";
+        }
+
+
+        try {
+
+            if (!auth || !db) {
+                throw new Error(
+                    "Firebase n'est pas correctement initialisé."
+                );
+            }
+
+
+            // ------------------------------------------------
+            // 1. CRÉATION DU COMPTE FIREBASE AUTHENTICATION
+            // ------------------------------------------------
+
+            const credential =
+                await createUserWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+            const user = credential.user;
+
+
+            // ------------------------------------------------
+            // 2. CRÉATION DU PROFIL FIRESTORE
+            // ------------------------------------------------
+
+            await setDoc(
+                doc(db, "users", user.uid),
+                {
+                    uid: user.uid,
+                    prenom: firstName,
+                    nom: lastName,
+                    email: email,
+
+                    role: "candidate",
+
+                    status: "pending",
+
+                    niveau_demande: level,
+                    niveau_valide: null,
+
+                    score_test_entree: score,
+                    test_entree_total: 3,
+
+                    candidature: "en_attente_validation",
+
+                    date_creation: serverTimestamp(),
+                    derniere_connexion: serverTimestamp()
+                }
+            );
+
+
+            // ------------------------------------------------
+            // 3. NOTIFICATION ADMIN
+            // ------------------------------------------------
+
+            await addDoc(
+                collection(db, "notifications_admin"),
+                {
+                    type: "nouvelle_candidature",
+
+                    message:
+                        `${firstName} ${lastName} vient de déposer une candidature.`,
+
+                    user_id: user.uid,
+
+                    email: email,
+
+                    niveau_demande: level,
+
+                    score_test: score,
+
+                    lu_ou_non: false,
+
+                    date: serverTimestamp()
+                }
+            );
+
+
+            // ------------------------------------------------
+            // 4. CONFIRMATION
+            // ------------------------------------------------
+
+            setFormMessage(
+                "memberMessage",
+                `Candidature envoyée avec succès. Score au test : ${score}/3. Ton dossier est maintenant en attente de validation par DeepRDMMakademy.`,
+                "success"
+            );
+
+
+            form.reset();
+
+            showToast(
+                "Compte créé. Candidature envoyée.",
+                "success"
+            );
+
+
+            setTimeout(() => {
+                closeModal("memberModal");
+            }, 4000);
+
+
+        } catch (error) {
+
+            console.error(
+                "Erreur création compte :",
+                error
+            );
+
+            setFormMessage(
+                "memberMessage",
+                getFirebaseErrorMessage(error),
+                "error"
+            );
+
+            showToast(
+                "La création du compte a rencontré un problème.",
+                "error"
+            );
+
+        } finally {
+
+            if (submitButton) {
+                submitButton.disabled = false;
+
+                submitButton.textContent =
+                    "Créer mon compte et envoyer ma candidature";
+            }
+
+        }
+
+    });
+}
+
+
+// ============================================================
+// TRADUCTION DES ERREURS FIREBASE
+// ============================================================
+
+function getFirebaseErrorMessage(error) {
+
+    console.error(error);
+
+    const code = error?.code || "";
+
+    switch (code) {
+
+        case "auth/email-already-in-use":
+            return "Cette adresse email possède déjà un compte.";
+
+        case "auth/invalid-email":
+            return "L'adresse email n'est pas valide.";
+
+        case "auth/weak-password":
+            return "Le mot de passe est trop faible.";
+
+        case "auth/network-request-failed":
+            return "Connexion Internet impossible. Vérifie ta connexion.";
+
+        case "auth/operation-not-allowed":
+            return "La connexion par email/mot de passe n'est pas activée dans Firebase Authentication.";
+
+        case "permission-denied":
+            return "Firebase a refusé cette opération. Vérifie les règles Firestore.";
+
+        case "failed-precondition":
+            return "Firebase demande une configuration supplémentaire.";
+
+        case "unavailable":
+            return "Le service Firebase est temporairement indisponible.";
+
+        default:
+
+            if (error?.message) {
+                return `Erreur : ${error.message}`;
+            }
+
+            return "Une erreur inconnue s'est produite.";
     }
 }
 
-/* =========================================================
-   USER INTERFACE
-   ========================================================= */
 
-function updateUserInterface() {
-    const userBar = $("userBar");
-    const publishButton = $("publishButton");
+// ============================================================
+// AUTHENTIFICATION — UTILISATEUR CONNECTÉ
+// ============================================================
 
-    if (!currentUser) {
-        hideElement(userBar);
-        hideElement(publishButton);
+function setupAuthenticationListener() {
 
+    if (!auth) {
         return;
     }
 
-    showElement(userBar);
+    onAuthStateChanged(auth, async user => {
 
-    const name =
-        currentUserData?.prenom
-            ? `${currentUserData.prenom} ${currentUserData.nom || ""}`.trim()
-            : currentUser.email || "Membre";
+        if (!user) {
 
-    const role =
-        currentUserData?.role || "member";
+            hideElement("userBar");
 
-    if ($("currentUserName")) {
-        $("currentUserName").textContent =
-            name;
-    }
+            hideElement("publishButton");
 
-    if ($("currentUserRole")) {
-        $("currentUserRole").textContent =
-            role;
-    }
+            return;
+        }
 
-    if (
-        PUBLISHER_ROLES.includes(role) ||
-        ADMIN_ROLES.includes(role)
-    ) {
-        showElement(publishButton);
-    } else {
-        hideElement(publishButton);
-    }
+
+        console.log(
+            "Utilisateur connecté :",
+            user.email
+        );
+
+
+        showElement("userBar");
+
+
+        try {
+
+            const userReference =
+                doc(db, "users", user.uid);
+
+            const userSnapshot =
+                await getDoc(userReference);
+
+
+            if (userSnapshot.exists()) {
+
+                const profile =
+                    userSnapshot.data();
+
+
+                const name =
+                    `${profile.prenom || ""} ${profile.nom || ""}`.trim();
+
+
+                $("currentUserName").textContent =
+                    name || user.email;
+
+
+                $("currentUserRole").textContent =
+                    profile.role || "Member";
+
+
+                const publishingRoles = [
+                    "technicien",
+                    "researcher",
+                    "educator",
+                    "developer",
+                    "responsible",
+                    "admin",
+                    "super_admin"
+                ];
+
+
+                if (
+                    publishingRoles.includes(
+                        profile.role
+                    )
+                ) {
+
+                    showElement("publishButton");
+
+                }
+
+            }
+
+            loadNotifications(user.uid);
+
+        } catch (error) {
+
+            console.error(
+                "Erreur chargement profil :",
+                error
+            );
+
+        }
+
+    });
 }
 
-/* =========================================================
-   PUBLICATIONS
-   ========================================================= */
 
-function startPublicationListener() {
+// ============================================================
+// PUBLICATIONS — MUR DU CAMPUS
+// ============================================================
+
+function loadPublications() {
+
+    if (!db) {
+        return;
+    }
+
     const feed = $("campusFeed");
 
     if (!feed) {
         return;
     }
 
-    if (unsubscribePublications) {
-        unsubscribePublications();
-    }
 
-    const publicationsQuery = query(
-        collection(db, "publications"),
-        orderBy("date", "desc"),
-        limit(30)
-    );
+    const publicationsQuery =
+        query(
+            collection(db, "publications"),
+            orderBy("date", "desc"),
+            limit(30)
+        );
 
-    unsubscribePublications =
-        onSnapshot(
-            publicationsQuery,
-            (snapshot) => {
 
-                if (snapshot.empty) {
-                    feed.innerHTML = `
-                        <div class="empty-state">
-                            Aucune publication pour le moment.
-                            Le Campus sera bientôt actif.
-                        </div>
-                    `;
+    onSnapshot(
+        publicationsQuery,
 
-                    updateMissionCount(0);
+        snapshot => {
 
-                    return;
-                }
+            feed.innerHTML = "";
 
-                const publications =
-                    snapshot.docs.map((document) => ({
-                        id: document.id,
-                        ...document.data()
-                    }));
 
-                renderPublications(
-                    publications
-                );
-
-                updateMissionCount(
-                    publications.filter(
-                        (publication) =>
-                            publication.type ===
-                            "nouvelle_mission"
-                    ).length
-                );
-            },
-            (error) => {
-                console.error(
-                    "Erreur publications :",
-                    error
-                );
+            if (snapshot.empty) {
 
                 feed.innerHTML = `
                     <div class="empty-state">
-                        Le Mur du Campus est momentanément indisponible.
+                        Aucune publication pour le moment.
                     </div>
                 `;
+
+                return;
             }
-        );
+
+
+            snapshot.forEach(documentSnapshot => {
+
+                const publication =
+                    documentSnapshot.data();
+
+                const card =
+                    createPublicationCard(
+                        documentSnapshot.id,
+                        publication
+                    );
+
+                feed.appendChild(card);
+
+            });
+
+        },
+
+        error => {
+
+            console.error(
+                "Erreur chargement publications :",
+                error
+            );
+
+            feed.innerHTML = `
+                <div class="empty-state">
+                    Impossible de charger le Mur du Campus pour le moment.
+                </div>
+            `;
+
+        }
+    );
 }
 
-/* =========================================================
-   RENDER PUBLICATIONS
-   ========================================================= */
 
-function renderPublications(publications) {
-    const feed = $("campusFeed");
+// ============================================================
+// CARTE PUBLICATION
+// ============================================================
 
-    if (!feed) {
-        return;
-    }
+function createPublicationCard(id, publication) {
 
-    feed.innerHTML =
-        publications
-            .map(renderPublication)
-            .join("");
-}
+    const article =
+        document.createElement("article");
 
-/* =========================================================
-   RENDER ONE PUBLICATION
-   ========================================================= */
+    article.className =
+        "publication-card";
 
-function renderPublication(publication) {
-    const authorName =
+
+    const type =
+        publication.type || "annonce";
+
+
+    const author =
         publication.author_name ||
-        publication.nom_auteur ||
         "DeepRDMMakademy";
+
 
     const role =
         publication.author_role ||
-        publication.role ||
         "Campus";
+
 
     const content =
         publication.contenu ||
-        publication.content ||
         "";
 
-    const type =
-        publication.type ||
-        "annonce";
 
-    const image =
-        publication.image ||
-        "";
+    const pinned =
+        publication.pinned === true;
 
-    const isPinned =
-        publication.pinned === true ||
-        publication.epingle === true;
 
-    const likes =
-        Number(publication.likes_count || 0);
+    article.innerHTML = `
 
-    const superCount =
-        Number(publication.super_count || 0);
+        <div class="publication-header">
 
-    const geniusCount =
-        Number(publication.genial_count || 0);
+            <div>
+                <strong>${escapeHtml(author)}</strong>
 
-    const usefulCount =
-        Number(publication.utile_count || 0);
-
-    return `
-        <article
-            class="publication-card ${isPinned ? "pinned" : ""}"
-            data-publication-id="${escapeHTML(publication.id)}"
-        >
-
-            ${
-                isPinned
-                    ? `<span class="pin-label">📌 ÉPINGLÉ</span>`
-                    : ""
-            }
-
-            <div class="publication-top">
-
-                <div class="publication-author">
-
-                    <div class="author-avatar">
-                        ${escapeHTML(initials(authorName))}
-                    </div>
-
-                    <div class="author-info">
-
-                        <strong>
-                            ${escapeHTML(authorName)}
-                        </strong>
-
-                        <small>
-                            ${escapeHTML(role)}
-                            ·
-                            ${escapeHTML(formatDate(publication.date))}
-                        </small>
-
-                    </div>
-
-                </div>
-
-                <span class="publication-type">
-                    ${escapeHTML(publicationTypeLabel(type))}
-                </span>
-
-            </div>
-
-            <div class="publication-content">
-                ${escapeHTML(content)}
+                <small>
+                    ${escapeHtml(role)}
+                </small>
             </div>
 
             ${
-                image
-                    ? `
-                        <img
-                            class="publication-image"
-                            src="${escapeHTML(image)}"
-                            alt="Publication DeepRDMMakademy"
-                            loading="lazy"
-                        >
-                    `
+                pinned
+                    ? `<span class="publication-pinned">📌 ÉPINGLÉ</span>`
                     : ""
             }
 
-            <div class="publication-actions">
+        </div>
 
-                <button
-    
+
+        <div class="publication-type">
+            ${formatPublicationType(type)}
+        </div>
+
+
+        <div class="publication-content">
+            ${escapeHtml(content)}
+        </div>
+
+
+        ${
+            publication.image
+                ? `
+                    <img
+                        class="publication-image"
+                        src="${escapeAttribute(publication.image)}"
+                        alt="Publication DeepRDMMakademy"
+                    >
+                  `
+                : ""
+        }
+
+
+        <div class="publication-actions">
+
+            <button
+                type="button"
+                class="reaction-button"
+                data-publication="${id}"
+                data-reaction="likes_count"
+            >
+                👍
+                <span>${publication.likes_count || 0}</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-button"
+                data-publication="${id}"
+                data-reaction="super_count"
+            >
+                ⭐
+                <span>${publication.super_count || 0}</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-button"
+                data-publication="${id}"
+                data-reaction="genial_count"
+            >
+                🚀
+                <span>${publication.genial_count || 0}</span>
+            </button>
+
+
+            <button
+                type="button"
+                class="reaction-button"
+                data-publication="${id}"
+             
