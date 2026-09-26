@@ -1,152 +1,2048 @@
-html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepRDMMakademy HQ // Tananarive</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        :root {
-            --bg: #010208;
-            --neon-cyan: #00F0FF;
-            --neon-pink: #FF00F0;
-            --panel: rgba(0, 20, 40, 0.6);
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
-        body { background: var(--bg); color: white; overflow-x: hidden; }
-        
-        /* FOND ANIMÉ LABO */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
 
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; border-bottom: 1px solid var(--neon-cyan); backdrop-filter: blur(10px); }
-        .logo { font-size: 28px; color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
-        .status { color: #0f0; } .status::before { content: "● "; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-        .hero { text-align: center; padding: 100px 5%; }
-        .hero h1 { font-size: 4vw; text-shadow: 0 0 20px var(--neon-pink); }
-        .hero p { color: #aaa; margin: 20px 0; }
+    <meta
+        name="description"
+        content="DeepRDMMakademy — Un campus numérique où la science, la technologie, la création et l'humain se rencontrent."
+    >
 
-        /* GRILLE DES CONSOLES DU LABO */
-        .grid-lab { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 5%; }
-        .console { 
-            background: var(--panel); border: 1px solid var(--neon-cyan); border-radius: 10px; padding: 25px;
-            box-shadow: 0 0 20px rgba(0,240,255,0.2); transition: 0.3s;
-            backdrop-filter: blur(5px);
-        }
-        .console:hover { transform: translateY(-10px); box-shadow: 0 0 40px var(--neon-cyan); }
-        .console h3 { color: var(--neon-cyan); border-bottom: 1px dashed var(--neon-cyan); padding-bottom: 10px; margin-bottom: 15px; }
-        .btn-lab { background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink); padding: 10px 20px; cursor: pointer; width: 100%; margin-top: 10px; }
-        .btn-lab:hover { background: var(--neon-pink); color: var(--bg); box-shadow: 0 0 15px var(--neon-pink); }
+    <meta
+        name="theme-color"
+        content="#0a0f1e"
+    >
 
-        /* TABLEAU DE BORD */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
-        .stat { background: #000; padding: 15px; border: 1px solid #333; }
-        .stat .valeur { font-size: 24px; color: var(--neon-pink); }
+    <title>DeepRDMMakademy — Campus numérique</title>
 
-        /* SCANNER */
-        .scanner { height: 200px; background: url('https://i.gifer.com/7Y4S.gif') center/cover; border: 1px solid var(--neon-cyan); }
-    </style>
+    <!-- =========================================================
+         POLICES
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         ICONES
+    ========================================================== -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- =========================================================
+         CSS PRINCIPAL
+    ========================================================== -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div id="particles-js"></div>
 
-    <header>
-        <div class="logo">DeepRDMMakademy // HQ</div>
-        <div class="status">SYSTÈMES EN LIGNE // TANANARIVE</div>
+
+<body>
+
+<!-- =========================================================
+     APPLICATION
+========================================================== -->
+
+<div id="app">
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="main-header">
+
+        <div class="header-left">
+
+            <a href="#accueil" class="brand" aria-label="DeepRDMMakademy">
+
+                <div class="brand-logo">
+                    DRM
+                </div>
+
+                <div class="brand-text">
+
+                    <strong>
+                        DeepRDMMakademy
+                    </strong>
+
+                    <span>
+                        L’art de la science et de la technologie
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="header-actions">
+
+            <!-- Notifications -->
+
+            <button
+                class="icon-button"
+                id="notificationButton"
+                aria-label="Notifications"
+                title="Notifications"
+            >
+                <i class="fa-regular fa-bell"></i>
+
+                <span
+                    class="notification-dot"
+                    id="notificationDot"
+                ></span>
+            </button>
+
+
+            <!-- Suivre -->
+
+            <button
+                class="follow-button"
+                id="followButton"
+            >
+
+                <i class="fa-regular fa-user"></i>
+
+                <span>
+                    SUIVRE
+                </span>
+
+            </button>
+
+
+            <!-- Menu -->
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Ouvrir le menu"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
     </header>
 
-    <section class="hero">
-        <h1>BIENVENUE DANS LE FUTUR</h1>
-        <p>Le premier Laboratoire Numérique d'Afrique. Fondé sur un canapé. Construit pour l'Univers.</p>
-        <button class="btn-lab" onclick="scanFondateur()">ACCÈS FONDATEUR</button>
-    </section>
 
-    <!-- LES CONSOLES DU LABO -->
-    <section class="grid-lab">
-        
-        <div class="console">
-            <h3>// MODULE ÉCOLE</h3>
-            <p>Accéder aux Cours, Diplômes, et Preuves Terrain.</p>
-            <div class="scanner"></div>
-            <button class="btn-lab">ENTRER EN COURS</button>
-        </div>
+    <!-- =====================================================
+         MENU MOBILE / MENU GLOBAL
+    ====================================================== -->
 
-        <div class="console">
-            <h3>// MODULE COMMERCE</h3>
-            <p>Marketplace, Abonnements, Enchères Premium.</p>
-            <div class="stats-grid">
-                <div class="stat"><div>CA 24H</div><div class="valeur" id="ca24">0 $</div></div>
-                <div class="stat"><div>VENTES</div><div class="valeur" id="ventes">0</div></div>
+    <aside
+        class="side-menu"
+        id="sideMenu"
+        aria-hidden="true"
+    >
+
+        <div class="side-menu-header">
+
+            <div class="side-menu-brand">
+
+                <div class="brand-logo small">
+                    DRM
+                </div>
+
+                <div>
+                    <strong>
+                        DeepRDMMakademy
+                    </strong>
+
+                    <small>
+                        Campus numérique
+                    </small>
+                </div>
+
             </div>
-            <button class="btn-lab">OUVRIR BOUTIQUE</button>
+
+
+            <button
+                id="closeMenuButton"
+                class="close-button"
+                aria-label="Fermer le menu"
+            >
+                ×
+            </button>
+
         </div>
 
-        <div class="console">
-            <h3>// MODULE STAFF IA</h3>
-            <p>Analyser la Valeur Économique de chaque Chercheur.</p>
-            <div id="listeStaff"></div>
-            <button class="btn-lab">TABLEAU COMPLET</button>
+
+        <nav class="main-navigation">
+
+            <a href="#accueil">
+                <i class="fa-solid fa-house"></i>
+                <span>Accueil</span>
+            </a>
+
+            <a href="#explorer">
+                <i class="fa-regular fa-compass"></i>
+                <span>Explorer</span>
+            </a>
+
+            <a href="#ecole">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>École</span>
+            </a>
+
+            <a href="#laboratoires">
+                <i class="fa-solid fa-flask"></i>
+                <span>Laboratoires</span>
+            </a>
+
+            <a href="#labo-maison">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Labo Maison</span>
+            </a>
+
+            <a href="#missions">
+                <i class="fa-solid fa-rocket"></i>
+                <span>Missions</span>
+            </a>
+
+            <a href="#communaute">
+                <i class="fa-solid fa-users"></i>
+                <span>Communauté</span>
+            </a>
+
+            <a href="#marketplace">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Marketplace</span>
+            </a>
+
+            <a href="#feed">
+                <i class="fa-solid fa-comments"></i>
+                <span>Feed</span>
+            </a>
+
+            <a href="#encheres">
+                <i class="fa-solid fa-gavel"></i>
+                <span>Enchères</span>
+            </a>
+
+            <a href="#ressources">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>Ressources</span>
+            </a>
+
+            <div class="navigation-divider"></div>
+
+            <a href="#soutenir">
+                <i class="fa-solid fa-heart"></i>
+                <span>Soutenir DeepRDM</span>
+            </a>
+
+            <a href="#publicite">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Faire de la publicité</span>
+            </a>
+
+            <div class="navigation-divider"></div>
+
+            <button
+                class="menu-login-button"
+                id="loginButton"
+            >
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Se connecter
+            </button>
+
+            <button
+                class="menu-member-button"
+                id="memberButton"
+            >
+                <i class="fa-solid fa-user-plus"></i>
+                Devenir membre
+            </button>
+
+        </nav>
+
+    </aside>
+
+
+    <div
+        class="menu-overlay"
+        id="menuOverlay"
+    ></div>
+
+
+    <!-- =====================================================
+         CONTENU PRINCIPAL
+    ====================================================== -->
+
+    <main id="mainContent">
+
+
+        <!-- =================================================
+             HERO
+        ================================================== -->
+
+        <section
+            class="hero-section"
+            id="accueil"
+        >
+
+            <div class="hero-background"></div>
+
+            <div class="hero-content">
+
+                <div class="campus-status">
+
+                    <span class="status-light"></span>
+
+                    CAMPUS NUMÉRIQUE ACTIF
+
+                </div>
+
+
+                <h1>
+
+                    Bienvenue dans
+
+                    <span>
+                        DeepRDMMakademy
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Un campus numérique où la science,
+                    la technologie, la création et l’humain
+                    se rencontrent.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <button
+                        class="primary-button"
+                        id="joinMovementButton"
+                    >
+
+                        Rejoindre le mouvement
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                    <a
+                        href="#explorer"
+                        class="secondary-button"
+                    >
+
+                        <i class="fa-regular fa-eye"></i>
+
+                        Explorer le campus
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-orbit">
+
+                <div class="orbit-ring"></div>
+
+                <div class="orbit-label">
+
+                    <i class="fa-solid fa-earth-africa"></i>
+
+                    <span>
+                        De Madagascar
+                        <br>
+                        au Monde
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LES GRANDES PORTES DU CAMPUS
+        ================================================== -->
+
+        <section
+            class="campus-pillars section-container"
+            id="explorer"
+        >
+
+            <div
+                class="pillar-card"
+                id="ecole"
+                data-action="ecole"
+            >
+
+                <div class="pillar-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+
+                <h3>
+                    École
+                </h3>
+
+                <p>
+                    Cours &amp; Diplômes
+                </p>
+
+            </div>
+
+
+            <div
+                class="pillar-card"
+                id="laboratoires"
+                data-action="laboratoires"
+            >
+
+                <div class="pillar-icon">
+                    <i class="fa-solid fa-flask"></i>
+                </div>
+
+                <h3>
+                    Laboratoires
+                </h3>
+
+                <p>
+                    Recherches &amp; Innovations
+                </p>
+
+            </div>
+
+
+            <div
+                class="pillar-card"
+                id="labo-maison"
+                data-action="labo-maison"
+            >
+
+                <div class="pillar-icon">
+                    <i class="fa-solid fa-house"></i>
+                </div>
+
+                <h3>
+                    Labo Maison
+                </h3>
+
+                <p>
+                    Expériences IRL
+                </p>
+
+            </div>
+
+
+            <div
+                class="pillar-card"
+                id="missions"
+                data-action="missions"
+            >
+
+                <div class="pillar-icon">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+
+                <h3>
+                    Missions
+                </h3>
+
+                <p>
+                    Explorer l’univers
+                </p>
+
+            </div>
+
+
+            <div
+                class="pillar-card"
+                id="communaute"
+                data-action="communaute"
+            >
+
+                <div class="pillar-icon">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+
+                <h3>
+                    Communauté
+                </h3>
+
+                <p>
+                    Partager &amp; Évoluer
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             VISITES DU CAMPUS
+        ================================================== -->
+
+        <section class="feature-grid section-container">
+
+
+            <!-- CAMPUS -->
+
+            <article class="feature-card">
+
+                <div class="feature-image campus-image"></div>
+
+                <div class="feature-content">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+
+                    <h2>
+                        VISITER LE CAMPUS
+                    </h2>
+
+                    <p>
+                        Découvre nos bâtiments,
+                        nos laboratoires, la bibliothèque
+                        et tout l’univers DeepRDM.
+                    </p>
+
+                    <button
+                        class="primary-button small"
+                        data-action="campus"
+                    >
+
+                        Explorer le campus
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+
+            <!-- LABORATOIRES -->
+
+            <article class="feature-card">
+
+                <div class="feature-image laboratory-image"></div>
+
+                <div class="feature-content">
+
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-flask"></i>
+                    </div>
+
+                    <h2>
+                        VISITER LES LABORATOIRES
+                    </h2>
+
+                    <p>
+                        Plonge dans nos labos et découvre
+                        nos équipements et projets de pointe.
+                    </p>
+
+                    <button
+                        class="primary-button small"
+                        data-action="laboratoires"
+                    >
+
+                        Explorer les labos
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================================
+             SERVICES
+        ================================================== -->
+
+        <section class="service-grid section-container">
+
+
+            <button
+                class="service-card"
+                id="marketplace"
+                data-action="marketplace"
+            >
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        Marketplace
+                    </strong>
+
+                    <span>
+                        Produits &amp; Créations
+                    </span>
+                </div>
+
+            </button>
+
+
+            <button
+                class="service-card"
+                id="feed"
+                data-action="feed"
+            >
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        Feed
+                    </strong>
+
+                    <span>
+                        Actualités &amp; Partage
+                    </span>
+                </div>
+
+            </button>
+
+
+            <button
+                class="service-card"
+                id="encheres"
+                data-action="encheres"
+            >
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-gavel"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        Enchères
+                    </strong>
+
+                    <span>
+                        Objets rares &amp; uniques
+                    </span>
+                </div>
+
+            </button>
+
+
+            <button
+                class="service-card"
+                id="ressources"
+                data-action="ressources"
+            >
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+
+                <div>
+                    <strong>
+                        Ressources
+                    </strong>
+
+                    <span>
+                        Guides &amp; Outils
+                    </span>
+                </div>
+
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             ESPACE MEMBRE
+        ================================================== -->
+
+        <section class="member-banner section-container">
+
+            <div class="member-banner-content">
+
+                <div class="member-badge">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    RÉSERVÉ AUX MEMBRES
+
+                </div>
+
+
+                <h2>
+                    Rejoins DeepRDMMakademy
+                </h2>
+
+
+                <p>
+                    Accède à tous les parcours, aux cours,
+                    aux missions, aux ressources et bien plus encore.
+                </p>
+
+
+                <button
+                    class="primary-button"
+                    id="becomeMemberButton"
+                >
+
+                    Devenir membre
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="member-visual">
+
+                <div class="helmet-effect">
+
+                    <i class="fa-solid fa-user-astronaut"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FEED / POST EN VEDETTE
+        ================================================== -->
+
+        <section class="feed-preview section-container">
+
+            <div class="post-card">
+
+                <div class="post-header">
+
+                    <div class="post-label">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        POST VALEUR
+
+                    </div>
+
+
+                    <button
+                        class="post-menu"
+                        aria-label="Options"
+                    >
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+
+                </div>
+
+
+                <div class="post-body">
+
+                    <div class="post-image robot-image"></div>
+
+
+                    <div class="post-information">
+
+                        <span class="content-type">
+                            Produit
+                        </span>
+
+                        <h2>
+                            Robot Explorer X —
+                            Nouvelle version
+                        </h2>
+
+                        <p>
+                            Un robot plus rapide,
+                            plus autonome, conçu pour
+                            les missions sur Mars.
+                            Disponible dès maintenant !
+                        </p>
+
+
+                        <div class="product-purchase">
+
+                            <strong>
+                                299 $
+                            </strong>
+
+                            <button
+                                class="primary-button small"
+                                data-action="acheter"
+                            >
+                                Acheter maintenant
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="post-footer">
+
+                    <div class="post-stat">
+
+                        <i class="fa-regular fa-heart"></i>
+
+                        <span>
+                            842
+                        </span>
+
+                    </div>
+
+
+                    <div class="post-stat">
+
+                        <i class="fa-regular fa-comment"></i>
+
+                        <span>
+                            196
+                        </span>
+
+                    </div>
+
+
+                    <div class="post-stat">
+
+                        <i class="fa-solid fa-share"></i>
+
+                        <span>
+                            241
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="#marketplace"
+                        class="view-more"
+                    >
+                        Voir plus
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MISSION EN VEDETTE
+        ================================================== -->
+
+        <section class="mission-banner section-container">
+
+            <div class="mission-icon">
+
+                <i class="fa-solid fa-bullhorn"></i>
+
+            </div>
+
+
+            <div class="mission-text">
+
+                <strong>
+                    Nouveau : Événement Spécial —
+                    Mission Mars !
+                </strong>
+
+                <span>
+                    Rejoins la mission, relève les défis
+                    et gagne des récompenses exclusives.
+                </span>
+
+            </div>
+
+
+            <button
+                class="text-button"
+                data-action="mission-mars"
+            >
+
+                Voir détails
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             SOUTENIR DEEPRDMM
+        ================================================== -->
+
+        <section
+            class="support-section section-container"
+            id="soutenir"
+        >
+
+            <div class="support-icon">
+
+                <i class="fa-solid fa-heart"></i>
+
+            </div>
+
+
+            <div class="support-content">
+
+                <span class="section-kicker">
+                    SOUTENIR LE CAMPUS
+                </span>
+
+                <h2>
+                    Aidez DeepRDMMakademy
+                    à grandir
+                </h2>
+
+                <p>
+                    Vous pouvez soutenir le développement
+                    du campus scientifique, même sans
+                    devenir membre.
+                </p>
+
+                <button
+                    class="primary-button"
+                    id="supportButton"
+                >
+
+                    Soutenir le projet
+
+                    <i class="fa-solid fa-heart"></i>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PUBLICITÉ POUR NON-MEMBRES
+        ================================================== -->
+
+        <section
+            class="advertising-section section-container"
+            id="publicite"
+        >
+
+            <div class="advertising-header">
+
+                <div>
+
+                    <span class="section-kicker">
+                        OUVERT AUX NON-MEMBRES
+                    </span>
+
+                    <h2>
+                        Faites connaître
+                        votre activité
+                    </h2>
+
+                    <p>
+                        Vous n'êtes pas membre ?
+                        Vous pouvez quand même présenter
+                        votre entreprise, votre projet,
+                        votre produit ou votre service
+                        à la communauté DeepRDMMakademy.
+                    </p>
+
+                </div>
+
+
+                <div class="advertising-icon">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="advertising-features">
+
+
+                <div class="advertising-feature">
+
+                    <i class="fa-solid fa-image"></i>
+
+                    <div>
+
+                        <strong>
+                            Créez votre publicité
+                        </strong>
+
+                        <span>
+                            Image, texte, vidéo ou lien.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advertising-feature">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <div>
+
+                        <strong>
+                            Choisissez votre durée
+                        </strong>
+
+                        <span>
+                            Définissez la période de diffusion.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advertising-feature">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <div>
+
+                        <strong>
+                            Suivez vos résultats
+                        </strong>
+
+                        <span>
+                            Consultez les statistiques
+                            de votre campagne.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advertising-feature">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <div>
+
+                        <strong>
+                            Validation DeepRDM
+                        </strong>
+
+                        <span>
+                            Chaque publicité est vérifiée
+                            avant diffusion.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="advertising-price-box">
+
+                <div>
+
+                    <span>
+                        TARIFICATION
+                    </span>
+
+                    <strong>
+                        Frais transparents
+                    </strong>
+
+                    <p>
+                        DeepRDMMakademy applique des frais
+                        de service aux campagnes publicitaires
+                        des non-membres.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="createAdButton"
+                >
+
+                    Créer une publicité
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             APPEL COMMUNAUTÉ
+        ================================================== -->
+
+        <section class="community-section section-container">
+
+            <div class="community-content">
+
+                <span class="section-kicker">
+                    UN CAMPUS POUR TOUS
+                </span>
+
+                <h2>
+                    Apprendre.
+                    Créer.
+                    Explorer.
+                    Ensemble.
+                </h2>
+
+                <p>
+                    DeepRDMMakademy rassemble les personnes
+                    qui souhaitent apprendre, expérimenter,
+                    partager et construire de nouvelles idées.
+                </p>
+
+                <div class="community-buttons">
+
+                    <button
+                        class="primary-button"
+                        id="communityJoinButton"
+                    >
+
+                        Rejoindre la communauté
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                    <button
+                        class="secondary-button"
+                        id="communityFollowButton"
+                    >
+
+                        <i class="fa-regular fa-bell"></i>
+
+                        Suivre les actualités
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         NAVIGATION MOBILE
+    ====================================================== -->
+
+    <nav class="bottom-navigation">
+
+        <a
+            href="#accueil"
+            class="bottom-nav-item active"
+        >
+
+            <i class="fa-solid fa-house"></i>
+
+            <span>
+                Accueil
+            </span>
+
+        </a>
+
+
+        <a
+            href="#explorer"
+            class="bottom-nav-item"
+        >
+
+            <i class="fa-regular fa-compass"></i>
+
+            <span>
+                Explorer
+            </span>
+
+        </a>
+
+
+        <button
+            class="create-button"
+            id="createButton"
+            aria-label="Créer"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+        </button>
+
+
+        <button
+            class="bottom-nav-item"
+            id="bottomNotificationButton"
+        >
+
+            <i class="fa-regular fa-bell"></i>
+
+            <span>
+                Notifications
+            </span>
+
+            <span
+                class="bottom-notification-dot"
+            ></span>
+
+        </button>
+
+
+        <button
+            class="bottom-nav-item"
+            id="profileButton"
+        >
+
+            <i class="fa-regular fa-user"></i>
+
+            <span>
+                Profil
+            </span>
+
+        </button>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MODAL — SUIVRE
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="followModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                data-close-modal="followModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+
+
+            <h2>
+                Suivre DeepRDMMakademy
+            </h2>
+
+            <p>
+                Recevez les actualités,
+                nouvelles missions et nouveautés
+                du campus.
+            </p>
+
+
+            <form id="followForm">
+
+                <div class="form-group">
+
+                    <label for="followName">
+                        Nom
+                    </label>
+
+                    <input
+                        type="text"
+                        id="followName"
+                        name="name"
+                        placeholder="Votre nom"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="followEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="followEmail"
+                        name="email"
+                        placeholder="vous@email.com"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button full-width"
+                >
+
+                    Commencer à suivre
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
         </div>
 
-        <div class="console">
-            <h3>// CAISSE LABO TANA</h3>
-            <p>10% de chaque vente va ici. Objectif : Vrai Labo.</p>
-            <div class="stat"><div class="valeur" id="caisseTana" style="font-size:32px;">0 $</div></div>
-            <div style="background:#333; height:20px; border-radius:10px;"><div id="progressBar" style="background:var(--neon-pink); width:0%; height:100%;"></div></div>
-            <p>Objectif 20 000$ : <span id="progressText">0%</span></p>
+    </div>
+
+
+    <!-- =====================================================
+         MODAL — DEVENIR MEMBRE
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="memberModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                data-close-modal="memberModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-solid fa-user-astronaut"></i>
+
+            </div>
+
+
+            <h2>
+                Rejoins DeepRDMMakademy
+            </h2>
+
+
+            <p>
+                Crée ton compte gratuitement
+                et découvre ton espace personnel.
+            </p>
+
+
+            <div class="auth-options">
+
+                <button
+                    class="auth-button google"
+                    id="googleSignInButton"
+                >
+
+                    <i class="fa-brands fa-google"></i>
+
+                    Continuer avec Google
+
+                </button>
+
+
+                <button
+                    class="auth-button email"
+                    id="emailSignInButton"
+                >
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    Continuer avec Email
+
+                </button>
+
+            </div>
+
+
+            <p class="small-note">
+
+                La création du compte est gratuite.
+                Les éventuels abonnements concernent
+                uniquement les fonctionnalités soumises
+                au mode de paiement du campus.
+
+            </p>
+
         </div>
 
-        <div class="console">
-            <h3>// FIL D'ACTU HOLOGRAPHIQUE</h3>
-            <p>Publier une annonce à 1 000 000 d'élèves.</p>
-            <input type="text" id="postInput" placeholder="Nouvelle découverte..." style="width:100%; background:#000; border:1px solid var(--neon-cyan); color:white; padding:10px;">
-            <button class="btn-lab" onclick="publier()">TRANSMETTRE</button>
+    </div>
+
+
+    <!-- =====================================================
+         MODAL — SOUTIEN
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="supportModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                data-close-modal="supportModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon support-modal-icon">
+
+                <i class="fa-solid fa-heart"></i>
+
+            </div>
+
+
+            <h2>
+                Soutenir DeepRDMMakademy
+            </h2>
+
+
+            <p>
+                Votre soutien contribue au développement
+                du campus, de la recherche et des projets
+                scientifiques.
+            </p>
+
+
+            <div class="support-options">
+
+                <button
+                    class="support-option"
+                    data-support="financial"
+                >
+
+                    <i class="fa-solid fa-coins"></i>
+
+                    <span>
+                        Soutien financier
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="support-option"
+                    data-support="equipment"
+                >
+
+                    <i class="fa-solid fa-microscope"></i>
+
+                    <span>
+                        Matériel scientifique
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="support-option"
+                    data-support="partnership"
+                >
+
+                    <i class="fa-solid fa-handshake"></i>
+
+                    <span>
+                        Partenariat
+                    </span>
+
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="console">
-            <h3>// MUSÉE DES ORIGINES</h3>
-            <p>Les archives du Fondateur. Le Canapé. Le Robot V1.</p>
-            <button class="btn-lab">VOIR LES ARCHIVES</button>
+    </div>
+
+
+    <!-- =====================================================
+         MODAL — CRÉER PUBLICITÉ
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="advertisingModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content advertising-modal">
+
+            <button
+                class="modal-close"
+                data-close-modal="advertisingModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon advertising-modal-icon">
+
+                <i class="fa-solid fa-bullhorn"></i>
+
+            </div>
+
+
+            <h2>
+                Créer une publicité
+            </h2>
+
+
+            <p>
+                Aucun compte membre n'est nécessaire
+                pour proposer une publicité.
+            </p>
+
+
+            <form id="advertisingForm">
+
+
+                <div class="form-group">
+
+                    <label for="advertiserName">
+                        Nom / Entreprise
+                    </label>
+
+                    <input
+                        type="text"
+                        id="advertiserName"
+                        name="advertiserName"
+                        placeholder="Nom de votre entreprise"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertiserEmail">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="advertiserEmail"
+                        name="advertiserEmail"
+                        placeholder="contact@entreprise.com"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertiserPhone">
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="advertiserPhone"
+                        name="advertiserPhone"
+                        placeholder="+261 ..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertisementTitle">
+                        Titre de la publicité
+                    </label>
+
+                    <input
+                        type="text"
+                        id="advertisementTitle"
+                        name="title"
+                        placeholder="Titre de votre annonce"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertisementDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="advertisementDescription"
+                        name="description"
+                        rows="4"
+                        placeholder="Présentez votre activité..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertisementUrl">
+                        Lien de destination
+                    </label>
+
+                    <input
+                        type="url"
+                        id="advertisementUrl"
+                        name="url"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="advertising-form-grid">
+
+                    <div class="form-group">
+
+                        <label for="advertisementStart">
+                            Début
+                        </label>
+
+                        <input
+                            type="date"
+                            id="advertisementStart"
+                            name="startDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="advertisementEnd">
+                            Fin
+                        </label>
+
+                        <input
+                            type="date"
+                            id="advertisementEnd"
+                            name="endDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="advertisementBudget">
+                        Budget publicitaire
+                    </label>
+
+                    <input
+                        type="number"
+                        id="advertisementBudget"
+                        name="budget"
+                        min="0"
+                        placeholder="Montant"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="advertising-fee-info">
+
+                    <div>
+
+                        <span>
+                            Budget publicité
+                        </span>
+
+                        <strong id="adBudgetDisplay">
+                            0 Ar
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Frais DeepRDMMakademy
+                        </span>
+
+                        <strong id="adFeeDisplay">
+                            Calculés à l'étape suivante
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="advertising-notice">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    <span>
+                        Votre publicité sera examinée par
+                        DeepRDMMakademy avant sa diffusion.
+                    </span>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button full-width"
+                >
+
+                    Continuer
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
         </div>
 
-    </section>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script>
-// FOND PARTICULES
-particlesJS("particles-js", {"particles":{"number":{"value":80},"color":{"value":"#00F0FF"},"shape":{"type":"circle"},"opacity":{"value":0.5},"size":{"value":3},"line_linked":{"enable":true,"color":"#00F0FF"},"move":{"enable":true,"speed":2}}});
 
-// FAKE DATA
-let ca = 15240.50;
-let caisse = ca * 0.1;
-let objectif = 20000;
+    <!-- =====================================================
+         MODAL — CRÉATION
+    ====================================================== -->
 
-document.getElementById('ca24').innerText = ca.toFixed(2) + " $";
-document.getElementById('ventes').innerText = "127";
-document.getElementById('caisseTana').innerText = caisse.toFixed(2) + " $";
-document.getElementById('progressBar').style.width = (caisse/objectif)*100 + "%";
-document.getElementById('progressText').innerText = ((caisse/objectif)*100).toFixed(1) + "%";
+    <div
+        class="modal"
+        id="createModal"
+        aria-hidden="true"
+    >
 
-let staff = [{nom:"Dr. RAKOTO", val: "+4380$"}, {nom:"Ing. LEE", val: "+58$"}];
-let staffHtml = "";
-staff.forEach(s => staffHtml += `<p>${s.nom} : <span style="color:#0f0;">${s.val}</span></p>`);
-document.getElementById('listeStaff').innerHTML = staffHtml;
+        <div class="modal-overlay"></div>
 
-function scanFondateur() {
-    let mdp = prompt("SCAN RÉTINIEN FONDATEUR :");
-    if(mdp === "canapé2026") alert("ACCÈS NIVEAU 10 ACCORDÉ. BIENVENUE CHEF.");
-    else alert("ACCÈS REFUSÉ");
-}
+        <div class="modal-content">
 
-function publier() {
-    let txt = document.getElementById('postInput').value;
-    if(txt !== "") {
-        alert("TRANSMISSION HOLOGRAPHIQUE ENVOYÉE À TOUS LES ÉLÈVES.");
-        document.getElementById('postInput').value = "";
-    }
-}
-</script>
+            <button
+                class="modal-close"
+                data-close-modal="createModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-solid fa-plus"></i>
+
+            </div>
+
+
+            <h2>
+                Créer
+            </h2>
+
+
+            <div class="create-options">
+
+                <button data-create="post">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    <span>
+                        Publication
+                    </span>
+
+                </button>
+
+
+                <button data-create="project">
+
+                    <i class="fa-solid fa-flask"></i>
+
+                    <span>
+                        Projet
+                    </span>
+
+                </button>
+
+
+                <button data-create="product">
+
+                    <i class="fa-solid fa-cart-shopping"></i>
+
+                    <span>
+                        Produit
+                    </span>
+
+                </button>
+
+
+                <button data-create="mission">
+
+                    <i class="fa-solid fa-rocket"></i>
+
+                    <span>
+                        Mission
+                    </span>
+
+                </button>
+
+
+                <button data-create="advertisement">
+
+                    <i class="fa-solid fa-bullhorn"></i>
+
+                    <span>
+                        Publicité
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MODAL — NOTIFICATIONS
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="notificationModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                data-close-modal="notificationModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-regular fa-bell"></i>
+
+            </div>
+
+
+            <h2>
+                Notifications
+            </h2>
+
+
+            <div
+                class="notifications-list"
+                id="notificationsList"
+            >
+
+                <div class="empty-state">
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <p>
+                        Aucune nouvelle notification.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MODAL — PROFIL
+    ====================================================== -->
+
+    <div
+        class="modal"
+        id="profileModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+        <div class="modal-content">
+
+            <button
+                class="modal-close"
+                data-close-modal="profileModal"
+            >
+                ×
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-regular fa-user"></i>
+
+            </div>
+
+
+            <h2>
+                Votre profil
+            </h2>
+
+
+            <p>
+                Connectez-vous pour accéder
+                à votre espace personnel.
+            </p>
+
+
+            <button
+                class="primary-button full-width"
+                id="profileLoginButton"
+            >
+
+                Se connecter
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+
+            <button
+                class="secondary-button full-width"
+                id="profileMemberButton"
+            >
+
+                Devenir membre
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TOAST / MESSAGES
+    ====================================================== -->
+
+    <div
+        class="toast"
+        id="toast"
+        role="status"
+        aria-live="polite"
+    >
+
+        <div class="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div class="toast-content">
+
+            <strong id="toastTitle">
+                Information
+            </strong>
+
+            <span id="toastMessage">
+                Message
+            </span>
+
+        </div>
+
+        <button
+            id="toastClose"
+            aria-label="Fermer"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     FIREBASE
+========================================================== -->
+
+<script type="module" src="firebase-config.js"></script>
+
+
+<!-- =========================================================
+     APPLICATION JAVASCRIPT
+========================================================== -->
+
+<script type="module" src="app.js"></script>
+
+
 </body>
 </html>
