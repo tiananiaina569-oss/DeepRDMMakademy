@@ -1,980 +1,152 @@
+html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
-    >
-
-    <meta
-        name="description"
-        content="DeepRDMMakademy — L'art de la science et de la technologie."
-    >
-
-    <meta name="theme-color" content="#050b18">
-
-    <title>DeepRDMMakademy — Campus numérique</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepRDMMakademy HQ // Tananarive</title>
     <style>
-        /* =========================================================
-           DEEPRDMMAKADEMY — HOME
-           Version mobile-first
-           ========================================================= */
-
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         :root {
-            --bg: #050b18;
-            --bg-2: #071225;
-            --panel: rgba(8, 22, 43, .88);
-            --panel-2: rgba(10, 30, 55, .78);
-
-            --cyan: #00d9ff;
-            --cyan-2: #00a9ff;
-            --blue: #227cff;
-
-            --text: #f4f8ff;
-            --muted: #9db0c8;
-            --line: rgba(0, 210, 255, .24);
-
-            --success: #00f5a0;
-            --warning: #ffd166;
-            --danger: #ff4d6d;
-
-            --radius: 20px;
-            --radius-sm: 14px;
-
-            --shadow:
-                0 0 35px rgba(0, 190, 255, .10);
-
-            --max: 1180px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            min-height: 100vh;
-            background:
-                radial-gradient(
-                    circle at 50% -10%,
-                    rgba(0, 175, 255, .16),
-                    transparent 38%
-                ),
-                radial-gradient(
-                    circle at 100% 40%,
-                    rgba(25, 70, 255, .10),
-                    transparent 30%
-                ),
-                var(--bg);
-
-            color: var(--text);
-
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            opacity: .20;
-
-            background-image:
-                linear-gradient(
-                    rgba(0, 210, 255, .025) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(0, 210, 255, .025) 1px,
-                    transparent 1px
-                );
-
-            background-size: 42px 42px;
-            z-index: -1;
-        }
-
-        button,
-        input,
-        textarea,
-        select {
-            font: inherit;
-        }
-
-        button,
-        a {
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .drm-home {
-            width: 100%;
-        }
-
-        .drm-container {
-            width: min(
-                calc(100% - 28px),
-                var(--max)
-            );
-
-            margin: auto;
-        }
-
-
-        /* =========================================================
-           HEADER
-           ========================================================= */
-
-        .drm-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-
-            border-bottom: 1px solid rgba(0, 210, 255, .20);
-
-            background:
-                rgba(3, 10, 24, .92);
-
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-        }
-
-        .drm-header-inner {
-            min-height: 76px;
-
-            width: min(
-                calc(100% - 24px),
-                1240px
-            );
-
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .drm-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            min-width: 0;
-            flex: 1;
-        }
-
-        .drm-logo {
-            width: 46px;
-            height: 46px;
-
-            flex: 0 0 46px;
-
-            border-radius: 50%;
-
-            display: grid;
-            place-items: center;
-
-            color: var(--cyan);
-
-            font-size: 13px;
-            font-weight: 900;
-
-            letter-spacing: .5px;
-
-            border: 1px solid var(--cyan);
-
-            background:
-                radial-gradient(
-                    circle,
-                    rgba(0, 217, 255, .18),
-                    rgba(0, 30, 60, .7)
-                );
-
-            box-shadow:
-                0 0 14px rgba(0, 217, 255, .45),
-                inset 0 0 16px rgba(0, 217, 255, .10);
-        }
-
-        .drm-brand-text {
-            min-width: 0;
-        }
-
-        .drm-brand-name {
-            font-size: 15px;
-            font-weight: 800;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .drm-brand-slogan {
-            margin-top: 2px;
-
-            color: var(--muted);
-
-            font-size: 9px;
-            white-space: nowrap;
-        }
-
-        .drm-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .drm-icon-btn,
-        .drm-follow-btn,
-        .drm-join-btn,
-        .drm-menu-btn {
-            min-height: 42px;
-            min-width: 42px;
-
-            border-radius: 13px;
-
-            border: 1px solid var(--line);
-
-            color: var(--text);
-
-            background:
-                rgba(8, 24, 45, .82);
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            transition:
-                transform .2s ease,
-                border-color .2s ease,
-                box-shadow .2s ease,
-                background .2s ease;
-        }
-
-        .drm-icon-btn:hover,
-        .drm-follow-btn:hover,
-        .drm-menu-btn:hover {
-            border-color: var(--cyan);
-            box-shadow: 0 0 18px rgba(0, 217, 255, .18);
-        }
-
-        .drm-icon-btn:active,
-        .drm-follow-btn:active,
-        .drm-join-btn:active,
-        .drm-menu-btn:active {
-            transform: scale(.96);
-        }
-
-        .drm-follow-btn {
-            padding: 0 13px;
-
-            color: var(--cyan);
-
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .drm-join-btn {
-            padding: 0 14px;
-
-            color: #00121e;
-
-            border-color: var(--cyan);
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #00e5ff,
-                    #00a8ff
-                );
-
-            font-size: 12px;
-            font-weight: 900;
-
-            box-shadow:
-                0 0 20px rgba(0, 217, 255, .25);
-        }
-
-        .drm-menu-btn {
-            font-size: 22px;
-        }
-
-        .drm-notification-dot {
-            position: absolute;
-
-            width: 7px;
-            height: 7px;
-
-            margin:
-                -25px
-                -25px
-                0
-                0;
-
-            border-radius: 50%;
-
-            background: #ff3f68;
-
-            box-shadow:
-                0 0 10px #ff3f68;
-        }
-
-
-        /* =========================================================
-           MOBILE MENU
-           ========================================================= */
-
-        .drm-mobile-menu {
-            display: none;
-
-            position: absolute;
-            left: 12px;
-            right: 12px;
-            top: calc(100% + 8px);
-
-            padding: 12px;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .24);
-
-            border-radius: 18px;
-
-            background:
-                rgba(4, 14, 30, .97);
-
-            box-shadow:
-                0 20px 60px rgba(0, 0, 0, .5);
-
-            backdrop-filter: blur(20px);
-        }
-
-        .drm-mobile-menu.active {
-            display: block;
-        }
-
-        .drm-mobile-menu a,
-        .drm-mobile-menu button {
-            width: 100%;
-
-            min-height: 48px;
-
-            padding: 0 15px;
-
-            border: 0;
-            border-bottom:
-                1px solid
-                rgba(255,255,255,.06);
-
-            background: transparent;
-
-            color: var(--text);
-
-            text-align: left;
-
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .drm-mobile-menu a:last-child,
-        .drm-mobile-menu button:last-child {
-            border-bottom: 0;
-        }
-
-
-        /* =========================================================
-           HERO
-           ========================================================= */
-
-        .drm-hero {
-            position: relative;
-            overflow: hidden;
-
-            min-height: 560px;
-
-            display: flex;
-            align-items: flex-end;
-
-            border-bottom:
-                1px solid
-                rgba(0, 217, 255, .15);
-
-            background:
-                radial-gradient(
-                    circle at 70% 30%,
-                    rgba(0, 217, 255, .23),
-                    transparent 25%
-                ),
-                radial-gradient(
-                    circle at 80% 75%,
-                    rgba(38, 73, 255, .24),
-                    transparent 28%
-                ),
-                linear-gradient(
-                    180deg,
-                    #07172e 0%,
-                    #061226 50%,
-                    #050b18 100%
-                );
-        }
-
-        .drm-hero::before {
-            content: "";
-
-            position: absolute;
-
-            width: 440px;
-            height: 440px;
-
-            right: -150px;
-            top: 80px;
-
-            border-radius: 50%;
-
-            background:
-                radial-gradient(
-                    circle at 35% 35%,
-                    rgba(0, 220, 255, .35),
-                    rgba(0, 40, 80, .85) 55%,
-                    #020816 70%
-                );
-
-            box-shadow:
-                0 0 70px rgba(0, 180, 255, .25);
-
-            opacity: .9;
-        }
-
-        .drm-hero::after {
-            content: "";
-
-            position: absolute;
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    transparent 0 93%,
-                    rgba(0, 217, 255, .12) 94%,
-                    transparent 95%
-                );
-
-            background-size: 100% 38px;
-
-            opacity: .25;
-            pointer-events: none;
-        }
-
-        .drm-hero-grid {
-            position: absolute;
-            inset: auto 0 0;
-
-            height: 240px;
-
-            transform:
-                perspective(500px)
-                rotateX(58deg);
-
-            transform-origin: bottom;
-
-            background-image:
-                linear-gradient(
-                    rgba(0, 217, 255, .12) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(0, 217, 255, .12) 1px,
-                    transparent 1px
-                );
-
-            background-size: 44px 44px;
-
-            mask-image:
-                linear-gradient(
-                    to top,
-                    black,
-                    transparent
-                );
-
-            opacity: .45;
-        }
-
-        .drm-hero-content {
-            position: relative;
-            z-index: 2;
-
-            width: min(
-                calc(100% - 28px),
-                var(--max)
-            );
-
-            margin: auto;
-
-            padding:
-                70px
-                0
-                34px;
-        }
-
-        .drm-status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            padding: 8px 13px;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .35);
-
-            border-radius: 999px;
-
-            color: #bdf8ff;
-
-            background:
-                rgba(0, 217, 255, .08);
-
-            font-size: 11px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: .5px;
-        }
-
-        .drm-status-dot {
-            width: 8px;
-            height: 8px;
-
-            border-radius: 50%;
-
-            background: var(--success);
-
-            box-shadow:
-                0 0 12px var(--success);
-        }
-
-        .drm-hero h1 {
-            max-width: 780px;
-
-            margin-top: 18px;
-
-            font-size:
-                clamp(
-                    42px,
-                    10vw,
-                    78px
-                );
-
-            line-height: .98;
-
-            letter-spacing: -2px;
-
-            font-weight: 900;
-        }
-
-        .drm-hero h1 span {
-            color: var(--cyan);
-
-            text-shadow:
-                0 0 30px
-                rgba(0, 217, 255, .30);
-        }
-
-        .drm-hero-description {
-            max-width: 680px;
-
-            margin-top: 22px;
-
-            color: #b8c9dc;
-
-            font-size:
-                clamp(
-                    16px,
-                    4vw,
-                    21px
-                );
-
-            line-height: 1.65;
-        }
-
-        .drm-hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 10px;
-
-            margin-top: 28px;
-        }
-
-        .drm-primary-btn,
-        .drm-secondary-btn {
-            min-height: 52px;
-
-            padding: 0 20px;
-
-            border-radius: 15px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 9px;
-
-            font-size: 13px;
-            font-weight: 900;
-        }
-
-        .drm-primary-btn {
-            border: 1px solid var(--cyan);
-
-            color: #00121c;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #00e6ff,
-                    #00a7ff
-                );
-
-            box-shadow:
-                0 0 25px
-                rgba(0, 217, 255, .22);
-        }
-
-        .drm-secondary-btn {
-            border:
-                1px solid
-                rgba(0, 217, 255, .55);
-
-            color: var(--cyan);
-
-            background:
-                rgba(0, 20, 40, .60);
-        }
-
-
-        /* =========================================================
-           CAMPUS STATS
-           ========================================================= */
-
-        .drm-stats {
-            position: relative;
-            z-index: 5;
-
-            margin-top: -20px;
-        }
-
-        .drm-stats-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 10px;
-        }
-
-        .drm-stat {
-            padding: 16px;
-
-            min-height: 100px;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .20);
-
-            border-radius: 17px;
-
-            background:
-                rgba(7, 22, 43, .90);
-
-            box-shadow:
-                var(--shadow);
-        }
-
-        .drm-stat-label {
-            color: var(--muted);
-
-            font-size: 10px;
-
-            text-transform: uppercase;
-            letter-spacing: .8px;
-        }
-
-        .drm-stat-value {
-            margin-top: 7px;
-
-            font-size: 25px;
-            font-weight: 900;
-
-            color: var(--cyan);
-        }
-
-        .drm-stat-small {
-            margin-top: 3px;
-
-            color: #8096ae;
-
-            font-size: 10px;
-        }
-
-
-        /* =========================================================
-           SECTION
-           ========================================================= */
-
-        .drm-section {
-            padding: 45px 0 0;
-        }
-
-        .drm-section-heading {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 20px;
-
-            margin-bottom: 18px;
-        }
-
-        .drm-kicker {
-            color: var(--cyan);
-
-            font-size: 10px;
-            font-weight: 900;
-
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-        .drm-section-title {
-            margin-top: 5px;
-
-            font-size:
-                clamp(
-                    24px,
-                    6vw,
-                    38px
-                );
-
-            line-height: 1.1;
-
-            font-weight: 900;
-        }
-
-        .drm-section-description {
-            max-width: 600px;
-
-            margin-top: 8px;
-
-            color: var(--muted);
-
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-
-        /* =========================================================
-           QUICK ACCESS
-           ========================================================= */
-
-        .drm-quick-panel {
-            padding: 18px;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .22);
-
-            border-radius: var(--radius);
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(10, 32, 57, .92),
-                    rgba(4, 15, 30, .94)
-                );
-
-            box-shadow: var(--shadow);
-        }
-
-        .drm-quick-grid {
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 10px;
-        }
-
-        .drm-quick-card {
-            min-height: 125px;
-
-            padding: 16px 12px;
-
-            border:
-                1px solid
-                rgba(0, 180, 255, .22);
-
-            border-radius: 16px;
-
-            background:
-                rgba(4, 18, 36, .75);
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            text-align: center;
-
-            transition:
-                transform .2s ease,
-                border-color .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .drm-quick-card:hover {
-            transform: translateY(-3px);
-
-            border-color: var(--cyan);
-
-            box-shadow:
-                0 0 22px
-                rgba(0, 217, 255, .15);
-        }
-
-        .drm-quick-icon {
-            width: 48px;
-            height: 48px;
-
-            margin-bottom: 9px;
-
-            border-radius: 14px;
-
-            display: grid;
-            place-items: center;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .35);
-
-            color: var(--cyan);
-
-            background:
-                rgba(0, 217, 255, .07);
-
-            font-size: 23px;
-        }
-
-        .drm-quick-title {
-            font-size: 13px;
-            font-weight: 900;
-        }
-
-        .drm-quick-subtitle {
-            margin-top: 4px;
-
-            color: var(--muted);
-
-            font-size: 9px;
-        }
-
-        .drm-locked {
-            position: relative;
-        }
-
-        .drm-lock {
-            position: absolute;
-
-            top: 8px;
-            right: 8px;
-
-            width: 22px;
-            height: 22px;
-
-            border-radius: 50%;
-
-            display: grid;
-            place-items: center;
-
-            color: #dbeeff;
-
-            background: rgba(0,0,0,.55);
-
-            font-size: 10px;
-        }
-
-
-        /* =========================================================
-           SIMULATION
-           ========================================================= */
-
-        .drm-simulation {
-            position: relative;
-            overflow: hidden;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .38);
-
-            border-radius: 24px;
-
-            background:
-                radial-gradient(
-                    circle at 85% 20%,
-                    rgba(0, 217, 255, .20),
-                    transparent 24%
-                ),
-                radial-gradient(
-                    circle at 20% 80%,
-                    rgba(70, 50, 255, .18),
-                    transparent 28%
-                ),
-                #061326;
-
-            box-shadow:
-                0 0 50px
-                rgba(0, 217, 255, .08);
-        }
-
-        .drm-simulation-inner {
-            position: relative;
-            z-index: 2;
-
-            padding: 24px;
-        }
-
-        .drm-simulation-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            padding: 7px 12px;
-
-            border-radius: 999px;
-
-            border:
-                1px solid
-                rgba(0, 217, 255, .40);
-
-            color: var(--
+            --bg: #010208;
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF00F0;
+            --panel: rgba(0, 20, 40, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+        body { background: var(--bg); color: white; overflow-x: hidden; }
+        
+        /* FOND ANIMÉ LABO */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; border-bottom: 1px solid var(--neon-cyan); backdrop-filter: blur(10px); }
+        .logo { font-size: 28px; color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        .status { color: #0f0; } .status::before { content: "● "; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .hero { text-align: center; padding: 100px 5%; }
+        .hero h1 { font-size: 4vw; text-shadow: 0 0 20px var(--neon-pink); }
+        .hero p { color: #aaa; margin: 20px 0; }
+
+        /* GRILLE DES CONSOLES DU LABO */
+        .grid-lab { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .console { 
+            background: var(--panel); border: 1px solid var(--neon-cyan); border-radius: 10px; padding: 25px;
+            box-shadow: 0 0 20px rgba(0,240,255,0.2); transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .console:hover { transform: translateY(-10px); box-shadow: 0 0 40px var(--neon-cyan); }
+        .console h3 { color: var(--neon-cyan); border-bottom: 1px dashed var(--neon-cyan); padding-bottom: 10px; margin-bottom: 15px; }
+        .btn-lab { background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink); padding: 10px 20px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-lab:hover { background: var(--neon-pink); color: var(--bg); box-shadow: 0 0 15px var(--neon-pink); }
+
+        /* TABLEAU DE BORD */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
+        .stat { background: #000; padding: 15px; border: 1px solid #333; }
+        .stat .valeur { font-size: 24px; color: var(--neon-pink); }
+
+        /* SCANNER */
+        .scanner { height: 200px; background: url('https://i.gifer.com/7Y4S.gif') center/cover; border: 1px solid var(--neon-cyan); }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <header>
+        <div class="logo">DeepRDMMakademy // HQ</div>
+        <div class="status">SYSTÈMES EN LIGNE // TANANARIVE</div>
+    </header>
+
+    <section class="hero">
+        <h1>BIENVENUE DANS LE FUTUR</h1>
+        <p>Le premier Laboratoire Numérique d'Afrique. Fondé sur un canapé. Construit pour l'Univers.</p>
+        <button class="btn-lab" onclick="scanFondateur()">ACCÈS FONDATEUR</button>
+    </section>
+
+    <!-- LES CONSOLES DU LABO -->
+    <section class="grid-lab">
+        
+        <div class="console">
+            <h3>// MODULE ÉCOLE</h3>
+            <p>Accéder aux Cours, Diplômes, et Preuves Terrain.</p>
+            <div class="scanner"></div>
+            <button class="btn-lab">ENTRER EN COURS</button>
+        </div>
+
+        <div class="console">
+            <h3>// MODULE COMMERCE</h3>
+            <p>Marketplace, Abonnements, Enchères Premium.</p>
+            <div class="stats-grid">
+                <div class="stat"><div>CA 24H</div><div class="valeur" id="ca24">0 $</div></div>
+                <div class="stat"><div>VENTES</div><div class="valeur" id="ventes">0</div></div>
+            </div>
+            <button class="btn-lab">OUVRIR BOUTIQUE</button>
+        </div>
+
+        <div class="console">
+            <h3>// MODULE STAFF IA</h3>
+            <p>Analyser la Valeur Économique de chaque Chercheur.</p>
+            <div id="listeStaff"></div>
+            <button class="btn-lab">TABLEAU COMPLET</button>
+        </div>
+
+        <div class="console">
+            <h3>// CAISSE LABO TANA</h3>
+            <p>10% de chaque vente va ici. Objectif : Vrai Labo.</p>
+            <div class="stat"><div class="valeur" id="caisseTana" style="font-size:32px;">0 $</div></div>
+            <div style="background:#333; height:20px; border-radius:10px;"><div id="progressBar" style="background:var(--neon-pink); width:0%; height:100%;"></div></div>
+            <p>Objectif 20 000$ : <span id="progressText">0%</span></p>
+        </div>
+
+        <div class="console">
+            <h3>// FIL D'ACTU HOLOGRAPHIQUE</h3>
+            <p>Publier une annonce à 1 000 000 d'élèves.</p>
+            <input type="text" id="postInput" placeholder="Nouvelle découverte..." style="width:100%; background:#000; border:1px solid var(--neon-cyan); color:white; padding:10px;">
+            <button class="btn-lab" onclick="publier()">TRANSMETTRE</button>
+        </div>
+
+        <div class="console">
+            <h3>// MUSÉE DES ORIGINES</h3>
+            <p>Les archives du Fondateur. Le Canapé. Le Robot V1.</p>
+            <button class="btn-lab">VOIR LES ARCHIVES</button>
+        </div>
+
+    </section>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+// FOND PARTICULES
+particlesJS("particles-js", {"particles":{"number":{"value":80},"color":{"value":"#00F0FF"},"shape":{"type":"circle"},"opacity":{"value":0.5},"size":{"value":3},"line_linked":{"enable":true,"color":"#00F0FF"},"move":{"enable":true,"speed":2}}});
+
+// FAKE DATA
+let ca = 15240.50;
+let caisse = ca * 0.1;
+let objectif = 20000;
+
+document.getElementById('ca24').innerText = ca.toFixed(2) + " $";
+document.getElementById('ventes').innerText = "127";
+document.getElementById('caisseTana').innerText = caisse.toFixed(2) + " $";
+document.getElementById('progressBar').style.width = (caisse/objectif)*100 + "%";
+document.getElementById('progressText').innerText = ((caisse/objectif)*100).toFixed(1) + "%";
+
+let staff = [{nom:"Dr. RAKOTO", val: "+4380$"}, {nom:"Ing. LEE", val: "+58$"}];
+let staffHtml = "";
+staff.forEach(s => staffHtml += `<p>${s.nom} : <span style="color:#0f0;">${s.val}</span></p>`);
+document.getElementById('listeStaff').innerHTML = staffHtml;
+
+function scanFondateur() {
+    let mdp = prompt("SCAN RÉTINIEN FONDATEUR :");
+    if(mdp === "canapé2026") alert("ACCÈS NIVEAU 10 ACCORDÉ. BIENVENUE CHEF.");
+    else alert("ACCÈS REFUSÉ");
+}
+
+function publier() {
+    let txt = document.getElementById('postInput').value;
+    if(txt !== "") {
+        alert("TRANSMISSION HOLOGRAPHIQUE ENVOYÉE À TOUS LES ÉLÈVES.");
+        document.getElementById('postInput').value = "";
+    }
+}
+</script>
+</body>
+</html>
