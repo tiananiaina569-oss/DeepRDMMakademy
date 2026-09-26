@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
 
@@ -10,669 +9,156 @@
     >
 
     <meta
-        name="theme-color"
-        content="#0a0f1e"
+        name="description"
+        content="DeepRDMMakademy — Campus numérique scientifique, laboratoire, recherche, apprentissage, missions et communauté."
     >
 
     <meta
-        name="description"
-        content="DeepRDMMakademy — Campus numérique scientifique, laboratoire, recherche, missions et communauté."
+        name="theme-color"
+        content="#06101f"
     >
 
     <title>DeepRDMMakademy — Campus numérique scientifique</title>
 
-    <link
-        rel="stylesheet"
-        href="styles.css"
-    >
-
-    <!-- =====================================================
-         AJOUTS VISUELS PROPRES À LA NOUVELLE HOME
-    ====================================================== -->
-    <style>
-
-        /* =====================================================
-           PORTAIL HOME
-        ====================================================== */
-
-        .home-portal {
-            width: min(1180px, calc(100% - 28px));
-            margin: 0 auto;
-        }
-
-        .hero {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: "";
-            position: absolute;
-            inset: 8% 0 auto;
-            height: 420px;
-            pointer-events: none;
-
-            background:
-                radial-gradient(
-                    circle at 75% 30%,
-                    rgba(0, 212, 255, 0.18),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at 25% 70%,
-                    rgba(36, 107, 255, 0.12),
-                    transparent 35%
-                );
-
-            z-index: -1;
-        }
-
-        .hero-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-
-            margin-bottom: 18px;
-            padding: 7px 11px;
-
-            border: 1px solid var(--border);
-            border-radius: 999px;
-
-            color: var(--primary);
-            background: rgba(0, 212, 255, 0.05);
-
-            font-size: 9px;
-            font-weight: 900;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
-        .hero-kicker::before {
-            content: "";
-            width: 7px;
-            height: 7px;
-
-            border-radius: 50%;
-            background: var(--success);
-
-            box-shadow:
-                0 0 12px rgba(53, 242, 154, 0.8);
-        }
-
-        .hero-subline {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-
-            margin-top: 20px;
-        }
-
-        .hero-subline span {
-            padding: 6px 9px;
-
-            border: 1px solid rgba(255,255,255,0.07);
-            border-radius: 999px;
-
-            color: var(--text-muted);
-            background: rgba(255,255,255,0.025);
-
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-
-        /* =====================================================
-           ACCÈS RAPIDES
-        ====================================================== */
-
-        .quick-access {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-
-            margin-top: 8px;
-        }
-
-        .quick-card {
-            min-height: 110px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            padding: 15px;
-
-            border: 1px solid var(--border);
-            border-radius: 15px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(0,212,255,0.06),
-                    rgba(13,20,40,0.82)
-                );
-
-            transition:
-                transform 0.2s ease,
-                border-color 0.2s ease,
-                background 0.2s ease;
-        }
-
-        .quick-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--border-strong);
-            background: var(--bg-card-hover);
-        }
-
-        .quick-icon {
-            width: 35px;
-            height: 35px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border: 1px solid var(--border);
-            border-radius: 10px;
-
-            color: var(--primary);
-            background: var(--primary-soft);
-
-            font-size: 17px;
-        }
-
-        .quick-card strong {
-            color: var(--white);
-            font-size: 12px;
-        }
-
-        .quick-card small {
-            color: var(--text-muted);
-            font-size: 9px;
-        }
-
-
-        /* =====================================================
-           PUBLICATION MISE EN AVANT
-        ====================================================== */
-
-        .featured-publication {
-            position: relative;
-
-            margin-top: 12px;
-            padding: 18px;
-
-            border: 1px solid var(--border-strong);
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(0,212,255,0.08),
-                    rgba(13,20,40,0.92)
-                );
-
-            box-shadow:
-                0 20px 50px rgba(0,0,0,0.25),
-                0 0 30px rgba(0,212,255,0.05);
-        }
-
-        .featured-label {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-
-            margin-bottom: 14px;
-        }
-
-        .featured-label strong {
-            color: var(--white);
-            font-size: 13px;
-        }
-
-        .featured-label span {
-            color: var(--primary);
-            font-size: 9px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .featured-placeholder {
-            padding: 24px 12px;
-
-            border: 1px dashed var(--border);
-            border-radius: 13px;
-
-            color: var(--text-muted);
-
-            text-align: center;
-            font-size: 11px;
-        }
-
-        .featured-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-
-            margin-top: 13px;
-        }
-
-        .featured-actions button,
-        .featured-actions a {
-            min-height: 34px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 6px 11px;
-
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 9px;
-
-            color: var(--text-soft);
-            background: rgba(255,255,255,0.025);
-
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .featured-actions button:hover,
-        .featured-actions a:hover {
-            color: var(--primary);
-            border-color: var(--border);
-            background: var(--primary-soft);
-        }
-
-        .see-publications {
-            margin-left: auto;
-
-            color: var(--primary) !important;
-            border-color: var(--border) !important;
-        }
-
-
-        /* =====================================================
-           GRAND PORTAIL
-        ====================================================== */
-
-        .portal-section {
-            padding-top: 35px;
-        }
-
-        .portal-intro {
-            max-width: 720px;
-            margin-bottom: 24px;
-        }
-
-        .portal-intro h2 {
-            margin-bottom: 9px;
-            color: var(--white);
-            font-size: clamp(27px, 6vw, 42px);
-            line-height: 1.08;
-        }
-
-        .portal-intro p {
-            color: var(--text-soft);
-            font-size: 14px;
-            line-height: 1.75;
-        }
-
-
-        /* =====================================================
-           PROFILS / REJOINDRE
-        ====================================================== */
-
-        .join-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .join-card {
-            display: flex;
-            flex-direction: column;
-
-            min-height: 190px;
-
-            padding: 18px;
-
-            border: 1px solid var(--border);
-            border-radius: 16px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(0,212,255,0.045),
-                    rgba(13,20,40,0.84)
-                );
-        }
-
-        .join-card.featured {
-            border-color: rgba(0,212,255,0.42);
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(0,212,255,0.11),
-                    rgba(13,20,40,0.9)
-                );
-        }
-
-        .join-icon {
-            width: 42px;
-            height: 42px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            margin-bottom: 18px;
-
-            border: 1px solid var(--border);
-            border-radius: 12px;
-
-            color: var(--primary);
-            background: var(--primary-soft);
-
-            font-size: 19px;
-        }
-
-        .join-card h3 {
-            margin-bottom: 7px;
-
-            color: var(--white);
-            font-size: 15px;
-        }
-
-        .join-card p {
-            flex: 1;
-
-            color: var(--text-muted);
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        .join-card button {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-
-        /* =====================================================
-           BARRE INFO
-        ====================================================== */
-
-        .lab-statement {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-
-            margin-top: 20px;
-        }
-
-        .statement-card {
-            padding: 18px;
-
-            border: 1px solid var(--border);
-            border-radius: 15px;
-
-            background: rgba(13,20,40,0.72);
-        }
-
-        .statement-card strong {
-            display: block;
-            margin-bottom: 5px;
-
-            color: var(--primary);
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .statement-card span {
-            color: var(--text-soft);
-            font-size: 12px;
-            line-height: 1.6;
-        }
-
-
-        /* =====================================================
-           MENU MOBILE
-        ====================================================== */
-
-        .mobile-menu {
-            display: none;
-        }
-
-        .mobile-menu-button {
-            width: 36px;
-            height: 36px;
-
-            align-items: center;
-            justify-content: center;
-
-            border: 1px solid var(--border);
-            border-radius: 10px;
-
-            color: var(--primary);
-            background: rgba(0,212,255,0.04);
-
-            cursor: pointer;
-            font-size: 17px;
-        }
-
-
-        /* =====================================================
-           RESPONSIVE
-        ====================================================== */
-
-        @media (max-width: 980px) {
-
-            .quick-access {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .join-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-
-        @media (max-width: 680px) {
-
-            .home-portal {
-                width: min(100% - 22px, 1180px);
-            }
-
-            .quick-access {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .quick-card {
-                min-height: 100px;
-            }
-
-            .quick-card:last-child {
-                grid-column: span 2;
-            }
-
-            .featured-publication {
-                padding: 14px;
-            }
-
-            .featured-label {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .join-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .lab-statement {
-                grid-template-columns: 1fr;
-            }
-
-            .mobile-menu-button {
-                display: flex;
-            }
-
-            .desktop-nav {
-                display: none !important;
-            }
-
-            .header-actions {
-                gap: 5px;
-            }
-
-            .header-actions .btn {
-                min-height: 35px;
-                padding: 7px 9px;
-                font-size: 8px;
-            }
-
-            .brand-text strong {
-                font-size: 11px;
-            }
-
-            .hero-actions .btn {
-                min-height: 46px;
-            }
-        }
-
-        @media (max-width: 390px) {
-
-            .quick-access {
-                gap: 7px;
-            }
-
-            .quick-card {
-                padding: 12px;
-            }
-
-            .header-actions .btn-outline {
-                display: none;
-            }
-
-            .featured-actions button,
-            .featured-actions a {
-                flex: 1 1 calc(50% - 7px);
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 
 <body>
 
 <!-- =========================================================
-     BACKGROUND
-========================================================== -->
-
-<div class="background-grid"></div>
-
-<div class="background-glow glow-one"></div>
-
-<div class="background-glow glow-two"></div>
-
-
-<!-- =========================================================
      HEADER
-========================================================== -->
+========================================================= -->
 
-<header class="main-header">
+<header class="site-header">
 
-    <a
-        href="index.html"
-        class="brand"
-        aria-label="Accueil DeepRDMMakademy"
-    >
+    <div class="header-inner">
 
-        <div class="brand-logo">
-            <span>DRM</span>
-        </div>
+        <a href="index.html" class="brand" aria-label="Accueil DeepRDMMakademy">
 
-        <div class="brand-text">
+            <div class="brand-mark">
+                DRM
+            </div>
 
-            <strong>
-                DeepRDMMakademy
-            </strong>
+            <div class="brand-text">
+                <strong>DeepRDMMakademy</strong>
+                <span>L'art de la science et de la technologie</span>
+            </div>
 
-            <small>
-                L'art de la science et de la technologie
-            </small>
-
-        </div>
-
-    </a>
-
-
-    <nav
-        class="desktop-nav"
-        aria-label="Navigation principale"
-    >
-
-        <a href="#campus">
-            Campus
         </a>
 
-        <a href="#laboratory">
-            Laboratoire
+        <nav class="desktop-navigation" aria-label="Navigation principale">
+
+            <a href="index.html" class="nav-link active">
+                Accueil
+            </a>
+
+            <a href="#campus" class="nav-link">
+                Campus
+            </a>
+
+            <a href="#laboratoires" class="nav-link">
+                Laboratoires
+            </a>
+
+            <a href="#missions" class="nav-link">
+                Missions
+            </a>
+
+            <a
+                href="academy.html"
+                class="nav-link member-only-link"
+                data-member-only="true"
+            >
+                Parcours
+            </a>
+
+        </nav>
+
+        <div class="header-actions">
+
+            <button
+                type="button"
+                class="header-button follow-button"
+                id="openFollowButton"
+            >
+                <span>＋</span>
+                <span>Suivre</span>
+            </button>
+
+            <button
+                type="button"
+                class="header-button join-button"
+                id="openJoinButton"
+            >
+                Rejoindre
+            </button>
+
+            <button
+                type="button"
+                class="notification-button"
+                id="openNotificationsButton"
+                aria-label="Notifications"
+            >
+                🔔
+                <span
+                    class="notification-dot"
+                    id="notificationDot"
+                    hidden
+                ></span>
+            </button>
+
+            <button
+                type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Ouvrir le menu"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- MENU MOBILE -->
+
+    <div
+        class="mobile-navigation"
+        id="mobileNavigation"
+        hidden
+    >
+
+        <a href="index.html">
+            🏠 Accueil
+        </a>
+
+        <a href="#campus">
+            🛰️ Campus
+        </a>
+
+        <a href="#laboratoires">
+            🧪 Laboratoires
         </a>
 
         <a href="#missions">
-            Missions
+            🚀 Missions
         </a>
 
-        <a href="#join">
-            Rejoindre
+        <a
+            href="academy.html"
+            data-member-only="true"
+            class="member-only-link"
+        >
+            🎓 Parcours
+            <small>Réservé aux membres</small>
         </a>
 
-    </nav>
-
-
-    <div class="header-actions">
-
         <button
-            id="followButton"
-            class="btn btn-outline"
             type="button"
+            id="mobileJoinButton"
         >
-            + Suivre
-        </button>
-
-
-        <button
-            id="memberButton"
-            class="btn btn-primary"
-            type="button"
-        >
-            Rejoindre
-        </button>
-
-
-        <button
-            id="notificationButton"
-            class="notification-button"
-            type="button"
-            aria-label="Notifications"
-        >
-
-            <span class="bell-icon">
-                🔔
-            </span>
-
-            <span
-                id="notificationBadge"
-                class="notification-badge hidden"
-            >
-                0
-            </span>
-
+            👤 Rejoindre DeepRDMMakademy
         </button>
 
     </div>
@@ -680,196 +166,109 @@
 </header>
 
 
-<!-- =========================================================
-     MAIN
-========================================================== -->
-
 <main>
 
-
 <!-- =========================================================
-     HERO
-========================================================== -->
+     HERO — LABORATOIRE NUMÉRIQUE
+========================================================= -->
 
-<section class="hero">
+<section class="hero-section">
+
+    <div class="hero-background-grid"></div>
+
+    <div class="hero-orbit orbit-one"></div>
+    <div class="hero-orbit orbit-two"></div>
+    <div class="hero-orbit orbit-three"></div>
 
     <div class="hero-content">
 
-        <div class="hero-kicker">
+        <div class="status-pill">
+            <span class="status-light"></span>
             CAMPUS NUMÉRIQUE ACTIF
         </div>
 
-
-        <h1>
-
-            Bienvenue dans
-
-            <span>
-                DeepRDMMakademy
-            </span>
-
-        </h1>
-
-
-        <p class="hero-description">
-
-            Un véritable laboratoire numérique où
-            l'on apprend, expérimente, recherche,
-            construit et partage autour de la science
-            et de la technologie.
-
+        <p class="hero-kicker">
+            DEEPRDM // DIGITAL SCIENCE CAMPUS
         </p>
 
+        <h1>
+            Bienvenue dans
+            <span>DeepRDMMakademy</span>
+        </h1>
+
+        <p class="hero-description">
+            Un véritable laboratoire numérique où l'on apprend,
+            expérimente, recherche, construit et partage.
+        </p>
 
         <div class="hero-actions">
 
             <button
                 type="button"
-                class="btn btn-primary"
-                onclick="scrollToCampus()"
+                class="primary-action"
+                id="heroJoinButton"
             >
-                Explorer le Campus
+                Rejoindre le Campus
+                <span>→</span>
             </button>
 
-
             <a
-                href="#laboratory"
-                class="btn btn-outline"
+                href="#laboratoires"
+                class="secondary-action"
             >
-                Entrer au Laboratoire
+                Explorer les laboratoires
+                <span>↗</span>
             </a>
 
         </div>
 
+        <!-- TABLEAU DE CONTRÔLE -->
 
-        <div class="hero-subline">
+        <div class="system-dashboard">
 
-            <span>
-                APPRENDRE
-            </span>
+            <div class="dashboard-top">
 
-            <span>
-                EXPÉRIMENTER
-            </span>
+                <span>SYSTEM STATUS</span>
 
-            <span>
-                RECHERCHER
-            </span>
-
-            <span>
-                CRÉER
-            </span>
-
-            <span>
-                PARTAGER
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         SYSTEM PANEL
-    ====================================================== -->
-
-    <div class="hero-panel">
-
-        <div class="panel-header">
-
-            <span>
-                DEEPRDM SYSTEM
-            </span>
-
-            <span class="online">
-                ● ONLINE
-            </span>
-
-        </div>
-
-
-        <div class="system-data">
-
-            <div>
-
-                <small>
-                    Campus
-                </small>
-
-                <strong>
-                    ACTIF
-                </strong>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Laboratoires
-                </small>
-
-                <strong>
-                    06
-                </strong>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Missions
-                </small>
-
-                <strong id="missionCount">
-                    --
-                </strong>
-
-            </div>
-
-
-            <div>
-
-                <small>
-                    Membres
-                </small>
-
-                <strong id="memberCount">
-                    --
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="lab-statement">
-
-            <div class="statement-card">
-
-                <strong>
-                    Visiteur
-                </strong>
-
-                <span>
-                    Explore librement le Campus,
-                    les laboratoires et les ressources.
+                <span class="online-status">
+                    ● ONLINE
                 </span>
 
             </div>
 
+            <div class="dashboard-grid">
 
-            <div class="statement-card">
+                <div class="dashboard-cell">
 
-                <strong>
-                    Membre
-                </strong>
+                    <small>CAMPUS</small>
 
-                <span>
-                    Accède aux parcours,
-                    missions et espaces réservés.
-                </span>
+                    <strong>ACTIF</strong>
+
+                </div>
+
+                <div class="dashboard-cell">
+
+                    <small>LABORATOIRES</small>
+
+                    <strong>06</strong>
+
+                </div>
+
+                <div class="dashboard-cell">
+
+                    <small>MISSIONS</small>
+
+                    <strong id="missionCounter">--</strong>
+
+                </div>
+
+                <div class="dashboard-cell">
+
+                    <small>MEMBRES</small>
+
+                    <strong id="memberCounter">--</strong>
+
+                </div>
 
             </div>
 
@@ -881,70 +280,696 @@
 
 
 <!-- =========================================================
-     PUBLICATION RÉCENTE
-========================================================== -->
+     ACCÈS RAPIDE
+========================================================= -->
 
-<section class="home-portal">
+<section class="quick-access-section" id="campus">
 
-    <div class="featured-publication">
+    <div class="section-heading">
 
-        <div class="featured-label">
+        <span class="section-label">
+            CAMPUS ACCESS
+        </span>
 
-            <strong>
-                📡 DERNIÈRE ACTUALITÉ DU CAMPUS
-            </strong>
+        <h2>
+            Tout le Campus.
+            <span>Un seul environnement.</span>
+        </h2>
 
-            <span>
-                PUBLICATION RÉCENTE
-            </span>
+        <p>
+            Les visiteurs peuvent découvrir DeepRDMMakademy,
+            ses laboratoires, ses missions, ses recherches et sa communauté.
+            Les parcours pédagogiques restent réservés aux membres autorisés.
+        </p>
 
-        </div>
+    </div>
 
 
-        <div id="homeFeaturedPublication">
+    <div class="access-grid">
 
-            <div class="featured-placeholder">
+        <a
+            href="index.html"
+            class="access-card"
+        >
 
-                La publication la plus récente
-                du Campus apparaîtra ici.
-
+            <div class="access-icon">
+                🛰️
             </div>
 
+            <div>
+                <strong>Campus</strong>
+                <span>Découvrir l'environnement DeepRDM</span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <a
+            href="#laboratoires"
+            class="access-card"
+        >
+
+            <div class="access-icon">
+                🧪
+            </div>
+
+            <div>
+                <strong>Laboratoires</strong>
+                <span>Explorer les six paillasses</span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <a
+            href="#missions"
+            class="access-card"
+        >
+
+            <div class="access-icon">
+                🚀
+            </div>
+
+            <div>
+                <strong>Missions</strong>
+                <span>Voir les opérations scientifiques</span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <a
+            href="resources.html"
+            class="access-card"
+        >
+
+            <div class="access-icon">
+                📚
+            </div>
+
+            <div>
+                <strong>Ressources</strong>
+                <span>Bibliothèque et ressources publiques</span>
+            </div>
+
+            <b>→</b>
+
+        </a>
+
+
+        <button
+            type="button"
+            class="access-card member-only-card"
+            data-member-action="true"
+        >
+
+            <div class="access-icon">
+                🎓
+            </div>
+
+            <div>
+                <strong>Parcours</strong>
+                <span>Réservé aux élèves et membres</span>
+            </div>
+
+            <b>🔒</b>
+
+        </button>
+
+
+        <button
+            type="button"
+            class="access-card"
+            id="openCreatorAccessButton"
+        >
+
+            <div class="access-icon">
+                📢
+            </div>
+
+            <div>
+                <strong>Publier</strong>
+                <span>Présenter un produit ou un service</span>
+            </div>
+
+            <b>→</b>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     LABORATOIRES
+========================================================= -->
+
+<section
+    class="laboratories-section"
+    id="laboratoires"
+>
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            DIGITAL LABORATORY
+        </span>
+
+        <h2>
+            Les 6 Paillasses
+        </h2>
+
+        <p>
+            Entrez dans les espaces spécialisés de DeepRDMMakademy.
+        </p>
+
+    </div>
+
+
+    <div class="laboratory-grid">
+
+        <a
+            href="ai-lab.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                01
+            </span>
+
+            <div class="lab-icon">
+                ◈
+            </div>
+
+            <h3>
+                AI Lab
+            </h3>
+
+            <p>
+                Intelligence artificielle,
+                modèles et systèmes intelligents.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+
+        <a
+            href="molecular-lab.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                02
+            </span>
+
+            <div class="lab-icon">
+                ⚗
+            </div>
+
+            <h3>
+                Molecular Lab
+            </h3>
+
+            <p>
+                Molécules, chimie,
+                biologie et sciences du vivant.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+
+        <a
+            href="robotics-lab.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                03
+            </span>
+
+            <div class="lab-icon">
+                ⚙
+            </div>
+
+            <h3>
+                Robotics Lab
+            </h3>
+
+            <p>
+                Robotique, automatisation
+                et systèmes mécatroniques.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+
+        <a
+            href="science-lab.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                04
+            </span>
+
+            <div class="lab-icon">
+                ∑
+            </div>
+
+            <h3>
+                Science Lab
+            </h3>
+
+            <p>
+                Physique, mathématiques,
+                sciences expérimentales.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+
+        <a
+            href="digital-lab.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                05
+            </span>
+
+            <div class="lab-icon">
+                ◉
+            </div>
+
+            <h3>
+                Digital Lab
+            </h3>
+
+            <p>
+                Technologies numériques,
+                données et informatique.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+
+        <a
+            href="simulation-center.html"
+            class="laboratory-card"
+        >
+
+            <span class="lab-number">
+                06
+            </span>
+
+            <div class="lab-icon">
+                ◌
+            </div>
+
+            <h3>
+                Simulation Center
+            </h3>
+
+            <p>
+                Simulations scientifiques
+                et environnements virtuels.
+            </p>
+
+            <span class="lab-enter">
+                Entrer dans le laboratoire →
+            </span>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MISSIONS
+========================================================= -->
+
+<section
+    class="missions-section"
+    id="missions"
+>
+
+    <div class="section-heading">
+
+        <span class="section-label">
+            ACTIVE OPERATIONS
+        </span>
+
+        <h2>
+            Missions en cours
+        </h2>
+
+        <p>
+            Les prochaines opérations scientifiques
+            apparaîtront ici.
+        </p>
+
+    </div>
+
+
+    <div class="mission-board">
+
+        <article class="mission-card">
+
+            <div class="mission-status">
+                EN PRÉPARATION
+            </div>
+
+            <span class="mission-code">
+                DRM-MISSION-001
+            </span>
+
+            <h3>
+                Prochaine mission scientifique
+            </h3>
+
+            <p>
+                Les prochaines missions seront publiées
+                depuis le Campus DeepRDMMakademy.
+            </p>
+
+            <button
+                type="button"
+                class="mission-button"
+                id="missionDetailsButton"
+            >
+                Voir les missions →
+            </button>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PUBLICATION / FEED
+========================================================= -->
+
+<section
+    class="publication-section"
+    id="publications"
+>
+
+    <div class="section-heading publication-heading">
+
+        <div>
+
+            <span class="section-label">
+                CAMPUS NETWORK
+            </span>
+
+            <h2>
+                Dernière actualité du Campus
+            </h2>
+
+            <p>
+                Actualités, missions, résultats,
+                créations et publications de la communauté.
+            </p>
+
         </div>
 
+        <a
+            href="projects.html"
+            class="view-all-link"
+        >
+            Voir les publications →
+        </a>
 
-        <div class="featured-actions">
+    </div>
 
-            <button
-                type="button"
-                onclick="showMemberForInteraction()"
-            >
-                ❤️ Réagir
-            </button>
 
-            <button
-                type="button"
-                onclick="showMemberForInteraction()"
-            >
-                💬 Commenter
-            </button>
+    <div
+        class="latest-publication"
+        id="latestPublication"
+        data-publication-container="latest"
+    >
 
-            <button
-                type="button"
-                onclick="shareCampus()"
-            >
-                ↗ Partager
-            </button>
+        <!--
+            app.js pourra remplacer ce contenu
+            automatiquement par la publication réelle
+            la plus récente.
+        -->
 
-            <a
-                href="#campus"
-                class="see-publications"
-            >
-                Voir les publications →
-            </a>
+        <div class="publication-empty">
+
+            <span class="publication-signal">
+                ● FEED EN ATTENTE
+            </span>
+
+            <h3>
+                Aucune publication récente
+            </h3>
+
+            <p>
+                Les nouvelles publications du Campus
+                apparaîtront automatiquement ici.
+            </p>
 
         </div>
 
     </div>
 
-</
+
+    <!-- ACTIONS DU FEED -->
+
+    <div class="publication-footer-actions">
+
+        <a
+            href="projects.html"
+            class="feed-button"
+        >
+            📰 Voir toutes les publications
+        </a>
+
+        <button
+            type="button"
+            class="feed-button"
+            id="openCreatorAccessButtonBottom"
+        >
+            📢 Publier un produit
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DEVENIR MEMBRE
+========================================================= -->
+
+<section class="join-section">
+
+    <div class="join-panel">
+
+        <div>
+
+            <span class="section-label">
+                ESPACE RÉSERVÉ
+            </span>
+
+            <h2>
+                Rejoins DeepRDMMakademy
+            </h2>
+
+            <p>
+                Apprends, participe aux missions,
+                construis ton parcours et rejoins
+                une communauté scientifique numérique.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="primary-action"
+            id="joinSectionButton"
+        >
+            Devenir membre →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ESPACE CRÉATEURS / ANNONCEURS
+========================================================= -->
+
+<section class="creator-section">
+
+    <div class="creator-panel">
+
+        <div class="creator-icon">
+            📢
+        </div>
+
+        <div class="creator-content">
+
+            <span class="section-label">
+                DEEPRDM SUPPORT &amp; SHARE
+            </span>
+
+            <h2>
+                Vous avez un produit,
+                un service ou un projet à présenter ?
+            </h2>
+
+            <p>
+                DeepRDMMakademy peut également servir
+                d'espace de visibilité et de partage.
+                Toute publication commerciale doit d'abord
+                être soumise à validation.
+            </p>
+
+            <div class="creator-rules">
+
+                <div>
+                    <span>01</span>
+                    <p>
+                        Remplir la demande de publication.
+                    </p>
+                </div>
+
+                <div>
+                    <span>02</span>
+                    <p>
+                        Attendre la validation de DeepRDM.
+                    </p>
+                </div>
+
+                <div>
+                    <span>03</span>
+                    <p>
+                        Après approbation, la publication
+                        peut être diffusée au Campus.
+                    </p>
+                </div>
+
+                <div>
+                    <span>04</span>
+                    <p>
+                        Des frais de visibilité peuvent
+                        s'appliquer selon la formule choisie.
+                    </p>
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="primary-action"
+                id="creatorApplyButton"
+            >
+                Demander à publier →
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-grid">
+
+        <div class="footer-brand">
+
+            <div class="brand-mark">
+                DRM
+            </div>
+
+            <strong>
+                DeepRDMMakademy
+            </strong>
+
+            <p>
+                L'art de la science et de la technologie.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Explorer
+            </h3>
+
+            <a href="#campus">
+                Campus
+            </a>
+
+            <a href="#laboratoires">
+                Laboratoires
+            </a>
+
+            <a href="#missions">
+                Missions
+            </a>
+
+            <a href="resources.html">
+                Ressources
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Communauté
+            </h3>
+
+            <button
+                type="button"
+                id="footerFollowButton"
+            >
+                Suivre DeepRDM
+            </button>
+
+            <button
+                type="b
