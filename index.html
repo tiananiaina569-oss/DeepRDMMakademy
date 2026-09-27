@@ -943,4 +943,102 @@
         }
 
         .followers {
-           
+            display: none;
+        }
+
+        .nav-btns button {
+            padding: 6px 8px;
+
+            font-size: 9px;
+
+            margin-left: 3px;
+        }
+
+        .hero {
+            min-height: 720px;
+
+            padding:
+                125px
+                12px
+                70px;
+        }
+
+        .hero h1 {
+            font-size: clamp(27px, 9vw, 42px);
+
+            line-height: 1.15;
+
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--neon-pink),
+                0 0 25px var(--neon-pink);
+        }
+
+        .hero > p {
+            font-size: 10px;
+
+            line-height: 1.6;
+
+            margin-top: 18px;
+        }
+
+        .hero-holo-panels {
+            grid-template-columns: 1fr;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+        .hero-panel,
+        .hero-panel:last-child {
+            min-height: 75px;
+
+            padding: 10px 13px;
+
+            text-align: center;
+        }
+
+        .hero-panel .panel-label {
+            font-size: 8px;
+        }
+
+        .hero-panel .panel-value {
+            font-size: 10px;
+        }
+
+        .hero-circuit-left {
+            left: -110px;
+        }
+
+        .hero-circuit-right {
+            right: -110px;
+        }
+
+        .grid-lab {
+            padding:
+                25px
+                12px;
+        }
+
+        .module {
+            padding: 20px;
+        }
+    }
+
+    /* Réduction des animations pour les appareils qui la demandent */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .hero::before,
+        .hero::after,
+        .hero h1,
+        .hero h1::after,
+        .hero-panel,
+        .hero-panel:last-child,
+        .hero-noise,
+        .hero-scanline {
+            animation: none !important;
+        }
+    }
+</style>
