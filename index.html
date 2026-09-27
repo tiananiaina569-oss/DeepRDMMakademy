@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#020817">
-<meta name="description" content="DeepRDMMakademy — Campus numérique scientifique, laboratoires, simulations, missions et communauté.">
 
 <title>DeepRDMMakademy — Campus Numérique</title>
 
@@ -13,29 +12,33 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 /* =========================================================
-   DEEPRDMMAKADEMY
-   HOME — HOLOGRAPHIC CAMPUS
-   ========================================================= */
+   DEEPRDMMAKADEMY — GLOBAL
+========================================================= */
 
 :root{
     --bg:#020817;
-    --bg2:#04152b;
-    --panel:#071b32;
-    --panel2:#092542;
+    --bg2:#041326;
+    --panel:#071a31;
+    --panel2:#0a2340;
+
     --cyan:#00eaff;
-    --cyan2:#00aaff;
-    --pink:#ff19e6;
-    --blue:#1677ff;
-    --white:#f4fbff;
-    --text:#d8efff;
-    --muted:#8fb4cc;
-    --line:rgba(0,234,255,.30);
-    --line2:rgba(255,25,230,.25);
-    --success:#19ff9b;
-    --warning:#ffd84a;
-    --danger:#ff4f7b;
-    --shadow:0 0 30px rgba(0,220,255,.14);
+    --cyan2:#00bfff;
+    --pink:#ff20e7;
+    --blue:#287cff;
+
+    --text:#f4fbff;
+    --muted:#a9c1d8;
+
+    --border:rgba(0,234,255,.30);
+    --borderStrong:rgba(0,234,255,.70);
+
+    --shadow:
+        0 0 15px rgba(0,234,255,.12),
+        inset 0 0 25px rgba(0,234,255,.035);
+
+    --radius:22px;
 }
 
 *{
@@ -51,130 +54,135 @@ html{
 body{
     min-height:100vh;
     background:
-        radial-gradient(circle at 50% 0%, rgba(0,126,255,.22), transparent 34%),
-        radial-gradient(circle at 90% 35%, rgba(0,234,255,.09), transparent 25%),
-        radial-gradient(circle at 10% 65%, rgba(255,25,230,.07), transparent 25%),
+        radial-gradient(circle at 50% -10%, rgba(0,183,255,.22), transparent 34%),
+        radial-gradient(circle at 100% 30%, rgba(255,32,231,.10), transparent 28%),
+        radial-gradient(circle at 0% 70%, rgba(0,234,255,.08), transparent 30%),
         #020817;
-    color:var(--white);
+
+    color:var(--text);
     font-family:Inter,Arial,sans-serif;
     overflow-x:hidden;
 }
 
-/* grille générale */
+/* grille permanente */
+
 body::before{
     content:"";
     position:fixed;
     inset:0;
-    z-index:-5;
     pointer-events:none;
+    z-index:-2;
+
     background-image:
         linear-gradient(rgba(0,234,255,.035) 1px,transparent 1px),
         linear-gradient(90deg,rgba(0,234,255,.035) 1px,transparent 1px);
+
     background-size:45px 45px;
-    mask-image:linear-gradient(to bottom,black,transparent 90%);
+
+    mask-image:linear-gradient(
+        to bottom,
+        black,
+        transparent 90%
+    );
 }
 
 /* halo */
+
 body::after{
     content:"";
     position:fixed;
-    width:650px;
-    height:650px;
-    top:10%;
+    width:500px;
+    height:500px;
     left:50%;
-    transform:translateX(-50%);
-    background:radial-gradient(circle,rgba(0,234,255,.08),transparent 68%);
-    filter:blur(30px);
-    z-index:-4;
+    top:35%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
     pointer-events:none;
+    z-index:-1;
+
+    background:radial-gradient(
+        circle,
+        rgba(0,234,255,.07),
+        transparent 70%
+    );
 }
+
 
 /* =========================================================
    HEADER
-   ========================================================= */
+========================================================= */
 
 header{
     position:sticky;
     top:0;
     z-index:1000;
-    height:76px;
-    border-bottom:1px solid rgba(0,234,255,.28);
-    background:rgba(2,10,25,.86);
-    backdrop-filter:blur(18px);
-    box-shadow:
-        0 8px 35px rgba(0,0,0,.35),
-        0 0 25px rgba(0,234,255,.05);
-}
 
-.header-inner{
-    width:min(1400px,94%);
-    height:100%;
-    margin:auto;
+    height:76px;
+
     display:flex;
     align-items:center;
-    gap:18px;
+    justify-content:space-between;
+
+    padding:10px 24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(2,10,25,.96),
+            rgba(2,13,28,.88)
+        );
+
+    border-bottom:1px solid rgba(0,234,255,.25);
+
+    backdrop-filter:blur(18px);
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.35),
+        0 0 25px rgba(0,234,255,.05);
 }
 
 .logo{
     display:flex;
     align-items:center;
-    gap:10px;
-    min-width:max-content;
+    gap:12px;
+    min-width:210px;
 }
 
 .logo-orb{
     width:48px;
     height:48px;
-    border:2px solid var(--cyan);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     border-radius:50%;
-    display:grid;
-    place-items:center;
+
+    border:2px solid var(--cyan);
+
     color:var(--cyan);
+
     font-family:Orbitron,sans-serif;
-    font-size:13px;
+    font-size:12px;
     font-weight:800;
-    background:
-        radial-gradient(circle,rgba(0,234,255,.20),rgba(0,20,45,.75));
+
     box-shadow:
-        0 0 12px rgba(0,234,255,.75),
-        inset 0 0 20px rgba(0,234,255,.16);
+        0 0 12px rgba(0,234,255,.7),
+        inset 0 0 15px rgba(0,234,255,.15);
+
+    background:rgba(0,234,255,.06);
 }
 
 .logo-text strong{
     display:block;
-    font-family:Orbitron,sans-serif;
-    font-size:15px;
-    letter-spacing:.3px;
-    color:#ffffff;
+    color:#fff;
+    font-size:17px;
 }
 
-.logo-text small{
+.logo-text span{
     display:block;
     margin-top:3px;
-    color:#9ed7ef;
-    font-size:9px;
-}
-
-.main-nav{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:7px;
-    flex:1;
-}
-
-.main-nav a{
-    color:#d9f4ff;
-    text-decoration:none;
-    font-size:12px;
-    padding:9px 11px;
-    border-radius:9px;
-    transition:.2s;
-}
-
-.main-nav a:hover{
-    color:#fff;
-    background:rgba(0,234,255,.09);
+    color:#91aac2;
+    font-size:10px;
 }
 
 .header-actions{
@@ -184,26 +192,32 @@ header{
 }
 
 .icon-btn,
-.follow-btn,
-.join-btn,
-.menu-btn{
-    border:1px solid rgba(0,234,255,.45);
-    background:rgba(0,130,190,.10);
-    color:#e9fbff;
-    border-radius:24px;
-    min-height:38px;
-    padding:0 13px;
+.header-btn{
+    min-height:40px;
+
+    padding:0 15px;
+
+    border:1px solid rgba(0,234,255,.38);
+    border-radius:999px;
+
+    background:rgba(0,35,65,.70);
+    color:#eafaff;
+
     cursor:pointer;
-    font-weight:700;
-    transition:.2s;
+
+    transition:.25s;
 }
 
 .icon-btn{
-    width:40px;
+    width:42px;
     padding:0;
-    display:grid;
-    place-items:center;
-    font-size:18px;
+}
+
+.icon-btn:hover,
+.header-btn:hover{
+    border-color:var(--cyan);
+    box-shadow:0 0 18px rgba(0,234,255,.25);
+    transform:translateY(-1px);
 }
 
 .follow-btn{
@@ -211,610 +225,842 @@ header{
 }
 
 .join-btn{
-    background:linear-gradient(135deg,#00dfff,#00aeea);
-    color:#00121c;
+    background:linear-gradient(
+        135deg,
+        #00eaff,
+        #00aeea
+    );
+
+    color:#00101d;
+
     border:none;
-    box-shadow:0 0 18px rgba(0,234,255,.35);
+    font-weight:800;
+
+    box-shadow:0 0 20px rgba(0,234,255,.28);
 }
 
 .menu-btn{
     display:none;
-    width:42px;
-    padding:0;
-    font-size:20px;
 }
+
 
 /* =========================================================
    HERO
-   ========================================================= */
+========================================================= */
 
 .hero{
     position:relative;
-    width:min(1400px,94%);
-    min-height:530px;
-    margin:25px auto 0;
+    min-height:580px;
+
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+
+    align-items:center;
+
+    max-width:1400px;
+    margin:auto;
+
+    padding:55px 35px 35px;
+
     overflow:hidden;
-    border:1px solid rgba(0,234,255,.36);
-    border-radius:30px;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    right:-180px;
+    top:-160px;
+
+    border-radius:50%;
+
     background:
-        linear-gradient(90deg,rgba(2,14,31,.97) 0%,rgba(2,20,43,.82) 42%,rgba(2,18,38,.30) 100%),
-        radial-gradient(circle at 75% 45%,rgba(0,234,255,.25),transparent 27%);
-    box-shadow:
-        0 0 45px rgba(0,120,255,.16),
-        inset 0 0 50px rgba(0,234,255,.035);
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.20),
+            rgba(0,96,255,.08) 40%,
+            transparent 70%
+        );
+
+    filter:blur(15px);
 }
 
 .hero-grid{
     position:absolute;
     inset:0;
-    background-image:
-        linear-gradient(rgba(0,234,255,.07) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,234,255,.07) 1px,transparent 1px);
-    background-size:50px 50px;
-    transform:perspective(700px) rotateX(62deg) scale(1.5);
-    transform-origin:center bottom;
-    opacity:.30;
+
     pointer-events:none;
-}
 
-.hero-glow{
-    position:absolute;
-    width:520px;
-    height:520px;
-    right:2%;
-    top:0;
-    border-radius:50%;
-    background:radial-gradient(circle,rgba(0,234,255,.18),rgba(0,100,255,.08),transparent 68%);
-    filter:blur(5px);
-}
+    opacity:.25;
 
-.hero-ring{
-    position:absolute;
-    width:370px;
-    height:370px;
-    right:7%;
-    top:75px;
-    border:1px solid rgba(0,234,255,.20);
-    border-radius:50%;
-    box-shadow:
-        0 0 30px rgba(0,234,255,.12),
-        inset 0 0 35px rgba(0,234,255,.06);
-    animation:rotateRing 22s linear infinite;
-}
+    background:
+        linear-gradient(
+            rgba(0,234,255,.10) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,234,255,.10) 1px,
+            transparent 1px
+        );
 
-.hero-ring::before,
-.hero-ring::after{
-    content:"";
-    position:absolute;
-    inset:28px;
-    border:1px dashed rgba(255,25,230,.20);
-    border-radius:50%;
-}
+    background-size:50px 50px;
 
-.hero-ring::after{
-    inset:75px;
-    border-color:rgba(0,234,255,.25);
-}
-
-@keyframes rotateRing{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
+    transform:perspective(700px) rotateX(55deg) scale(1.5);
+    transform-origin:center bottom;
 }
 
 .hero-content{
     position:relative;
     z-index:2;
-    width:58%;
-    padding:70px 50px;
 }
 
-.system-status{
+.status-pill{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    padding:8px 13px;
-    border-radius:20px;
-    border:1px solid rgba(0,234,255,.30);
-    background:rgba(0,234,255,.08);
+
+    padding:8px 14px;
+
+    border:1px solid rgba(0,234,255,.35);
+    border-radius:999px;
+
     color:var(--cyan);
+
+    background:rgba(0,234,255,.06);
+
     font-family:Orbitron,sans-serif;
-    font-size:10px;
-    letter-spacing:1px;
-    margin-bottom:25px;
+    font-size:11px;
+    letter-spacing:.8px;
+
+    box-shadow:0 0 20px rgba(0,234,255,.08);
 }
 
 .status-dot{
     width:8px;
     height:8px;
-    background:#1aff9c;
     border-radius:50%;
-    box-shadow:0 0 12px #1aff9c;
+    background:#00ff9d;
+
+    box-shadow:0 0 12px #00ff9d;
 }
 
 .hero h1{
+    margin-top:22px;
+
     font-family:Orbitron,sans-serif;
-    font-size:clamp(32px,5vw,70px);
-    line-height:1.04;
-    letter-spacing:-2px;
-    margin-bottom:20px;
-    color:#ffffff;
-    text-shadow:0 0 30px rgba(255,255,255,.12);
+
+    font-size:clamp(42px,6vw,82px);
+
+    line-height:1.02;
+
+    letter-spacing:-3px;
 }
 
 .hero h1 span{
+    display:block;
+
     color:var(--cyan);
+
     text-shadow:
-        0 0 8px rgba(0,234,255,.8),
-        0 0 35px rgba(0,234,255,.4);
+        0 0 10px rgba(0,234,255,.75),
+        0 0 30px rgba(0,234,255,.25);
 }
 
-.hero p{
-    color:#d4edf9;
-    font-size:17px;
+.hero-description{
+    max-width:670px;
+
+    margin-top:22px;
+
+    color:#d9e8f3;
+
+    font-size:18px;
     line-height:1.65;
-    max-width:680px;
-    margin-bottom:28px;
 }
 
 .hero-actions{
     display:flex;
     flex-wrap:wrap;
     gap:12px;
+
+    margin-top:28px;
 }
 
-.btn{
-    border:none;
+.primary-btn,
+.secondary-btn{
+    border-radius:999px;
+
+    padding:14px 22px;
+
     cursor:pointer;
-    min-height:48px;
-    padding:0 22px;
-    border-radius:26px;
+
     font-weight:800;
-    color:#00131c;
-    background:linear-gradient(135deg,#19efff,#00aeea);
-    box-shadow:0 0 22px rgba(0,234,255,.28);
-    transition:.2s;
+
+    transition:.25s;
 }
 
-.btn:hover{
-    transform:translateY(-2px);
-    box-shadow:0 0 30px rgba(0,234,255,.45);
+.primary-btn{
+    background:linear-gradient(
+        135deg,
+        #00eaff,
+        #00a7e7
+    );
+
+    color:#00101c;
+
+    border:0;
+
+    box-shadow:
+        0 0 20px rgba(0,234,255,.3);
 }
 
-.btn-outline{
+.secondary-btn{
     color:var(--cyan);
-    background:rgba(0,234,255,.04);
+
     border:1px solid rgba(0,234,255,.55);
-    box-shadow:none;
+
+    background:rgba(0,234,255,.06);
 }
 
-.btn-pink{
-    color:#fff;
-    background:linear-gradient(135deg,#ff19e6,#b20dff);
-    box-shadow:0 0 25px rgba(255,25,230,.25);
+.primary-btn:hover,
+.secondary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 28px rgba(0,234,255,.32);
 }
 
-.hero-hud{
-    position:absolute;
-    right:30px;
-    bottom:30px;
-    width:300px;
-    padding:18px;
-    z-index:3;
-    border:1px solid rgba(0,234,255,.28);
-    border-radius:18px;
-    background:rgba(2,16,34,.74);
-    backdrop-filter:blur(14px);
-}
 
-.hud-title{
-    color:var(--cyan);
-    font-family:Orbitron,sans-serif;
-    font-size:10px;
-    margin-bottom:14px;
-}
+/* hologram */
 
-.hud-row{
-    display:flex;
-    justify-content:space-between;
-    padding:8px 0;
-    border-bottom:1px solid rgba(255,255,255,.07);
-    font-size:12px;
-}
+.hero-lab{
+    position:relative;
 
-.hud-row:last-child{
-    border-bottom:0;
-}
+    min-height:430px;
 
-.hud-row span:first-child{
-    color:#9abfd2;
-}
-
-.hud-row span:last-child{
-    color:#fff;
-}
-
-/* =========================================================
-   QUICK STATS
-   ========================================================= */
-
-.quick-stats{
-    width:min(1400px,94%);
-    margin:18px auto 0;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.stat-card{
-    padding:18px;
-    border:1px solid rgba(0,234,255,.28);
-    border-radius:18px;
-    background:linear-gradient(135deg,rgba(5,31,56,.95),rgba(3,16,32,.95));
     display:flex;
     align-items:center;
-    gap:15px;
-    box-shadow:var(--shadow);
+    justify-content:center;
 }
 
-.stat-icon{
-    width:45px;
-    height:45px;
-    border:1px solid rgba(0,234,255,.5);
+.holo-ring{
+    position:absolute;
+
+    border:1px solid rgba(0,234,255,.55);
+
     border-radius:50%;
-    display:grid;
-    place-items:center;
-    font-size:20px;
-    color:var(--cyan);
-    background:rgba(0,234,255,.08);
+
+    box-shadow:
+        0 0 25px rgba(0,234,255,.25),
+        inset 0 0 25px rgba(0,234,255,.10);
+
+    animation:spin 18s linear infinite;
 }
 
-.stat-card strong{
-    display:block;
+.ring-one{
+    width:360px;
+    height:360px;
+}
+
+.ring-two{
+    width:270px;
+    height:270px;
+    border-color:rgba(255,32,231,.5);
+    animation-duration:12s;
+    animation-direction:reverse;
+}
+
+.ring-three{
+    width:180px;
+    height:180px;
+    animation-duration:8s;
+}
+
+.core{
+    width:125px;
+    height:125px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.65),
+            rgba(0,79,120,.2) 50%,
+            transparent 70%
+        );
+
     color:#fff;
-    font-size:15px;
+
+    font-family:Orbitron,sans-serif;
+    font-size:25px;
+
+    text-shadow:0 0 15px var(--cyan);
+
+    box-shadow:
+        0 0 45px rgba(0,234,255,.45),
+        inset 0 0 30px rgba(0,234,255,.25);
 }
 
-.stat-card small{
-    display:block;
-    margin-top:4px;
-    color:#9ec1d4;
+.hud-card{
+    position:absolute;
+
+    bottom:25px;
+    right:15px;
+
+    padding:14px 18px;
+
+    border:1px solid rgba(0,234,255,.35);
+    border-radius:14px;
+
+    background:rgba(2,16,34,.75);
+
+    backdrop-filter:blur(12px);
+
+    color:#bceaff;
+
+    font-size:11px;
+
+    box-shadow:0 0 25px rgba(0,234,255,.08);
 }
+
+@keyframes spin{
+    from{transform:rotate(0)}
+    to{transform:rotate(360deg)}
+}
+
+
+/* =========================================================
+   PRO BANNER
+========================================================= */
+
+.pro-banner{
+    max-width:1350px;
+    margin:0 auto 24px;
+
+    padding:16px 22px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+
+    border:1px solid rgba(255,32,231,.45);
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,32,231,.10),
+            rgba(0,234,255,.08)
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,32,231,.08),
+        inset 0 0 25px rgba(0,234,255,.03);
+}
+
+.pro-banner strong{
+    color:#fff;
+}
+
+.pro-banner span{
+    color:#b7cce0;
+    font-size:13px;
+}
+
+.pro-btn{
+    padding:11px 18px;
+
+    border:0;
+    border-radius:999px;
+
+    cursor:pointer;
+
+    font-weight:800;
+
+    background:linear-gradient(
+        135deg,
+        #ff20e7,
+        #a92cff
+    );
+
+    color:#fff;
+
+    box-shadow:0 0 20px rgba(255,32,231,.25);
+}
+
 
 /* =========================================================
    SECTION
-   ========================================================= */
+========================================================= */
 
 .section{
-    width:min(1400px,94%);
-    margin:55px auto 0;
-}
-
-.section-header{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    gap:15px;
-    margin-bottom:18px;
+    max-width:1350px;
+    margin:0 auto;
+    padding:30px 22px;
 }
 
 .section-title{
-    font-family:Orbitron,sans-serif;
-    color:#fff;
-    font-size:clamp(20px,3vw,30px);
-}
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
 
-.section-title span{
-    color:var(--cyan);
-}
+    gap:20px;
 
-.section-link{
-    color:var(--cyan);
-    cursor:pointer;
-    text-decoration:none;
-    font-size:13px;
-    font-weight:700;
-}
-
-.section-link:hover{
-    text-decoration:underline;
-}
-
-/* =========================================================
-   QUICK ACCESS
-   ========================================================= */
-
-.quick-access{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:10px;
-}
-
-.quick-card{
-    min-height:125px;
-    border:1px solid rgba(0,234,255,.27);
-    border-radius:18px;
-    background:linear-gradient(145deg,#082440,#041528);
-    padding:18px 10px;
-    text-align:center;
-    cursor:pointer;
-    transition:.2s;
-    color:#fff;
-}
-
-.quick-card:hover{
-    transform:translateY(-4px);
-    border-color:var(--cyan);
-    box-shadow:0 0 25px rgba(0,234,255,.14);
-}
-
-.quick-icon{
-    font-size:31px;
-    display:block;
-    margin-bottom:13px;
-    filter:drop-shadow(0 0 7px rgba(0,234,255,.6));
-}
-
-.quick-card strong{
-    display:block;
-    font-size:13px;
-    color:#ffffff;
-}
-
-.quick-card small{
-    display:block;
-    margin-top:6px;
-    color:#91b8ce;
-    font-size:10px;
-}
-
-/* =========================================================
-   SIMULATION
-   ========================================================= */
-
-.simulation-panel{
-    position:relative;
-    overflow:hidden;
-    min-height:350px;
-    border:1px solid rgba(0,234,255,.40);
-    border-radius:26px;
-    background:
-        radial-gradient(circle at 75% 50%,rgba(0,234,255,.17),transparent 28%),
-        linear-gradient(110deg,#06182d,#041121);
-    box-shadow:
-        0 0 40px rgba(0,150,255,.13),
-        inset 0 0 60px rgba(0,234,255,.04);
-}
-
-.sim-grid{
-    position:absolute;
-    inset:0;
-    opacity:.23;
-    background-image:
-        linear-gradient(rgba(0,234,255,.15) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(0,234,255,.15) 1px,transparent 1px);
-    background-size:40px 40px;
-    transform:perspective(500px) rotateX(60deg) scale(1.5);
-    transform-origin:center bottom;
-}
-
-.sim-content{
-    position:relative;
-    z-index:2;
-    width:55%;
-    padding:42px;
-}
-
-.tag{
-    display:inline-flex;
-    padding:7px 12px;
-    border-radius:20px;
-    border:1px solid rgba(0,234,255,.35);
-    background:rgba(0,234,255,.08);
-    color:var(--cyan);
-    font-size:10px;
-    font-family:Orbitron,sans-serif;
-    letter-spacing:.5px;
     margin-bottom:20px;
 }
 
-.sim-content h2{
+.section-title h2{
     font-family:Orbitron,sans-serif;
-    font-size:clamp(24px,4vw,42px);
+    font-size:25px;
     color:#fff;
-    margin-bottom:15px;
 }
 
-.sim-content p{
-    color:#bdd9e8;
-    line-height:1.65;
-    margin-bottom:22px;
-}
-
-.sim-console{
-    position:absolute;
-    z-index:3;
-    right:5%;
-    top:45px;
-    width:370px;
-    height:255px;
-    border:1px solid rgba(0,234,255,.30);
-    border-radius:22px;
-    background:rgba(2,16,31,.78);
-    box-shadow:0 0 35px rgba(0,234,255,.12);
-    overflow:hidden;
-}
-
-.sim-screen{
-    height:190px;
-    position:relative;
-    display:grid;
-    place-items:center;
-    background:
-        radial-gradient(circle at center,rgba(0,234,255,.25),transparent 30%),
-        radial-gradient(circle at 50% 50%,rgba(0,100,255,.12),transparent 55%);
-}
-
-.sim-orb{
-    width:110px;
-    height:110px;
-    border-radius:50%;
-    border:2px solid var(--cyan);
-    box-shadow:
-        0 0 20px rgba(0,234,255,.7),
-        inset 0 0 30px rgba(0,234,255,.25);
-    display:grid;
-    place-items:center;
-    font-size:42px;
-    animation:floatOrb 3s ease-in-out infinite;
-}
-
-@keyframes floatOrb{
-    0%,100%{transform:translateY(0) scale(1);}
-    50%{transform:translateY(-8px) scale(1.04);}
-}
-
-.sim-data{
-    height:65px;
-    border-top:1px solid rgba(0,234,255,.20);
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-}
-
-.sim-data div{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    border-right:1px solid rgba(0,234,255,.15);
-}
-
-.sim-data div:last-child{
-    border-right:0;
-}
-
-.sim-data small{
-    color:#759cb2;
-    font-size:9px;
-}
-
-.sim-data strong{
+.section-title h2 span{
     color:var(--cyan);
-    font-size:13px;
-    margin-top:4px;
 }
+
+.section-title p{
+    color:#8ca9c1;
+    font-size:12px;
+}
+
 
 /* =========================================================
-   NEWS
-   ========================================================= */
+   QUICK MODULES
+========================================================= */
 
-.news-box{
-    border:1px solid rgba(0,234,255,.30);
-    border-radius:24px;
-    padding:20px;
-    background:linear-gradient(145deg,rgba(5,27,48,.94),rgba(2,13,27,.96));
+.module-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,minmax(0,1fr));
+
+    gap:15px;
 }
 
-.news-empty{
-    min-height:220px;
+.module{
+    position:relative;
+
+    min-height:245px;
+
+    padding:22px;
+
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:var(--radius);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7,31,56,.96),
+            rgba(3,15,31,.95)
+        );
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+    transition:.3s;
+}
+
+.module::after{
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    right:-70px;
+    bottom:-80px;
+
+    border-radius:50%;
+
+    background:rgba(0,234,255,.10);
+
+    filter:blur(20px);
+}
+
+.module:hover{
+    transform:translateY(-5px);
+
+    border-color:rgba(0,234,255,.65);
+
+    box-shadow:
+        0 0 30px rgba(0,234,255,.13),
+        inset 0 0 30px rgba(0,234,255,.03);
+}
+
+.module-icon{
+    width:54px;
+    height:54px;
+
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    text-align:center;
-    color:#8db2c8;
+
+    border-radius:15px;
+
+    background:rgba(0,234,255,.08);
+
+    border:1px solid rgba(0,234,255,.35);
+
+    font-size:27px;
+
+    margin-bottom:17px;
 }
 
-.news-empty-icon{
-    font-size:45px;
-    margin-bottom:15px;
-    filter:drop-shadow(0 0 12px rgba(0,234,255,.4));
-}
+.module h3{
+    font-family:Orbitron,sans-serif;
 
-.news-empty strong{
-    color:#fff;
     font-size:17px;
+
+    color:#fff;
+
     margin-bottom:8px;
 }
 
-/* publication créée par l'admin */
-.post{
-    border:1px solid rgba(0,234,255,.25);
-    border-radius:20px;
+.module p{
+    color:#a8bfd3;
+
+    line-height:1.5;
+
+    font-size:13px;
+}
+
+.module-buttons{
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:20px;
+}
+
+.tool-btn{
+    flex:1;
+
+    min-width:125px;
+
+    padding:10px 12px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(0,234,255,.35);
+
+    background:rgba(0,234,255,.06);
+
+    color:#eaffff;
+
+    cursor:pointer;
+
+    font-size:11px;
+    font-weight:700;
+
+    transition:.2s;
+}
+
+.tool-btn:hover{
+    background:rgba(0,234,255,.14);
+
+    border-color:var(--cyan);
+
+    color:#fff;
+}
+
+.tool-btn.ai{
+    border-color:rgba(255,32,231,.5);
+}
+
+.tool-btn.ai:hover{
+    box-shadow:0 0 15px rgba(255,32,231,.15);
+}
+
+
+/* =========================================================
+   SIMULATION
+========================================================= */
+
+.simulation{
+    position:relative;
+
     overflow:hidden;
-    background:#06182c;
+
+    min-height:390px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    border:1px solid rgba(0,234,255,.45);
+
+    border-radius:26px;
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(4,25,47,.98),
+            rgba(2,11,25,.98)
+        );
+
+    box-shadow:
+        0 0 40px rgba(0,234,255,.08);
+}
+
+.sim-info{
+    padding:38px;
+}
+
+.sim-label{
+    display:inline-block;
+
+    padding:7px 11px;
+
+    border:1px solid rgba(0,234,255,.4);
+
+    border-radius:999px;
+
+    color:var(--cyan);
+
+    font-family:Orbitron,sans-serif;
+
+    font-size:10px;
+}
+
+.sim-info h2{
+    margin-top:20px;
+
+    font-family:Orbitron,sans-serif;
+
+    font-size:30px;
+
+    color:#fff;
+}
+
+.sim-info p{
+    margin-top:13px;
+
+    color:#abc2d6;
+
+    line-height:1.6;
+}
+
+.sim-screen{
+    min-height:390px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    position:relative;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(0,234,255,.15),
+            transparent 55%
+        );
+}
+
+.rocket{
+    font-size:80px;
+
+    filter:
+        drop-shadow(0 0 18px rgba(0,234,255,.7));
+
+    animation:rocketFloat 2s ease-in-out infinite;
+}
+
+@keyframes rocketFloat{
+    0%,100%{
+        transform:translateY(10px) rotate(-4deg);
+    }
+
+    50%{
+        transform:translateY(-15px) rotate(4deg);
+    }
+}
+
+.sim-data{
+    position:absolute;
+
+    bottom:20px;
+    left:20px;
+
+    right:20px;
+
+    display:flex;
+    justify-content:space-between;
+
+    color:#6fefff;
+
+    font-family:monospace;
+    font-size:11px;
+}
+
+
+/* =========================================================
+   NEWS
+========================================================= */
+
+.news-box{
+    border:1px solid rgba(0,234,255,.25);
+
+    border-radius:24px;
+
+    background:rgba(4,20,39,.85);
+
+    overflow:hidden;
+}
+
+.news-top{
+    padding:20px 22px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    border-bottom:1px solid rgba(0,234,255,.12);
+}
+
+.news-top h2{
+    font-family:Orbitron,sans-serif;
+
+    font-size:19px;
+}
+
+.news-top h2 span{
+    color:var(--cyan);
+}
+
+.news-link{
+    color:var(--cyan);
+
+    border:0;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+}
+
+.empty-news{
+    padding:55px 25px;
+
+    text-align:center;
+}
+
+.empty-news-icon{
+    font-size:42px;
+
+    opacity:.7;
+
+    margin-bottom:12px;
+}
+
+.empty-news h3{
+    color:#fff;
+}
+
+.empty-news p{
+    margin-top:8px;
+
+    color:#89a4bb;
+
+    font-size:13px;
+}
+
+
+/* vraie publication */
+
+.post{
+    padding:20px;
 }
 
 .post-header{
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:17px;
+    gap:10px;
 }
 
 .avatar{
-    width:44px;
-    height:44px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    color:var(--cyan);
-    border:1px solid rgba(0,234,255,.45);
-    background:#062542;
-    font-family:Orbitron,sans-serif;
-    font-size:11px;
-}
+    width:42px;
+    height:42px;
 
-.post-author{
-    flex:1;
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--cyan);
+
+    color:var(--cyan);
+
+    font-weight:800;
 }
 
 .post-author strong{
-    color:#fff;
     display:block;
-    font-size:14px;
-}
-
-.post-author small{
-    color:#83aac1;
-    display:block;
-    margin-top:4px;
-}
-
-.post-body{
-    padding:0 17px 15px;
-}
-
-.post-body h3{
     color:#fff;
-    margin-bottom:10px;
-    font-size:17px;
 }
 
-.post-body p{
-    color:#c2dce9;
+.post-author span{
+    color:#7792a9;
+    font-size:11px;
+}
+
+.post-text{
+    margin-top:17px;
+
+    color:#d7e7f1;
+
     line-height:1.55;
 }
 
 .post-media{
     margin-top:15px;
-    min-height:180px;
-    display:grid;
-    place-items:center;
+
+    min-height:190px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(0,234,255,.20);
+
     background:
-        radial-gradient(circle,rgba(0,234,255,.20),transparent 35%),
-        linear-gradient(135deg,#04172d,#061f3a);
-    border:1px solid rgba(0,234,255,.15);
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(0,234,255,.15),
+            transparent 45%
+        ),
+        #031426;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     color:var(--cyan);
+
     font-family:Orbitron,sans-serif;
 }
 
-.post-stats{
+.reaction-summary{
+    padding:12px 3px;
+
     display:flex;
     justify-content:space-between;
-    padding:11px 17px;
-    border-bottom:1px solid rgba(0,234,255,.13);
-    color:#7fa6bd;
+
+    color:#829aae;
+
     font-size:12px;
+
+    border-bottom:1px solid rgba(0,234,255,.10);
 }
 
 .post-actions{
@@ -823,457 +1069,391 @@ header{
 }
 
 .post-action{
-    min-height:48px;
-    border:0;
-    border-right:1px solid rgba(0,234,255,.13);
-    background:transparent;
-    color:#d8eff9;
-    cursor:pointer;
-    font-weight:600;
-}
+    position:relative;
 
-.post-action:last-child{
-    border-right:0;
+    padding:13px;
+
+    border:0;
+
+    background:transparent;
+
+    color:#b7c9d7;
+
+    cursor:pointer;
+
+    font-weight:700;
 }
 
 .post-action:hover{
-    background:rgba(0,234,255,.07);
     color:var(--cyan);
+
+    background:rgba(0,234,255,.05);
 }
 
-/* réaction */
-.reaction-area{
-    position:relative;
-}
+
+/* =========================================================
+   REACTION PICKER
+========================================================= */
 
 .reaction-picker{
     position:absolute;
-    bottom:55px;
-    left:12px;
-    display:none;
-    align-items:center;
-    gap:7px;
+
+    left:50%;
+    bottom:52px;
+
+    transform:translateX(-50%) translateY(8px);
+
+    display:flex;
+
+    gap:5px;
+
     padding:8px 10px;
-    background:#071c32;
+
+    border-radius:999px;
+
+    background:#06172a;
+
     border:1px solid rgba(0,234,255,.4);
-    border-radius:30px;
-    box-shadow:0 0 30px rgba(0,0,0,.45);
-    z-index:20;
+
+    box-shadow:0 0 25px rgba(0,0,0,.5);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.18s;
+
+    white-space:nowrap;
 }
 
 .reaction-picker.show{
-    display:flex;
+    opacity:1;
+    pointer-events:auto;
+
+    transform:translateX(-50%) translateY(0);
 }
 
-.reaction-picker button{
+.reaction{
+    width:38px;
+    height:38px;
+
     border:0;
+
     background:transparent;
-    font-size:23px;
+
+    font-size:22px;
+
     cursor:pointer;
+
+    border-radius:50%;
+
     transition:.15s;
 }
 
-.reaction-picker button:hover{
-    transform:scale(1.3);
+.reaction:hover{
+    transform:scale(1.25);
+
+    background:rgba(255,255,255,.08);
 }
 
-/* commentaires */
-.comments{
-    display:none;
-    padding:15px;
-    border-top:1px solid rgba(0,234,255,.12);
-}
-
-.comments.show{
-    display:block;
-}
-
-.comment-list{
-    max-height:180px;
-    overflow:auto;
-    margin-bottom:10px;
-}
-
-.comment-item{
-    padding:9px 11px;
-    margin-bottom:7px;
-    border-radius:10px;
-    background:rgba(0,234,255,.05);
-    color:#d8edf7;
-    font-size:13px;
-}
-
-.comment-form{
-    display:flex;
-    gap:8px;
-}
-
-.comment-form input{
-    flex:1;
-    min-width:0;
-    background:#031120;
-    border:1px solid rgba(0,234,255,.25);
-    border-radius:20px;
-    padding:11px 14px;
-    color:#fff;
-    outline:none;
-}
-
-.comment-form button{
-    border:0;
-    border-radius:20px;
-    padding:0 15px;
-    background:var(--cyan);
-    color:#00121a;
-    font-weight:800;
-    cursor:pointer;
-}
-
-/* =========================================================
-   LABORATORIES
-   ========================================================= */
-
-.labs-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-}
-
-.lab-card{
-    min-height:170px;
-    border:1px solid rgba(0,234,255,.25);
-    border-radius:20px;
-    background:
-        radial-gradient(circle at 50% 0%,rgba(0,234,255,.08),transparent 40%),
-        linear-gradient(145deg,#082440,#041426);
-    padding:22px;
-    transition:.2s;
-}
-
-.lab-card:hover{
-    border-color:rgba(0,234,255,.60);
-    transform:translateY(-3px);
-    box-shadow:0 0 25px rgba(0,234,255,.12);
-}
-
-.lab-icon{
-    font-size:30px;
-    margin-bottom:13px;
-}
-
-.lab-card h3{
-    color:#fff;
-    font-family:Orbitron,sans-serif;
-    font-size:15px;
-    margin-bottom:8px;
-}
-
-.lab-card p{
-    color:#9bbfd2;
-    font-size:12px;
-    line-height:1.5;
-}
-
-/* =========================================================
-   SCHOOL
-   ========================================================= */
-
-.school-banner{
-    border:1px solid rgba(0,234,255,.30);
-    border-radius:22px;
-    background:linear-gradient(110deg,#071f39,#041426);
-    padding:25px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
-
-.school-banner h2{
-    color:#fff;
-    font-family:Orbitron,sans-serif;
-    font-size:20px;
-    margin-bottom:8px;
-}
-
-.school-banner p{
-    color:#94b8cb;
-    font-size:12px;
-}
 
 /* =========================================================
    COMMUNITY
-   ========================================================= */
+========================================================= */
 
 .community-banner{
-    margin-top:20px;
-    border:1px solid rgba(255,25,230,.27);
+    padding:22px;
+
+    border:1px solid rgba(0,234,255,.25);
+
     border-radius:22px;
-    padding:25px;
-    background:
-        radial-gradient(circle at 80% 50%,rgba(255,25,230,.10),transparent 30%),
-        linear-gradient(110deg,#081a32,#071123);
+
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:20px;
+    align-items:center;
+
+    gap:15px;
+
+    background:
+        linear-gradient(
+            100deg,
+            rgba(0,234,255,.08),
+            rgba(255,32,231,.05)
+        );
 }
 
-.community-banner h2{
+.community-banner h3{
     color:#fff;
-    margin-bottom:6px;
+    font-family:Orbitron,sans-serif;
 }
 
 .community-banner p{
-    color:#9bb9ca;
+    color:#91a9bf;
+    margin-top:5px;
+    font-size:13px;
+}
+
+
+/* =========================================================
+   POPUP
+========================================================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:5000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,3,12,.80);
+
+    backdrop-filter:blur(12px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-card{
+    width:min(600px,100%);
+
+    max-height:90vh;
+
+    overflow:auto;
+
+    padding:28px;
+
+    border:1px solid rgba(0,234,255,.45);
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #071b32,
+            #020c1d
+        );
+
+    box-shadow:
+        0 0 50px rgba(0,234,255,.15);
+}
+
+.modal-card h2{
+    font-family:Orbitron,sans-serif;
+
+    color:#fff;
+
+    margin-bottom:10px;
+}
+
+.modal-card p{
+    color:#a9bfd1;
+
+    line-height:1.55;
+}
+
+.close{
+    float:right;
+
+    width:34px;
+    height:34px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,234,255,.35);
+
+    background:transparent;
+
+    color:#fff;
+
+    cursor:pointer;
+}
+
+
+/* inscription */
+
+.role-grid{
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:10px;
+
+    margin-top:20px;
+}
+
+.role{
+    padding:18px;
+
+    border:1px solid rgba(0,234,255,.25);
+
+    border-radius:15px;
+
+    background:rgba(0,234,255,.04);
+
+    cursor:pointer;
+
+    color:#fff;
+
+    text-align:left;
+
+    transition:.2s;
+}
+
+.role:hover{
+    border-color:var(--cyan);
+
+    background:rgba(0,234,255,.09);
+}
+
+.role strong{
+    display:block;
+
+    color:var(--cyan);
+
+    margin-bottom:6px;
+}
+
+.form{
+    margin-top:20px;
+
+    display:grid;
+
+    gap:12px;
+}
+
+.form label{
+    color:#b8cad8;
+
     font-size:12px;
 }
 
+.form input,
+.form textarea,
+.form select{
+    width:100%;
+
+    padding:13px 14px;
+
+    border-radius:11px;
+
+    border:1px solid rgba(0,234,255,.25);
+
+    background:#031325;
+
+    color:#fff;
+
+    outline:none;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus{
+    border-color:var(--cyan);
+
+    box-shadow:0 0 15px rgba(0,234,255,.10);
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    z-index:8000;
+
+    max-width:350px;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    background:#06182c;
+
+    border:1px solid rgba(0,234,255,.4);
+
+    color:#eaffff;
+
+    box-shadow:0 0 25px rgba(0,234,255,.15);
+
+    transform:translateY(120px);
+
+    opacity:0;
+
+    transition:.3s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+
 /* =========================================================
    FOOTER
-   ========================================================= */
+========================================================= */
 
 footer{
-    margin-top:70px;
-    border-top:1px solid rgba(0,234,255,.18);
-    background:#020b17;
-    padding:35px 3%;
+    margin-top:35px;
+
+    padding:40px 22px;
+
     text-align:center;
+
+    border-top:1px solid rgba(0,234,255,.12);
+
+    color:#6f8ba2;
+
+    font-size:12px;
 }
 
 footer strong{
     color:var(--cyan);
-    font-family:Orbitron,sans-serif;
 }
 
-footer p{
-    color:#668da4;
-    font-size:11px;
-    margin-top:8px;
-}
 
 /* =========================================================
-   MODALS
-   ========================================================= */
+   RESPONSIVE
+========================================================= */
 
-.modal-overlay{
-    position:fixed;
-    inset:0;
-    z-index:5000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(0,4,12,.78);
-    backdrop-filter:blur(12px);
-}
-
-.modal-overlay.show{
-    display:flex;
-}
-
-.modal{
-    width:min(580px,100%);
-    max-height:90vh;
-    overflow:auto;
-    border:1px solid rgba(0,234,255,.45);
-    border-radius:25px;
-    background:
-        radial-gradient(circle at 50% 0%,rgba(0,234,255,.11),transparent 35%),
-        #06172b;
-    box-shadow:
-        0 0 70px rgba(0,0,0,.65),
-        0 0 35px rgba(0,234,255,.10);
-    padding:28px;
-}
-
-.modal h2{
-    color:#fff;
-    font-family:Orbitron,sans-serif;
-    margin-bottom:8px;
-}
-
-.modal-subtitle{
-    color:#92b8cc;
-    font-size:13px;
-    line-height:1.5;
-    margin-bottom:22px;
-}
-
-.close-modal{
-    float:right;
-    border:0;
-    background:transparent;
-    color:#9cc2d6;
-    font-size:25px;
-    cursor:pointer;
-}
-
-.role-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.role-card{
-    min-height:110px;
-    padding:17px;
-    border-radius:17px;
-    border:1px solid rgba(0,234,255,.25);
-    background:#08213a;
-    color:#fff;
-    cursor:pointer;
-    text-align:left;
-}
-
-.role-card:hover{
-    border-color:var(--cyan);
-    background:#0a2b49;
-}
-
-.role-card .role-icon{
-    font-size:27px;
-    display:block;
-    margin-bottom:10px;
-}
-
-.role-card strong{
-    display:block;
-    margin-bottom:5px;
-}
-
-.role-card small{
-    color:#8fb4c8;
-}
-
-.form-group{
-    margin-bottom:14px;
-}
-
-.form-group label{
-    display:block;
-    color:#b8d8e8;
-    font-size:12px;
-    margin-bottom:6px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea{
-    width:100%;
-    border:1px solid rgba(0,234,255,.25);
-    background:#031120;
-    color:#fff;
-    border-radius:12px;
-    padding:12px;
-    outline:none;
-    font-family:inherit;
-}
-
-.form-group textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
-    border-color:var(--cyan);
-    box-shadow:0 0 12px rgba(0,234,255,.12);
-}
-
-.modal-footer{
-    margin-top:20px;
-    display:flex;
-    justify-content:flex-end;
-    gap:10px;
-}
-
-/* notification */
-.toast-container{
-    position:fixed;
-    z-index:7000;
-    top:90px;
-    right:20px;
-    width:min(350px,calc(100% - 40px));
-}
-
-.toast{
-    margin-bottom:10px;
-    padding:14px 16px;
-    border:1px solid rgba(0,234,255,.35);
-    border-radius:15px;
-    background:#071d34;
-    color:#fff;
-    box-shadow:0 0 25px rgba(0,0,0,.4);
-    animation:toastIn .25s ease;
-}
-
-@keyframes toastIn{
-    from{transform:translateX(30px);opacity:0}
-    to{transform:translateX(0);opacity:1}
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media(max-width:1000px){
-
-    .main-nav{
-        display:none;
-    }
-
-    .menu-btn{
-        display:block;
-    }
+@media(max-width:900px){
 
     .hero{
-        min-height:610px;
+        grid-template-columns:1fr;
+
+        padding:40px 20px 20px;
     }
 
-    .hero-content{
-        width:100%;
-        padding:45px 28px;
+    .hero-lab{
+        min-height:330px;
     }
 
-    .hero-ring{
-        width:280px;
-        height:280px;
-        right:-70px;
-        top:250px;
-        opacity:.45;
-    }
-
-    .hero-hud{
-        right:20px;
-        bottom:20px;
-        width:260px;
-    }
-
-    .quick-access{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .sim-content{
-        width:100%;
-        padding:30px;
-    }
-
-    .sim-console{
-        position:relative;
-        right:auto;
-        top:auto;
-        width:90%;
-        margin:0 auto 25px;
-    }
-
-    .simulation-panel{
-        padding-bottom:10px;
-    }
-
-    .labs-grid{
+    .module-grid{
         grid-template-columns:repeat(2,1fr);
+    }
+
+    .simulation{
+        grid-template-columns:1fr;
+    }
+
+    .sim-screen{
+        min-height:280px;
+    }
+
+    .sim-info{
+        padding:28px;
     }
 }
 
@@ -1281,129 +1461,115 @@ footer p{
 
     header{
         height:65px;
+        padding:8px 12px;
     }
 
-    .header-inner{
-        width:94%;
-        gap:7px;
+    .logo{
+        min-width:auto;
     }
 
-    .logo-orb{
-        width:40px;
-        height:40px;
-        font-size:10px;
-    }
-
-    .logo-text strong{
-        font-size:11px;
-    }
-
-    .logo-text small{
-        font-size:7px;
-    }
-
-    .header-actions{
-        margin-left:auto;
-    }
-
-    .icon-btn{
+    .logo-text span{
         display:none;
     }
 
-    .follow-btn,
-    .join-btn{
-        min-height:34px;
+    .logo-text strong{
+        font-size:13px;
+    }
+
+    .logo-orb{
+        width:42px;
+        height:42px;
+    }
+
+    .header-actions .icon-btn{
+        display:none;
+    }
+
+    .header-btn{
         padding:0 10px;
-        font-size:10px;
+        font-size:11px;
     }
 
     .menu-btn{
-        min-height:34px;
-        width:36px;
-        font-size:17px;
+        display:block;
     }
 
     .hero{
-        margin-top:12px;
-        border-radius:22px;
-        min-height:620px;
-    }
+        min-height:auto;
 
-    .hero-content{
-        padding:30px 20px;
+        padding-top:35px;
     }
 
     .hero h1{
-        font-size:34px;
-        letter-spacing:-1px;
+        font-size:39px;
+
+        letter-spacing:-1.8px;
     }
 
-    .hero p{
-        font-size:14px;
+    .hero-description{
+        font-size:15px;
     }
 
-    .hero-actions{
-        flex-direction:column;
-        align-items:stretch;
+    .hero-lab{
+        min-height:270px;
     }
 
-    .hero-actions .btn{
-        width:100%;
+    .ring-one{
+        width:240px;
+        height:240px;
     }
 
-    .hero-hud{
-        width:calc(100% - 40px);
-        right:20px;
-        bottom:18px;
+    .ring-two{
+        width:190px;
+        height:190px;
     }
 
-    .quick-stats{
+    .ring-three{
+        width:135px;
+        height:135px;
+    }
+
+    .core{
+        width:90px;
+        height:90px;
+        font-size:18px;
+    }
+
+    .module-grid{
         grid-template-columns:1fr;
     }
 
-    .section{
-        margin-top:38px;
-    }
-
-    .section-header{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .quick-access{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .quick-card{
-        min-height:115px;
-    }
-
-    .simulation-panel{
+    .module{
         min-height:auto;
     }
 
-    .sim-content{
-        padding:25px 20px;
+    .pro-banner{
+        margin-left:12px;
+        margin-right:12px;
+
+        flex-direction:column;
+
+        align-items:flex-start;
     }
 
-    .sim-content h2{
-        font-size:25px;
+    .section{
+        padding:22px 12px;
     }
 
-    .sim-console{
-        width:calc(100% - 30px);
-        height:235px;
+    .section-title{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:6px;
     }
 
-    .sim-screen{
-        height:170px;
+    .simulation{
+        border-radius:18px;
     }
 
-    .labs-grid{
-        grid-template-columns:1fr;
+    .sim-info h2{
+        font-size:24px;
     }
 
-    .school-banner,
     .community-banner{
         flex-direction:column;
         align-items:flex-start;
@@ -1418,115 +1584,125 @@ footer p{
     }
 
     .post-action{
-        border-right:0;
-        border-bottom:1px solid rgba(0,234,255,.13);
-    }
-
-    .post-action:last-child{
-        border-bottom:0;
+        border-top:1px solid rgba(0,234,255,.08);
     }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- ======================================================
+
+<!-- =======================================================
      HEADER
-     ====================================================== -->
+======================================================== -->
 
 <header>
-    <div class="header-inner">
 
-        <div class="logo">
-            <div class="logo-orb">DRM</div>
+    <div class="logo">
 
-            <div class="logo-text">
-                <strong>DeepRDMMakademy</strong>
-                <small>L'art de la science et de la technologie</small>
-            </div>
+        <div class="logo-orb">
+            DRM
         </div>
 
-        <nav class="main-nav">
-            <a href="#campus">Campus</a>
-            <a href="#laboratoires">Laboratoires</a>
-            <a href="#missions">Missions</a>
-            <a href="#ressources">Ressources</a>
-            <a href="#publications">Publications</a>
-        </nav>
-
-        <div class="header-actions">
-
-            <button class="icon-btn" onclick="ouvrirRecherche()" title="Recherche">
-                🔎
-            </button>
-
-            <button class="follow-btn" id="followHeaderButton" onclick="suivre()">
-                ＋ Suivre
-            </button>
-
-            <button class="join-btn" onclick="inscription()">
-                Rejoindre
-            </button>
-
-            <button class="menu-btn" onclick="ouvrirMenu()">
-                ☰
-            </button>
-
+        <div class="logo-text">
+            <strong>DeepRDMMakademy</strong>
+            <span>L'art de la science et de la technologie</span>
         </div>
 
     </div>
+
+
+    <div class="header-actions">
+
+        <button
+            class="icon-btn"
+            onclick="showToast('Recherche DeepRDMMakademy')"
+            aria-label="Recherche">
+            🔎
+        </button>
+
+        <button
+            class="icon-btn"
+            onclick="showToast('Notifications : aucune nouvelle notification')"
+            aria-label="Notifications">
+            🔔
+        </button>
+
+        <button
+            class="header-btn follow-btn"
+            onclick="suivre()">
+            ◎ Suivre
+            <span id="followersCount">0</span>
+        </button>
+
+        <button
+            class="header-btn join-btn"
+            onclick="inscription()">
+            Rejoindre
+        </button>
+
+        <button
+            class="icon-btn menu-btn"
+            onclick="showToast('Menu du campus')"
+            aria-label="Menu">
+            ☰
+        </button>
+
+    </div>
+
 </header>
 
 
-<!-- ======================================================
+<!-- =======================================================
      HERO
-     ====================================================== -->
+======================================================== -->
 
-<main id="campus">
+<main>
 
 <section class="hero">
 
     <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-ring"></div>
 
     <div class="hero-content">
 
-        <div class="system-status">
+        <div class="status-pill">
             <span class="status-dot"></span>
             CAMPUS NUMÉRIQUE ACTIF
         </div>
 
         <h1>
-            Bienvenue dans<br>
+            Bienvenue dans
             <span>DeepRDMMakademy</span>
         </h1>
 
-        <p>
+        <p class="hero-description">
             Un campus numérique où la science, la technologie,
-            la recherche et l'humain se rencontrent.
+            la recherche, l'innovation et l'humain se rencontrent.
+            Explorez, apprenez, expérimentez et créez.
         </p>
 
         <div class="hero-actions">
 
             <button
-                class="btn"
-                id="r8g5ln"
+                class="primary-btn"
                 onclick="inscription()">
                 Rejoindre le Campus →
             </button>
 
             <button
-                class="btn btn-outline"
+                class="secondary-btn"
                 onclick="explorerLaboratoires()">
                 Explorer les laboratoires
             </button>
 
+            <!-- NOUVEAU -->
             <button
-                class="btn btn-pink"
+                class="secondary-btn"
                 onclick="ouvrirSimulations()">
-                🧪 SIMULATIONS
+                🧪 Simulations
             </button>
 
         </div>
@@ -1534,30 +1710,23 @@ footer p{
     </div>
 
 
-    <div class="hero-hud">
+    <div class="hero-lab">
 
-        <div class="hud-title">
-            DEEPRDM // CAMPUS SYSTEM
+        <div class="holo-ring ring-one"></div>
+        <div class="holo-ring ring-two"></div>
+        <div class="holo-ring ring-three"></div>
+
+        <div class="core">
+            DRM
         </div>
 
-        <div class="hud-row">
-            <span>Statut</span>
-            <span style="color:#19ff9b">● EN LIGNE</span>
-        </div>
-
-        <div class="hud-row">
-            <span>Laboratoires</span>
-            <span>06</span>
-        </div>
-
-        <div class="hud-row">
-            <span>Simulations</span>
-            <span>PUBLIC</span>
-        </div>
-
-        <div class="hud-row">
-            <span>Communauté</span>
-            <span id="followerCount">—</span>
+        <div class="hud-card">
+            SYSTEM STATUS<br>
+            <strong style="color:#00ff9d;">
+                ONLINE
+            </strong>
+            &nbsp; // &nbsp;
+            CAMPUS READY
         </div>
 
     </div>
@@ -1565,150 +1734,366 @@ footer p{
 </section>
 
 
-<!-- ======================================================
-     STATS
-     ====================================================== -->
+<!-- =======================================================
+     PRO BANNER
+======================================================== -->
 
-<div class="quick-stats">
+<section class="pro-banner">
 
-    <div class="stat-card">
-        <div class="stat-icon">⚗</div>
-        <div>
-            <strong>6 Laboratoires</strong>
-            <small>Experts & équipements</small>
-        </div>
+    <div>
+        <strong>⚡ Passez Pro à 15$/mois</strong><br>
+        <span>
+            Enlevez la mention DeepRDM, utilisez votre domaine
+            et débloquez les fonctions Pro.
+        </span>
     </div>
 
-    <div class="stat-card">
-        <div class="stat-icon">⚡</div>
-        <div>
-            <strong>Missions</strong>
-            <small>Projets & opérations</small>
-        </div>
-    </div>
-
-    <div class="stat-card">
-        <div class="stat-icon">♟</div>
-        <div>
-            <strong>Communauté</strong>
-            <small>Membres & partenaires</small>
-        </div>
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     ACCÈS RAPIDE
-     ====================================================== -->
-
-<section class="section" id="ressources">
-
-    <div class="section-header">
-        <h2 class="section-title">
-            ⚡ Accès <span>rapide</span>
-        </h2>
-
-        <a class="section-link" href="#campus">
-            Explorer le campus →
-        </a>
-    </div>
-
-
-    <div class="quick-access">
-
-        <div class="quick-card" onclick="explorerCampus()">
-            <span class="quick-icon">🌐</span>
-            <strong>Campus</strong>
-            <small>Découvrir</small>
-        </div>
-
-        <div class="quick-card" onclick="explorerLaboratoires()">
-            <span class="quick-icon">⚗️</span>
-            <strong>Laboratoires</strong>
-            <small>Explorer</small>
-        </div>
-
-        <div class="quick-card" onclick="ouvrirMissions()">
-            <span class="quick-icon">🚀</span>
-            <strong>Missions</strong>
-            <small>Participer</small>
-        </div>
-
-        <div class="quick-card" onclick="ouvrirRessources()">
-            <span class="quick-icon">📖</span>
-            <strong>Ressources</strong>
-            <small>Consulter</small>
-        </div>
-
-        <div class="quick-card" onclick="ouvrirParcours()">
-            <span class="quick-icon">🎓</span>
-            <strong>Parcours</strong>
-            <small>Réservé aux membres</small>
-        </div>
-
-        <div class="quick-card" onclick="ouvrirPublicite()">
-            <span class="quick-icon">📣</span>
-            <strong>Publier</strong>
-            <small>Produit / Service</small>
-        </div>
-
-    </div>
+    <button
+        class="pro-btn"
+        onclick="ouvrirPro()">
+        PASSER PRO
+    </button>
 
 </section>
 
 
-<!-- ======================================================
-     SIMULATION
-     ====================================================== -->
+<!-- =======================================================
+     MODULES
+======================================================== -->
 
-<section class="section" id="simulations">
+<section class="section" id="modules">
 
-    <div class="section-header">
+    <div class="section-title">
 
-        <h2 class="section-title">
-            🧪 <span>Simulation</span> Center
-        </h2>
-
-        <a class="section-link"
-           href="simulation-visiteurs.html">
-            Toutes les simulations →
-        </a>
-
-    </div>
-
-
-    <div class="simulation-panel">
-
-        <div class="sim-grid"></div>
-
-        <div class="sim-content">
-
-            <div class="tag">
-                ✦ EXPÉRIENCE IMMERSIVE PUBLIQUE
-            </div>
-
+        <div>
             <h2>
-                Simulation 3D — Explore le futur
+                ⚡ <span>Modules</span> du Campus
             </h2>
 
             <p>
-                Teste un moteur de fusée, observe les paramètres,
-                expérimente un système robotique et découvre
-                les sciences directement depuis l'accueil.
+                Explorez les outils et ressources DeepRDMMakademy
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="module-grid">
+
+
+        <!-- LABO -->
+
+        <article class="module">
+
+            <div class="module-icon">⚛️</div>
+
+            <h3>MODULE LABO</h3>
+
+            <p>
+                Explorez les laboratoires scientifiques,
+                technologiques et expérimentaux.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn"
+                    onclick="explorerLaboratoires()">
+                    Explorer
+                </button>
+
+                <button
+                    class="tool-btn"
+                    onclick="lancerSimulation()">
+                    Simulation
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- IA -->
+
+        <article class="module">
+
+            <div class="module-icon">🤖</div>
+
+            <h3>DEEPRDM IA</h3>
+
+            <p>
+                Intelligence artificielle, agents,
+                modèles et expérimentation.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn ai"
+                    onclick="parlerIA()">
+                    Activer l'IA
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- ECOLE -->
+
+        <article class="module">
+
+            <div class="module-icon">🎓</div>
+
+            <h3>MODULE ÉCOLE</h3>
+
+            <p>
+                Collège, lycée, université, recherche
+                et parcours académiques.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn"
+                    onclick="entrerEcole()">
+                    Explorer l'école
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- COMMERCE -->
+
+        <article class="module">
+
+            <div class="module-icon">🛒</div>
+
+            <h3>MODULE COMMERCE</h3>
+
+            <p>
+                Découvrez les produits, services,
+                créateurs et opportunités du campus.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn"
+                    onclick="ouvrirBoutique()">
+                    Marketplace
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- DEEPPDF -->
+
+        <article class="module">
+
+            <div class="module-icon">📄</div>
+
+            <h3>DEEPPDF STUDIO</h3>
+
+            <p>
+                Créez gratuitement des PDF, CV, devis,
+                documents professionnels et rapports.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn ai"
+                    onclick="ouvrirOutil('DEEPPDF','IA')">
+                    ✨ Créer avec IA
+                </button>
+
+                <button
+                    class="tool-btn"
+                    onclick="ouvrirOutil('DEEPPDF','MANUEL')">
+                    ✍️ Créer Manuel
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- DEEPSITE -->
+
+        <article class="module">
+
+            <div class="module-icon">🌐</div>
+
+            <h3>DEEPSITE BUILDER</h3>
+
+            <p>
+                Créez votre site web en quelques minutes,
+                avec IA ou entièrement à la main.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn ai"
+                    onclick="ouvrirOutil('DEEPSITE','IA')">
+                    ✨ Créer avec IA
+                </button>
+
+                <button
+                    class="tool-btn"
+                    onclick="ouvrirOutil('DEEPSITE','MANUEL')">
+                    ✍️ Créer Manuel
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- DEEPAPP -->
+
+        <article class="module">
+
+            <div class="module-icon">📱</div>
+
+            <h3>DEEPAPP BUILDER</h3>
+
+            <p>
+                Créez une application sans code,
+                avec IA ou avec le mode manuel.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn ai"
+                    onclick="ouvrirOutil('DEEPAPP','IA')">
+                    ✨ Créer avec IA
+                </button>
+
+                <button
+                    class="tool-btn"
+                    onclick="ouvrirOutil('DEEPAPP','MANUEL')">
+                    ✍️ Créer Manuel
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- SIMULATIONS -->
+
+        <article class="module">
+
+            <div class="module-icon">🧪</div>
+
+            <h3>SIMULATIONS</h3>
+
+            <p>
+                Des expériences scientifiques accessibles
+                directement depuis le campus.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn ai"
+                    onclick="ouvrirSimulations()">
+                    🚀 Ouvrir
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- COMMUNITY -->
+
+        <article class="module">
+
+            <div class="module-icon">👥</div>
+
+            <h3>COMMUNAUTÉ</h3>
+
+            <p>
+                Membres, chercheurs, créateurs,
+                apprenants et partenaires.
+            </p>
+
+            <div class="module-buttons">
+
+                <button
+                    class="tool-btn"
+                    onclick="inscription()">
+                    Rejoindre
+                </button>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     SIMULATION PUBLIQUE
+======================================================== -->
+
+<section class="section" id="simulation">
+
+    <div class="section-title">
+
+        <div>
+            <h2>
+                🧪 <span>Simulation</span> publique
+            </h2>
+
+            <p>
+                Expérimentez directement depuis l'accueil.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="simulation">
+
+        <div class="sim-info">
+
+            <span class="sim-label">
+                SIMULATION CENTER
+            </span>
+
+            <h2>
+                Testez un moteur de fusée
+            </h2>
+
+            <p>
+                Ajustez la poussée, la masse et la quantité
+                de carburant puis lancez votre expérience.
+                Cette expérience est accessible à tous,
+                sans compte.
             </p>
 
             <div class="hero-actions">
 
                 <button
-                    class="btn"
-                    id="l4c1cu"
+                    class="primary-btn"
                     onclick="lancerSimulation()">
                     🚀 Lancer la simulation →
                 </button>
 
                 <button
-                    class="btn btn-outline"
+                    class="secondary-btn"
                     onclick="parlerIA()">
                     🤖 Activer l'IA
                 </button>
@@ -1718,33 +2103,22 @@ footer p{
         </div>
 
 
-        <div class="sim-console">
+        <div class="sim-screen">
 
-            <div class="sim-screen">
-
-                <div class="sim-orb" id="simulationOrb">
-                    🚀
-                </div>
-
+            <div class="rocket" id="rocket">
+                🚀
             </div>
 
             <div class="sim-data">
+                <span>
+                    THRUST:
+                    <strong id="thrustValue">72%</strong>
+                </span>
 
-                <div>
-                    <small>THRUST</small>
-                    <strong id="thrustValue">0%</strong>
-                </div>
-
-                <div>
-                    <small>ALTITUDE</small>
-                    <strong id="altitudeValue">0 km</strong>
-                </div>
-
-                <div>
-                    <small>STATUS</small>
+                <span>
+                    STATUS:
                     <strong id="simStatus">READY</strong>
-                </div>
-
+                </span>
             </div>
 
         </div>
@@ -1754,183 +2128,69 @@ footer p{
 </section>
 
 
-<!-- ======================================================
-     PUBLICATIONS
-     ====================================================== -->
+<!-- =======================================================
+     ACTUALITÉS
+======================================================== -->
 
-<section class="section" id="publications">
+<section class="section" id="actualites">
 
-    <div class="section-header">
+    <div class="news-box">
 
-        <div>
-
-            <h2 class="section-title">
-                📡 Actualité <span>du Campus</span>
-            </h2>
-
-            <div style="
-                color:#8fb6c9;
-                font-size:12px;
-                margin-top:7px;
-            ">
-                <span id="publicationCount">0</span>
-                publication(s) sur DeepRDMMakademy
-            </div>
-
-        </div>
-
-
-        <a
-            class="section-link"
-            href="#publications"
-            onclick="voirToutesPublications(event)">
-            Voir les publications →
-        </a>
-
-    </div>
-
-
-    <div class="news-box" id="newsContainer">
-
-        <!-- IMPORTANT :
-             Aucun post fictif ici.
-             Les publications apparaîtront uniquement
-             lorsqu'elles seront réellement enregistrées.
-        -->
-
-        <div class="news-empty" id="emptyNews">
-
-            <div class="news-empty-icon">
-                📡
-            </div>
-
-            <strong>
-                Aucune publication pour le moment
-            </strong>
-
-            <span>
-                Les actualités de DeepRDMMakademy
-                apparaîtront ici dès qu'une publication
-                sera créée.
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     LABORATOIRES
-     ====================================================== -->
-
-<section class="section" id="laboratoires">
-
-    <div class="section-header">
-
-        <h2 class="section-title">
-            🔬 Les <span>6 Laboratoires</span>
-        </h2>
-
-        <a
-            class="section-link"
-            href="#laboratoires">
-            Aperçu public →
-        </a>
-
-    </div>
-
-
-    <div class="labs-grid">
-
-        <div class="lab-card" onclick="ouvrirLabo('Sciences fondamentales')">
-            <div class="lab-icon">⚛️</div>
-            <h3>Sciences fondamentales</h3>
-            <p>
-                Physique, mathématiques, chimie et recherche fondamentale.
-            </p>
-        </div>
-
-        <div class="lab-card" onclick="ouvrirLabo('Technologie')">
-            <div class="lab-icon">⚙️</div>
-            <h3>Technologie</h3>
-            <p>
-                Ingénierie, systèmes numériques et nouvelles technologies.
-            </p>
-        </div>
-
-        <div class="lab-card" onclick="ouvrirLabo('Intelligence artificielle')">
-            <div class="lab-icon">🤖</div>
-            <h3>Intelligence artificielle</h3>
-            <p>
-                IA, agents, modèles, automatisation et expérimentation.
-            </p>
-        </div>
-
-        <div class="lab-card" onclick="ouvrirLabo('Biotechnologie')">
-            <div class="lab-icon">🧬</div>
-            <h3>Biotechnologie</h3>
-            <p>
-                Sciences du vivant, biologie numérique et innovation.
-            </p>
-        </div>
-
-        <div class="lab-card" onclick="ouvrirLabo('Espace et robotique')">
-            <div class="lab-icon">🚀</div>
-            <h3>Espace & Robotique</h3>
-            <p>
-                Robotique, exploration, simulations et systèmes autonomes.
-            </p>
-        </div>
-
-        <div class="lab-card" onclick="ouvrirLabo('Société et futur')">
-            <div class="lab-icon">🌐</div>
-            <h3>Société & Futur</h3>
-            <p>
-                Humanité, économie, environnement et civilisation future.
-            </p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ======================================================
-     ECOLE
-     ====================================================== -->
-
-<section class="section">
-
-    <div class="school-banner">
-
-        <div>
+        <div class="news-top">
 
             <h2>
-                🎓 École & Université Internationale
+                📡 <span>Actualité</span> du Campus
             </h2>
 
-            <p>
-                Collège · Lycée · Université · Recherche · Doctorat
-            </p>
+            <button
+                class="news-link"
+                onclick="voirPublications()">
+
+                Voir les publications
+                <span id="publicationCount">0</span>
+                →
+
+            </button>
 
         </div>
 
-        <button
-            class="btn"
-            onclick="ouvrirParcours()">
-            Explorer les parcours →
-        </button>
+
+        <!--
+            IMPORTANT :
+            Aucune publication fictive n'est affichée.
+            Cette zone est remplie uniquement lorsqu'une
+            vraie publication est disponible.
+        -->
+
+        <div id="newsContent">
+
+            <div class="empty-news">
+
+                <div class="empty-news-icon">
+                    📡
+                </div>
+
+                <h3>
+                    Aucune publication pour le moment
+                </h3>
+
+                <p>
+                    Les publications que tu créeras apparaîtront
+                    automatiquement ici.
+                </p>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
 
 
-<!-- ======================================================
+<!-- =======================================================
      COMMUNAUTÉ
-     ====================================================== -->
+======================================================== -->
 
 <section class="section">
 
@@ -1938,20 +2198,22 @@ footer p{
 
         <div>
 
-            <h2>
-                👥 Rejoins notre communauté
-            </h2>
+            <h3>
+                👥 Rejoignez notre communauté
+            </h3>
 
             <p>
-                Apprends · Partage · Construis ton avenir
+                Apprenez · Partagez · Construisez le futur
             </p>
 
         </div>
 
         <button
-            class="btn"
+            class="primary-btn"
             onclick="inscription()">
+
             Devenir membre →
+
         </button>
 
     </div>
@@ -1961,783 +2223,910 @@ footer p{
 </main>
 
 
-<!-- ======================================================
+<!-- =======================================================
      FOOTER
-     ====================================================== -->
+======================================================== -->
 
 <footer>
 
     <strong>DeepRDMMakademy</strong>
 
-    <p>
-        Campus numérique scientifique · Laboratoires · Recherche · Technologie
-    </p>
+    <br><br>
 
-    <p>
-        © 2026 DeepRDMMakademy
-    </p>
+    Campus numérique scientifique et technologique.
+
+    <br><br>
+
+    © 2026 DeepRDMMakademy — Tous droits réservés.
 
 </footer>
 
 
-<!-- ======================================================
-     MODAL INSCRIPTION
-     ====================================================== -->
+<!-- =======================================================
+     MODAL
+======================================================== -->
 
-<div class="modal-overlay" id="registrationModal">
+<div
+    class="modal"
+    id="modal">
 
-    <div class="modal">
+    <div class="modal-card">
 
         <button
-            class="close-modal"
-            onclick="fermerModal('registrationModal')">
+            class="close"
+            onclick="fermerModal()">
             ×
         </button>
 
-        <h2>Rejoindre DeepRDMMakademy</h2>
-
-        <p class="modal-subtitle">
-            Choisis le type de compte correspondant à ton activité.
-            Le formulaire sera adapté à ton profil.
-        </p>
-
-
-        <div class="role-grid">
-
-            <button class="role-card"
-                    onclick="choisirProfil('eleve')">
-                <span class="role-icon">🎓</span>
-                <strong>Élève / Étudiant</strong>
-                <small>
-                    École, parcours et formation
-                </small>
-            </button>
-
-
-            <button class="role-card"
-                    onclick="choisirProfil('administrateur')">
-                <span class="role-icon">🛡️</span>
-                <strong>Administrateur</strong>
-                <small>
-                    Gestion et administration du campus
-                </small>
-            </button>
-
-
-            <button class="role-card"
-                    onclick="choisirProfil('travailleur')">
-                <span class="role-icon">🔧</span>
-                <strong>Travailleur</strong>
-                <small>
-                    Expert, chercheur, professionnel ou staff
-                </small>
-            </button>
-
-
-            <button class="role-card"
-                    onclick="choisirProfil('publicitaire')">
-                <span class="role-icon">📣</span>
-                <strong>Publicitaire</strong>
-                <small>
-                    Entreprise, produit ou service
-                </small>
-            </button>
-
-        </div>
+        <div id="modalContent"></div>
 
     </div>
 
 </div>
 
 
-<!-- ======================================================
-     FORMULAIRE INSCRIPTION
-     ====================================================== -->
-
-<div class="modal-overlay" id="profileFormModal">
-
-    <div class="modal">
-
-        <button
-            class="close-modal"
-            onclick="fermerModal('profileFormModal')">
-            ×
-        </button>
-
-        <h2 id="profileFormTitle">
-            Inscription
-        </h2>
-
-        <p class="modal-subtitle" id="profileFormSubtitle">
-            Remplis les informations demandées.
-        </p>
-
-
-        <form id="profileForm"
-              onsubmit="envoyerInscription(event)">
-
-            <input
-                type="hidden"
-                id="selectedRole">
-
-
-            <div class="form-group">
-
-                <label>Nom complet</label>
-
-                <input
-                    id="fullName"
-                    type="text"
-                    required
-                    placeholder="Ton nom complet">
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Email</label>
-
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    placeholder="ton@email.com">
-
-            </div>
-
-
-            <div id="dynamicFields"></div>
-
-
-            <div class="form-group">
-
-                <label>Mot de passe</label>
-
-                <input
-                    id="password"
-                    type="password"
-                    minlength="6"
-                    required
-                    placeholder="Minimum 6 caractères">
-
-            </div>
-
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="btn btn-outline"
-                    onclick="retourProfils()">
-                    Retour
-                </button>
-
-                <button
-                    type="submit"
-                    class="btn">
-                    Créer mon compte →
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     MODAL ACCÈS MEMBRE
-     ====================================================== -->
-
-<div class="modal-overlay" id="memberModal">
-
-    <div class="modal" style="text-align:center">
-
-        <button
-            class="close-modal"
-            onclick="fermerModal('memberModal')">
-            ×
-        </button>
-
-        <div style="
-            font-size:55px;
-            margin:10px 0 20px;
-        ">
-            🔐
-        </div>
-
-        <h2>
-            Accès réservé aux membres
-        </h2>
-
-        <p class="modal-subtitle">
-            Veuillez vous inscrire pour accéder à cette fonctionnalité.
-        </p>
-
-        <button
-            class="btn"
-            onclick="fermerModal('memberModal'); inscription()">
-            S'inscrire →
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     MODAL SUIVRE
-     ====================================================== -->
-
-<div class="modal-overlay" id="followModal">
-
-    <div class="modal">
-
-        <button
-            class="close-modal"
-            onclick="fermerModal('followModal')">
-            ×
-        </button>
-
-        <h2>
-            🔔 Suivre DeepRDMMakademy
-        </h2>
-
-        <p class="modal-subtitle">
-            Aucun compte DeepRDMMakademy n'est nécessaire.
-            Autorise simplement les notifications de ton navigateur.
-        </p>
-
-
-        <div class="form-group">
-
-            <label>Ton prénom ou nom</label>
-
-            <input
-                id="followerName"
-                type="text"
-                placeholder="Ex : Tiana">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>Email — facultatif</label>
-
-            <input
-                id="followerEmail"
-                type="email"
-                placeholder="ton@email.com">
-
-        </div>
-
-
-        <button
-            class="btn"
-            style="width:100%"
-            onclick="confirmerSuivi()">
-            🔔 Activer les notifications
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
+<!-- =======================================================
      TOAST
-     ====================================================== -->
+======================================================== -->
 
-<div class="toast-container" id="toastContainer"></div>
+<div
+    class="toast"
+    id="toast">
+</div>
 
 
 <script>
 
 /* =========================================================
    VARIABLES
-   ========================================================= */
+========================================================= */
 
-const FOLLOW_KEY = "deepRDMMakademy_following";
-const LOCAL_PUBLICATIONS_KEY = "deepRDMMakademy_publications";
-const LOCAL_COMMENTS_KEY = "deepRDMMakademy_comments";
+const FOLLOW_KEY = "deeprdm_following";
 
-let currentProfile = null;
 let reactionTimer = null;
+let reactionPickerOpen = false;
 
 
 /* =========================================================
-   UTILITAIRES
-   ========================================================= */
+   MODAL
+========================================================= */
 
-function showNotif(message){
+function ouvrirModal(html){
 
-    const container =
-        document.getElementById("toastContainer");
+    document.getElementById("modalContent").innerHTML = html;
 
-    const toast =
-        document.createElement("div");
+    document.getElementById("modal").classList.add("active");
+}
 
-    toast.className = "toast";
+function fermerModal(){
+
+    document.getElementById("modal").classList.remove("active");
+}
+
+
+/* fermer en cliquant à côté */
+
+document.getElementById("modal").addEventListener(
+    "click",
+    function(e){
+
+        if(e.target === this){
+
+            fermerModal();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
     toast.textContent = message;
 
-    container.appendChild(toast);
+    toast.classList.add("show");
 
-    setTimeout(()=>{
-        toast.remove();
-    },4000);
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 3000);
 }
 
 
-function fermerModal(id){
+/* =========================================================
+   FOLLOWERS
+========================================================= */
 
-    const modal =
-        document.getElementById(id);
+/*
+   Le navigateur retient que cette personne suit le campus.
 
-    if(modal){
-        modal.classList.remove("show");
+   IMPORTANT :
+   localStorage ne permet PAS de connaître le nombre exact
+   mondial de followers.
+
+   Pour obtenir le nombre exact réel de followers, cette
+   fonction devra être reliée à Firestore/backend.
+
+   On ne fabrique donc volontairement aucun faux compteur.
+*/
+
+function chargerFollower(){
+
+    const suivi = localStorage.getItem(FOLLOW_KEY) === "true";
+
+    const button = document.querySelector(".follow-btn");
+
+    if(suivi){
+
+        button.innerHTML =
+            "✓ Suivi <span id=\"followersCount\">✓</span>";
+
     }
+
 }
 
+chargerFollower();
 
-function ouvrirModal(id){
 
-    const modal =
-        document.getElementById(id);
+function suivre(){
 
-    if(modal){
-        modal.classList.add("show");
+    const dejaSuivi =
+        localStorage.getItem(FOLLOW_KEY) === "true";
+
+
+    if(dejaSuivi){
+
+        localStorage.removeItem(FOLLOW_KEY);
+
+        document.querySelector(".follow-btn").innerHTML =
+            "◎ Suivre <span id=\"followersCount\">0</span>";
+
+        showToast(
+            "Tu ne suis plus DeepRDMMakademy sur cet appareil."
+        );
+
+        return;
     }
+
+
+    localStorage.setItem(FOLLOW_KEY,"true");
+
+    document.querySelector(".follow-btn").innerHTML =
+        "✓ Suivi <span id=\"followersCount\">✓</span>";
+
+
+    /* permission notification navigateur */
+
+    if("Notification" in window){
+
+        if(Notification.permission === "default"){
+
+            Notification.requestPermission().then(permission => {
+
+                if(permission === "granted"){
+
+                    new Notification(
+                        "DeepRDMMakademy",
+                        {
+                            body:
+                            "Tu recevras les nouvelles actualités du campus."
+                        }
+                    );
+
+                }
+
+            });
+
+        }
+
+        else if(Notification.permission === "granted"){
+
+            new Notification(
+                "DeepRDMMakademy",
+                {
+                    body:
+                    "Tu suis maintenant les actualités du campus."
+                }
+            );
+
+        }
+
+    }
+
+
+    showToast(
+        "Tu suis maintenant DeepRDMMakademy."
+    );
 }
 
 
 /* =========================================================
    INSCRIPTION
-   ========================================================= */
+========================================================= */
 
 function inscription(){
 
-    ouvrirModal("registrationModal");
+    ouvrirModal(`
+
+        <h2>🚀 Rejoindre DeepRDMMakademy</h2>
+
+        <p>
+            Choisissez le type de profil qui correspond
+            à votre activité.
+        </p>
+
+        <div class="role-grid">
+
+            <button
+                class="role"
+                onclick="ouvrirInscriptionForm('Élève')">
+
+                <strong>🎓 Élève</strong>
+
+                Apprendre, suivre des parcours
+                et progresser dans le campus.
+
+            </button>
+
+
+            <button
+                class="role"
+                onclick="ouvrirInscriptionForm('Administrateur')">
+
+                <strong>🛡️ Administrateur</strong>
+
+                Gestion et administration
+                de l'organisation.
+
+            </button>
+
+
+            <button
+                class="role"
+                onclick="ouvrirInscriptionForm('Travailleur')">
+
+                <strong>🧑‍💻 Travailleur</strong>
+
+                Collaborer, travailler et
+                participer aux projets.
+
+            </button>
+
+
+            <button
+                class="role"
+                onclick="ouvrirInscriptionForm('Publicitaire')">
+
+                <strong>📢 Publicitaire</strong>
+
+                Présenter une entreprise,
+                un produit ou un service.
+
+            </button>
+
+        </div>
+
+    `);
 }
 
 
-function choisirProfil(role){
+function ouvrirInscriptionForm(role){
 
-    currentProfile = role;
+    ouvrirModal(`
 
-    document.getElementById("selectedRole").value = role;
+        <h2>Inscription — ${role}</h2>
 
-    fermerModal("registrationModal");
+        <p>
+            Remplissez les informations correspondant
+            à votre profil.
+        </p>
 
-    const title =
-        document.getElementById("profileFormTitle");
+        <form
+            class="form"
+            onsubmit="validerInscription(event,'${role}')">
 
-    const subtitle =
-        document.getElementById("profileFormSubtitle");
+            <label>
+                Nom complet
+            </label>
 
-    const dynamic =
-        document.getElementById("dynamicFields");
+            <input
+                type="text"
+                required
+                placeholder="Votre nom complet">
 
 
-    dynamic.innerHTML = "";
+            <label>
+                Email
+            </label>
+
+            <input
+                type="email"
+                required
+                placeholder="vous@example.com">
 
 
-    if(role === "eleve"){
+            ${
+                role === "Élève"
 
-        title.textContent =
-            "🎓 Inscription Élève / Étudiant";
+                ?
 
-        subtitle.textContent =
-            "Crée ton profil étudiant pour accéder aux parcours.";
+                `
+                <label>
+                    Niveau d'étude
+                </label>
 
-        dynamic.innerHTML = `
+                <select required>
+                    <option value="">
+                        Sélectionner
+                    </option>
 
-            <div class="form-group">
-                <label>Niveau d'étude</label>
-                <select id="studyLevel" required>
-                    <option value="">Choisir</option>
                     <option>Collège</option>
                     <option>Lycée</option>
                     <option>Université</option>
-                    <option>Master</option>
-                    <option>Doctorat</option>
-                    <option>Autre</option>
+                    <option>Recherche</option>
                 </select>
-            </div>
+                `
 
-            <div class="form-group">
-                <label>Domaine d'intérêt</label>
+                :
+
+                role === "Travailleur"
+
+                ?
+
+                `
+                <label>
+                    Domaine professionnel
+                </label>
+
                 <input
-                    id="studyDomain"
                     type="text"
                     required
-                    placeholder="Ex : Intelligence artificielle">
-            </div>
+                    placeholder="Ex : informatique, recherche...">
+                `
 
-        `;
-    }
+                :
 
+                role === "Publicitaire"
 
-    else if(role === "administrateur"){
+                ?
 
-        title.textContent =
-            "🛡️ Inscription Administrateur";
+                `
+                <label>
+                    Entreprise / activité
+                </label>
 
-        subtitle.textContent =
-            "Les comptes administrateurs devront être validés.";
-
-        dynamic.innerHTML = `
-
-            <div class="form-group">
-                <label>Fonction demandée</label>
                 <input
-                    id="adminFunction"
-                    type="text"
-                    required
-                    placeholder="Ex : Administration du campus">
-            </div>
-
-            <div class="form-group">
-                <label>Justification</label>
-                <textarea
-                    id="adminReason"
-                    required
-                    placeholder="Explique ta demande..."></textarea>
-            </div>
-
-        `;
-    }
-
-
-    else if(role === "travailleur"){
-
-        title.textContent =
-            "🔧 Inscription Travailleur";
-
-        subtitle.textContent =
-            "Pour les chercheurs, experts, professionnels et membres du staff.";
-
-        dynamic.innerHTML = `
-
-            <div class="form-group">
-                <label>Profession</label>
-                <input
-                    id="profession"
-                    type="text"
-                    required
-                    placeholder="Ex : Ingénieur">
-            </div>
-
-            <div class="form-group">
-                <label>Domaine d'expertise</label>
-                <input
-                    id="expertise"
-                    type="text"
-                    required
-                    placeholder="Ex : Robotique">
-            </div>
-
-        `;
-    }
-
-
-    else if(role === "publicitaire"){
-
-        title.textContent =
-            "📣 Inscription Publicitaire";
-
-        subtitle.textContent =
-            "Pour les entreprises, marques et personnes souhaitant publier.";
-
-        dynamic.innerHTML = `
-
-            <div class="form-group">
-                <label>Nom de l'entreprise / activité</label>
-                <input
-                    id="companyName"
                     type="text"
                     required
                     placeholder="Nom de votre entreprise">
-            </div>
 
-            <div class="form-group">
-                <label>Type de publicité</label>
-                <select id="adType" required>
-                    <option value="">Choisir</option>
+                <label>
+                    Type de publicité
+                </label>
+
+                <select required>
+                    <option value="">
+                        Choisir
+                    </option>
+
                     <option>Produit</option>
                     <option>Service</option>
                     <option>Événement</option>
-                    <option>Partenariat</option>
-                    <option>Autre</option>
+                    <option>Entreprise</option>
                 </select>
-            </div>
+                `
 
-        `;
-    }
+                :
+
+                `
+                <label>
+                    Fonction
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="Votre fonction">
+                `
+            }
 
 
-    ouvrirModal("profileFormModal");
+            <button
+                class="primary-btn"
+                type="submit">
+
+                Créer mon inscription →
+
+            </button>
+
+        </form>
+
+    `);
 }
 
 
-function retourProfils(){
-
-    fermerModal("profileFormModal");
-    ouvrirModal("registrationModal");
-}
-
-
-function envoyerInscription(event){
+function validerInscription(event,role){
 
     event.preventDefault();
 
-    const role =
-        document.getElementById("selectedRole").value;
-
     /*
-       Pour l'instant on ne fabrique PAS de faux compte.
-       Le formulaire est préparé pour être relié à Firebase
-       Authentication / Firestore.
+       Cette étape prépare l'interface.
+       La création réelle du compte doit être reliée
+       à Firebase Authentication.
     */
 
-    const data = {
-        role:role,
-        name:document.getElementById("fullName").value.trim(),
-        email:document.getElementById("email").value.trim(),
-        createdAt:new Date().toISOString()
-    };
-
-    localStorage.setItem(
-        "deepRDMMakademy_registration_draft",
-        JSON.stringify(data)
+    showToast(
+        "Profil " + role +
+        " sélectionné. Connexion sécurisée à Firebase à venir."
     );
 
-    fermerModal("profileFormModal");
-
-    showNotif(
-        "Demande enregistrée. Le système d'inscription doit maintenant être relié à Firebase Authentication."
-    );
+    fermerModal();
 }
 
 
 /* =========================================================
-   CONNEXION
-   ========================================================= */
+   OUTILS — MODÈLE FREEMIUM
+========================================================= */
 
-function connexion(){
+function ouvrirOutil(outil,mode){
 
-    showNotif(
-        "La connexion membre sera reliée à Firebase Authentication."
-    );
-}
+    ouvrirModal(`
 
-
-/* =========================================================
-   SUIVRE SANS COMPTE
-   ========================================================= */
-
-function suivre(){
-
-    const alreadyFollowing =
-        localStorage.getItem(FOLLOW_KEY) === "true";
-
-
-    if(alreadyFollowing){
-
-        showNotif(
-            "Tu suis déjà DeepRDMMakademy 🔔"
-        );
-
-        return;
-    }
-
-
-    ouvrirModal("followModal");
-}
-
-
-async function confirmerSuivi(){
-
-    const name =
-        document.getElementById("followerName").value.trim();
-
-    const email =
-        document.getElementById("followerEmail").value.trim();
-
-
-    if(!name){
-
-        showNotif(
-            "Entre au moins ton nom ou ton prénom."
-        );
-
-        return;
-    }
-
-
-    let notificationPermission = "default";
-
-
-    if("Notification" in window){
-
-        try{
-
-            notificationPermission =
-                await Notification.requestPermission();
-
-        }catch(error){
-
-            console.log(error);
-
-        }
-
-    }
-
-
-    localStorage.setItem(
-        FOLLOW_KEY,
-        "true"
-    );
-
-    localStorage.setItem(
-        "deepRDMMakademy_follower",
-        JSON.stringify({
-            name:name,
-            email:email,
-            notificationPermission:notificationPermission,
-            followedAt:new Date().toISOString()
-        })
-    );
-
-
-    fermerModal("followModal");
-
-    updateFollowButton();
-
-    showNotif(
-        "Tu suis maintenant DeepRDMMakademy 🔔"
-    );
-
-
-    if(
-        "Notification" in window &&
-        Notification.permission === "granted"
-    ){
-
-        new Notification(
-            "DeepRDMMakademy",
-            {
-                body:"Tu recevras les nouvelles publications du campus."
+        <h2>
+            ${outil}
+            ${
+                mode === "IA"
+                ? " — ✨ Création avec IA"
+                : " — ✍️ Création Manuelle"
             }
-        );
+        </h2>
 
-    }
+        <p>
+            La création est <strong style="color:#00eaff;">
+            100% gratuite
+            </strong>.
+        </p>
+
+        <div class="form">
+
+            <label>
+                Que voulez-vous créer ?
+            </label>
+
+            <input
+                type="text"
+                placeholder="Décrivez votre projet...">
 
 
-    /*
-       IMPORTANT :
-       localStorage mémorise le suivi sur CE navigateur.
+            <button
+                class="primary-btn"
+                onclick="demarrerCreation('${outil}','${mode}')">
 
-       Pour obtenir un compteur EXACT de tous les followers,
-       il faut enregistrer chaque follower dans Firestore.
-       Cette partie sera branchée au backend Firebase.
-    */
+                🚀 Commencer gratuitement
+
+            </button>
+
+
+            <button
+                class="secondary-btn"
+                onclick="ouvrirPro()">
+
+                ⚡ Options Pro
+
+            </button>
+
+        </div>
+
+    `);
 }
 
 
-function updateFollowButton(){
+function demarrerCreation(outil,mode){
 
-    const button =
-        document.getElementById("followHeaderButton");
+    fermerModal();
 
-    const following =
-        localStorage.getItem(FOLLOW_KEY) === "true";
+    showToast(
+        outil +
+        " — mode " +
+        mode +
+        " lancé gratuitement."
+    );
+
+}
 
 
-    if(following){
+/* =========================================================
+   PRO
+========================================================= */
 
-        button.textContent = "✓ Suivi";
-        button.style.color = "#19ff9b";
+function ouvrirPro(){
 
-    }else{
+    ouvrirModal(`
 
-        button.textContent = "＋ Suivre";
+        <h2>⚡ DeepRDM Pro</h2>
 
+        <p>
+            <strong style="color:#ff20e7;">
+                15$/mois
+            </strong>
+        </p>
+
+        <br>
+
+        <p>
+            La création de base reste gratuite.
+            Pro sert à débloquer les options avancées.
+        </p>
+
+        <div class="form">
+
+            <button
+                class="primary-btn"
+                onclick="passerPro()">
+
+                🚀 Passer Pro — 15$/mois
+
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="fermerModal()">
+
+                Continuer gratuitement
+
+            </button>
+
+        </div>
+
+    `);
+}
+
+
+function passerPro(){
+
+    showToast(
+        "Paiement Pro : connexion au système de paiement à configurer."
+    );
+
+    fermerModal();
+}
+
+
+/* =========================================================
+   MONÉTISATION
+========================================================= */
+
+function publierSansPub(){
+
+    ouvrirPro();
+
+}
+
+
+/*
+   Fonction prévue pour la publication commerciale.
+
+   DeepRDMMakademy prélève 10%.
+*/
+
+function vendreProjet(){
+
+    ouvrirModal(`
+
+        <h2>💰 Vendre avec DeepRDMMakademy</h2>
+
+        <p>
+            Vous pouvez créer gratuitement.
+            Lorsque vous vendez, DeepRDMMakademy
+            applique une commission de <strong style="color:#00eaff;">
+            10%
+            </strong>.
+        </p>
+
+        <br>
+
+        <button
+            class="primary-btn"
+            onclick="fermerModal()">
+
+            Continuer
+
+        </button>
+
+    `);
+
+}
+
+
+/* =========================================================
+   SIMULATION
+========================================================= */
+
+function lancerSimulation(){
+
+    const rocket =
+        document.getElementById("rocket");
+
+    const status =
+        document.getElementById("simStatus");
+
+    status.textContent = "LAUNCH";
+
+    rocket.style.transform =
+        "translateY(-280px) rotate(15deg)";
+
+    rocket.style.transition =
+        "transform 2s ease-in";
+
+    showToast(
+        "🚀 Simulation lancée !"
+    );
+
+    setTimeout(() => {
+
+        rocket.style.transform =
+            "translateY(10px) rotate(-4deg)";
+
+        status.textContent = "READY";
+
+    },3000);
+
+}
+
+
+function ouvrirSimulations(){
+
+    document.getElementById("simulation")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+
+/* =========================================================
+   IA
+========================================================= */
+
+function parlerIA(){
+
+    showToast(
+        "🤖 DeepRDM IA est prête à expérimenter avec vous."
+    );
+
+}
+
+
+/* =========================================================
+   LABORATOIRES
+========================================================= */
+
+function explorerLaboratoires(){
+
+    ouvrirModal(`
+
+        <h2>🔬 Les Laboratoires</h2>
+
+        <p>
+            Explorez les différents espaces scientifiques
+            de DeepRDMMakademy.
+        </p>
+
+        <div class="role-grid">
+
+            <div class="role">
+                <strong>⚛️ Sciences fondamentales</strong>
+                Physique, mathématiques, chimie.
+            </div>
+
+            <div class="role">
+                <strong>⚙️ Technologie</strong>
+                Ingénierie et systèmes numériques.
+            </div>
+
+            <div class="role">
+                <strong>🤖 Intelligence artificielle</strong>
+                IA, agents et automatisation.
+            </div>
+
+            <div class="role">
+                <strong>🧬 Biotechnologie</strong>
+                Biologie et innovation.
+            </div>
+
+            <div class="role">
+                <strong>🚀 Robotique & espace</strong>
+                Exploration et systèmes autonomes.
+            </div>
+
+            <div class="role">
+                <strong>🌍 Société & futur</strong>
+                Humanité, économie et environnement.
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+
+/* =========================================================
+   ECOLE
+========================================================= */
+
+function entrerEcole(){
+
+    /*
+       Aperçu public autorisé.
+       Les fonctionnalités membres peuvent ensuite
+       appeler verifierMembre().
+    */
+
+    ouvrirModal(`
+
+        <h2>🎓 École & Université Internationale</h2>
+
+        <p>
+            Découvrez les parcours du Collège jusqu'au
+            Doctorat, la recherche et les programmes
+            internationaux.
+        </p>
+
+        <div class="hero-actions">
+
+            <button
+                class="primary-btn"
+                onclick="verifierMembre('Accéder au parcours')">
+
+                Accéder aux parcours
+
+            </button>
+
+        </div>
+
+    `);
+
+}
+
+
+/* =========================================================
+   ACCÈS MEMBRE
+========================================================= */
+
+function verifierMembre(action){
+
+    /*
+       Pour la vraie version, cette vérification devra
+       utiliser Firebase Authentication.
+
+       Ici, aucune donnée n'est inventée.
+    */
+
+    const membre =
+        localStorage.getItem("deeprdm_member") === "true";
+
+
+    if(!membre){
+
+        ouvrirModal(`
+
+            <h2>🔐 Accès réservé</h2>
+
+            <p>
+                Veuillez vous inscrire pour accéder
+                à cette fonctionnalité.
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="inscription()">
+
+                    S'inscrire
+
+                </button>
+
+            </div>
+
+        `);
+
+        return;
     }
+
+
+    showToast(
+        "Accès membre autorisé : " + action
+    );
+
+}
+
+
+/* =========================================================
+   BOUTIQUE
+========================================================= */
+
+function ouvrirBoutique(){
+
+    ouvrirModal(`
+
+        <h2>🛒 Marketplace DeepRDMMakademy</h2>
+
+        <p>
+            Découvrez les créations, produits et services
+            proposés dans l'écosystème.
+        </p>
+
+        <div class="hero-actions">
+
+            <button
+                class="primary-btn"
+                onclick="vendreProjet()">
+
+                💰 Vendre un projet
+
+            </button>
+
+        </div>
+
+    `);
+
 }
 
 
 /* =========================================================
    PUBLICATIONS
-   ========================================================= */
+========================================================= */
 
-function getPublications(){
+let publications = [];
 
-    try{
 
-        const data =
-            localStorage.getItem(
-                LOCAL_PUBLICATIONS_KEY
-            );
+/*
+   IMPORTANT :
+   publications est volontairement VIDE.
 
-        if(!data){
-            return [];
-        }
-
-        return JSON.parse(data);
-
-    }catch(error){
-
-        return [];
-
-    }
-}
+   Quand le backend/Firebase sera connecté,
+   les vraies publications seront chargées ici.
+*/
 
 
 function afficherPublications(){
 
-    const publications =
-        getPublications();
-
     const container =
-        document.getElementById("newsContainer");
+        document.getElementById("newsContent");
 
     const count =
         document.getElementById("publicationCount");
 
 
-    count.textContent =
-        publications.length;
+    count.textContent = publications.length;
 
-
-    /*
-       TRÈS IMPORTANT :
-       S'il n'existe aucune publication,
-       on n'invente absolument rien.
-    */
 
     if(publications.length === 0){
 
         container.innerHTML = `
 
-            <div class="news-empty">
+            <div class="empty-news">
 
-                <div class="news-empty-icon">
+                <div class="empty-news-icon">
                     📡
                 </div>
 
-                <strong>
+                <h3>
                     Aucune publication pour le moment
-                </strong>
+                </h3>
 
-                <span>
-                    Les actualités de DeepRDMMakademy
-                    apparaîtront ici dès qu'une publication
-                    sera réellement créée.
-                </span>
+                <p>
+                    Les publications que tu créeras
+                    apparaîtront ici.
+                </p>
 
             </div>
 
@@ -2747,48 +3136,13 @@ function afficherPublications(){
     }
 
 
-    /*
-       On affiche uniquement la plus récente.
-    */
-
     const post =
         publications[publications.length - 1];
 
 
-    container.innerHTML =
-        createPostHTML(post);
-}
+    container.innerHTML = `
 
-
-function createPostHTML(post){
-
-    const comments =
-        JSON.parse(
-            localStorage.getItem(
-                LOCAL_COMMENTS_KEY
-            ) || "{}"
-        );
-
-
-    const postComments =
-        comments[post.id] || [];
-
-
-    const reactions =
-        post.reactions || {
-            like:0,
-            love:0,
-            haha:0,
-            wow:0,
-            sad:0,
-            angry:0
-        };
-
-
-    return `
-
-        <article class="post"
-                 data-post-id="${post.id}">
+        <article class="post">
 
             <div class="post-header">
 
@@ -2802,57 +3156,50 @@ function createPostHTML(post){
                         DeepRDMMakademy
                     </strong>
 
-                    <small>
-                        ${formatDate(post.createdAt)}
-                        · 🌐 Campus
-                    </small>
+                    <span>
+                        Il y a quelques instants · Campus
+                    </span>
 
                 </div>
 
-                <span style="color:#789db1">
-                    •••
-                </span>
+            </div>
+
+
+            <div class="post-text">
+
+                ${post.text}
 
             </div>
 
 
-            <div class="post-body">
+            ${
+                post.media
 
-                <h3>
-                    ${escapeHTML(post.title || "")}
-                </h3>
+                ?
 
-                <p>
-                    ${escapeHTML(post.content || "")}
-                </p>
+                `
+                <div class="post-media">
+                    ${post.media}
+                </div>
+                `
 
+                :
 
-                ${
-                    post.media
-                    ?
-                    `<div class="post-media">
-                        ${escapeHTML(post.media)}
-                     </div>`
-                    :
-                    ""
-                }
-
-            </div>
+                ""
+            }
 
 
-            <div class="post-stats">
+            <div class="reaction-summary">
 
-                <span>
-                    👍 ${reactions.like}
-                    ❤️ ${reactions.love}
-                    😂 ${reactions.haha}
-                    😮 ${reactions.wow}
-                    😢 ${reactions.sad}
-                    😡 ${reactions.angry}
+                <span id="reactionSummary">
+                    👍 0
                 </span>
 
                 <span>
-                    ${postComments.length} commentaire(s)
+                    <span id="commentCount">0</span>
+                    commentaires ·
+                    <span id="shareCount">0</span>
+                    partages
                 </span>
 
             </div>
@@ -2860,57 +3207,66 @@ function createPostHTML(post){
 
             <div class="post-actions">
 
-                <div class="reaction-area">
-
-                    <div
-                        class="reaction-picker"
-                        id="reactionPicker-${post.id}">
-
-                        <button onclick="reactToPost('${post.id}','like')">
-                            👍
-                        </button>
-
-                        <button onclick="reactToPost('${post.id}','love')">
-                            ❤️
-                        </button>
-
-                        <button onclick="reactToPost('${post.id}','haha')">
-                            😂
-                        </button>
-
-                        <button onclick="reactToPost('${post.id}','wow')">
-                            😮
-                        </button>
-
-                        <button onclick="reactToPost('${post.id}','sad')">
-                            😢
-                        </button>
-
-                        <button onclick="reactToPost('${post.id}','angry')">
-                            😡
-                        </button>
-
-                    </div>
-
+                <div style="position:relative;">
 
                     <button
                         class="post-action"
-                        id="reactionButton-${post.id}"
-                        onpointerdown="startReaction('${post.id}')"
-                        onpointerup="stopReaction()"
-                        onpointerleave="stopReaction()"
-                        onclick="quickLike('${post.id}')">
+                        id="reactionButton"
+                        onclick="reactionClick()">
 
                         👍 Réagir
 
                     </button>
+
+
+                    <div
+                        class="reaction-picker"
+                        id="reactionPicker">
+
+                        <button
+                            class="reaction"
+                            onclick="react('👍')">
+                            👍
+                        </button>
+
+                        <button
+                            class="reaction"
+                            onclick="react('❤️')">
+                            ❤️
+                        </button>
+
+                        <button
+                            class="reaction"
+                            onclick="react('😂')">
+                            😂
+                        </button>
+
+                        <button
+                            class="reaction"
+                            onclick="react('😮')">
+                            😮
+                        </button>
+
+                        <button
+                            class="reaction"
+                            onclick="react('😢')">
+                            😢
+                        </button>
+
+                        <button
+                            class="reaction"
+                            onclick="react('😡')">
+                            😡
+                        </button>
+
+                    </div>
 
                 </div>
 
 
                 <button
                     class="post-action"
-                    onclick="toggleComments('${post.id}')">
+                    onclick="commenter()">
 
                     💬 Commenter
 
@@ -2919,7 +3275,7 @@ function createPostHTML(post){
 
                 <button
                     class="post-action"
-                    onclick="sharePost('${post.id}')">
+                    onclick="partager()">
 
                     ↗ Partager
 
@@ -2927,586 +3283,229 @@ function createPostHTML(post){
 
             </div>
 
-
-            <div
-                class="comments"
-                id="comments-${post.id}">
-
-                <div
-                    class="comment-list"
-                    id="commentList-${post.id}">
-
-                    ${
-                        postComments.length
-                        ?
-                        postComments.map(c => `
-                            <div class="comment-item">
-                                <strong>${escapeHTML(c.name)}</strong><br>
-                                ${escapeHTML(c.text)}
-                            </div>
-                        `).join("")
-                        :
-                        `<div style="color:#7fa7bb;font-size:12px">
-                            Aucun commentaire pour le moment.
-                        </div>`
-                    }
-
-                </div>
-
-
-                <form
-                    class="comment-form"
-                    onsubmit="addComment(event,'${post.id}')">
-
-                    <input
-                        id="commentInput-${post.id}"
-                        placeholder="Écrire un commentaire..."
-                        maxlength="500"
-                        required>
-
-                    <button type="submit">
-                        Envoyer
-                    </button>
-
-                </form>
-
-            </div>
-
         </article>
+
     `;
+
+}
+
+
+function voirPublications(){
+
+    document
+        .getElementById("actualites")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
 }
 
 
 /* =========================================================
    RÉACTIONS
-   ========================================================= */
+========================================================= */
 
-function startReaction(postId){
+function reactionClick(){
 
-    stopReaction();
+    const picker =
+        document.getElementById("reactionPicker");
 
-    reactionTimer =
-        setTimeout(()=>{
+    if(!picker) return;
 
-            const picker =
-                document.getElementById(
-                    "reactionPicker-" + postId
-                );
+    picker.classList.toggle("show");
 
-            if(picker){
-                picker.classList.add("show");
-            }
-
-        },1000);
 }
 
 
-function stopReaction(){
+function react(emoji){
 
-    if(reactionTimer){
+    const summary =
+        document.getElementById("reactionSummary");
 
-        clearTimeout(reactionTimer);
-        reactionTimer = null;
+    if(summary){
 
-    }
-}
-
-
-function quickLike(postId){
-
-    reactToPost(postId,"like");
-}
-
-
-function reactToPost(postId,reaction){
-
-    const publications =
-        getPublications();
-
-    const index =
-        publications.findIndex(
-            p => String(p.id) === String(postId)
-        );
-
-
-    if(index === -1){
-        return;
+        summary.textContent =
+            emoji + " 1";
     }
 
+    document
+        .getElementById("reactionPicker")
+        ?.classList.remove("show");
 
-    if(!publications[index].reactions){
-
-        publications[index].reactions = {
-            like:0,
-            love:0,
-            haha:0,
-            wow:0,
-            sad:0,
-            angry:0
-        };
-
-    }
-
-
-    publications[index].reactions[reaction]++;
-
-
-    localStorage.setItem(
-        LOCAL_PUBLICATIONS_KEY,
-        JSON.stringify(publications)
+    showToast(
+        "Réaction " + emoji + " ajoutée."
     );
 
-
-    afficherPublications();
-
-    showNotif("Réaction enregistrée ❤️");
 }
+
+
+/*
+   Appui long mobile :
+   on peut également utiliser pointer events.
+*/
+
+document.addEventListener(
+    "pointerdown",
+    function(e){
+
+        if(
+            e.target &&
+            e.target.id === "reactionButton"
+        ){
+
+            reactionTimer =
+                setTimeout(() => {
+
+                    document
+                        .getElementById("reactionPicker")
+                        ?.classList.add("show");
+
+                },700);
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "pointerup",
+    function(){
+
+        clearTimeout(reactionTimer);
+
+    }
+);
 
 
 /* =========================================================
    COMMENTAIRES
-   ========================================================= */
+========================================================= */
 
-function toggleComments(postId){
+function commenter(){
 
-    const element =
-        document.getElementById(
-            "comments-" + postId
-        );
+    ouvrirModal(`
 
-    if(element){
+        <h2>💬 Commenter</h2>
 
-        element.classList.toggle("show");
+        <p>
+            Écrivez votre commentaire.
+        </p>
 
-    }
+        <form
+            class="form"
+            onsubmit="envoyerCommentaire(event)">
+
+            <textarea
+                rows="5"
+                required
+                placeholder="Votre commentaire..."></textarea>
+
+            <button
+                class="primary-btn"
+                type="submit">
+
+                Publier le commentaire
+
+            </button>
+
+        </form>
+
+    `);
+
 }
 
 
-function addComment(event,postId){
+function envoyerCommentaire(event){
 
     event.preventDefault();
 
+    fermerModal();
 
-    const input =
-        document.getElementById(
-            "commentInput-" + postId
-        );
-
-
-    const text =
-        input.value.trim();
-
-
-    if(!text){
-        return;
-    }
-
-
-    const name =
-        localStorage.getItem("deepRDMMakademy_follower")
-        ?
-        JSON.parse(
-            localStorage.getItem(
-                "deepRDMMakademy_follower"
-            )
-        ).name
-        :
-        "Visiteur";
-
-
-    const comments =
-        JSON.parse(
-            localStorage.getItem(
-                LOCAL_COMMENTS_KEY
-            ) || "{}"
-        );
-
-
-    if(!comments[postId]){
-        comments[postId] = [];
-    }
-
-
-    comments[postId].push({
-
-        name:name,
-        text:text,
-        createdAt:new Date().toISOString()
-
-    });
-
-
-    localStorage.setItem(
-        LOCAL_COMMENTS_KEY,
-        JSON.stringify(comments)
+    showToast(
+        "Commentaire préparé."
     );
 
-
-    afficherPublications();
-
-    setTimeout(()=>{
-
-        const commentsElement =
-            document.getElementById(
-                "comments-" + postId
-            );
-
-        if(commentsElement){
-            commentsElement.classList.add("show");
-        }
-
-    },50);
-
-
-    showNotif(
-        "Commentaire ajouté."
-    );
 }
 
 
 /* =========================================================
    PARTAGE
-   ========================================================= */
+========================================================= */
 
-async function sharePost(postId){
+async function partager(){
 
     const url =
-        window.location.href.split("#")[0]
-        + "#publication-" + postId;
+        window.location.href;
 
+    const texte =
+        "Découvrez DeepRDMMakademy.";
 
-    const shareData = {
+    if(
+        navigator.share
+    ){
 
-        title:"DeepRDMMakademy",
-        text:"Découvre cette publication sur DeepRDMMakademy.",
-        url:url
+        try{
 
-    };
-
-
-    try{
-
-        if(navigator.share){
-
-            await navigator.share(
-                shareData
-            );
-
-            showNotif(
-                "Publication partagée."
-            );
-
-        }else{
-
-            await navigator.clipboard.writeText(url);
-
-            showNotif(
-                "Lien de la publication copié."
-            );
+            await navigator.share({
+                title:"DeepRDMMakademy",
+                text:texte,
+                url:url
+            });
 
         }
 
-    }catch(error){
+        catch(error){
 
-        console.log(error);
+            /* partage annulé */
 
-    }
-}
-
-
-/* =========================================================
-   SIMULATION
-   ========================================================= */
-
-function lancerSimulation(){
-
-    const orb =
-        document.getElementById(
-            "simulationOrb"
-        );
-
-    const thrust =
-        document.getElementById(
-            "thrustValue"
-        );
-
-    const altitude =
-        document.getElementById(
-            "altitudeValue"
-        );
-
-    const status =
-        document.getElementById(
-            "simStatus"
-        );
-
-
-    if(!orb || !thrust || !altitude || !status){
-        return;
-    }
-
-
-    status.textContent = "START";
-
-    let value = 0;
-
-
-    const interval =
-        setInterval(()=>{
-
-            value += 10;
-
-            thrust.textContent =
-                value + "%";
-
-            altitude.textContent =
-                (value * 0.42).toFixed(1)
-                + " km";
-
-
-            orb.style.transform =
-                `translateY(-${value / 2}px) scale(${1 + value/250})`;
-
-
-            if(value >= 100){
-
-                clearInterval(interval);
-
-                status.textContent =
-                    "ORBIT";
-
-                showNotif(
-                    "🚀 Simulation terminée : orbite atteinte."
-                );
-
-            }
-
-        },120);
-
-
-    showNotif(
-        "🚀 Simulation lancée."
-    );
-}
-
-
-/*
-   Nouveau bouton SIMULATIONS :
-   il dirige vers une véritable page dédiée
-   aux visiteurs.
-*/
-
-function ouvrirSimulations(){
-
-    window.location.href =
-        "simulation-visiteurs.html";
-}
-
-
-function parlerIA(){
-
-    showNotif(
-        "🤖 IA DeepRDM activée."
-    );
-}
-
-
-/* =========================================================
-   ACCÈS MEMBRE
-   ========================================================= */
-
-function ouvrirParcours(){
-
-    afficherAccesMembre(
-        "Les parcours complets de l'École & de l'Université"
-    );
-}
-
-
-function ouvrirMissions(){
-
-    afficherAccesMembre(
-        "Les missions participatives"
-    );
-}
-
-
-function ouvrirRessources(){
-
-    afficherAccesMembre(
-        "Les ressources avancées"
-    );
-}
-
-
-function ouvrirPublicite(){
-
-    /*
-       Le système publicitaire peut être ouvert
-       sans être membre selon l'architecture prévue.
-    */
-
-    showNotif(
-        "Espace Publicité : cette fonctionnalité sera reliée au système publicitaire."
-    );
-}
-
-
-function afficherAccesMembre(feature){
-
-    /*
-       Pour l'instant le statut membre est lu
-       depuis localStorage.
-
-       Plus tard :
-       Firebase Authentication sera la source officielle.
-    */
-
-    const isMember =
-        localStorage.getItem(
-            "deepRDMMakademy_member"
-        ) === "true";
-
-
-    if(!isMember){
-
-        ouvrirModal("memberModal");
+        }
 
         return;
-
-    }
-
-
-    showNotif(
-        "Ouverture : " + feature
-    );
-}
-
-
-/* =========================================================
-   LABORATOIRES PUBLICS
-   ========================================================= */
-
-function explorerLaboratoires(){
-
-    document
-        .getElementById("laboratoires")
-        .scrollIntoView({
-            behavior:"smooth"
-        });
-}
-
-
-function ouvrirLabo(name){
-
-    showNotif(
-        "Aperçu public du laboratoire : " + name
-    );
-}
-
-
-/* =========================================================
-   CAMPUS
-   ========================================================= */
-
-function explorerCampus(){
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-}
-
-
-function voirToutesPublications(event){
-
-    if(event){
-        event.preventDefault();
-    }
-
-    const publications =
-        getPublications();
-
-
-    showNotif(
-        publications.length +
-        " publication(s) disponible(s)."
-    );
-}
-
-
-/* =========================================================
-   MENU / RECHERCHE
-   ========================================================= */
-
-function ouvrirMenu(){
-
-    showNotif(
-        "Menu mobile : navigation du campus."
-    );
-}
-
-
-function ouvrirRecherche(){
-
-    showNotif(
-        "Recherche DeepRDMMakademy."
-    );
-}
-
-
-/* =========================================================
-   OUTILS
-   ========================================================= */
-
-function formatDate(date){
-
-    if(!date){
-        return "date inconnue";
     }
 
 
     try{
 
-        return new Date(date).toLocaleDateString(
-            "fr-FR",
-            {
-                day:"2-digit",
-                month:"2-digit",
-                year:"numeric"
-            }
+        await navigator.clipboard.writeText(url);
+
+        showToast(
+            "Lien copié dans le presse-papiers."
         );
 
-    }catch(error){
+    }
 
-        return "";
+    catch(error){
+
+        showToast(
+            "Lien : " + url
+        );
 
     }
-}
 
-
-function escapeHTML(value){
-
-    return String(value || "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
 }
 
 
 /* =========================================================
    INITIALISATION
-   ========================================================= */
+========================================================= */
+
+afficherPublications();
+
+
+/* =========================================================
+   ESC POUR FERMER LES MODALS
+========================================================= */
 
 document.addEventListener(
-    "DOMContentLoaded",
-    ()=>{
+    "keydown",
+    function(e){
 
-        updateFollowButton();
+        if(e.key === "Escape"){
 
-        afficherPublications();
+            fermerModal();
+
+        }
 
     }
 );
