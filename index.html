@@ -1,398 +1,1956 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>DeepRDMMakademy // BIENVENUE DANS LE FUTUR</title>
+<title>DeepRDMMakademy — Campus Numérique</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        :root {
-            --bg: #000011;
-            --neon-cyan: #00F0FF;
-            --neon-pink: #FF00F0;
-            --cyan-soft: rgba(0, 240, 255, 0.35);
-            --pink-soft: rgba(255, 0, 240, 0.35);
-            --panel: rgba(0, 15, 30, 0.72);
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<style>
+
+:root{
+    --black:#020611;
+    --deep:#050b18;
+    --cyan:#00eaff;
+    --cyan2:#00aaff;
+    --pink:#ff00f0;
+    --purple:#8c4dff;
+    --white:#e9fcff;
+    --glass:rgba(7,25,48,.62);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+        radial-gradient(circle at 50% 38%,
+        rgba(0,234,255,.18) 0%,
+        rgba(0,100,255,.10) 18%,
+        rgba(120,0,255,.08) 35%,
+        transparent 62%),
+        linear-gradient(180deg,#020611 0%,#030a18 45%,#02040c 100%);
+    color:var(--white);
+    font-family:'Orbitron',sans-serif;
+}
+
+/* =========================================================
+   PARTICULES
+========================================================= */
+
+#particles-js{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+}
+
+/* =========================================================
+   LUMIÈRE AMBIANTE
+========================================================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    width:900px;
+    height:900px;
+    left:50%;
+    top:32%;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    background:
+        radial-gradient(circle,
+        rgba(0,238,255,.15) 0%,
+        rgba(0,120,255,.09) 24%,
+        rgba(255,0,240,.07) 43%,
+        transparent 70%);
+    filter:blur(35px);
+    pointer-events:none;
+    z-index:0;
+    animation:ambientLight 7s ease-in-out infinite alternate;
+}
+
+@keyframes ambientLight{
+    from{
+        transform:translate(-50%,-50%) scale(.88);
+        opacity:.65;
+    }
+    to{
+        transform:translate(-50%,-50%) scale(1.12);
+        opacity:1;
+    }
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:76px;
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 4%;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(2,8,22,.88),
+            rgba(3,13,28,.58)
+        );
+
+    border-bottom:1px solid rgba(0,234,255,.38);
+
+    box-shadow:
+        0 0 30px rgba(0,234,255,.10),
+        inset 0 -1px 0 rgba(255,0,240,.08);
+
+    backdrop-filter:blur(18px);
+}
+
+.logo{
+    font-size:20px;
+    font-weight:900;
+    letter-spacing:2px;
+
+    color:#fff;
+
+    text-shadow:
+        0 0 5px #fff,
+        0 0 14px var(--cyan),
+        0 0 30px rgba(0,234,255,.8);
+}
+
+.logo span{
+    color:var(--cyan);
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    font-family:'Orbitron',sans-serif;
+    cursor:pointer;
+    color:white;
+}
+
+.header-btn{
+    position:relative;
+    padding:11px 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,234,255,.13),
+            rgba(255,0,240,.08)
+        );
+
+    border:1px solid rgba(0,234,255,.65);
+    border-radius:8px;
+
+    font-size:11px;
+    letter-spacing:1px;
+
+    box-shadow:
+        inset 0 0 15px rgba(0,234,255,.08),
+        0 0 14px rgba(0,234,255,.12);
+
+    transition:.3s;
+}
+
+.header-btn:hover{
+    transform:translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,234,255,.28),
+            rgba(255,0,240,.20)
+        );
+
+    box-shadow:
+        0 0 12px var(--cyan),
+        0 0 30px rgba(0,234,255,.4);
+}
+
+.header-btn.primary{
+    border-color:var(--pink);
+
+    box-shadow:
+        0 0 10px rgba(255,0,240,.35);
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    position:relative;
+    z-index:1;
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:
+        130px 20px
+        100px;
+
+    overflow:hidden;
+
+    perspective:1200px;
+}
+
+/* lumière horizontale */
+
+.hero::before{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:47%;
+
+    height:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,234,255,.05),
+            var(--cyan),
+            rgba(255,0,240,.7),
+            var(--cyan),
+            rgba(0,234,255,.05),
+            transparent
+        );
+
+    box-shadow:
+        0 0 20px var(--cyan),
+        0 0 50px rgba(0,234,255,.7);
+
+    opacity:.75;
+
+    animation:laserScan 6s linear infinite;
+}
+
+@keyframes laserScan{
+    0%{
+        transform:translateY(-300px);
+        opacity:0;
+    }
+
+    15%{
+        opacity:.8;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    85%{
+        opacity:.8;
+    }
+
+    100%{
+        transform:translateY(300px);
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   GRILLE 3D
+========================================================= */
+
+.hero-grid{
+    position:absolute;
+    left:-15%;
+    width:130%;
+    height:55%;
+
+    bottom:-5%;
+
+    background-image:
+        linear-gradient(
+            rgba(0,234,255,.24) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,234,255,.24) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        70px 70px,
+        70px 70px;
+
+    transform:
+        perspective(450px)
+        rotateX(64deg);
+
+    transform-origin:center bottom;
+
+    mask-image:
+        linear-gradient(
+            to top,
+            black,
+            rgba(0,0,0,.9),
+            transparent
+        );
+
+    box-shadow:
+        0 -30px 80px rgba(0,234,255,.08);
+
+    animation:gridMove 5s linear infinite;
+
+    opacity:.85;
+}
+
+@keyframes gridMove{
+    from{
+        background-position:
+            0 0,
+            0 0;
+    }
+
+    to{
+        background-position:
+            0 70px,
+            70px 0;
+    }
+}
+
+/* deuxième grille */
+
+.hero-grid::after{
+    content:"";
+    position:absolute;
+    inset:-10%;
+
+    background-image:
+        linear-gradient(
+            rgba(255,0,240,.10) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,0,240,.10) 1px,
+            transparent 1px
+        );
+
+    background-size:140px 140px;
+
+    opacity:.4;
+}
+
+/* =========================================================
+   CERCLES HOLOGRAPHIQUES
+========================================================= */
+
+.holo-system{
+    position:absolute;
+
+    width:min(720px,90vw);
+    height:min(720px,90vw);
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        translateZ(-100px);
+
+    pointer-events:none;
+}
+
+.holo-ring{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:50%;
+
+    border:1px solid rgba(0,234,255,.65);
+
+    box-shadow:
+        0 0 10px rgba(0,234,255,.35),
+        inset 0 0 20px rgba(0,234,255,.08);
+
+    animation:rotateRing linear infinite;
+}
+
+.ring1{
+    width:100%;
+    height:100%;
+    border-style:dashed;
+    animation-duration:35s;
+}
+
+.ring2{
+    width:78%;
+    height:78%;
+    border-color:rgba(255,0,240,.6);
+    border-style:dotted;
+    animation-duration:24s;
+    animation-direction:reverse;
+}
+
+.ring3{
+    width:57%;
+    height:57%;
+    border-width:2px;
+    animation-duration:18s;
+}
+
+.ring4{
+    width:42%;
+    height:42%;
+    border-color:rgba(255,255,255,.25);
+    animation-duration:12s;
+}
+
+@keyframes rotateRing{
+    from{
+        transform:
+            translate(-50%,-50%)
+            rotate(0deg);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            rotate(360deg);
+    }
+}
+
+/* =========================================================
+   ARCS HUD
+========================================================= */
+
+.hud-arc{
+    position:absolute;
+
+    width:180px;
+    height:90px;
+
+    border:2px solid transparent;
+
+    border-top-color:var(--cyan);
+    border-radius:50%;
+
+    filter:
+        drop-shadow(0 0 7px var(--cyan));
+
+    opacity:.75;
+}
+
+.arc-left{
+    left:9%;
+    top:31%;
+    transform:rotate(-28deg);
+}
+
+.arc-right{
+    right:9%;
+    top:31%;
+    transform:rotate(28deg);
+    border-top-color:var(--pink);
+
+    filter:
+        drop-shadow(0 0 7px var(--pink));
+}
+
+/* =========================================================
+   CIRCUITS
+========================================================= */
+
+.circuit{
+    position:absolute;
+    height:1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--cyan),
+            transparent
+        );
+
+    box-shadow:
+        0 0 8px var(--cyan),
+        0 0 20px var(--cyan);
+
+    opacity:.8;
+}
+
+.circuit::after{
+    content:"";
+    position:absolute;
+
+    width:7px;
+    height:7px;
+
+    right:20%;
+
+    top:-3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 7px #fff,
+        0 0 15px var(--cyan),
+        0 0 30px var(--cyan);
+
+    animation:circuitPulse 2s infinite;
+}
+
+.circuit1{
+    width:28%;
+    left:0;
+    top:27%;
+}
+
+.circuit2{
+    width:24%;
+    right:0;
+    top:35%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--pink),
+            transparent
+        );
+
+    box-shadow:
+        0 0 8px var(--pink),
+        0 0 20px var(--pink);
+}
+
+.circuit3{
+    width:20%;
+    left:3%;
+    bottom:25%;
+}
+
+.circuit4{
+    width:22%;
+    right:4%;
+    bottom:20%;
+}
+
+@keyframes circuitPulse{
+    0%,100%{
+        transform:scale(.7);
+        opacity:.5;
+    }
+
+    50%{
+        transform:scale(1.6);
+        opacity:1;
+    }
+}
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content{
+    position:relative;
+    z-index:20;
+
+    width:min(1100px,100%);
+
+    text-align:center;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    transform-style:preserve-3d;
+}
+
+/* petite ligne supérieure */
+
+.system-label{
+    margin-bottom:22px;
+
+    color:var(--cyan);
+
+    font-size:11px;
+    letter-spacing:5px;
+
+    text-shadow:
+        0 0 8px var(--cyan),
+        0 0 22px var(--cyan);
+
+    animation:labelBlink 2.5s infinite;
+}
+
+@keyframes labelBlink{
+    0%,100%{opacity:.55}
+    50%{opacity:1}
+}
+
+/* =========================================================
+   TITRE
+========================================================= */
+
+.hero-title{
+    position:relative;
+
+    max-width:1000px;
+
+    font-size:
+        clamp(38px,7vw,86px);
+
+    line-height:1;
+
+    font-weight:900;
+
+    letter-spacing:
+        clamp(2px,1vw,8px);
+
+    color:#ffdcff;
+
+    text-transform:uppercase;
+
+    text-shadow:
+        0 0 3px #fff,
+        0 0 8px var(--pink),
+        0 0 18px var(--pink),
+        0 0 40px rgba(255,0,240,.85),
+        0 0 80px rgba(255,0,240,.4);
+
+    animation:
+        titleFloat 4s ease-in-out infinite,
+        hologramShake 5s infinite;
+}
+
+@keyframes titleFloat{
+    0%,100%{
+        transform:
+            translateY(0)
+            translateZ(40px);
+    }
+
+    50%{
+        transform:
+            translateY(-7px)
+            translateZ(70px);
+    }
+}
+
+@keyframes hologramShake{
+    0%,90%,100%{
+        filter:none;
+    }
+
+    92%{
+        transform:
+            translateX(-2px)
+            skewX(-1deg);
+    }
+
+    94%{
+        transform:
+            translateX(3px)
+            skewX(1deg);
+    }
+
+    96%{
+        transform:
+            translateX(-1px);
+    }
+}
+
+/* scan sur titre */
+
+.hero-title::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    height:3px;
+
+    top:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.9),
+            var(--pink),
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px var(--pink),
+        0 0 30px var(--pink);
+
+    animation:titleScan 3.8s linear infinite;
+}
+
+@keyframes titleScan{
+    0%{
+        top:0;
+        opacity:0;
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    85%{
+        opacity:1;
+    }
+
+    100%{
+        top:100%;
+        opacity:0;
+    }
+}
+
+/* =========================================================
+   SOUS-TITRE
+========================================================= */
+
+.hero-subtitle{
+    margin-top:30px;
+
+    max-width:820px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:
+        clamp(14px,2vw,19px);
+
+    line-height:1.7;
+
+    color:#d8faff;
+
+    text-shadow:
+        0 0 8px rgba(0,234,255,.6);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,234,255,.06),
+            transparent
+        );
+
+    padding:12px 20px;
+
+    border-top:1px solid rgba(0,234,255,.25);
+    border-bottom:1px solid rgba(0,234,255,.25);
+
+    backdrop-filter:blur(5px);
+}
+
+/* =========================================================
+   PANNEAU HOLOGRAPHIQUE
+========================================================= */
+
+.status-panel{
+    position:relative;
+
+    margin-top:34px;
+
+    width:min(500px,90vw);
+
+    padding:17px 25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,234,255,.18),
+            rgba(7,18,45,.72),
+            rgba(255,0,240,.10)
+        );
+
+    border:1px solid rgba(0,234,255,.8);
+
+    border-radius:4px;
+
+    box-shadow:
+        inset 0 0 25px rgba(0,234,255,.10),
+        0 0 12px rgba(0,234,255,.45),
+        0 0 45px rgba(0,234,255,.15);
+
+    backdrop-filter:blur(12px);
+
+    overflow:hidden;
+}
+
+.status-panel::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 5px,
+            rgba(0,234,255,.045) 6px
+        );
+
+    pointer-events:none;
+}
+
+.status-panel::after{
+    content:"";
+
+    position:absolute;
+
+    left:-30%;
+    top:0;
+
+    width:25%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.4),
+            transparent
+        );
+
+    transform:skewX(-25deg);
+
+    animation:glassSweep 4s infinite;
+}
+
+@keyframes glassSweep{
+    0%{
+        left:-30%;
+    }
+
+    45%,100%{
+        left:130%;
+    }
+}
+
+.status-dot{
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#39ff88;
+
+    box-shadow:
+        0 0 8px #39ff88,
+        0 0 20px #39ff88;
+
+    animation:statusPulse 1.5s infinite;
+}
+
+@keyframes statusPulse{
+    0%,100%{
+        transform:scale(.8);
+        opacity:.65;
+    }
+
+    50%{
+        transform:scale(1.25);
+        opacity:1;
+    }
+}
+
+.status-text{
+    font-size:12px;
+    letter-spacing:3px;
+    color:#dfffff;
+
+    text-shadow:
+        0 0 10px var(--cyan);
+}
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.hero-actions{
+    margin-top:35px;
+
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+
+    gap:14px;
+}
+
+.hero-btn{
+    position:relative;
+
+    padding:15px 24px;
+
+    border-radius:7px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,234,255,.16),
+            rgba(5,17,39,.88)
+        );
+
+    border:1px solid var(--cyan);
+
+    color:#fff;
+
+    font-size:11px;
+    letter-spacing:1.5px;
+
+    box-shadow:
+        0 0 12px rgba(0,234,255,.2),
+        inset 0 0 16px rgba(0,234,255,.08);
+
+    transition:.3s;
+
+    overflow:hidden;
+}
+
+.hero-btn::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+
+    transition:.5s;
+}
+
+.hero-btn:hover::before{
+    left:100%;
+}
+
+.hero-btn:hover{
+    transform:
+        translateY(-4px)
+        scale(1.03);
+
+    box-shadow:
+        0 0 10px var(--cyan),
+        0 0 35px rgba(0,234,255,.45);
+}
+
+.hero-btn.pink{
+    border-color:var(--pink);
+
+    box-shadow:
+        0 0 12px rgba(255,0,240,.25);
+}
+
+.hero-btn.pink:hover{
+    box-shadow:
+        0 0 12px var(--pink),
+        0 0 35px rgba(255,0,240,.45);
+}
+
+/* =========================================================
+   SECTION MODULES
+========================================================= */
+
+.modules{
+    position:relative;
+    z-index:5;
+
+    padding:90px 6% 120px;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(0,234,255,.025),
+            rgba(255,0,240,.025)
+        );
+}
+
+.section-title{
+    text-align:center;
+
+    font-size:
+        clamp(25px,4vw,42px);
+
+    color:var(--cyan);
+
+    text-shadow:
+        0 0 10px var(--cyan),
+        0 0 30px rgba(0,234,255,.5);
+
+    margin-bottom:55px;
+}
+
+.module-grid{
+    max-width:1250px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:24px;
+}
+
+.module{
+    position:relative;
+
+    min-height:230px;
+
+    padding:30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(0,234,255,.11),
+            rgba(4,13,31,.82),
+            rgba(255,0,240,.07)
+        );
+
+    border:1px solid rgba(0,234,255,.35);
+
+    border-radius:12px;
+
+    box-shadow:
+        inset 0 0 30px rgba(0,234,255,.04),
+        0 0 25px rgba(0,0,0,.5);
+
+    backdrop-filter:blur(12px);
+
+    transition:.4s;
+
+    overflow:hidden;
+}
+
+.module::before{
+    content:"";
+
+    position:absolute;
+
+    width:120px;
+    height:120px;
+
+    right:-50px;
+    top:-50px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,234,255,.3),
+            transparent 70%
+        );
+
+    filter:blur(5px);
+}
+
+.module:hover{
+    transform:
+        translateY(-10px)
+        perspective(600px)
+        rotateX(2deg);
+
+    border-color:var(--cyan);
+
+    box-shadow:
+        0 0 20px rgba(0,234,255,.18),
+        0 15px 50px rgba(0,0,0,.5),
+        inset 0 0 30px rgba(0,234,255,.07);
+}
+
+.module h3{
+    color:#fff;
+
+    font-size:18px;
+
+    margin-bottom:16px;
+
+    text-shadow:
+        0 0 10px var(--cyan);
+}
+
+.module p{
+    font-family:Arial,sans-serif;
+
+    color:#b9dce4;
+
+    line-height:1.6;
+
+    font-size:14px;
+}
+
+.module button{
+    margin-top:20px;
+
+    padding:10px 16px;
+
+    background:rgba(0,234,255,.08);
+
+    border:1px solid rgba(0,234,255,.55);
+
+    border-radius:6px;
+
+    font-size:10px;
+
+    letter-spacing:1px;
+
+    transition:.3s;
+}
+
+.module button:hover{
+    background:rgba(0,234,255,.22);
+
+    box-shadow:
+        0 0 15px rgba(0,234,255,.3);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+    position:relative;
+    z-index:5;
+
+    padding:40px 20px;
+
+    text-align:center;
+
+    border-top:1px solid rgba(0,234,255,.2);
+
+    background:#02050d;
+}
+
+footer p{
+    color:#7fa5ad;
+
+    font-family:Arial,sans-serif;
+
+    font-size:13px;
+}
+
+.footer-glow{
+    color:var(--cyan);
+
+    text-shadow:
+        0 0 10px var(--cyan);
+}
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+#notification{
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    z-index:2000;
+
+    max-width:340px;
+
+    padding:16px 20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(3,22,42,.94),
+            rgba(22,4,39,.94)
+        );
+
+    border:1px solid var(--cyan);
+
+    border-radius:8px;
+
+    box-shadow:
+        0 0 15px rgba(0,234,255,.3),
+        0 0 40px rgba(255,0,240,.12);
+
+    font-size:11px;
+
+    transform:translateX(150%);
+
+    transition:.5s;
+
+    backdrop-filter:blur(15px);
+}
+
+#notification.show{
+    transform:translateX(0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .module-grid{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .holo-system{
+        width:600px;
+        height:600px;
+    }
+
+    .circuit{
+        opacity:.45;
+    }
+}
+
+@media(max-width:650px){
+
+    header{
+        height:auto;
+        min-height:70px;
+
+        padding:12px 15px;
+
+        gap:10px;
+    }
+
+    .logo{
+        font-size:15px;
+    }
+
+    .header-actions{
+        gap:5px;
+    }
+
+    .header-btn{
+        padding:9px 8px;
+        font-size:8px;
+    }
+
+    .hero{
+        min-height:100vh;
+
+        padding-top:135px;
+    }
+
+    .holo-system{
+        width:470px;
+        height:470px;
+    }
+
+    .hero-title{
+        font-size:
+            clamp(32px,10vw,58px);
+
+        letter-spacing:2px;
+    }
+
+    .hero-subtitle{
+        font-size:13px;
+
+        line-height:1.6;
+    }
+
+    .status-panel{
+        width:92vw;
+
+        padding:14px;
+    }
+
+    .status-text{
+        font-size:9px;
+        letter-spacing:2px;
+    }
+
+    .hero-actions{
+        width:100%;
+    }
+
+    .hero-btn{
+        width:90%;
+
+        padding:14px;
+    }
+
+    .module-grid{
+        grid-template-columns:1fr;
+    }
+
+    .modules{
+        padding-left:20px;
+        padding-right:20px;
+    }
+
+    .circuit1,
+    .circuit2{
+        width:18%;
+    }
+
+    .hud-arc{
+        opacity:.3;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <div class="logo">
+        Deep<span>RDM</span>akademy
+    </div>
+
+    <div class="header-actions">
+
+        <button
+            class="header-btn"
+            onclick="suivre()">
+            SUIVRE
+        </button>
+
+        <button
+            class="header-btn"
+            onclick="inscription()">
+            S'INSCRIRE
+        </button>
+
+        <button
+            class="header-btn primary"
+            onclick="connexion()">
+            CONNEXION
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <!-- grille 3D -->
+    <div class="hero-grid"></div>
+
+    <!-- système holographique -->
+    <div class="holo-system">
+
+        <div class="holo-ring ring1"></div>
+        <div class="holo-ring ring2"></div>
+        <div class="holo-ring ring3"></div>
+        <div class="holo-ring ring4"></div>
+
+    </div>
+
+    <!-- HUD -->
+    <div class="hud-arc arc-left"></div>
+    <div class="hud-arc arc-right"></div>
+
+    <!-- circuits -->
+    <div class="circuit circuit1"></div>
+    <div class="circuit circuit2"></div>
+    <div class="circuit circuit3"></div>
+    <div class="circuit circuit4"></div>
+
+
+    <div class="hero-content">
+
+        <div class="system-label">
+            DEEPRDM // DIGITAL RESEARCH SYSTEM
+        </div>
+
+
+        <h1 class="hero-title">
+            BIENVENUE DANS LE FUTUR
+        </h1>
+
+
+        <p class="hero-subtitle">
+            Le premier Laboratoire Numérique d'Afrique.
+            Fondé à Tananarive. Construit pour l'Univers.
+        </p>
+
+
+        <div class="status-panel">
+
+            <span class="status-dot"></span>
+
+            <span class="status-text">
+                STATUT DU SYSTÈME : EN LIGNE
+            </span>
+
+        </div>
+
+
+        <div class="hero-actions">
+
+            <button
+                id="l4c1cu"
+                class="hero-btn"
+                onclick="lancerSimulation()">
+
+                LANCER SIMULATION
+
+            </button>
+
+
+            <button
+                class="hero-btn pink"
+                onclick="parlerIA()">
+
+                ACTIVER L'IA
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MODULES
+===================================================== -->
+
+<section class="modules">
+
+    <h2 class="section-title">
+        LES MODULES DE DEEPRDM
+    </h2>
+
+
+    <div class="module-grid">
+
+
+        <article class="module">
+
+            <h3>
+                🔬 MODULE LABO
+            </h3>
+
+            <p>
+                Explorez les laboratoires numériques,
+                les expériences et les outils de recherche
+                de DeepRDMMakademy.
+            </p>
+
+            <button onclick="lancerSimulation()">
+                OUVRIR LE LABO
+            </button>
+
+        </article>
+
+
+        <article class="module">
+
+            <h3>
+                🤖 DEEPRDM IA
+            </h3>
+
+            <p>
+                Un espace intelligent dédié à
+                l'expérimentation et à l'intelligence
+                artificielle.
+            </p>
+
+            <button onclick="parlerIA()">
+                ACTIVER L'IA
+            </button>
+
+        </article>
+
+
+        <article class="module">
+
+            <h3>
+                🎓 MODULE ÉCOLE
+            </h3>
+
+            <p>
+                Parcours d'apprentissage,
+                missions pédagogiques et progression
+                académique.
+            </p>
+
+            <button onclick="entrerEcole()">
+                ENTRER DANS L'ÉCOLE
+            </button>
+
+        </article>
+
+
+        <article class="module">
+
+            <h3>
+                🛒 MODULE COMMERCE
+            </h3>
+
+            <p>
+                Découvrez les produits, services,
+                créations et projets issus de
+                l'écosystème DeepRDM.
+            </p>
+
+            <button onclick="ouvrirBoutique()">
+                OUVRIR LA BOUTIQUE
+            </button>
+
+        </article>
+
+
+        <article class="module">
+
+            <h3>
+                📡 FIL D'ACTU HOLO
+            </h3>
+
+            <p>
+                Actualités, annonces, découvertes
+                et événements de la communauté.
+            </p>
+
+            <button onclick="suivre()">
+                SUIVRE + RECEVOIR NOTIFS
+            </button>
+
+        </article>
+
+
+        <article class="module">
+
+            <h3>
+                💠 CAISSE LABO TANA
+            </h3>
+
+            <p>
+                Un espace destiné au soutien,
+                au financement et au développement
+                des projets du laboratoire.
+            </p>
+
+            <button onclick="donner()">
+                SOUTENIR LE LABO
+            </button>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026
+        <span class="footer-glow">
+            DeepRDMMakademy
+        </span>
+        — Digital Research & Development
+    </p>
+
+</footer>
+
+
+<!-- =====================================================
+     NOTIFICATION
+===================================================== -->
+
+<div id="notification"></div>
+
+
+<script>
+
+/* =====================================================
+   PARTICULES
+===================================================== */
+
+particlesJS("particles-js", {
+
+    particles: {
+
+        number: {
+            value: 95,
+            density: {
+                enable: true,
+                value_area: 1000
+            }
+        },
+
+        color: {
+            value: [
+                "#00eaff",
+                "#00aaff",
+                "#ff00f0",
+                "#ffffff"
+            ]
+        },
+
+        shape: {
+            type: "circle"
+        },
+
+        opacity: {
+            value: .55,
+            random: true
+        },
+
+        size: {
+            value: 2.4,
+            random: true
+        },
+
+        line_linked: {
+            enable: true,
+            distance: 150,
+            color: "#00eaff",
+            opacity: .16,
+            width: 1
+        },
+
+        move: {
+            enable: true,
+            speed: .8,
+            direction: "none",
+            random: true,
+            straight: false,
+            out_mode: "out"
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Orbitron', sans-serif;
-        }
+    },
 
-        html {
-            background: var(--bg);
-            scroll-behavior: smooth;
-        }
+    interactivity: {
 
-        body {
-            background: var(--bg);
-            color: white;
-            overflow-x: hidden;
-        }
+        detect_on: "canvas",
 
-        /* =====================================================
-           PARTICULES
-        ===================================================== */
+        events: {
 
-        #particles-js {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background: #000011;
-            z-index: -50;
-            pointer-events: none;
-        }
+            onhover: {
+                enable: true,
+                mode: "grab"
+            },
 
-        /* =====================================================
-           HEADER
-        ===================================================== */
+            onclick: {
+                enable: true,
+                mode: "push"
+            },
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
+            resize: true
 
-            width: 100%;
+        },
 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        modes: {
 
-            padding: 20px 5%;
+            grab: {
+                distance: 180,
+                line_linked: {
+                    opacity: .45
+                }
+            },
 
-            background: rgba(0, 0, 0, 0.58);
-
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-
-            border-bottom: 1px solid var(--neon-cyan);
-
-            box-shadow:
-                0 0 15px rgba(0, 240, 255, 0.15);
-
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 24px;
-            color: var(--neon-cyan);
-
-            text-shadow:
-                0 0 8px var(--neon-cyan),
-                0 0 18px var(--neon-cyan);
-        }
-
-        .nav-btns {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-btns button {
-            background: transparent;
-
-            border: 1px solid var(--neon-pink);
-
-            color: var(--neon-pink);
-
-            padding: 8px 15px;
-
-            margin-left: 10px;
-
-            cursor: pointer;
-
-            transition: 0.3s;
-        }
-
-        .nav-btns button:hover {
-            background: var(--neon-pink);
-
-            color: var(--bg);
-
-            box-shadow:
-                0 0 10px var(--neon-pink),
-                0 0 25px var(--neon-pink);
-        }
-
-        .followers {
-            color: var(--neon-cyan);
-
-            margin-right: 20px;
-
-            text-shadow:
-                0 0 8px var(--neon-cyan);
-        }
-
-        /* =====================================================
-           HERO
-        ===================================================== */
-
-        .hero {
-            position: relative;
-
-            width: 100%;
-            min-height: 820px;
-            height: 100vh;
-
-            padding: 170px 5% 100px;
-
-            display: flex;
-            flex-direction: column;
-
-            justify-content: center;
-            align-items: center;
-
-            text-align: center;
-
-            overflow: hidden;
-
-            isolation: isolate;
-
-            perspective: 1400px;
-        }
-
-        /* Halo central */
-
-        .hero::before {
-            content: "";
-
-            position: absolute;
-
-            left: 50%;
-            top: 46%;
-
-            width: 900px;
-            height: 900px;
-
-            transform:
-                translate(-50%, -50%);
-
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(255, 0, 240, 0.14) 0%,
-                    rgba(255, 0, 240, 0.08) 17%,
-                    rgba(0, 240, 255, 0.11) 30%,
-                    rgba(0, 240, 255, 0.06) 45%,
-                    transparent 70%
-                );
-
-            filter: blur(8px);
-
-            z-index: -20;
-
-            animation:
-                reactorPulse 5s ease-in-out infinite;
-
-            pointer-events: none;
-        }
-
-        @keyframes reactorPulse {
-
-            0%,
-            100% {
-                opacity: 0.65;
-
-                transform:
-                    translate(-50%, -50%)
-                    scale(0.92);
+            push: {
+                particles_nb: 3
             }
 
-            50% {
-                opacity: 1;
-
-                transform:
-                    translate(-50%, -50%)
-                    scale(1.08);
-            }
         }
 
-        /* =====================================================
-           GRILLE 3D
-        ===================================================== */
+    },
 
-        .hero-grid {
-            position: absolute;
+    retina_detect: true
 
-            left: -55%;
-            bottom: -31%;
+});
 
-            width: 210%;
-            height: 82%;
 
-            background-image:
+/* =====================================================
+   NOTIFICATION
+===================================================== */
 
-                linear-gradient(
-                    rgba(0, 240, 255, 0.34) 1px,
-                    transparent 1px
-                ),
+function showNotif(message){
 
-                linear-gradient(
-                    90deg,
-                    rgba(0, 240, 255, 0.34) 1px,
-                    transparent 1px
-                );
+    const box =
+        document.getElementById("notification");
 
-            background-size:
-                50px 50px,
-                50px 50px;
+    box.textContent = message;
 
-            transform:
-                perspective(600px)
-                rotateX(67deg);
+    box.classList.add("show");
 
-            transform-origin:
-                center bottom;
+    setTimeout(() => {
 
-            opacity: 0.75;
+        box.classList.remove("show");
 
-            z-index: -12;
+    }, 4000);
 
-            mask-image:
-                linear-gradient(
-                    to top,
-                    black 0%,
-                    black 35%,
-                    rgba(0,0,0,0.75) 55%,
-                    transparent 100%
-                );
+}
 
-            -webkit-mask-image:
-                linear-gradient(
-                    to top,
-                    black 0%,
-                    black 35%,
-                    rgba(0,0,0,0.75) 55%,
-                    transparent 100%
-                );
 
-            animation:
-                gridTravel 10s linear infinite;
+/* =====================================================
+   INSCRIPTION
+===================================================== */
 
-            pointer-events: none;
+function inscription(){
+
+    showNotif(
+        "Ouverture du système d'inscription DeepRDMMakademy..."
+    );
+
+}
+
+
+/* =====================================================
+   CONNEXION
+===================================================== */
+
+function connexion(){
+
+    showNotif(
+        "Connexion au réseau DeepRDMMakademy..."
+    );
+
+}
+
+
+/* =====================================================
+   SIMULATION
+===================================================== */
+
+function lancerSimulation(){
+
+    showNotif(
+        "Initialisation de la simulation..."
+    );
+
+}
+
+
+/* =====================================================
+   IA
+===================================================== */
+
+function parlerIA(){
+
+    showNotif(
+        "Interface IA DeepRDM activée..."
+    );
+
+}
+
+
+/* =====================================================
+   ÉCOLE
+===================================================== */
+
+function entrerEcole(){
+
+    showNotif(
+        "Accès au campus académique..."
+    );
+
+}
+
+
+/* =====================================================
+   BOUTIQUE
+===================================================== */
+
+function ouvrirBoutique(){
+
+    showNotif(
+        "Ouverture du module Commerce..."
+    );
+
+}
+
+
+/* =====================================================
+   SUIVRE
+===================================================== */
+
+function suivre(){
+
+    const nom =
+        prompt("Votre nom :");
+
+    if(!nom){
+        return;
+    }
+
+    const email =
+        prompt("Votre adresse email :");
+
+    if(!email){
+        return;
+    }
+
+    showNotif(
+        "Merci " +
+        nom +
+        " ! Vous êtes maintenant inscrit aux actualités DeepRDMMakademy."
+    );
+
+}
+
+
+/* =====================================================
+   DON
+===================================================== */
+
+function donner(){
+
+    showNotif(
+        "Ouverture du système de soutien au laboratoire..."
+    );
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS AUTOMATIQUES
+===================================================== */
+
+const notifications = [
+
+    "Nouveau signal détecté dans le réseau DeepRDM.",
+
+    "Le laboratoire numérique est actuellement actif.",
+
+    "Nouvelle mission disponible dans le campus.",
+
+    "Le système holographique fonctionne normalement.",
+
+    "Nouvelle activité détectée dans l'écosystème DeepRDM."
+
+];
+
+let notificationIndex = 0;
+
+setInterval(() => {
+
+    showNotif(
+        notifications[notificationIndex]
+    );
+
+    notificationIndex++;
+
+    if(
+        notificationIndex >=
+        notifications.length
+    ){
+
+        notificationIndex = 0;
+
+    }
+
+}, 30000);
+
+
+/* =====================================================
+   PARALLAXE LÉGER
+===================================================== */
+
+document.addEventListener(
+    "mousemove",
+    function(e){
+
+        const x =
+            (e.clientX /
+            window.innerWidth -
+            .5);
+
+        const y =
+            (e.clientY /
+            window.innerHeight -
+            .5);
+
+        const system =
+            document.querySelector(
+                ".holo-system"
+            );
+
+        if(system){
+
+            system.style.transform =
+                `translate(-50%,-50%)
+                 rotateX(${y * -5}deg)
+                 rotateY(${x * 5}deg)`;
+
         }
 
-        @keyframes gridTravel {
+    }
+);
 
-            from {
-                background-position:
-                    0 0,
-                    0 0;
-            }
+</script>
 
-            to {
-                background-position:
-                    0 50px,
-                    50px 0;
-            }
-        }
-
-        /* =====================================================
-           GRILLE ESPACE
-        ===================================================== */
-
-        .space-grid {
-            position: absolute;
-
-            inset: 0;
-
-            background-image:
-
-                linear-gradient(
-                    90deg,
-                    transparent 49.7%,
-                    rgba(0,240,255,0.04) 50%,
-                    transparent 50.3%
-                ),
-
-                linear-gradient(
-                    0deg,
-                    transparent 49.7%,
-                    rgba(0,240,255,0.035) 50%,
-                    transparent 50.3%
-                );
-
-            background-size:
-                140px 140px,
-                140px 140px;
-
-            opacity: 0.45;
-
-            z-index: -18;
-
-            transform:
-                perspective(1000px)
-                rotateX(8deg)
-                scale(1.15);
-
-            pointer-events: none;
-        }
-
-        /* =====================================================
-           ANNEAU HOLOGRAPHIQUE
-        ===================================================== */
-
-        .holo-ring {
-            position: absolute;
-
-            left: 50%;
-            top: 48%;
-
-            width: 560px;
-            height: 560px;
-
-            transform:
-                translate(-50%, -50%)
-                rotateX(70deg);
-
-            border-radius: 50%;
-
-            border:
-                1px solid rgba(0, 240, 255, 0.48);
-
-            box-shadow:
-                0 0 10px rgba(0,240,255,0.25),
-                inset 0 0 20px rgba(0,240,255,0.12);
-
-            z-index: -10;
-
-            pointer-events: none;
-
-            animation:
-                ringRotation 18s linear infinite;
-        }
-
-        .holo-ring::before {
-            content: "";
-
-            position: absolute;
-
-            inset: 45px;
-
-            border-radius: 50%;
-
-            border:
-                1px dashed rgba(255, 0, 240, 0.65);
-
-            box-shadow:
-                0 0 20px rgba(255,0,240,0.18);
-        }
-
-        .holo-ring::after {
-            content: "";
-
-            position: absolute;
-
-            inset: 110px;
-
-            border-radius: 50%;
-
-            border:
-                1px solid rgba(0,240,255,0.
+</body>
+</html>
