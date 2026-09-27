@@ -1,544 +1,185 @@
+html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepRDMMakademy // BIENVENUE DANS LE FUTUR</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        :root {
+            --bg: #000011;
+            --neon-cyan: #00F0FF;
+            --neon-pink: #FF00F0;
+            --panel: rgba(0, 15, 30, 0.7);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+        body { background: var(--bg); color: white; overflow-x: hidden; }
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        /* FOND 3D PARTICULES */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
 
-    <meta
-        name="theme-color"
-        content="#010208"
-    >
+        /* HEADER AVEC BOUTONS */
+        header { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-bottom: 1px solid var(--neon-cyan); z-index: 100; }
+        .logo { font-size: 24px; color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
+        .nav-btns button { background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink); padding: 8px 15px; margin-left: 10px; cursor: pointer; transition: 0.3s; }
+        .nav-btns button:hover { background: var(--neon-pink); color: var(--bg); box-shadow: 0 0 20px var(--neon-pink); }
+        .followers { color: var(--neon-cyan); margin-right: 20px; }
 
-    <meta
-        name="description"
-        content="DeepRDMMakademy — Campus numérique scientifique, technologique et créatif."
-    >
+        /* HERO */
+        .hero { text-align: center; padding: 180px 5% 100px; }
+        .hero h1 { font-size: 5vw; font-weight: 900; text-shadow: 0 0 30px var(--neon-pink); animation: glow 2s infinite; }
+        @keyframes glow { 0%,100%{text-shadow:0 0 20px var(--neon-pink);} 50%{text-shadow:0 0 40px var(--neon-pink);} }
+        .hero p { color: #aaa; font-size: 18px; margin: 20px 0; }
 
-    <title>DeepRDMMakademy // HQ Tananarive</title>
+        /* GRILLE MODULES LABO */
+        .grid-lab { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; padding: 50px 5%; }
+        .module { 
+            background: var(--panel); border: 1px solid var(--neon-cyan); border-radius: 15px; padding: 30px;
+            box-shadow: 0 0 25px rgba(0,240,255,0.15); transition: 0.4s; backdrop-filter: blur(8px);
+        }
+        .module:hover { transform: translateY(-15px) rotateX(5deg); box-shadow: 0 0 50px var(--neon-cyan); }
+        .module h3 { color: var(--neon-cyan); font-size: 22px; margin-bottom: 15px; }
+        .module p { color: #ccc; margin-bottom: 20px; min-height: 60px; }
+        .btn-module { background: transparent; border: 1px solid var(--neon-pink); color: var(--neon-pink); padding: 12px; width: 100%; cursor: pointer; font-weight: bold; }
+        .btn-module:hover { background: var(--neon-pink); color: var(--bg); }
 
-    <!-- =====================================================
-         POLICES
-    ====================================================== -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <!-- =====================================================
-         ICÔNES
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-    <!-- =====================================================
-         CSS PRINCIPAL
-    ====================================================== -->
-
-    <link rel="stylesheet" href="styles.css">
+        /* NOTIFICATION */
+        .notif { position: fixed; top: 90px; right: 20px; background: var(--neon-pink); color: var(--bg); padding: 15px; border-radius: 8px; display: none; z-index: 999; }
+    </style>
 </head>
-
-
 <body>
-
-<div id="app">
-
-    <!-- =====================================================
-         FOND
-    ====================================================== -->
-
     <div id="particles-js"></div>
+    <div class="notif" id="notifBox"></div>
 
-    <div class="scanlines"></div>
-
-    <div class="ambient-glow"></div>
-
-
-    <!-- =====================================================
-         HEADER HQ
-    ====================================================== -->
-
-    <header class="main-header">
-
-        <a
-            href="#accueil"
-            class="brand"
-        >
-
-            <div class="brand-logo">
-                DRM
+    <header>
+        <div class="logo">DeepRDMMakademy // HQ</div>
+        <div style="display:flex; align-items:center;">
+            <div class="followers">👥 <span id="followersCount">12,458</span> Followers</div>
+            <div class="nav-btns">
+                <button onclick="inscription()">S'INSCRIRE</button>
+                <button onclick="connexion()">CONNEXION</button>
             </div>
-
-            <div class="brand-text">
-
-                <strong>
-                    DeepRDMMakademy
-                </strong>
-
-                <span>
-                    L'art de la science et de la technologie
-                </span>
-
-            </div>
-
-        </a>
-
-
-        <div class="hq-status">
-
-            <span class="status-light"></span>
-
-            <span>
-                SYSTÈMES EN LIGNE
-            </span>
-
-            <span class="separator">
-                //
-            </span>
-
-            <span>
-                TANANARIVE
-            </span>
-
         </div>
-
-
-        <div class="header-actions">
-
-            <!-- Notifications -->
-
-            <button
-                id="notificationButton"
-                class="icon-button"
-                aria-label="Notifications"
-                title="Notifications"
-            >
-
-                <i class="fa-regular fa-bell"></i>
-
-                <span
-                    id="notificationDot"
-                    class="notification-dot"
-                ></span>
-
-            </button>
-
-
-            <!-- Suivre -->
-
-            <button
-                id="followButton"
-                class="follow-button"
-            >
-
-                <i class="fa-regular fa-user"></i>
-
-                <span>
-                    SUIVRE
-                </span>
-
-            </button>
-
-
-            <!-- Menu -->
-
-            <button
-                id="menuButton"
-                class="menu-button"
-                aria-label="Menu"
-            >
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </button>
-
-        </div>
-
     </header>
 
+    <section class="hero">
+        <h1>BIENVENUE DANS LE FUTUR</h1>
+        <p>Le premier Laboratoire Numérique d'Afrique. Fondé à Tananarive. Construit pour l'Univers.</p>
+    </section>
 
-    <!-- =====================================================
-         MENU LATÉRAL
-    ====================================================== -->
-
-    <aside
-        id="sideMenu"
-        class="side-menu"
-        aria-hidden="true"
-    >
-
-        <div class="side-menu-header">
-
-            <div class="side-menu-brand">
-
-                <div class="brand-logo small">
-                    DRM
-                </div>
-
-                <div>
-
-                    <strong>
-                        DeepRDMMakademy
-                    </strong>
-
-                    <small>
-                        HQ // Tananarive
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <button
-                id="closeMenuButton"
-                class="close-button"
-                aria-label="Fermer"
-            >
-                ×
-            </button>
-
+    <!-- MODULES DU LABO -->
+    <section class="grid-lab">
+        
+        <div class="module">
+            <h3>// MODULE LABO</h3>
+            <p>Entre dans le Labo 3D. Teste les robots, les expériences et les simulations spatiales.</p>
+            <button class="btn-module" onclick="lancerSimulation()">LANCER SIMULATION</button>
         </div>
 
-
-        <nav class="main-navigation">
-
-            <a href="#accueil">
-                <i class="fa-solid fa-house"></i>
-                Accueil
-            </a>
-
-            <a href="#explorer">
-                <i class="fa-regular fa-compass"></i>
-                Explorer
-            </a>
-
-            <a href="#ecole">
-                <i class="fa-solid fa-graduation-cap"></i>
-                École
-            </a>
-
-            <a href="#laboratoires">
-                <i class="fa-solid fa-flask"></i>
-                Laboratoires
-            </a>
-
-            <a href="#labo-maison">
-                <i class="fa-solid fa-house-chimney"></i>
-                Labo Maison
-            </a>
-
-            <a href="#missions">
-                <i class="fa-solid fa-rocket"></i>
-                Missions
-            </a>
-
-            <a href="#communaute">
-                <i class="fa-solid fa-users"></i>
-                Communauté
-            </a>
-
-            <a href="#marketplace">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Marketplace
-            </a>
-
-            <a href="#feed">
-                <i class="fa-solid fa-comments"></i>
-                Feed
-            </a>
-
-            <a href="#encheres">
-                <i class="fa-solid fa-gavel"></i>
-                Enchères
-            </a>
-
-            <a href="#ressources">
-                <i class="fa-solid fa-folder-open"></i>
-                Ressources
-            </a>
-
-
-            <div class="navigation-divider"></div>
-
-
-            <a href="#soutenir">
-                <i class="fa-solid fa-heart"></i>
-                Soutenir
-            </a>
-
-            <a href="#publicite">
-                <i class="fa-solid fa-bullhorn"></i>
-                Publicité
-            </a>
-
-
-            <div class="navigation-divider"></div>
-
-
-            <a href="#staff">
-                <i class="fa-solid fa-brain"></i>
-                Staff IA
-            </a>
-
-            <a href="#fonds-labo-tana">
-                <i class="fa-solid fa-coins"></i>
-                Fonds Labo Tana
-            </a>
-
-            <a href="#musee">
-                <i class="fa-solid fa-landmark"></i>
-                Musée des Origines
-            </a>
-
-
-            <div class="navigation-divider"></div>
-
-
-            <button
-                id="loginButton"
-                class="menu-action-button"
-            >
-
-                <i class="fa-solid fa-right-to-bracket"></i>
-
-                Se connecter
-
-            </button>
-
-
-            <button
-                id="memberButton"
-                class="menu-action-button primary"
-            >
-
-                <i class="fa-solid fa-user-plus"></i>
-
-                Devenir membre
-
-            </button>
-
-        </nav>
-
-    </aside>
-
-
-    <div
-        id="menuOverlay"
-        class="menu-overlay"
-    ></div>
-
-
-    <!-- =====================================================
-         CONTENU PRINCIPAL
-    ====================================================== -->
-
-    <main>
-
-
-        <!-- =================================================
-             HERO HQ
-        ================================================== -->
-
-        <section
-            id="accueil"
-            class="hero-section"
-        >
-
-            <div class="hero-grid"></div>
-
-
-            <div class="hero-content">
-
-                <div class="campus-status">
-
-                    <span class="status-light"></span>
-
-                    CAMPUS NUMÉRIQUE ACTIF
-
-                </div>
-
-
-                <div class="hq-label">
-                    DEEPRDMMakademy // HQ
-                </div>
-
-
-                <h1>
-
-                    BIENVENUE DANS
-
-                    <span>
-                        LE FUTUR
-                    </span>
-
-                </h1>
-
-
-                <p class="hero-description">
-
-                    Le campus numérique où la science,
-                    la technologie, la création et l'humain
-                    se rencontrent.
-
-                </p>
-
-
-                <p class="hero-subtitle">
-
-                    Fondé sur un canapé.
-                    Construit pour l'Univers.
-
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <button
-                        id="joinMovementButton"
-                        class="primary-button"
-                    >
-
-                        <i class="fa-solid fa-user-plus"></i>
-
-                        Rejoindre le mouvement
-
-                    </button>
-
-
-                    <a
-                        href="#explorer"
-                        class="secondary-button"
-                    >
-
-                        <i class="fa-regular fa-compass"></i>
-
-                        Explorer le campus
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <div class="hero-system">
-
-                <div class="system-circle">
-
-                    <div class="system-core">
-                        DRM
-                    </div>
-
-                </div>
-
-
-                <div class="system-data top">
-                    SYSTEM 01
-                </div>
-
-                <div class="system-data bottom">
-                    ONLINE
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             LES 5 PILIERS
-        ================================================== -->
-
-        <section
-            id="explorer"
-            class="section-container"
-        >
-
-            <div class="section-heading">
-
-                <span>
-                    // CAMPUS
-                </span>
-
-                <h2>
-                    LES GRANDES PORTES
-                </h2>
-
-                <p>
-                    Explore les principaux espaces
-                    de DeepRDMMakademy.
-                </p>
-
-            </div>
-
-
-            <div class="campus-pillars">
-
-
-                <!-- ÉCOLE -->
-
-                <article
-                    id="ecole"
-                    class="pillar-card"
-                    data-action="ecole"
-                >
-
-                    <div class="pillar-number">
-                        01
-                    </div>
-
-                    <div class="pillar-icon">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-
-                    <h3>
-                        ÉCOLE
-                    </h3>
-
-                    <p>
-                        Cours &amp; Diplômes
-                    </p>
-
-                    <span class="card-arrow">
-                        →
-                    </span>
-
-                </article>
-
-
-                <!-- LABORATOIRES -->
-
-                <article
-                    id="laboratoires"
-                    class="pillar-card"
-                    data-action="laboratoires"
-                >
-
-                    <div class="pillar-number">
-                        02
-                    </div>
-
-                    <div class="pillar-icon">
-                        <i class="fa-solid fa-flask"></i>
-                    </div>
-
-                    <h3>
-                        LABORATOIRES
-                    </h3>
-
-                    <p>
-                        Recherche
+        <div class="module">
+            <h3>// MODULE IA DEEPRDM</h3>
+            <p>Parle à l'IA Assistante. Elle code, calcule et t’aide à construire tes projets.</p>
+            <button class="btn-module" onclick="parlerIA()">ACTIVER L'IA</button>
+        </div>
+
+        <div class="module">
+            <h3>// MODULE ÉCOLE</h3>
+            <p>Cours, Diplômes, Preuves Terrain. Deviens Ingénieur certifié DeepRDM.</p>
+            <button class="btn-module" onclick="entrerEcole()">ENTRER EN COURS</button>
+        </div>
+
+        <div class="module">
+            <h3>// MODULE COMMERCE</h3>
+            <p>Marketplace, Abonnements, Enchères. Achète et vends du tech.</p>
+            <button class="btn-module" onclick="ouvrirBoutique()">OUVRIR BOUTIQUE</button>
+        </div>
+
+        <div class="module">
+            <h3>// FIL D'ACTU HOLO</h3>
+            <p>Reçois les notifications du Fondateur. Nouvelles découvertes en direct.</p>
+            <button class="btn-module" onclick="suivre()">SUIVRE + RECEVOIR NOTIFS</button>
+        </div>
+
+        <div class="module">
+            <h3>// CAISSE LABO TANA</h3>
+            <p>10% de chaque vente finance le vrai Labo à Tananarive.</p>
+            <div style="font-size:28px; color:var(--neon-pink);" id="caisse">1,524 $</div>
+            <button class="btn-module" onclick="donner()">CONTRIBUER</button>
+        </div>
+
+    </section>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+// FOND PARTICULES 3D
+particlesJS("particles-js", {"particles":{"number":{"value":120},"color":{"value":"#00F0FF"},"shape":{"type":"circle"},"opacity":{"value":0.4},"size":{"value":2},"line_linked":{"enable":true,"color":"#00F0FF"},"move":{"enable":true,"speed":1}}});
+
+let followers = 12458;
+let isFollower = false;
+
+// FONCTIONS BOUTONS
+function inscription() {
+    alert("FORMULAIRE D'INSCRIPTION OUVERT\nBienvenue futur ingénieur !");
+    if(!isFollower) suivre();
+}
+
+function connexion() {
+    let mdp = prompt("SCAN D'ACCÈS FONDATEUR :");
+    if(mdp === "canapé2026") alert("ACCÈS NIVEAU 10 ACCORDÉ. BIENVENUE CHEF.");
+    else alert("ACCÈS REFUSÉ");
+}
+
+function lancerSimulation() {
+    showNotif("🚀 SIMULATION LANCÉE : Test moteur fusée en cours...");
+}
+
+function parlerIA() {
+    let q = prompt("IA DEEPRDM : Pose ta question");
+    if(q) showNotif("🤖 IA : Analyse en cours... Réponse générée.");
+}
+
+function entrerEcole() {
+    showNotif("📚 ACCÈS ÉCOLE : Chargement des cours...");
+}
+
+function ouvrirBoutique() {
+    showNotif("🛒 MARKETPLACE OUVERTE : 127 produits disponibles");
+}
+
+function suivre() {
+    if(!isFollower) {
+        followers++;
+        isFollower = true;
+        document.getElementById('followersCount').innerText = followers.toLocaleString();
+        showNotif("✅ TU SUIS MAINTENANT DEEPRDM ! Tu recevras toutes les actus.");
+    } else {
+        showNotif("📡 Tu reçois déjà les notifications du Labo.");
+    }
+}
+
+function donner() {
+    showNotif("❤️ MERCI ! Contribution ajoutée à la Caisse Labo Tana.");
+}
+
+function showNotif(msg) {
+    let box = document.getElementById('notifBox');
+    box.innerText = msg;
+    box.style.display = 'block';
+    setTimeout(() => { box.style.display = 'none'; }, 4000);
+}
+
+// FAUSSE NOTIF TOUTES LES 30s
+setInterval(() => {
+    let news = [
+        "Nouvelle découverte : Robot V3 testé avec succès !",
+        "Enchère en cours : Code Source Vaisseau Mars",
+        "Live du Fondateur dans 1h sur le Labo"
+    ];
+    let randomNews = news[Math.floor(Math.random() * news.length)];
+    if(isFollower) showNotif("📢 ACTU DEEPRDM : " + randomNews);
+}, 30000);
+
+</script>
+</body>
+</html>
