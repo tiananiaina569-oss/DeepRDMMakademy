@@ -2,945 +2,3516 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#020817">
+<meta name="description" content="DeepRDMMakademy — Campus numérique scientifique, laboratoires, simulations, missions et communauté.">
 
 <title>DeepRDMMakademy — Campus Numérique</title>
 
-<meta name="description"
-      content="DeepRDMMakademy — Campus numérique scientifique, laboratoires, recherche, simulations, missions et communauté.">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
 /* =========================================================
-   RESET
-========================================================= */
+   DEEPRDMMAKADEMY
+   HOME — HOLOGRAPHIC CAMPUS
+   ========================================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root{
+    --bg:#020817;
+    --bg2:#04152b;
+    --panel:#071b32;
+    --panel2:#092542;
+    --cyan:#00eaff;
+    --cyan2:#00aaff;
+    --pink:#ff19e6;
+    --blue:#1677ff;
+    --white:#f4fbff;
+    --text:#d8efff;
+    --muted:#8fb4cc;
+    --line:rgba(0,234,255,.30);
+    --line2:rgba(255,25,230,.25);
+    --success:#19ff9b;
+    --warning:#ffd84a;
+    --danger:#ff4f7b;
+    --shadow:0 0 30px rgba(0,220,255,.14);
 }
 
-html {
-    scroll-behavior: smooth;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    min-height: 100vh;
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
     background:
-        radial-gradient(circle at 50% 0%, rgba(0,212,255,.16), transparent 35%),
-        radial-gradient(circle at 90% 30%, rgba(255,0,240,.08), transparent 30%),
+        radial-gradient(circle at 50% 0%, rgba(0,126,255,.22), transparent 34%),
+        radial-gradient(circle at 90% 35%, rgba(0,234,255,.09), transparent 25%),
+        radial-gradient(circle at 10% 65%, rgba(255,25,230,.07), transparent 25%),
         #020817;
-    color: #f4fbff;
-    font-family: "Inter", Arial, sans-serif;
-    overflow-x: hidden;
+    color:var(--white);
+    font-family:Inter,Arial,sans-serif;
+    overflow-x:hidden;
 }
 
-button,
-input,
-select,
-textarea {
-    font-family: inherit;
-}
-
-button {
-    cursor: pointer;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-/* =========================================================
-   VARIABLES
-========================================================= */
-
-:root {
-    --cyan: #00eaff;
-    --cyan2: #00bfff;
-    --pink: #ff25ef;
-    --blue: #147dff;
-    --green: #20ff9a;
-
-    --bg: #020817;
-    --panel: rgba(4, 20, 42, .86);
-    --panel2: rgba(7, 29, 58, .92);
-
-    --border: rgba(0, 224, 255, .38);
-
-    --shadow:
-        0 0 20px rgba(0, 220, 255, .15),
-        inset 0 0 30px rgba(0, 180, 255, .04);
-
-    --radius: 22px;
-}
-
-/* =========================================================
-   BACKGROUND
-========================================================= */
-
-.background-grid {
-    position: fixed;
-    inset: 0;
-    z-index: -5;
-    pointer-events: none;
-
+/* grille générale */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
     background-image:
-        linear-gradient(rgba(0, 225, 255, .045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 225, 255, .045) 1px, transparent 1px);
-
-    background-size: 55px 55px;
-
-    transform:
-        perspective(700px)
-        rotateX(58deg)
-        scale(1.5)
-        translateY(28%);
-
-    transform-origin: center bottom;
-
-    opacity: .7;
+        linear-gradient(rgba(0,234,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.035) 1px,transparent 1px);
+    background-size:45px 45px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
 }
 
-.background-glow {
-    position: fixed;
-    inset: 0;
-    z-index: -4;
-    pointer-events: none;
-
-    background:
-        radial-gradient(circle at 20% 20%, rgba(0, 220, 255, .15), transparent 25%),
-        radial-gradient(circle at 80% 35%, rgba(255, 0, 240, .10), transparent 25%),
-        radial-gradient(circle at 50% 80%, rgba(0, 130, 255, .13), transparent 35%);
-}
-
-.scanline {
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: 2px;
-    top: -10px;
-    z-index: 999;
-    pointer-events: none;
-
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(0,234,255,.55),
-        transparent
-    );
-
-    box-shadow: 0 0 15px var(--cyan);
-
-    animation: scan 8s linear infinite;
-    opacity: .25;
-}
-
-@keyframes scan {
-    0% {
-        top: -10px;
-    }
-
-    100% {
-        top: 110vh;
-    }
+/* halo */
+body::after{
+    content:"";
+    position:fixed;
+    width:650px;
+    height:650px;
+    top:10%;
+    left:50%;
+    transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(0,234,255,.08),transparent 68%);
+    filter:blur(30px);
+    z-index:-4;
+    pointer-events:none;
 }
 
 /* =========================================================
    HEADER
-========================================================= */
+   ========================================================= */
 
-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    width: 100%;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(2, 12, 29, .96),
-            rgba(2, 12, 29, .84)
-        );
-
-    border-bottom: 1px solid rgba(0, 220, 255, .25);
-
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:76px;
+    border-bottom:1px solid rgba(0,234,255,.28);
+    background:rgba(2,10,25,.86);
+    backdrop-filter:blur(18px);
     box-shadow:
         0 8px 35px rgba(0,0,0,.35),
-        0 0 30px rgba(0,200,255,.05);
+        0 0 25px rgba(0,234,255,.05);
 }
 
-.header-inner {
-    max-width: 1400px;
-    margin: auto;
-
-    min-height: 76px;
-
-    display: flex;
-    align-items: center;
-    gap: 18px;
-
-    padding: 10px 22px;
+.header-inner{
+    width:min(1400px,94%);
+    height:100%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    gap:18px;
 }
 
-/* LOGO */
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    min-width: 230px;
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:max-content;
 }
 
-.logo-circle {
-    width: 48px;
-    height: 48px;
-
-    border: 2px solid var(--cyan);
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--cyan);
-
-    font-family: Orbitron, sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-
-    box-shadow:
-        0 0 12px rgba(0,234,255,.7),
-        inset 0 0 15px rgba(0,234,255,.15);
-
-    text-shadow: 0 0 8px var(--cyan);
-}
-
-.logo-title {
-    font-family: Orbitron, sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-}
-
-.logo-subtitle {
-    color: #a6bdd4;
-    font-size: 10px;
-    margin-top: 3px;
-}
-
-/* NAV */
-
-.main-nav {
-    flex: 1;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 22px;
-}
-
-.main-nav a {
-    color: #c9deef;
-    font-family: Orbitron, sans-serif;
-    font-size: 10px;
-    letter-spacing: .5px;
-
-    transition: .25s ease;
-}
-
-.main-nav a:hover {
-    color: var(--cyan);
-    text-shadow: 0 0 10px var(--cyan);
-}
-
-/* HEADER ACTIONS */
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.icon-button {
-    width: 39px;
-    height: 39px;
-
-    border-radius: 50%;
-    border: 1px solid rgba(0,220,255,.45);
-
-    background: rgba(0,100,160,.15);
-
-    color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 17px;
-}
-
-.follow-button {
-    border: 1px solid var(--cyan);
-    color: var(--cyan);
-
-    background: rgba(0,220,255,.07);
-
-    padding: 10px 15px;
-    border-radius: 25px;
-
-    font-weight: 700;
-}
-
-.join-button {
-    border: 0;
-
+.logo-orb{
+    width:48px;
+    height:48px;
+    border:2px solid var(--cyan);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:var(--cyan);
+    font-family:Orbitron,sans-serif;
+    font-size:13px;
+    font-weight:800;
     background:
-        linear-gradient(
-            135deg,
-            #00f0ff,
-            #00b9ff
-        );
-
-    color: #00131d;
-
-    padding: 12px 20px;
-    border-radius: 25px;
-
-    font-weight: 800;
-
+        radial-gradient(circle,rgba(0,234,255,.20),rgba(0,20,45,.75));
     box-shadow:
-        0 0 18px rgba(0,234,255,.4);
+        0 0 12px rgba(0,234,255,.75),
+        inset 0 0 20px rgba(0,234,255,.16);
 }
 
-.menu-button {
-    display: none;
+.logo-text strong{
+    display:block;
+    font-family:Orbitron,sans-serif;
+    font-size:15px;
+    letter-spacing:.3px;
+    color:#ffffff;
 }
 
-/* =========================================================
-   MAIN
-========================================================= */
+.logo-text small{
+    display:block;
+    margin-top:3px;
+    color:#9ed7ef;
+    font-size:9px;
+}
 
-main {
-    width: 100%;
-    max-width: 1400px;
-    margin: auto;
+.main-nav{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    flex:1;
+}
 
-    padding: 18px 22px 100px;
+.main-nav a{
+    color:#d9f4ff;
+    text-decoration:none;
+    font-size:12px;
+    padding:9px 11px;
+    border-radius:9px;
+    transition:.2s;
+}
+
+.main-nav a:hover{
+    color:#fff;
+    background:rgba(0,234,255,.09);
+}
+
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.icon-btn,
+.follow-btn,
+.join-btn,
+.menu-btn{
+    border:1px solid rgba(0,234,255,.45);
+    background:rgba(0,130,190,.10);
+    color:#e9fbff;
+    border-radius:24px;
+    min-height:38px;
+    padding:0 13px;
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s;
+}
+
+.icon-btn{
+    width:40px;
+    padding:0;
+    display:grid;
+    place-items:center;
+    font-size:18px;
+}
+
+.follow-btn{
+    color:var(--cyan);
+}
+
+.join-btn{
+    background:linear-gradient(135deg,#00dfff,#00aeea);
+    color:#00121c;
+    border:none;
+    box-shadow:0 0 18px rgba(0,234,255,.35);
+}
+
+.menu-btn{
+    display:none;
+    width:42px;
+    padding:0;
+    font-size:20px;
 }
 
 /* =========================================================
    HERO
-========================================================= */
+   ========================================================= */
 
-.hero {
-    position: relative;
-
-    min-height: 480px;
-
-    border: 1px solid rgba(0,220,255,.32);
-    border-radius: 30px;
-
-    overflow: hidden;
-
+.hero{
+    position:relative;
+    width:min(1400px,94%);
+    min-height:530px;
+    margin:25px auto 0;
+    overflow:hidden;
+    border:1px solid rgba(0,234,255,.36);
+    border-radius:30px;
     background:
-        radial-gradient(
-            circle at 75% 35%,
-            rgba(0,220,255,.25),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 20% 30%,
-            rgba(255,0,240,.10),
-            transparent 25%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(4,24,49,.96),
-            rgba(2,11,27,.92)
-        );
-
+        linear-gradient(90deg,rgba(2,14,31,.97) 0%,rgba(2,20,43,.82) 42%,rgba(2,18,38,.30) 100%),
+        radial-gradient(circle at 75% 45%,rgba(0,234,255,.25),transparent 27%);
     box-shadow:
-        0 0 50px rgba(0,210,255,.12),
-        inset 0 0 50px rgba(0,190,255,.05);
+        0 0 45px rgba(0,120,255,.16),
+        inset 0 0 50px rgba(0,234,255,.035);
 }
 
-.hero::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
+.hero-grid{
+    position:absolute;
+    inset:0;
     background-image:
-        linear-gradient(rgba(0,234,255,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,234,255,.045) 1px, transparent 1px);
-
-    background-size: 45px 45px;
-
-    transform:
-        perspective(600px)
-        rotateX(55deg)
-        scale(1.7)
-        translateY(28%);
-
-    opacity: .6;
+        linear-gradient(rgba(0,234,255,.07) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.07) 1px,transparent 1px);
+    background-size:50px 50px;
+    transform:perspective(700px) rotateX(62deg) scale(1.5);
+    transform-origin:center bottom;
+    opacity:.30;
+    pointer-events:none;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
-
-    width: 58%;
-
-    padding: 60px 40px;
+.hero-glow{
+    position:absolute;
+    width:520px;
+    height:520px;
+    right:2%;
+    top:0;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(0,234,255,.18),rgba(0,100,255,.08),transparent 68%);
+    filter:blur(5px);
 }
 
-.status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 7px 13px;
-
-    border: 1px solid rgba(0,234,255,.4);
-    border-radius: 20px;
-
-    color: var(--cyan);
-
-    background: rgba(0,234,255,.08);
-
-    font-size: 11px;
-    font-weight: 700;
-
-    box-shadow: 0 0 18px rgba(0,234,255,.1);
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-
-    border-radius: 50%;
-
-    background: var(--green);
-
-    box-shadow: 0 0 12px var(--green);
-}
-
-.hero h1 {
-    margin-top: 25px;
-
-    font-family: Orbitron, sans-serif;
-
-    font-size: clamp(34px, 5vw, 70px);
-    line-height: 1.05;
-
-    color: white;
-
-    text-shadow:
-        0 0 12px rgba(255,255,255,.35);
-}
-
-.hero h1 span {
-    display: block;
-
-    color: var(--cyan);
-
-    text-shadow:
-        0 0 10px var(--cyan),
-        0 0 30px rgba(0,234,255,.5);
-}
-
-.hero-description {
-    max-width: 650px;
-
-    margin-top: 20px;
-
-    color: #d6e8f5;
-
-    font-size: 16px;
-    line-height: 1.7;
-}
-
-.hero-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-
-    margin-top: 28px;
-}
-
-.primary-button {
-    border: 0;
-
-    padding: 14px 23px;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #00edff,
-            #00a9ff
-        );
-
-    color: #00121b;
-
-    font-weight: 800;
-
+.hero-ring{
+    position:absolute;
+    width:370px;
+    height:370px;
+    right:7%;
+    top:75px;
+    border:1px solid rgba(0,234,255,.20);
+    border-radius:50%;
     box-shadow:
-        0 0 22px rgba(0,234,255,.35);
+        0 0 30px rgba(0,234,255,.12),
+        inset 0 0 35px rgba(0,234,255,.06);
+    animation:rotateRing 22s linear infinite;
 }
 
-.secondary-button {
-    border: 1px solid var(--cyan);
-
-    padding: 13px 22px;
-
-    border-radius: 30px;
-
-    background: rgba(0,234,255,.06);
-
-    color: var(--cyan);
-
-    font-weight: 700;
+.hero-ring::before,
+.hero-ring::after{
+    content:"";
+    position:absolute;
+    inset:28px;
+    border:1px dashed rgba(255,25,230,.20);
+    border-radius:50%;
 }
 
-.secondary-button:hover,
-.primary-button:hover,
-.join-button:hover,
-.follow-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.12);
+.hero-ring::after{
+    inset:75px;
+    border-color:rgba(0,234,255,.25);
 }
 
-/* HERO VISUAL */
-
-.hero-visual {
-    position: absolute;
-    right: 0;
-    top: 0;
-
-    width: 47%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@keyframes rotateRing{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-.holo-core {
-    width: 260px;
-    height: 260px;
-
-    border: 1px solid rgba(0,234,255,.6);
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-
-    box-shadow:
-        0 0 35px rgba(0,234,255,.25),
-        inset 0 0 45px rgba(0,234,255,.08);
-
-    animation: pulseCore 4s ease-in-out infinite;
+.hero-content{
+    position:relative;
+    z-index:2;
+    width:58%;
+    padding:70px 50px;
 }
 
-.holo-core::before,
-.holo-core::after {
-    content: "";
-
-    position: absolute;
-
-    border: 1px solid rgba(0,234,255,.35);
-    border-radius: 50%;
+.system-status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 13px;
+    border-radius:20px;
+    border:1px solid rgba(0,234,255,.30);
+    background:rgba(0,234,255,.08);
+    color:var(--cyan);
+    font-family:Orbitron,sans-serif;
+    font-size:10px;
+    letter-spacing:1px;
+    margin-bottom:25px;
 }
 
-.holo-core::before {
-    inset: -35px;
+.status-dot{
+    width:8px;
+    height:8px;
+    background:#1aff9c;
+    border-radius:50%;
+    box-shadow:0 0 12px #1aff9c;
 }
 
-.holo-core::after {
-    inset: 35px;
+.hero h1{
+    font-family:Orbitron,sans-serif;
+    font-size:clamp(32px,5vw,70px);
+    line-height:1.04;
+    letter-spacing:-2px;
+    margin-bottom:20px;
+    color:#ffffff;
+    text-shadow:0 0 30px rgba(255,255,255,.12);
 }
 
-.core-icon {
-    font-size: 70px;
-
-    filter:
-        drop-shadow(0 0 15px var(--cyan));
-
-    animation: float 3s ease-in-out infinite;
+.hero h1 span{
+    color:var(--cyan);
+    text-shadow:
+        0 0 8px rgba(0,234,255,.8),
+        0 0 35px rgba(0,234,255,.4);
 }
 
-@keyframes pulseCore {
-    0%,100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
+.hero p{
+    color:#d4edf9;
+    font-size:17px;
+    line-height:1.65;
+    max-width:680px;
+    margin-bottom:28px;
 }
 
-@keyframes float {
-    0%,100% {
-        transform: translateY(0);
-    }
+.hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
 
-    50% {
-        transform: translateY(-12px);
-    }
+.btn{
+    border:none;
+    cursor:pointer;
+    min-height:48px;
+    padding:0 22px;
+    border-radius:26px;
+    font-weight:800;
+    color:#00131c;
+    background:linear-gradient(135deg,#19efff,#00aeea);
+    box-shadow:0 0 22px rgba(0,234,255,.28);
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 30px rgba(0,234,255,.45);
+}
+
+.btn-outline{
+    color:var(--cyan);
+    background:rgba(0,234,255,.04);
+    border:1px solid rgba(0,234,255,.55);
+    box-shadow:none;
+}
+
+.btn-pink{
+    color:#fff;
+    background:linear-gradient(135deg,#ff19e6,#b20dff);
+    box-shadow:0 0 25px rgba(255,25,230,.25);
+}
+
+.hero-hud{
+    position:absolute;
+    right:30px;
+    bottom:30px;
+    width:300px;
+    padding:18px;
+    z-index:3;
+    border:1px solid rgba(0,234,255,.28);
+    border-radius:18px;
+    background:rgba(2,16,34,.74);
+    backdrop-filter:blur(14px);
+}
+
+.hud-title{
+    color:var(--cyan);
+    font-family:Orbitron,sans-serif;
+    font-size:10px;
+    margin-bottom:14px;
+}
+
+.hud-row{
+    display:flex;
+    justify-content:space-between;
+    padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    font-size:12px;
+}
+
+.hud-row:last-child{
+    border-bottom:0;
+}
+
+.hud-row span:first-child{
+    color:#9abfd2;
+}
+
+.hud-row span:last-child{
+    color:#fff;
 }
 
 /* =========================================================
    QUICK STATS
-========================================================= */
+   ========================================================= */
 
-.quick-stats {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 10px;
-
-    margin-top: 14px;
+.quick-stats{
+    width:min(1400px,94%);
+    margin:18px auto 0;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
 }
 
-.stat-card {
-    min-height: 75px;
-
-    display: flex;
-    align-items: center;
-    gap: 15px;
-
-    padding: 14px 18px;
-
-    border-radius: 18px;
-
-    border: 1px solid rgba(0,220,255,.27);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(8,33,65,.95),
-            rgba(3,17,36,.95)
-        );
-
-    box-shadow: var(--shadow);
+.stat-card{
+    padding:18px;
+    border:1px solid rgba(0,234,255,.28);
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(5,31,56,.95),rgba(3,16,32,.95));
+    display:flex;
+    align-items:center;
+    gap:15px;
+    box-shadow:var(--shadow);
 }
 
-.stat-icon {
-    width: 45px;
-    height: 45px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    color: var(--cyan);
-
-    border: 1px solid rgba(0,234,255,.4);
-
-    background: rgba(0,234,255,.06);
-
-    font-size: 22px;
+.stat-icon{
+    width:45px;
+    height:45px;
+    border:1px solid rgba(0,234,255,.5);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-size:20px;
+    color:var(--cyan);
+    background:rgba(0,234,255,.08);
 }
 
-.stat-title {
-    font-weight: 700;
-    color: #f5fbff;
+.stat-card strong{
+    display:block;
+    color:#fff;
+    font-size:15px;
 }
 
-.stat-text {
-    font-size: 11px;
-    color: #9db9cf;
-    margin-top: 4px;
+.stat-card small{
+    display:block;
+    margin-top:4px;
+    color:#9ec1d4;
 }
 
 /* =========================================================
    SECTION
-========================================================= */
+   ========================================================= */
 
-.section {
-    margin-top: 28px;
+.section{
+    width:min(1400px,94%);
+    margin:55px auto 0;
 }
 
-.section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 14px;
+.section-header{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px;
 }
 
-.section-title {
-    font-family: Orbitron, sans-serif;
-
-    font-size: clamp(18px, 2vw, 25px);
-
-    color: #f7fcff;
-
-    text-shadow:
-        0 0 12px rgba(0,234,255,.25);
+.section-title{
+    font-family:Orbitron,sans-serif;
+    color:#fff;
+    font-size:clamp(20px,3vw,30px);
 }
 
-.section-title span {
-    color: var(--cyan);
+.section-title span{
+    color:var(--cyan);
 }
 
-.section-link {
-    color: var(--cyan);
+.section-link{
+    color:var(--cyan);
+    cursor:pointer;
+    text-decoration:none;
+    font-size:13px;
+    font-weight:700;
+}
 
-    font-size: 12px;
-    font-weight: 700;
-
-    border-bottom: 1px solid rgba(0,234,255,.3);
-
-    padding-bottom: 3px;
+.section-link:hover{
+    text-decoration:underline;
 }
 
 /* =========================================================
    QUICK ACCESS
-========================================================= */
+   ========================================================= */
 
-.quick-access {
-    display: grid;
-
-    grid-template-columns: repeat(6, 1fr);
-
-    gap: 10px;
+.quick-access{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
 }
 
-.access-card {
-    min-height: 130px;
-
-    padding: 20px 10px;
-
-    border: 1px solid rgba(0,220,255,.25);
-    border-radius: 18px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(7,31,60,.95),
-            rgba(3,15,32,.95)
-        );
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    transition: .25s ease;
+.quick-card{
+    min-height:125px;
+    border:1px solid rgba(0,234,255,.27);
+    border-radius:18px;
+    background:linear-gradient(145deg,#082440,#041528);
+    padding:18px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+    color:#fff;
 }
 
-.access-card:hover {
-    transform: translateY(-4px);
-
-    border-color: var(--cyan);
-
-    box-shadow:
-        0 0 25px rgba(0,234,255,.12);
+.quick-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--cyan);
+    box-shadow:0 0 25px rgba(0,234,255,.14);
 }
 
-.access-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-
-    filter:
-        drop-shadow(0 0 8px var(--cyan));
+.quick-icon{
+    font-size:31px;
+    display:block;
+    margin-bottom:13px;
+    filter:drop-shadow(0 0 7px rgba(0,234,255,.6));
 }
 
-.access-card strong {
-    color: #f3fbff;
-    font-size: 13px;
+.quick-card strong{
+    display:block;
+    font-size:13px;
+    color:#ffffff;
 }
 
-.access-card small {
-    color: #9bb7cc;
-    font-size: 10px;
-    margin-top: 5px;
+.quick-card small{
+    display:block;
+    margin-top:6px;
+    color:#91b8ce;
+    font-size:10px;
 }
 
 /* =========================================================
    SIMULATION
-========================================================= */
+   ========================================================= */
 
-.simulation-panel {
-    position: relative;
-
-    min-height: 300px;
-
-    overflow: hidden;
-
-    border: 1px solid rgba(0,234,255,.35);
-
-    border-radius: 25px;
-
+.simulation-panel{
+    position:relative;
+    overflow:hidden;
+    min-height:350px;
+    border:1px solid rgba(0,234,255,.40);
+    border-radius:26px;
     background:
-        radial-gradient(
-            circle at 80% 50%,
-            rgba(0,234,255,.16),
-            transparent 30%
-        ),
-        linear-gradient(
-            135deg,
-            rgba(6,31,60,.96),
-            rgba(2,14,31,.97)
-        );
-
+        radial-gradient(circle at 75% 50%,rgba(0,234,255,.17),transparent 28%),
+        linear-gradient(110deg,#06182d,#041121);
     box-shadow:
-        0 0 40px rgba(0,180,255,.08),
-        inset 0 0 35px rgba(0,234,255,.04);
+        0 0 40px rgba(0,150,255,.13),
+        inset 0 0 60px rgba(0,234,255,.04);
 }
 
-.simulation-content {
-    position: relative;
-    z-index: 2;
-
-    width: 55%;
-
-    padding: 38px;
+.sim-grid{
+    position:absolute;
+    inset:0;
+    opacity:.23;
+    background-image:
+        linear-gradient(rgba(0,234,255,.15) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.15) 1px,transparent 1px);
+    background-size:40px 40px;
+    transform:perspective(500px) rotateX(60deg) scale(1.5);
+    transform-origin:center bottom;
 }
 
-.simulation-badge {
-    display: inline-block;
-
-    border: 1px solid rgba(0,234,255,.45);
-
-    padding: 7px 12px;
-
-    border-radius: 20px;
-
-    color: var(--cyan);
-
-    font-family: Orbitron, sans-serif;
-    font-size: 10px;
+.sim-content{
+    position:relative;
+    z-index:2;
+    width:55%;
+    padding:42px;
 }
 
-.simulation-panel h2 {
-    font-family: Orbitron, sans-serif;
-
-    font-size: clamp(25px, 4vw, 42px);
-
-    margin-top: 18px;
-
-    color: #f8fdff;
+.tag{
+    display:inline-flex;
+    padding:7px 12px;
+    border-radius:20px;
+    border:1px solid rgba(0,234,255,.35);
+    background:rgba(0,234,255,.08);
+    color:var(--cyan);
+    font-size:10px;
+    font-family:Orbitron,sans-serif;
+    letter-spacing:.5px;
+    margin-bottom:20px;
 }
 
-.simulation-panel p {
-    color: #c4dbea;
-
-    margin-top: 12px;
-
-    line-height: 1.6;
-
-    max-width: 600px;
+.sim-content h2{
+    font-family:Orbitron,sans-serif;
+    font-size:clamp(24px,4vw,42px);
+    color:#fff;
+    margin-bottom:15px;
 }
 
-.simulation-visual {
-    position: absolute;
+.sim-content p{
+    color:#bdd9e8;
+    line-height:1.65;
+    margin-bottom:22px;
+}
 
-    right: 5%;
-    top: 50%;
+.sim-console{
+    position:absolute;
+    z-index:3;
+    right:5%;
+    top:45px;
+    width:370px;
+    height:255px;
+    border:1px solid rgba(0,234,255,.30);
+    border-radius:22px;
+    background:rgba(2,16,31,.78);
+    box-shadow:0 0 35px rgba(0,234,255,.12);
+    overflow:hidden;
+}
 
-    transform: translateY(-50%);
+.sim-screen{
+    height:190px;
+    position:relative;
+    display:grid;
+    place-items:center;
+    background:
+        radial-gradient(circle at center,rgba(0,234,255,.25),transparent 30%),
+        radial-gradient(circle at 50% 50%,rgba(0,100,255,.12),transparent 55%);
+}
 
-    width: 270px;
-    height: 270px;
-
-    border: 1px solid rgba(0,234,255,.55);
-
-    border-radius: 50%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+.sim-orb{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    border:2px solid var(--cyan);
     box-shadow:
-        0 0 45px rgba(0,234,255,.18),
-        inset 0 0 50px rgba(0,234,255,.08);
-
-    animation: rotateSlow 18s linear infinite;
+        0 0 20px rgba(0,234,255,.7),
+        inset 0 0 30px rgba(0,234,255,.25);
+    display:grid;
+    place-items:center;
+    font-size:42px;
+    animation:floatOrb 3s ease-in-out infinite;
 }
 
-.simulation-visual span {
-    font-size: 65px;
-
-    animation: rotateReverse 18s linear infinite;
+@keyframes floatOrb{
+    0%,100%{transform:translateY(0) scale(1);}
+    50%{transform:translateY(-8px) scale(1.04);}
 }
 
-@keyframes rotateSlow {
-    from {
-        transform: translateY(-50%) rotate(0);
-    }
-
-    to {
-        transform: translateY(-50%) rotate(360deg);
-    }
+.sim-data{
+    height:65px;
+    border-top:1px solid rgba(0,234,255,.20);
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
 }
 
-@keyframes rotateReverse {
-    from {
-        transform: rotate(0);
-    }
-
-    to {
-        transform: rotate(-360deg);
-    }
+.sim-data div{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border-right:1px solid rgba(0,234,255,.15);
 }
 
-.simulation-topics {
-    position: absolute;
-
-    bottom: 15px;
-    left: 30px;
-    right: 30px;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    gap: 8px;
+.sim-data div:last-child{
+    border-right:0;
 }
 
-.topic {
-    padding: 7px 11px;
+.sim-data small{
+    color:#759cb2;
+    font-size:9px;
+}
 
-    border: 1px solid rgba(0,234,255,.28);
-
-    border-radius: 15px;
-
-    background: rgba(0,234,255,.05);
-
-    color: #bfe8f5;
-
-    font-size: 10px;
+.sim-data strong{
+    color:var(--cyan);
+    font-size:13px;
+    margin-top:4px;
 }
 
 /* =========================================================
-   PUBLICATIONS
-========================================================= */
+   NEWS
+   ========================================================= */
 
-.publications-box {
-    border: 1px solid rgba(0,
+.news-box{
+    border:1px solid rgba(0,234,255,.30);
+    border-radius:24px;
+    padding:20px;
+    background:linear-gradient(145deg,rgba(5,27,48,.94),rgba(2,13,27,.96));
+}
+
+.news-empty{
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#8db2c8;
+}
+
+.news-empty-icon{
+    font-size:45px;
+    margin-bottom:15px;
+    filter:drop-shadow(0 0 12px rgba(0,234,255,.4));
+}
+
+.news-empty strong{
+    color:#fff;
+    font-size:17px;
+    margin-bottom:8px;
+}
+
+/* publication créée par l'admin */
+.post{
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:20px;
+    overflow:hidden;
+    background:#06182c;
+}
+
+.post-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:17px;
+}
+
+.avatar{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:var(--cyan);
+    border:1px solid rgba(0,234,255,.45);
+    background:#062542;
+    font-family:Orbitron,sans-serif;
+    font-size:11px;
+}
+
+.post-author{
+    flex:1;
+}
+
+.post-author strong{
+    color:#fff;
+    display:block;
+    font-size:14px;
+}
+
+.post-author small{
+    color:#83aac1;
+    display:block;
+    margin-top:4px;
+}
+
+.post-body{
+    padding:0 17px 15px;
+}
+
+.post-body h3{
+    color:#fff;
+    margin-bottom:10px;
+    font-size:17px;
+}
+
+.post-body p{
+    color:#c2dce9;
+    line-height:1.55;
+}
+
+.post-media{
+    margin-top:15px;
+    min-height:180px;
+    display:grid;
+    place-items:center;
+    background:
+        radial-gradient(circle,rgba(0,234,255,.20),transparent 35%),
+        linear-gradient(135deg,#04172d,#061f3a);
+    border:1px solid rgba(0,234,255,.15);
+    color:var(--cyan);
+    font-family:Orbitron,sans-serif;
+}
+
+.post-stats{
+    display:flex;
+    justify-content:space-between;
+    padding:11px 17px;
+    border-bottom:1px solid rgba(0,234,255,.13);
+    color:#7fa6bd;
+    font-size:12px;
+}
+
+.post-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+}
+
+.post-action{
+    min-height:48px;
+    border:0;
+    border-right:1px solid rgba(0,234,255,.13);
+    background:transparent;
+    color:#d8eff9;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.post-action:last-child{
+    border-right:0;
+}
+
+.post-action:hover{
+    background:rgba(0,234,255,.07);
+    color:var(--cyan);
+}
+
+/* réaction */
+.reaction-area{
+    position:relative;
+}
+
+.reaction-picker{
+    position:absolute;
+    bottom:55px;
+    left:12px;
+    display:none;
+    align-items:center;
+    gap:7px;
+    padding:8px 10px;
+    background:#071c32;
+    border:1px solid rgba(0,234,255,.4);
+    border-radius:30px;
+    box-shadow:0 0 30px rgba(0,0,0,.45);
+    z-index:20;
+}
+
+.reaction-picker.show{
+    display:flex;
+}
+
+.reaction-picker button{
+    border:0;
+    background:transparent;
+    font-size:23px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.reaction-picker button:hover{
+    transform:scale(1.3);
+}
+
+/* commentaires */
+.comments{
+    display:none;
+    padding:15px;
+    border-top:1px solid rgba(0,234,255,.12);
+}
+
+.comments.show{
+    display:block;
+}
+
+.comment-list{
+    max-height:180px;
+    overflow:auto;
+    margin-bottom:10px;
+}
+
+.comment-item{
+    padding:9px 11px;
+    margin-bottom:7px;
+    border-radius:10px;
+    background:rgba(0,234,255,.05);
+    color:#d8edf7;
+    font-size:13px;
+}
+
+.comment-form{
+    display:flex;
+    gap:8px;
+}
+
+.comment-form input{
+    flex:1;
+    min-width:0;
+    background:#031120;
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:20px;
+    padding:11px 14px;
+    color:#fff;
+    outline:none;
+}
+
+.comment-form button{
+    border:0;
+    border-radius:20px;
+    padding:0 15px;
+    background:var(--cyan);
+    color:#00121a;
+    font-weight:800;
+    cursor:pointer;
+}
+
+/* =========================================================
+   LABORATORIES
+   ========================================================= */
+
+.labs-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.lab-card{
+    min-height:170px;
+    border:1px solid rgba(0,234,255,.25);
+    border-radius:20px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(0,234,255,.08),transparent 40%),
+        linear-gradient(145deg,#082440,#041426);
+    padding:22px;
+    transition:.2s;
+}
+
+.lab-card:hover{
+    border-color:rgba(0,234,255,.60);
+    transform:translateY(-3px);
+    box-shadow:0 0 25px rgba(0,234,255,.12);
+}
+
+.lab-icon{
+    font-size:30px;
+    margin-bottom:13px;
+}
+
+.lab-card h3{
+    color:#fff;
+    font-family:Orbitron,sans-serif;
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+.lab-card p{
+    color:#9bbfd2;
+    font-size:12px;
+    line-height:1.5;
+}
+
+/* =========================================================
+   SCHOOL
+   ========================================================= */
+
+.school-banner{
+    border:1px solid rgba(0,234,255,.30);
+    border-radius:22px;
+    background:linear-gradient(110deg,#071f39,#041426);
+    padding:25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.school-banner h2{
+    color:#fff;
+    font-family:Orbitron,sans-serif;
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.school-banner p{
+    color:#94b8cb;
+    font-size:12px;
+}
+
+/* =========================================================
+   COMMUNITY
+   ========================================================= */
+
+.community-banner{
+    margin-top:20px;
+    border:1px solid rgba(255,25,230,.27);
+    border-radius:22px;
+    padding:25px;
+    background:
+        radial-gradient(circle at 80% 50%,rgba(255,25,230,.10),transparent 30%),
+        linear-gradient(110deg,#081a32,#071123);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.community-banner h2{
+    color:#fff;
+    margin-bottom:6px;
+}
+
+.community-banner p{
+    color:#9bb9ca;
+    font-size:12px;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+    margin-top:70px;
+    border-top:1px solid rgba(0,234,255,.18);
+    background:#020b17;
+    padding:35px 3%;
+    text-align:center;
+}
+
+footer strong{
+    color:var(--cyan);
+    font-family:Orbitron,sans-serif;
+}
+
+footer p{
+    color:#668da4;
+    font-size:11px;
+    margin-top:8px;
+}
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,4,12,.78);
+    backdrop-filter:blur(12px);
+}
+
+.modal-overlay.show{
+    display:flex;
+}
+
+.modal{
+    width:min(580px,100%);
+    max-height:90vh;
+    overflow:auto;
+    border:1px solid rgba(0,234,255,.45);
+    border-radius:25px;
+    background:
+        radial-gradient(circle at 50% 0%,rgba(0,234,255,.11),transparent 35%),
+        #06172b;
+    box-shadow:
+        0 0 70px rgba(0,0,0,.65),
+        0 0 35px rgba(0,234,255,.10);
+    padding:28px;
+}
+
+.modal h2{
+    color:#fff;
+    font-family:Orbitron,sans-serif;
+    margin-bottom:8px;
+}
+
+.modal-subtitle{
+    color:#92b8cc;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:22px;
+}
+
+.close-modal{
+    float:right;
+    border:0;
+    background:transparent;
+    color:#9cc2d6;
+    font-size:25px;
+    cursor:pointer;
+}
+
+.role-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.role-card{
+    min-height:110px;
+    padding:17px;
+    border-radius:17px;
+    border:1px solid rgba(0,234,255,.25);
+    background:#08213a;
+    color:#fff;
+    cursor:pointer;
+    text-align:left;
+}
+
+.role-card:hover{
+    border-color:var(--cyan);
+    background:#0a2b49;
+}
+
+.role-card .role-icon{
+    font-size:27px;
+    display:block;
+    margin-bottom:10px;
+}
+
+.role-card strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.role-card small{
+    color:#8fb4c8;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    color:#b8d8e8;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+    width:100%;
+    border:1px solid rgba(0,234,255,.25);
+    background:#031120;
+    color:#fff;
+    border-radius:12px;
+    padding:12px;
+    outline:none;
+    font-family:inherit;
+}
+
+.form-group textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 12px rgba(0,234,255,.12);
+}
+
+.modal-footer{
+    margin-top:20px;
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+/* notification */
+.toast-container{
+    position:fixed;
+    z-index:7000;
+    top:90px;
+    right:20px;
+    width:min(350px,calc(100% - 40px));
+}
+
+.toast{
+    margin-bottom:10px;
+    padding:14px 16px;
+    border:1px solid rgba(0,234,255,.35);
+    border-radius:15px;
+    background:#071d34;
+    color:#fff;
+    box-shadow:0 0 25px rgba(0,0,0,.4);
+    animation:toastIn .25s ease;
+}
+
+@keyframes toastIn{
+    from{transform:translateX(30px);opacity:0}
+    to{transform:translateX(0);opacity:1}
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:1000px){
+
+    .main-nav{
+        display:none;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .hero{
+        min-height:610px;
+    }
+
+    .hero-content{
+        width:100%;
+        padding:45px 28px;
+    }
+
+    .hero-ring{
+        width:280px;
+        height:280px;
+        right:-70px;
+        top:250px;
+        opacity:.45;
+    }
+
+    .hero-hud{
+        right:20px;
+        bottom:20px;
+        width:260px;
+    }
+
+    .quick-access{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .sim-content{
+        width:100%;
+        padding:30px;
+    }
+
+    .sim-console{
+        position:relative;
+        right:auto;
+        top:auto;
+        width:90%;
+        margin:0 auto 25px;
+    }
+
+    .simulation-panel{
+        padding-bottom:10px;
+    }
+
+    .labs-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px){
+
+    header{
+        height:65px;
+    }
+
+    .header-inner{
+        width:94%;
+        gap:7px;
+    }
+
+    .logo-orb{
+        width:40px;
+        height:40px;
+        font-size:10px;
+    }
+
+    .logo-text strong{
+        font-size:11px;
+    }
+
+    .logo-text small{
+        font-size:7px;
+    }
+
+    .header-actions{
+        margin-left:auto;
+    }
+
+    .icon-btn{
+        display:none;
+    }
+
+    .follow-btn,
+    .join-btn{
+        min-height:34px;
+        padding:0 10px;
+        font-size:10px;
+    }
+
+    .menu-btn{
+        min-height:34px;
+        width:36px;
+        font-size:17px;
+    }
+
+    .hero{
+        margin-top:12px;
+        border-radius:22px;
+        min-height:620px;
+    }
+
+    .hero-content{
+        padding:30px 20px;
+    }
+
+    .hero h1{
+        font-size:34px;
+        letter-spacing:-1px;
+    }
+
+    .hero p{
+        font-size:14px;
+    }
+
+    .hero-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .hero-actions .btn{
+        width:100%;
+    }
+
+    .hero-hud{
+        width:calc(100% - 40px);
+        right:20px;
+        bottom:18px;
+    }
+
+    .quick-stats{
+        grid-template-columns:1fr;
+    }
+
+    .section{
+        margin-top:38px;
+    }
+
+    .section-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .quick-access{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .quick-card{
+        min-height:115px;
+    }
+
+    .simulation-panel{
+        min-height:auto;
+    }
+
+    .sim-content{
+        padding:25px 20px;
+    }
+
+    .sim-content h2{
+        font-size:25px;
+    }
+
+    .sim-console{
+        width:calc(100% - 30px);
+        height:235px;
+    }
+
+    .sim-screen{
+        height:170px;
+    }
+
+    .labs-grid{
+        grid-template-columns:1fr;
+    }
+
+    .school-banner,
+    .community-banner{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .role-grid{
+        grid-template-columns:1fr;
+    }
+
+    .post-actions{
+        grid-template-columns:1fr;
+    }
+
+    .post-action{
+        border-right:0;
+        border-bottom:1px solid rgba(0,234,255,.13);
+    }
+
+    .post-action:last-child{
+        border-bottom:0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================================================
+     HEADER
+     ====================================================== -->
+
+<header>
+    <div class="header-inner">
+
+        <div class="logo">
+            <div class="logo-orb">DRM</div>
+
+            <div class="logo-text">
+                <strong>DeepRDMMakademy</strong>
+                <small>L'art de la science et de la technologie</small>
+            </div>
+        </div>
+
+        <nav class="main-nav">
+            <a href="#campus">Campus</a>
+            <a href="#laboratoires">Laboratoires</a>
+            <a href="#missions">Missions</a>
+            <a href="#ressources">Ressources</a>
+            <a href="#publications">Publications</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <button class="icon-btn" onclick="ouvrirRecherche()" title="Recherche">
+                🔎
+            </button>
+
+            <button class="follow-btn" id="followHeaderButton" onclick="suivre()">
+                ＋ Suivre
+            </button>
+
+            <button class="join-btn" onclick="inscription()">
+                Rejoindre
+            </button>
+
+            <button class="menu-btn" onclick="ouvrirMenu()">
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+</header>
+
+
+<!-- ======================================================
+     HERO
+     ====================================================== -->
+
+<main id="campus">
+
+<section class="hero">
+
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-ring"></div>
+
+    <div class="hero-content">
+
+        <div class="system-status">
+            <span class="status-dot"></span>
+            CAMPUS NUMÉRIQUE ACTIF
+        </div>
+
+        <h1>
+            Bienvenue dans<br>
+            <span>DeepRDMMakademy</span>
+        </h1>
+
+        <p>
+            Un campus numérique où la science, la technologie,
+            la recherche et l'humain se rencontrent.
+        </p>
+
+        <div class="hero-actions">
+
+            <button
+                class="btn"
+                id="r8g5ln"
+                onclick="inscription()">
+                Rejoindre le Campus →
+            </button>
+
+            <button
+                class="btn btn-outline"
+                onclick="explorerLaboratoires()">
+                Explorer les laboratoires
+            </button>
+
+            <button
+                class="btn btn-pink"
+                onclick="ouvrirSimulations()">
+                🧪 SIMULATIONS
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-hud">
+
+        <div class="hud-title">
+            DEEPRDM // CAMPUS SYSTEM
+        </div>
+
+        <div class="hud-row">
+            <span>Statut</span>
+            <span style="color:#19ff9b">● EN LIGNE</span>
+        </div>
+
+        <div class="hud-row">
+            <span>Laboratoires</span>
+            <span>06</span>
+        </div>
+
+        <div class="hud-row">
+            <span>Simulations</span>
+            <span>PUBLIC</span>
+        </div>
+
+        <div class="hud-row">
+            <span>Communauté</span>
+            <span id="followerCount">—</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     STATS
+     ====================================================== -->
+
+<div class="quick-stats">
+
+    <div class="stat-card">
+        <div class="stat-icon">⚗</div>
+        <div>
+            <strong>6 Laboratoires</strong>
+            <small>Experts & équipements</small>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">⚡</div>
+        <div>
+            <strong>Missions</strong>
+            <small>Projets & opérations</small>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon">♟</div>
+        <div>
+            <strong>Communauté</strong>
+            <small>Membres & partenaires</small>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     ACCÈS RAPIDE
+     ====================================================== -->
+
+<section class="section" id="ressources">
+
+    <div class="section-header">
+        <h2 class="section-title">
+            ⚡ Accès <span>rapide</span>
+        </h2>
+
+        <a class="section-link" href="#campus">
+            Explorer le campus →
+        </a>
+    </div>
+
+
+    <div class="quick-access">
+
+        <div class="quick-card" onclick="explorerCampus()">
+            <span class="quick-icon">🌐</span>
+            <strong>Campus</strong>
+            <small>Découvrir</small>
+        </div>
+
+        <div class="quick-card" onclick="explorerLaboratoires()">
+            <span class="quick-icon">⚗️</span>
+            <strong>Laboratoires</strong>
+            <small>Explorer</small>
+        </div>
+
+        <div class="quick-card" onclick="ouvrirMissions()">
+            <span class="quick-icon">🚀</span>
+            <strong>Missions</strong>
+            <small>Participer</small>
+        </div>
+
+        <div class="quick-card" onclick="ouvrirRessources()">
+            <span class="quick-icon">📖</span>
+            <strong>Ressources</strong>
+            <small>Consulter</small>
+        </div>
+
+        <div class="quick-card" onclick="ouvrirParcours()">
+            <span class="quick-icon">🎓</span>
+            <strong>Parcours</strong>
+            <small>Réservé aux membres</small>
+        </div>
+
+        <div class="quick-card" onclick="ouvrirPublicite()">
+            <span class="quick-icon">📣</span>
+            <strong>Publier</strong>
+            <small>Produit / Service</small>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SIMULATION
+     ====================================================== -->
+
+<section class="section" id="simulations">
+
+    <div class="section-header">
+
+        <h2 class="section-title">
+            🧪 <span>Simulation</span> Center
+        </h2>
+
+        <a class="section-link"
+           href="simulation-visiteurs.html">
+            Toutes les simulations →
+        </a>
+
+    </div>
+
+
+    <div class="simulation-panel">
+
+        <div class="sim-grid"></div>
+
+        <div class="sim-content">
+
+            <div class="tag">
+                ✦ EXPÉRIENCE IMMERSIVE PUBLIQUE
+            </div>
+
+            <h2>
+                Simulation 3D — Explore le futur
+            </h2>
+
+            <p>
+                Teste un moteur de fusée, observe les paramètres,
+                expérimente un système robotique et découvre
+                les sciences directement depuis l'accueil.
+            </p>
+
+            <div class="hero-actions">
+
+                <button
+                    class="btn"
+                    id="l4c1cu"
+                    onclick="lancerSimulation()">
+                    🚀 Lancer la simulation →
+                </button>
+
+                <button
+                    class="btn btn-outline"
+                    onclick="parlerIA()">
+                    🤖 Activer l'IA
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="sim-console">
+
+            <div class="sim-screen">
+
+                <div class="sim-orb" id="simulationOrb">
+                    🚀
+                </div>
+
+            </div>
+
+            <div class="sim-data">
+
+                <div>
+                    <small>THRUST</small>
+                    <strong id="thrustValue">0%</strong>
+                </div>
+
+                <div>
+                    <small>ALTITUDE</small>
+                    <strong id="altitudeValue">0 km</strong>
+                </div>
+
+                <div>
+                    <small>STATUS</small>
+                    <strong id="simStatus">READY</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     PUBLICATIONS
+     ====================================================== -->
+
+<section class="section" id="publications">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2 class="section-title">
+                📡 Actualité <span>du Campus</span>
+            </h2>
+
+            <div style="
+                color:#8fb6c9;
+                font-size:12px;
+                margin-top:7px;
+            ">
+                <span id="publicationCount">0</span>
+                publication(s) sur DeepRDMMakademy
+            </div>
+
+        </div>
+
+
+        <a
+            class="section-link"
+            href="#publications"
+            onclick="voirToutesPublications(event)">
+            Voir les publications →
+        </a>
+
+    </div>
+
+
+    <div class="news-box" id="newsContainer">
+
+        <!-- IMPORTANT :
+             Aucun post fictif ici.
+             Les publications apparaîtront uniquement
+             lorsqu'elles seront réellement enregistrées.
+        -->
+
+        <div class="news-empty" id="emptyNews">
+
+            <div class="news-empty-icon">
+                📡
+            </div>
+
+            <strong>
+                Aucune publication pour le moment
+            </strong>
+
+            <span>
+                Les actualités de DeepRDMMakademy
+                apparaîtront ici dès qu'une publication
+                sera créée.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     LABORATOIRES
+     ====================================================== -->
+
+<section class="section" id="laboratoires">
+
+    <div class="section-header">
+
+        <h2 class="section-title">
+            🔬 Les <span>6 Laboratoires</span>
+        </h2>
+
+        <a
+            class="section-link"
+            href="#laboratoires">
+            Aperçu public →
+        </a>
+
+    </div>
+
+
+    <div class="labs-grid">
+
+        <div class="lab-card" onclick="ouvrirLabo('Sciences fondamentales')">
+            <div class="lab-icon">⚛️</div>
+            <h3>Sciences fondamentales</h3>
+            <p>
+                Physique, mathématiques, chimie et recherche fondamentale.
+            </p>
+        </div>
+
+        <div class="lab-card" onclick="ouvrirLabo('Technologie')">
+            <div class="lab-icon">⚙️</div>
+            <h3>Technologie</h3>
+            <p>
+                Ingénierie, systèmes numériques et nouvelles technologies.
+            </p>
+        </div>
+
+        <div class="lab-card" onclick="ouvrirLabo('Intelligence artificielle')">
+            <div class="lab-icon">🤖</div>
+            <h3>Intelligence artificielle</h3>
+            <p>
+                IA, agents, modèles, automatisation et expérimentation.
+            </p>
+        </div>
+
+        <div class="lab-card" onclick="ouvrirLabo('Biotechnologie')">
+            <div class="lab-icon">🧬</div>
+            <h3>Biotechnologie</h3>
+            <p>
+                Sciences du vivant, biologie numérique et innovation.
+            </p>
+        </div>
+
+        <div class="lab-card" onclick="ouvrirLabo('Espace et robotique')">
+            <div class="lab-icon">🚀</div>
+            <h3>Espace & Robotique</h3>
+            <p>
+                Robotique, exploration, simulations et systèmes autonomes.
+            </p>
+        </div>
+
+        <div class="lab-card" onclick="ouvrirLabo('Société et futur')">
+            <div class="lab-icon">🌐</div>
+            <h3>Société & Futur</h3>
+            <p>
+                Humanité, économie, environnement et civilisation future.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ECOLE
+     ====================================================== -->
+
+<section class="section">
+
+    <div class="school-banner">
+
+        <div>
+
+            <h2>
+                🎓 École & Université Internationale
+            </h2>
+
+            <p>
+                Collège · Lycée · Université · Recherche · Doctorat
+            </p>
+
+        </div>
+
+        <button
+            class="btn"
+            onclick="ouvrirParcours()">
+            Explorer les parcours →
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     COMMUNAUTÉ
+     ====================================================== -->
+
+<section class="section">
+
+    <div class="community-banner">
+
+        <div>
+
+            <h2>
+                👥 Rejoins notre communauté
+            </h2>
+
+            <p>
+                Apprends · Partage · Construis ton avenir
+            </p>
+
+        </div>
+
+        <button
+            class="btn"
+            onclick="inscription()">
+            Devenir membre →
+        </button>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ======================================================
+     FOOTER
+     ====================================================== -->
+
+<footer>
+
+    <strong>DeepRDMMakademy</strong>
+
+    <p>
+        Campus numérique scientifique · Laboratoires · Recherche · Technologie
+    </p>
+
+    <p>
+        © 2026 DeepRDMMakademy
+    </p>
+
+</footer>
+
+
+<!-- ======================================================
+     MODAL INSCRIPTION
+     ====================================================== -->
+
+<div class="modal-overlay" id="registrationModal">
+
+    <div class="modal">
+
+        <button
+            class="close-modal"
+            onclick="fermerModal('registrationModal')">
+            ×
+        </button>
+
+        <h2>Rejoindre DeepRDMMakademy</h2>
+
+        <p class="modal-subtitle">
+            Choisis le type de compte correspondant à ton activité.
+            Le formulaire sera adapté à ton profil.
+        </p>
+
+
+        <div class="role-grid">
+
+            <button class="role-card"
+                    onclick="choisirProfil('eleve')">
+                <span class="role-icon">🎓</span>
+                <strong>Élève / Étudiant</strong>
+                <small>
+                    École, parcours et formation
+                </small>
+            </button>
+
+
+            <button class="role-card"
+                    onclick="choisirProfil('administrateur')">
+                <span class="role-icon">🛡️</span>
+                <strong>Administrateur</strong>
+                <small>
+                    Gestion et administration du campus
+                </small>
+            </button>
+
+
+            <button class="role-card"
+                    onclick="choisirProfil('travailleur')">
+                <span class="role-icon">🔧</span>
+                <strong>Travailleur</strong>
+                <small>
+                    Expert, chercheur, professionnel ou staff
+                </small>
+            </button>
+
+
+            <button class="role-card"
+                    onclick="choisirProfil('publicitaire')">
+                <span class="role-icon">📣</span>
+                <strong>Publicitaire</strong>
+                <small>
+                    Entreprise, produit ou service
+                </small>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     FORMULAIRE INSCRIPTION
+     ====================================================== -->
+
+<div class="modal-overlay" id="profileFormModal">
+
+    <div class="modal">
+
+        <button
+            class="close-modal"
+            onclick="fermerModal('profileFormModal')">
+            ×
+        </button>
+
+        <h2 id="profileFormTitle">
+            Inscription
+        </h2>
+
+        <p class="modal-subtitle" id="profileFormSubtitle">
+            Remplis les informations demandées.
+        </p>
+
+
+        <form id="profileForm"
+              onsubmit="envoyerInscription(event)">
+
+            <input
+                type="hidden"
+                id="selectedRole">
+
+
+            <div class="form-group">
+
+                <label>Nom complet</label>
+
+                <input
+                    id="fullName"
+                    type="text"
+                    required
+                    placeholder="Ton nom complet">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Email</label>
+
+                <input
+                    id="email"
+                    type="email"
+                    required
+                    placeholder="ton@email.com">
+
+            </div>
+
+
+            <div id="dynamicFields"></div>
+
+
+            <div class="form-group">
+
+                <label>Mot de passe</label>
+
+                <input
+                    id="password"
+                    type="password"
+                    minlength="6"
+                    required
+                    placeholder="Minimum 6 caractères">
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-outline"
+                    onclick="retourProfils()">
+                    Retour
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn">
+                    Créer mon compte →
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     MODAL ACCÈS MEMBRE
+     ====================================================== -->
+
+<div class="modal-overlay" id="memberModal">
+
+    <div class="modal" style="text-align:center">
+
+        <button
+            class="close-modal"
+            onclick="fermerModal('memberModal')">
+            ×
+        </button>
+
+        <div style="
+            font-size:55px;
+            margin:10px 0 20px;
+        ">
+            🔐
+        </div>
+
+        <h2>
+            Accès réservé aux membres
+        </h2>
+
+        <p class="modal-subtitle">
+            Veuillez vous inscrire pour accéder à cette fonctionnalité.
+        </p>
+
+        <button
+            class="btn"
+            onclick="fermerModal('memberModal'); inscription()">
+            S'inscrire →
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     MODAL SUIVRE
+     ====================================================== -->
+
+<div class="modal-overlay" id="followModal">
+
+    <div class="modal">
+
+        <button
+            class="close-modal"
+            onclick="fermerModal('followModal')">
+            ×
+        </button>
+
+        <h2>
+            🔔 Suivre DeepRDMMakademy
+        </h2>
+
+        <p class="modal-subtitle">
+            Aucun compte DeepRDMMakademy n'est nécessaire.
+            Autorise simplement les notifications de ton navigateur.
+        </p>
+
+
+        <div class="form-group">
+
+            <label>Ton prénom ou nom</label>
+
+            <input
+                id="followerName"
+                type="text"
+                placeholder="Ex : Tiana">
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email — facultatif</label>
+
+            <input
+                id="followerEmail"
+                type="email"
+                placeholder="ton@email.com">
+
+        </div>
+
+
+        <button
+            class="btn"
+            style="width:100%"
+            onclick="confirmerSuivi()">
+            🔔 Activer les notifications
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     TOAST
+     ====================================================== -->
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+<script>
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+const FOLLOW_KEY = "deepRDMMakademy_following";
+const LOCAL_PUBLICATIONS_KEY = "deepRDMMakademy_publications";
+const LOCAL_COMMENTS_KEY = "deepRDMMakademy_comments";
+
+let currentProfile = null;
+let reactionTimer = null;
+
+
+/* =========================================================
+   UTILITAIRES
+   ========================================================= */
+
+function showNotif(message){
+
+    const container =
+        document.getElementById("toastContainer");
+
+    const toast =
+        document.createElement("div");
+
+    toast.className = "toast";
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(()=>{
+        toast.remove();
+    },4000);
+}
+
+
+function fermerModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.remove("show");
+    }
+}
+
+
+function ouvrirModal(id){
+
+    const modal =
+        document.getElementById(id);
+
+    if(modal){
+        modal.classList.add("show");
+    }
+}
+
+
+/* =========================================================
+   INSCRIPTION
+   ========================================================= */
+
+function inscription(){
+
+    ouvrirModal("registrationModal");
+}
+
+
+function choisirProfil(role){
+
+    currentProfile = role;
+
+    document.getElementById("selectedRole").value = role;
+
+    fermerModal("registrationModal");
+
+    const title =
+        document.getElementById("profileFormTitle");
+
+    const subtitle =
+        document.getElementById("profileFormSubtitle");
+
+    const dynamic =
+        document.getElementById("dynamicFields");
+
+
+    dynamic.innerHTML = "";
+
+
+    if(role === "eleve"){
+
+        title.textContent =
+            "🎓 Inscription Élève / Étudiant";
+
+        subtitle.textContent =
+            "Crée ton profil étudiant pour accéder aux parcours.";
+
+        dynamic.innerHTML = `
+
+            <div class="form-group">
+                <label>Niveau d'étude</label>
+                <select id="studyLevel" required>
+                    <option value="">Choisir</option>
+                    <option>Collège</option>
+                    <option>Lycée</option>
+                    <option>Université</option>
+                    <option>Master</option>
+                    <option>Doctorat</option>
+                    <option>Autre</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Domaine d'intérêt</label>
+                <input
+                    id="studyDomain"
+                    type="text"
+                    required
+                    placeholder="Ex : Intelligence artificielle">
+            </div>
+
+        `;
+    }
+
+
+    else if(role === "administrateur"){
+
+        title.textContent =
+            "🛡️ Inscription Administrateur";
+
+        subtitle.textContent =
+            "Les comptes administrateurs devront être validés.";
+
+        dynamic.innerHTML = `
+
+            <div class="form-group">
+                <label>Fonction demandée</label>
+                <input
+                    id="adminFunction"
+                    type="text"
+                    required
+                    placeholder="Ex : Administration du campus">
+            </div>
+
+            <div class="form-group">
+                <label>Justification</label>
+                <textarea
+                    id="adminReason"
+                    required
+                    placeholder="Explique ta demande..."></textarea>
+            </div>
+
+        `;
+    }
+
+
+    else if(role === "travailleur"){
+
+        title.textContent =
+            "🔧 Inscription Travailleur";
+
+        subtitle.textContent =
+            "Pour les chercheurs, experts, professionnels et membres du staff.";
+
+        dynamic.innerHTML = `
+
+            <div class="form-group">
+                <label>Profession</label>
+                <input
+                    id="profession"
+                    type="text"
+                    required
+                    placeholder="Ex : Ingénieur">
+            </div>
+
+            <div class="form-group">
+                <label>Domaine d'expertise</label>
+                <input
+                    id="expertise"
+                    type="text"
+                    required
+                    placeholder="Ex : Robotique">
+            </div>
+
+        `;
+    }
+
+
+    else if(role === "publicitaire"){
+
+        title.textContent =
+            "📣 Inscription Publicitaire";
+
+        subtitle.textContent =
+            "Pour les entreprises, marques et personnes souhaitant publier.";
+
+        dynamic.innerHTML = `
+
+            <div class="form-group">
+                <label>Nom de l'entreprise / activité</label>
+                <input
+                    id="companyName"
+                    type="text"
+                    required
+                    placeholder="Nom de votre entreprise">
+            </div>
+
+            <div class="form-group">
+                <label>Type de publicité</label>
+                <select id="adType" required>
+                    <option value="">Choisir</option>
+                    <option>Produit</option>
+                    <option>Service</option>
+                    <option>Événement</option>
+                    <option>Partenariat</option>
+                    <option>Autre</option>
+                </select>
+            </div>
+
+        `;
+    }
+
+
+    ouvrirModal("profileFormModal");
+}
+
+
+function retourProfils(){
+
+    fermerModal("profileFormModal");
+    ouvrirModal("registrationModal");
+}
+
+
+function envoyerInscription(event){
+
+    event.preventDefault();
+
+    const role =
+        document.getElementById("selectedRole").value;
+
+    /*
+       Pour l'instant on ne fabrique PAS de faux compte.
+       Le formulaire est préparé pour être relié à Firebase
+       Authentication / Firestore.
+    */
+
+    const data = {
+        role:role,
+        name:document.getElementById("fullName").value.trim(),
+        email:document.getElementById("email").value.trim(),
+        createdAt:new Date().toISOString()
+    };
+
+    localStorage.setItem(
+        "deepRDMMakademy_registration_draft",
+        JSON.stringify(data)
+    );
+
+    fermerModal("profileFormModal");
+
+    showNotif(
+        "Demande enregistrée. Le système d'inscription doit maintenant être relié à Firebase Authentication."
+    );
+}
+
+
+/* =========================================================
+   CONNEXION
+   ========================================================= */
+
+function connexion(){
+
+    showNotif(
+        "La connexion membre sera reliée à Firebase Authentication."
+    );
+}
+
+
+/* =========================================================
+   SUIVRE SANS COMPTE
+   ========================================================= */
+
+function suivre(){
+
+    const alreadyFollowing =
+        localStorage.getItem(FOLLOW_KEY) === "true";
+
+
+    if(alreadyFollowing){
+
+        showNotif(
+            "Tu suis déjà DeepRDMMakademy 🔔"
+        );
+
+        return;
+    }
+
+
+    ouvrirModal("followModal");
+}
+
+
+async function confirmerSuivi(){
+
+    const name =
+        document.getElementById("followerName").value.trim();
+
+    const email =
+        document.getElementById("followerEmail").value.trim();
+
+
+    if(!name){
+
+        showNotif(
+            "Entre au moins ton nom ou ton prénom."
+        );
+
+        return;
+    }
+
+
+    let notificationPermission = "default";
+
+
+    if("Notification" in window){
+
+        try{
+
+            notificationPermission =
+                await Notification.requestPermission();
+
+        }catch(error){
+
+            console.log(error);
+
+        }
+
+    }
+
+
+    localStorage.setItem(
+        FOLLOW_KEY,
+        "true"
+    );
+
+    localStorage.setItem(
+        "deepRDMMakademy_follower",
+        JSON.stringify({
+            name:name,
+            email:email,
+            notificationPermission:notificationPermission,
+            followedAt:new Date().toISOString()
+        })
+    );
+
+
+    fermerModal("followModal");
+
+    updateFollowButton();
+
+    showNotif(
+        "Tu suis maintenant DeepRDMMakademy 🔔"
+    );
+
+
+    if(
+        "Notification" in window &&
+        Notification.permission === "granted"
+    ){
+
+        new Notification(
+            "DeepRDMMakademy",
+            {
+                body:"Tu recevras les nouvelles publications du campus."
+            }
+        );
+
+    }
+
+
+    /*
+       IMPORTANT :
+       localStorage mémorise le suivi sur CE navigateur.
+
+       Pour obtenir un compteur EXACT de tous les followers,
+       il faut enregistrer chaque follower dans Firestore.
+       Cette partie sera branchée au backend Firebase.
+    */
+}
+
+
+function updateFollowButton(){
+
+    const button =
+        document.getElementById("followHeaderButton");
+
+    const following =
+        localStorage.getItem(FOLLOW_KEY) === "true";
+
+
+    if(following){
+
+        button.textContent = "✓ Suivi";
+        button.style.color = "#19ff9b";
+
+    }else{
+
+        button.textContent = "＋ Suivre";
+
+    }
+}
+
+
+/* =========================================================
+   PUBLICATIONS
+   ========================================================= */
+
+function getPublications(){
+
+    try{
+
+        const data =
+            localStorage.getItem(
+                LOCAL_PUBLICATIONS_KEY
+            );
+
+        if(!data){
+            return [];
+        }
+
+        return JSON.parse(data);
+
+    }catch(error){
+
+        return [];
+
+    }
+}
+
+
+function afficherPublications(){
+
+    const publications =
+        getPublications();
+
+    const container =
+        document.getElementById("newsContainer");
+
+    const count =
+        document.getElementById("publicationCount");
+
+
+    count.textContent =
+        publications.length;
+
+
+    /*
+       TRÈS IMPORTANT :
+       S'il n'existe aucune publication,
+       on n'invente absolument rien.
+    */
+
+    if(publications.length === 0){
+
+        container.innerHTML = `
+
+            <div class="news-empty">
+
+                <div class="news-empty-icon">
+                    📡
+                </div>
+
+                <strong>
+                    Aucune publication pour le moment
+                </strong>
+
+                <span>
+                    Les actualités de DeepRDMMakademy
+                    apparaîtront ici dès qu'une publication
+                    sera réellement créée.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /*
+       On affiche uniquement la plus récente.
+    */
+
+    const post =
+        publications[publications.length - 1];
+
+
+    container.innerHTML =
+        createPostHTML(post);
+}
+
+
+function createPostHTML(post){
+
+    const comments =
+        JSON.parse(
+            localStorage.getItem(
+                LOCAL_COMMENTS_KEY
+            ) || "{}"
+        );
+
+
+    const postComments =
+        comments[post.id] || [];
+
+
+    const reactions =
+        post.reactions || {
+            like:0,
+            love:0,
+            haha:0,
+            wow:0,
+            sad:0,
+            angry:0
+        };
+
+
+    return `
+
+        <article class="post"
+                 data-post-id="${post.id}">
+
+            <div class="post-header">
+
+                <div class="avatar">
+                    DRM
+                </div>
+
+                <div class="post-author">
+
+                    <strong>
+                        DeepRDMMakademy
+                    </strong>
+
+                    <small>
+                        ${formatDate(post.createdAt)}
+                        · 🌐 Campus
+                    </small>
+
+                </div>
+
+                <span style="color:#789db1">
+                    •••
+                </span>
+
+            </div>
+
+
+            <div class="post-body">
+
+                <h3>
+                    ${escapeHTML(post.title || "")}
+                </h3>
+
+                <p>
+                    ${escapeHTML(post.content || "")}
+                </p>
+
+
+                ${
+                    post.media
+                    ?
+                    `<div class="post-media">
+                        ${escapeHTML(post.media)}
+                     </div>`
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            <div class="post-stats">
+
+                <span>
+                    👍 ${reactions.like}
+                    ❤️ ${reactions.love}
+                    😂 ${reactions.haha}
+                    😮 ${reactions.wow}
+                    😢 ${reactions.sad}
+                    😡 ${reactions.angry}
+                </span>
+
+                <span>
+                    ${postComments.length} commentaire(s)
+                </span>
+
+            </div>
+
+
+            <div class="post-actions">
+
+                <div class="reaction-area">
+
+                    <div
+                        class="reaction-picker"
+                        id="reactionPicker-${post.id}">
+
+                        <button onclick="reactToPost('${post.id}','like')">
+                            👍
+                        </button>
+
+                        <button onclick="reactToPost('${post.id}','love')">
+                            ❤️
+                        </button>
+
+                        <button onclick="reactToPost('${post.id}','haha')">
+                            😂
+                        </button>
+
+                        <button onclick="reactToPost('${post.id}','wow')">
+                            😮
+                        </button>
+
+                        <button onclick="reactToPost('${post.id}','sad')">
+                            😢
+                        </button>
+
+                        <button onclick="reactToPost('${post.id}','angry')">
+                            😡
+                        </button>
+
+                    </div>
+
+
+                    <button
+                        class="post-action"
+                        id="reactionButton-${post.id}"
+                        onpointerdown="startReaction('${post.id}')"
+                        onpointerup="stopReaction()"
+                        onpointerleave="stopReaction()"
+                        onclick="quickLike('${post.id}')">
+
+                        👍 Réagir
+
+                    </button>
+
+                </div>
+
+
+                <button
+                    class="post-action"
+                    onclick="toggleComments('${post.id}')">
+
+                    💬 Commenter
+
+                </button>
+
+
+                <button
+                    class="post-action"
+                    onclick="sharePost('${post.id}')">
+
+                    ↗ Partager
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="comments"
+                id="comments-${post.id}">
+
+                <div
+                    class="comment-list"
+                    id="commentList-${post.id}">
+
+                    ${
+                        postComments.length
+                        ?
+                        postComments.map(c => `
+                            <div class="comment-item">
+                                <strong>${escapeHTML(c.name)}</strong><br>
+                                ${escapeHTML(c.text)}
+                            </div>
+                        `).join("")
+                        :
+                        `<div style="color:#7fa7bb;font-size:12px">
+                            Aucun commentaire pour le moment.
+                        </div>`
+                    }
+
+                </div>
+
+
+                <form
+                    class="comment-form"
+                    onsubmit="addComment(event,'${post.id}')">
+
+                    <input
+                        id="commentInput-${post.id}"
+                        placeholder="Écrire un commentaire..."
+                        maxlength="500"
+                        required>
+
+                    <button type="submit">
+                        Envoyer
+                    </button>
+
+                </form>
+
+            </div>
+
+        </article>
+    `;
+}
+
+
+/* =========================================================
+   RÉACTIONS
+   ========================================================= */
+
+function startReaction(postId){
+
+    stopReaction();
+
+    reactionTimer =
+        setTimeout(()=>{
+
+            const picker =
+                document.getElementById(
+                    "reactionPicker-" + postId
+                );
+
+            if(picker){
+                picker.classList.add("show");
+            }
+
+        },1000);
+}
+
+
+function stopReaction(){
+
+    if(reactionTimer){
+
+        clearTimeout(reactionTimer);
+        reactionTimer = null;
+
+    }
+}
+
+
+function quickLike(postId){
+
+    reactToPost(postId,"like");
+}
+
+
+function reactToPost(postId,reaction){
+
+    const publications =
+        getPublications();
+
+    const index =
+        publications.findIndex(
+            p => String(p.id) === String(postId)
+        );
+
+
+    if(index === -1){
+        return;
+    }
+
+
+    if(!publications[index].reactions){
+
+        publications[index].reactions = {
+            like:0,
+            love:0,
+            haha:0,
+            wow:0,
+            sad:0,
+            angry:0
+        };
+
+    }
+
+
+    publications[index].reactions[reaction]++;
+
+
+    localStorage.setItem(
+        LOCAL_PUBLICATIONS_KEY,
+        JSON.stringify(publications)
+    );
+
+
+    afficherPublications();
+
+    showNotif("Réaction enregistrée ❤️");
+}
+
+
+/* =========================================================
+   COMMENTAIRES
+   ========================================================= */
+
+function toggleComments(postId){
+
+    const element =
+        document.getElementById(
+            "comments-" + postId
+        );
+
+    if(element){
+
+        element.classList.toggle("show");
+
+    }
+}
+
+
+function addComment(event,postId){
+
+    event.preventDefault();
+
+
+    const input =
+        document.getElementById(
+            "commentInput-" + postId
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
+        return;
+    }
+
+
+    const name =
+        localStorage.getItem("deepRDMMakademy_follower")
+        ?
+        JSON.parse(
+            localStorage.getItem(
+                "deepRDMMakademy_follower"
+            )
+        ).name
+        :
+        "Visiteur";
+
+
+    const comments =
+        JSON.parse(
+            localStorage.getItem(
+                LOCAL_COMMENTS_KEY
+            ) || "{}"
+        );
+
+
+    if(!comments[postId]){
+        comments[postId] = [];
+    }
+
+
+    comments[postId].push({
+
+        name:name,
+        text:text,
+        createdAt:new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        LOCAL_COMMENTS_KEY,
+        JSON.stringify(comments)
+    );
+
+
+    afficherPublications();
+
+    setTimeout(()=>{
+
+        const commentsElement =
+            document.getElementById(
+                "comments-" + postId
+            );
+
+        if(commentsElement){
+            commentsElement.classList.add("show");
+        }
+
+    },50);
+
+
+    showNotif(
+        "Commentaire ajouté."
+    );
+}
+
+
+/* =========================================================
+   PARTAGE
+   ========================================================= */
+
+async function sharePost(postId){
+
+    const url =
+        window.location.href.split("#")[0]
+        + "#publication-" + postId;
+
+
+    const shareData = {
+
+        title:"DeepRDMMakademy",
+        text:"Découvre cette publication sur DeepRDMMakademy.",
+        url:url
+
+    };
+
+
+    try{
+
+        if(navigator.share){
+
+            await navigator.share(
+                shareData
+            );
+
+            showNotif(
+                "Publication partagée."
+            );
+
+        }else{
+
+            await navigator.clipboard.writeText(url);
+
+            showNotif(
+                "Lien de la publication copié."
+            );
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+}
+
+
+/* =========================================================
+   SIMULATION
+   ========================================================= */
+
+function lancerSimulation(){
+
+    const orb =
+        document.getElementById(
+            "simulationOrb"
+        );
+
+    const thrust =
+        document.getElementById(
+            "thrustValue"
+        );
+
+    const altitude =
+        document.getElementById(
+            "altitudeValue"
+        );
+
+    const status =
+        document.getElementById(
+            "simStatus"
+        );
+
+
+    if(!orb || !thrust || !altitude || !status){
+        return;
+    }
+
+
+    status.textContent = "START";
+
+    let value = 0;
+
+
+    const interval =
+        setInterval(()=>{
+
+            value += 10;
+
+            thrust.textContent =
+                value + "%";
+
+            altitude.textContent =
+                (value * 0.42).toFixed(1)
+                + " km";
+
+
+            orb.style.transform =
+                `translateY(-${value / 2}px) scale(${1 + value/250})`;
+
+
+            if(value >= 100){
+
+                clearInterval(interval);
+
+                status.textContent =
+                    "ORBIT";
+
+                showNotif(
+                    "🚀 Simulation terminée : orbite atteinte."
+                );
+
+            }
+
+        },120);
+
+
+    showNotif(
+        "🚀 Simulation lancée."
+    );
+}
+
+
+/*
+   Nouveau bouton SIMULATIONS :
+   il dirige vers une véritable page dédiée
+   aux visiteurs.
+*/
+
+function ouvrirSimulations(){
+
+    window.location.href =
+        "simulation-visiteurs.html";
+}
+
+
+function parlerIA(){
+
+    showNotif(
+        "🤖 IA DeepRDM activée."
+    );
+}
+
+
+/* =========================================================
+   ACCÈS MEMBRE
+   ========================================================= */
+
+function ouvrirParcours(){
+
+    afficherAccesMembre(
+        "Les parcours complets de l'École & de l'Université"
+    );
+}
+
+
+function ouvrirMissions(){
+
+    afficherAccesMembre(
+        "Les missions participatives"
+    );
+}
+
+
+function ouvrirRessources(){
+
+    afficherAccesMembre(
+        "Les ressources avancées"
+    );
+}
+
+
+function ouvrirPublicite(){
+
+    /*
+       Le système publicitaire peut être ouvert
+       sans être membre selon l'architecture prévue.
+    */
+
+    showNotif(
+        "Espace Publicité : cette fonctionnalité sera reliée au système publicitaire."
+    );
+}
+
+
+function afficherAccesMembre(feature){
+
+    /*
+       Pour l'instant le statut membre est lu
+       depuis localStorage.
+
+       Plus tard :
+       Firebase Authentication sera la source officielle.
+    */
+
+    const isMember =
+        localStorage.getItem(
+            "deepRDMMakademy_member"
+        ) === "true";
+
+
+    if(!isMember){
+
+        ouvrirModal("memberModal");
+
+        return;
+
+    }
+
+
+    showNotif(
+        "Ouverture : " + feature
+    );
+}
+
+
+/* =========================================================
+   LABORATOIRES PUBLICS
+   ========================================================= */
+
+function explorerLaboratoires(){
+
+    document
+        .getElementById("laboratoires")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+}
+
+
+function ouvrirLabo(name){
+
+    showNotif(
+        "Aperçu public du laboratoire : " + name
+    );
+}
+
+
+/* =========================================================
+   CAMPUS
+   ========================================================= */
+
+function explorerCampus(){
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+function voirToutesPublications(event){
+
+    if(event){
+        event.preventDefault();
+    }
+
+    const publications =
+        getPublications();
+
+
+    showNotif(
+        publications.length +
+        " publication(s) disponible(s)."
+    );
+}
+
+
+/* =========================================================
+   MENU / RECHERCHE
+   ========================================================= */
+
+function ouvrirMenu(){
+
+    showNotif(
+        "Menu mobile : navigation du campus."
+    );
+}
+
+
+function ouvrirRecherche(){
+
+    showNotif(
+        "Recherche DeepRDMMakademy."
+    );
+}
+
+
+/* =========================================================
+   OUTILS
+   ========================================================= */
+
+function formatDate(date){
+
+    if(!date){
+        return "date inconnue";
+    }
+
+
+    try{
+
+        return new Date(date).toLocaleDateString(
+            "fr-FR",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric"
+            }
+        );
+
+    }catch(error){
+
+        return "";
+
+    }
+}
+
+
+function escapeHTML(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        updateFollowButton();
+
+        afficherPublications();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
