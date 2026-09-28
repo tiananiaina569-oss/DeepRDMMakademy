@@ -1,15 +1,72 @@
 // ============================================================
-// DeepRDMMakademy — Configuration Firebase
+// DeepRDMMakademy — Firebase Configuration
+// ============================================================
+// ⚠️ IMPORTANT : remplace uniquement les valeurs entre "" par
+// les informations de TON projet Firebase.
+// ============================================================
+
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+
+import {
+  getAuth
+} from
+  "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+import {
+  getFirestore
+} from
+  "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+// ============================================================
+// 🔥 CONFIGURATION FIREBASE
 // ============================================================
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDhZontZCd8bstyUcNY-cW_PdrGm87WvLQ",
-    authDomain: "deeprdmmakademy.firebaseapp.com",
-    projectId: "deeprdmmakademy",
-    storageBucket: "deeprdmmakademy.firebasestorage.app",
-    messagingSenderId: "900106476108",
-    appId: "1:900106476108:web:c9e52848ed33080a13f2e9",
-    measurementId: "G-L4KXE7CS3D"
+
+  apiKey: "TON_API_KEY",
+
+  authDomain: "TON_PROJET.firebaseapp.com",
+
+  projectId: "TON_PROJECT_ID",
+
+  storageBucket: "TON_PROJET.firebasestorage.app",
+
+  messagingSenderId: "TON_SENDER_ID",
+
+  appId: "TON_APP_ID"
+
 };
 
-export { firebaseConfig };
+
+// ============================================================
+// 🚀 INITIALISATION
+// ============================================================
+
+const app = initializeApp(firebaseConfig);
+
+
+// ============================================================
+// 🔐 AUTHENTIFICATION
+// ============================================================
+
+const auth = getAuth(app);
+
+
+// ============================================================
+// 🗄️ FIRESTORE
+// ============================================================
+
+const db = getFirestore(app);
+
+
+// ============================================================
+// 📤 EXPORTS
+// ============================================================
+
+export {
+  app,
+  auth,
+  db
+};
