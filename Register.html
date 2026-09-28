@@ -1,824 +1,2191 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#050912">
-    <meta name="description" content="Créer un compte membre DeepRDMMakademy — L'art de la science et de la technologie.">
-    <title>S'inscrire — DeepRDMMakademy</title>
+  <meta charset="UTF-8">
 
-    <style>
-        :root{
-            --bg:#050912;
-            --panel:#0a1220;
-            --panel-2:#0d1727;
-            --line:rgba(91,210,255,.20);
-            --cyan:#63e6ff;
-            --cyan-2:#21b9e8;
-            --gold:#e7c66a;
-            --text:#eef7ff;
-            --muted:#91a4b8;
-            --danger:#ff6b7a;
-            --success:#64e6a5;
-            --shadow:0 24px 80px rgba(0,0,0,.45);
-        }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-        *{
-            box-sizing:border-box;
-        }
+  <title>
+    Rejoindre DeepRDMMakademy
+  </title>
 
-        html{
-            scroll-behavior:smooth;
-        }
+  <meta
+    name="description"
+    content="Créer gratuitement votre compte DeepRDMMakademy."
+  >
 
-        body{
-            margin:0;
-            min-height:100vh;
-            color:var(--text);
-            background:
-                radial-gradient(circle at 15% 10%,rgba(33,185,232,.12),transparent 28%),
-                radial-gradient(circle at 90% 85%,rgba(231,198,106,.08),transparent 25%),
-                linear-gradient(145deg,#03060d,#07101d 55%,#040812);
-            font-family:Arial,Helvetica,sans-serif;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
-        body::before{
-            content:"";
-            position:fixed;
-            inset:0;
-            pointer-events:none;
-            opacity:.18;
-            background-image:
-                linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-                linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-            background-size:42px 42px;
-        }
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-        a{
-            color:inherit;
-            text-decoration:none;
-        }
+  <style>
 
-        .page{
-            position:relative;
-            z-index:1;
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-        }
+    /* =====================================================
+       RESET
+    ===================================================== */
 
-        header{
-            width:100%;
-            border-bottom:1px solid rgba(99,230,255,.12);
-            background:rgba(3,7,14,.78);
-            backdrop-filter:blur(14px);
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .nav{
-            width:min(1120px,92%);
-            margin:auto;
-            min-height:72px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:18px;
-        }
 
-        .brand{
-            display:flex;
-            align-items:center;
-            gap:12px;
-        }
+    html,
+    body {
+      min-height: 100%;
+    }
 
-        .logo{
-            width:42px;
-            height:42px;
-            border:1px solid var(--cyan);
-            border-radius:50%;
-            display:grid;
-            place-items:center;
-            color:var(--cyan);
-            font-weight:800;
-            letter-spacing:-2px;
-            box-shadow:
-                0 0 24px rgba(99,230,255,.16),
-                inset 0 0 18px rgba(99,230,255,.08);
-        }
 
-        .brand-name{
-            font-weight:700;
-            letter-spacing:.04em;
-            font-size:.94rem;
-        }
+    body {
+      background: #000011;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      overflow-x: hidden;
+    }
 
-        .brand-sub{
-            color:var(--muted);
-            font-size:.62rem;
-            letter-spacing:.18em;
-            text-transform:uppercase;
-            margin-top:3px;
-        }
 
-        .nav-link{
-            color:var(--muted);
-            font-size:.8rem;
-            padding:10px 12px;
-            border:1px solid transparent;
-            border-radius:9px;
-        }
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
 
-        .nav-link:hover{
-            color:var(--text);
-            border-color:var(--line);
-            background:rgba(99,230,255,.04);
-        }
 
-        main{
-            width:min(1120px,92%);
-            margin:auto;
-            flex:1;
-            display:grid;
-            grid-template-columns:1fr;
-            gap:24px;
-            align-items:center;
-            padding:38px 0 52px;
-        }
+    button {
+      cursor: pointer;
+    }
 
-        .intro{
-            padding:8px 0;
-        }
 
-        .eyebrow{
-            color:var(--gold);
-            font-family:monospace;
-            font-size:.72rem;
-            letter-spacing:.18em;
-            text-transform:uppercase;
-            margin-bottom:14px;
-        }
+    /* =====================================================
+       LABORATOIRE / BACKGROUND
+    ===================================================== */
 
-        h1{
-            margin:0;
-            max-width:650px;
-            font-family:Georgia,"Times New Roman",serif;
-            font-size:clamp(2.15rem,8vw,4.6rem);
-            line-height:1.02;
-            font-weight:500;
-            letter-spacing:-.035em;
-        }
+    .lab-background {
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% 35%,
+          rgba(0, 240, 255, 0.16),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 15% 80%,
+          rgba(255, 0, 240, 0.13),
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 85% 15%,
+          rgba(0, 120, 255, 0.14),
+          transparent 25%
+        ),
+        #000011;
+    }
 
-        .intro p{
-            max-width:620px;
-            color:var(--muted);
-            line-height:1.75;
-            font-size:.96rem;
-            margin:20px 0 0;
-        }
 
-        .features{
-            display:grid;
-            grid-template-columns:1fr;
-            gap:10px;
-            margin-top:25px;
-            max-width:650px;
-        }
+    .lab-grid {
+      position: absolute;
+      left: -50%;
+      bottom: -30%;
+      width: 200%;
+      height: 90%;
+      transform:
+        perspective(500px)
+        rotateX(62deg);
 
-        .feature{
-            padding:12px 14px;
-            border-left:2px solid rgba(99,230,255,.48);
-            background:rgba(255,255,255,.018);
-            color:#b9c9d8;
-            font-size:.78rem;
-        }
+      background-image:
+        linear-gradient(
+          rgba(0, 240, 255, 0.14) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(0, 240, 255, 0.14) 1px,
+          transparent 1px
+        );
 
-        .card{
-            width:100%;
-            max-width:560px;
-            margin:auto;
-            padding:24px;
-            border:1px solid var(--line);
-            border-radius:18px;
-            background:
-                linear-gradient(
-                    160deg,
-                    rgba(13,23,39,.96),
-                    rgba(5,11,21,.96)
-                );
-            box-shadow:var(--shadow);
-        }
+      background-size:
+        55px 55px;
 
-        .card-top{
-            display:flex;
-            justify-content:space-between;
-            gap:15px;
-            align-items:flex-start;
-            margin-bottom:20px;
-        }
+      box-shadow:
+        0 -20px 100px
+        rgba(0, 240, 255, 0.12);
 
-        .card h2{
-            margin:0;
-            font-family:Georgia,"Times New Roman",serif;
-            font-weight:500;
-            font-size:1.65rem;
-        }
+      animation:
+        gridMove 12s linear infinite;
+    }
 
-        .status{
-            font-family:monospace;
-            font-size:.62rem;
-            color:var(--cyan);
-            letter-spacing:.12em;
-            text-transform:uppercase;
-            white-space:nowrap;
-            padding-top:5px;
-        }
 
-        form{
-            display:grid;
-            gap:14px;
-        }
+    @keyframes gridMove {
 
-        .row{
-            display:grid;
-            grid-template-columns:1fr;
-            gap:14px;
-        }
+      from {
+        background-position:
+          0 0,
+          0 0;
+      }
 
-        label{
-            display:block;
-            color:#c9d7e4;
-            font-size:.75rem;
-            margin-bottom:7px;
-            letter-spacing:.02em;
-        }
+      to {
+        background-position:
+          0 55px,
+          55px 0;
+      }
 
-        .field{
-            min-width:0;
-        }
+    }
 
-        input,
-        select{
-            width:100%;
-            border:1px solid rgba(145,164,184,.2);
-            outline:none;
-            border-radius:10px;
-            padding:13px 13px;
-            background:#07101c;
-            color:var(--text);
-            font:inherit;
-            font-size:.9rem;
-            transition:.2s ease;
-        }
 
-        input:focus,
-        select:focus{
-            border-color:rgba(99,230,255,.7);
-            box-shadow:0 0 0 3px rgba(99,230,255,.08);
-        }
+    .lab-glow {
+      position: absolute;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+    }
 
-        input::placeholder{
-            color:#607286;
-        }
 
-        .password-wrap{
-            position:relative;
-        }
+    .glow-cyan {
+      top: 5%;
+      left: -10%;
+      background: #00f0ff;
+    }
 
-        .password-wrap input{
-            padding-right:82px;
-        }
 
-        .toggle{
-            position:absolute;
-            right:8px;
-            top:50%;
-            transform:translateY(-50%);
-            border:0;
-            background:transparent;
-            color:var(--cyan);
-            cursor:pointer;
-            font-size:.68rem;
-            font-family:monospace;
-            padding:7px;
-        }
+    .glow-pink {
+      right: -10%;
+      bottom: 5%;
+      background: #ff00f0;
+    }
 
-        .check{
-            display:flex;
-            align-items:flex-start;
-            gap:9px;
-            color:var(--muted);
-            font-size:.72rem;
-            line-height:1.5;
-        }
 
-        .check input{
-            width:16px;
-            height:16px;
-            margin:1px 0 0;
-            accent-color:#63e6ff;
-            flex:0 0 auto;
-        }
+    /* =====================================================
+       PARTICULES
+    ===================================================== */
 
-        .check a{
-            color:var(--cyan);
-        }
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
 
-        .submit{
-            width:100%;
-            border:1px solid rgba(99,230,255,.55);
-            border-radius:10px;
-            padding:14px 16px;
-            color:#021018;
-            background:linear-gradient(135deg,#63e6ff,#b5f4ff);
-            font-weight:800;
-            letter-spacing:.04em;
-            cursor:pointer;
-            transition:.2s ease;
-            margin-top:3px;
-        }
 
-        .submit:hover{
-            transform:translateY(-1px);
-            box-shadow:0 12px 30px rgba(99,230,255,.15);
-        }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #00f0ff;
+      box-shadow:
+        0 0 10px #00f0ff;
 
-        .submit:disabled{
-            opacity:.6;
-            cursor:wait;
-            transform:none;
-        }
+      animation:
+        floatParticle
+        var(--duration)
+        linear
+        infinite;
+    }
 
-        .message{
-            display:none;
-            padding:11px 12px;
-            border-radius:9px;
-            font-size:.75rem;
-            line-height:1.45;
-        }
 
-        .message.error{
-            display:block;
-            color:#ffd9de;
-            border:1px solid rgba(255,107,122,.3);
-            background:rgba(255,107,122,.07);
-        }
+    @keyframes floatParticle {
 
-        .message.success{
-            display:block;
-            color:#d9ffeb;
-            border:1px solid rgba(100,230,165,.3);
-            background:rgba(100,230,165,.07);
-        }
+      0% {
+        transform:
+          translateY(110vh)
+          translateX(0);
+        opacity: 0;
+      }
 
-        .login-line{
-            text-align:center;
-            color:var(--muted);
-            font-size:.75rem;
-            margin-top:2px;
-        }
+      15% {
+        opacity: 1;
+      }
 
-        .login-line a{
-            color:var(--cyan);
-            font-weight:700;
-        }
+      85% {
+        opacity: 1;
+      }
 
-        .note{
-            margin-top:17px;
-            padding-top:15px;
-            border-top:1px solid rgba(145,164,184,.1);
-            color:#65788c;
-            font-family:monospace;
-            font-size:.61rem;
-            line-height:1.65;
-        }
+      100% {
+        transform:
+          translateY(-10vh)
+          translateX(var(--move));
+        opacity: 0;
+      }
 
-        footer{
-            width:min(1120px,92%);
-            margin:auto;
-            padding:0 0 25px;
-            color:#586b7e;
-            font-size:.64rem;
-            text-align:center;
-        }
+    }
 
-        @media (min-width:720px){
-            main{
-                grid-template-columns:1fr 1fr;
-                gap:48px;
-                padding:60px 0 72px;
-            }
 
-            .row{
-                grid-template-columns:1fr 1fr;
-            }
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
-            .card{
-                padding:30px;
-            }
-        }
-    </style>
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      min-height: 74px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      padding:
+        12px 28px;
+
+      background:
+        rgba(0, 0, 17, 0.78);
+
+      border-bottom:
+        1px solid
+        rgba(0, 240, 255, 0.25);
+
+      backdrop-filter:
+        blur(18px);
+
+      box-shadow:
+        0 0 30px
+        rgba(0, 240, 255, 0.08);
+    }
+
+
+    .brand {
+      font-family: Orbitron, sans-serif;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+
+    .brand span {
+      color: #00f0ff;
+      text-shadow:
+        0 0 12px
+        rgba(0, 240, 255, 0.8);
+    }
+
+
+    .header-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      color: #a9c7d7;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00ffb7;
+      box-shadow:
+        0 0 12px #00ffb7;
+    }
+
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    main {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding:
+        55px 20px 80px;
+    }
+
+
+    .hero {
+      text-align: center;
+      margin-bottom: 38px;
+    }
+
+
+    .hero-label {
+      display: inline-block;
+
+      padding:
+        8px 14px;
+
+      margin-bottom: 20px;
+
+      border:
+        1px solid
+        rgba(0, 240, 255, 0.45);
+
+      border-radius: 999px;
+
+      color: #00f0ff;
+
+      background:
+        rgba(0, 240, 255, 0.06);
+
+      font-family: Orbitron, sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+
+      box-shadow:
+        0 0 20px
+        rgba(0, 240, 255, 0.08);
+    }
+
+
+    .hero h1 {
+      font-family: Orbitron, sans-serif;
+      font-size:
+        clamp(30px, 6vw, 58px);
+
+      line-height: 1.1;
+
+      color: #ffffff;
+
+      text-shadow:
+        0 0 15px
+        rgba(0, 240, 255, 0.55),
+        0 0 35px
+        rgba(255, 0, 240, 0.25);
+    }
+
+
+    .hero h1 span {
+      color: #ff00f0;
+
+      text-shadow:
+        0 0 12px #ff00f0,
+        0 0 30px
+        rgba(255, 0, 240, 0.55);
+    }
+
+
+    .hero p {
+      max-width: 720px;
+
+      margin:
+        18px auto 0;
+
+      color: #c9dce7;
+
+      font-size:
+        clamp(15px, 2vw, 18px);
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       GLASS PANEL
+    ===================================================== */
+
+    .panel {
+      position: relative;
+
+      width: min(700px, 100%);
+
+      margin:
+        0 auto;
+
+      padding:
+        30px;
+
+      border:
+        1px solid
+        rgba(0, 240, 255, 0.38);
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(5, 35, 58, 0.82),
+          rgba(4, 10, 30, 0.92)
+        );
+
+      backdrop-filter:
+        blur(20px);
+
+      box-shadow:
+        0 0 35px
+        rgba(0, 240, 255, 0.10),
+        inset 0 0 35px
+        rgba(0, 240, 255, 0.025);
+    }
+
+
+    .panel::before {
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      border-radius: inherit;
+
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          120deg,
+          transparent 20%,
+          rgba(0, 240, 255, 0.08),
+          transparent 80%
+        );
+    }
+
+
+    .panel-title {
+      text-align: center;
+
+      margin-bottom: 24px;
+
+      font-family: Orbitron, sans-serif;
+
+      font-size: 19px;
+
+      color: #00f0ff;
+
+      text-shadow:
+        0 0 12px
+        rgba(0, 240, 255, 0.65);
+    }
+
+
+    /* =====================================================
+       CHOIX PROFIL
+    ===================================================== */
+
+    .role-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap: 15px;
+    }
+
+
+    .role-card {
+      position: relative;
+
+      min-height: 190px;
+
+      padding: 22px;
+
+      text-align: left;
+
+      border:
+        1px solid
+        rgba(0, 240, 255, 0.25);
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(0, 55, 80, 0.65),
+          rgba(5, 12, 32, 0.9)
+        );
+
+      color: #ffffff;
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .role-card:hover {
+      transform:
+        translateY(-5px);
+
+      border-color:
+        #00f0ff;
+
+      box-shadow:
+        0 0 28px
+        rgba(0, 240, 255, 0.18);
+    }
+
+
+    .role-card.publicitaire:hover,
+    .role-card.administrateur:hover {
+      border-color:
+        #ff00f0;
+
+      box-shadow:
+        0 0 28px
+        rgba(255, 0, 240, 0.15);
+    }
+
+
+    .role-icon {
+      display: block;
+
+      font-size: 36px;
+
+      margin-bottom: 16px;
+    }
+
+
+    .role-card h3 {
+      font-family: Orbitron, sans-serif;
+
+      font-size: 17px;
+
+      color: #00f0ff;
+
+      margin-bottom: 9px;
+    }
+
+
+    .role-card.publicitaire h3,
+    .role-card.administrateur h3 {
+      color: #ff7cf6;
+    }
+
+
+    .role-card p {
+      color: #bfd3df;
+
+      line-height: 1.5;
+
+      font-size: 13px;
+    }
+
+
+    .role-action {
+      display: inline-block;
+
+      margin-top: 15px;
+
+      color: #ffffff;
+
+      font-size: 12px;
+
+      font-weight: bold;
+
+      letter-spacing: .5px;
+    }
+
+
+    /* =====================================================
+       FORMULAIRE
+    ===================================================== */
+
+    .registration-area {
+      display: none;
+    }
+
+
+    .registration-area.active {
+      display: block;
+    }
+
+
+    .form-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+      margin-bottom: 24px;
+    }
+
+
+    .form-icon {
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      border:
+        1px solid
+        #00f0ff;
+
+      background:
+        rgba(0, 240, 255, 0.08);
+
+      font-size: 27px;
+
+      box-shadow:
+        0 0 20px
+        rgba(0, 240, 255, 0.12);
+    }
+
+
+    .form-header h2 {
+      font-family: Orbitron, sans-serif;
+
+      font-size: 20px;
+
+      color: #ffffff;
+    }
+
+
+    .form-header p {
+      margin-top: 5px;
+
+      color: #8ea9b8;
+
+      font-size: 12px;
+    }
+
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #d7e7ef;
+
+      font-size: 13px;
+
+      font-weight: bold;
+    }
+
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+
+      padding: 14px 15px;
+
+      border:
+        1px solid
+        rgba(0, 240, 255, 0.3);
+
+      border-radius: 11px;
+
+      outline: none;
+
+      background:
+        rgba(0, 8, 25, 0.88);
+
+      color: #ffffff;
+
+      transition:
+        border-color .2s,
+        box-shadow .2s;
+    }
+
+
+    .field textarea {
+      min-height: 110px;
+
+      resize: vertical;
+    }
+
+
+    .field select option {
+      background:
+        #071526;
+
+      color: #ffffff;
+    }
+
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color:
+        #66808f;
+    }
+
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color:
+        #00f0ff;
+
+      box-shadow:
+        0 0 14px
+        rgba(0, 240, 255, 0.14);
+    }
+
+
+    .terms {
+      display: flex;
+
+      align-items:
+        flex-start;
+
+      gap: 10px;
+
+      margin:
+        20px 0;
+
+      color: #a9bfca;
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+
+    .terms input {
+      margin-top: 3px;
+    }
+
+
+    .submit-button {
+      width: 100%;
+
+      min-height: 52px;
+
+      border: none;
+
+      border-radius: 13px;
+
+      background:
+        linear-gradient(
+          90deg,
+          #00dfff,
+          #00f0ff
+        );
+
+      color: #00121d;
+
+      font-weight: 900;
+
+      font-size: 14px;
+
+      letter-spacing: .4px;
+
+      box-shadow:
+        0 0 25px
+        rgba(0, 240, 255, 0.20);
+    }
+
+
+    .submit-button:hover {
+      box-shadow:
+        0 0 35px
+        rgba(0, 240, 255, 0.38);
+    }
+
+
+    .back-button {
+      width: 100%;
+
+      margin-top: 10px;
+
+      min-height: 45px;
+
+      border:
+        1px solid
+        rgba(0, 240, 255, 0.35);
+
+      border-radius: 12px;
+
+      background:
+        rgba(0, 240, 255, 0.04);
+
+      color: #00f0ff;
+
+      font-weight: bold;
+    }
+
+
+    .security-note {
+      margin-top: 20px;
+
+      padding: 14px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(255, 0, 240, 0.05);
+
+      border:
+        1px solid
+        rgba(255, 0, 240, 0.20);
+
+      color: #c7b8c8;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       MESSAGE
+    ===================================================== */
+
+    #message {
+      position: fixed;
+
+      left: 50%;
+
+      bottom: 25px;
+
+      transform:
+        translateX(-50%)
+        translateY(120px);
+
+      z-index: 9999;
+
+      width:
+        min(90%, 520px);
+
+      padding: 15px 18px;
+
+      border-radius: 13px;
+
+      background:
+        rgba(3, 22, 38, 0.96);
+
+      border:
+        1px solid
+        #00f0ff;
+
+      color: #ffffff;
+
+      text-align: center;
+
+      box-shadow:
+        0 0 25px
+        rgba(0, 240, 255, 0.2);
+
+      transition:
+        transform .3s ease;
+
+      font-size: 13px;
+    }
+
+
+    #message.show {
+      transform:
+        translateX(-50%)
+        translateY(0);
+    }
+
+
+    #message.error {
+      border-color:
+        #ff00f0;
+
+      box-shadow:
+        0 0 25px
+        rgba(255, 0, 240, 0.2);
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    footer {
+      padding:
+        25px 20px 40px;
+
+      text-align: center;
+
+      color: #617987;
+
+      font-size: 11px;
+
+      border-top:
+        1px solid
+        rgba(0, 240, 255, 0.12);
+    }
+
+
+    footer strong {
+      color: #00f0ff;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 700px) {
+
+      header {
+        padding:
+          12px 16px;
+      }
+
+
+      .header-status {
+        display: none;
+      }
+
+
+      main {
+        padding:
+          38px 14px 60px;
+      }
+
+
+      .panel {
+        padding:
+          21px 16px;
+      }
+
+
+      .role-grid {
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .role-card {
+        min-height:
+          auto;
+      }
+
+
+      .hero h1 {
+        font-size:
+          clamp(28px, 9vw, 42px);
+      }
+
+    }
+
+
+    @media (max-width: 400px) {
+
+      .brand {
+        font-size:
+          13px;
+      }
+
+
+      .panel {
+        padding:
+          18px 13px;
+      }
+
+    }
+
+  </style>
 </head>
+
 
 <body>
 
-<div class="page">
+  <!-- =====================================================
+       BACKGROUND
+  ====================================================== -->
 
-    <header>
-        <nav class="nav" aria-label="Navigation principale">
+  <div class="lab-background">
 
-            <a
-                class="brand"
-                href="index.html"
-                aria-label="Retour à l'accueil DeepRDMMakademy"
-            >
-                <div class="logo">DRM</div>
+    <div class="lab-glow glow-cyan"></div>
 
-                <div>
-                    <div class="brand-name">
-                        DeepRDMMakademy
-                    </div>
+    <div class="lab-glow glow-pink"></div>
 
-                    <div class="brand-sub">
-                        L'art de la science et de la technologie
-                    </div>
-                </div>
-            </a>
+    <div class="lab-grid"></div>
 
-            <a
-                class="nav-link"
-                href="Login.html"
-            >
-                Se connecter
-            </a>
+    <div
+      class="particles"
+      id="particles"
+    ></div>
 
-        </nav>
-    </header>
+  </div>
 
 
-    <main>
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
-        <section class="intro">
+  <header>
 
-            <div class="eyebrow">
-                Créer votre espace
-            </div>
-
-            <h1>
-                Commencez votre parcours scientifique.
-            </h1>
-
-            <p>
-                Créez votre compte membre pour accéder à votre espace personnel,
-                suivre votre progression et construire votre parcours
-                d'apprentissage au sein de DeepRDMMakademy.
-            </p>
-
-            <div class="features">
-
-                <div class="feature">
-                    01 — Compte personnel et progression sauvegardée
-                </div>
-
-                <div class="feature">
-                    02 — Parcours éducatif adapté à votre niveau
-                </div>
-
-                <div class="feature">
-                    03 — Accès aux cours, exercices et évaluations membres
-                </div>
-
-            </div>
-
-        </section>
+    <a
+      href="index.html"
+      class="brand"
+    >
+      DeepRDM<span>Akademy</span>
+    </a>
 
 
-        <section
-            class="card"
-            aria-labelledby="register-title"
+    <div class="header-status">
+
+      <span class="status-dot"></span>
+
+      Système d'inscription en ligne
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-label">
+        DIGITAL SCIENCE CAMPUS
+      </div>
+
+
+      <h1>
+        REJOIGNEZ
+        <span>DEEPRDM</span>
+      </h1>
+
+
+      <p>
+        Créez gratuitement votre compte et entrez
+        dans le campus numérique scientifique
+        de DeepRDMMakademy.
+      </p>
+
+    </section>
+
+
+    <!-- =================================================
+         CHOIX DU PROFIL
+    ================================================== -->
+
+    <section
+      class="panel"
+      id="profile-selection"
+    >
+
+      <div class="panel-title">
+        CHOISISSEZ VOTRE PROFIL
+      </div>
+
+
+      <div class="role-grid">
+
+
+        <!-- ÉLÈVE -->
+
+        <button
+          type="button"
+          class="role-card"
+          data-role="eleve"
         >
 
-            <div class="card-top">
+          <span class="role-icon">
+            🎓
+          </span>
 
-                <div>
+          <h3>
+            ÉLÈVE
+          </h3>
 
-                    <div class="eyebrow">
-                        Inscription membre
-                    </div>
+          <p>
+            Accédez aux parcours d'apprentissage,
+            aux cours, aux laboratoires et aux
+            programmes du campus.
+          </p>
 
-                    <h2 id="register-title">
-                        Créer un compte
-                    </h2>
+          <span class="role-action">
+            CRÉER MON COMPTE →
+          </span>
 
-                </div>
+        </button>
 
-                <div class="status">
-                    DRM / ACCOUNT
-                </div>
 
-            </div>
+        <!-- TRAVAILLEUR -->
 
+        <button
+          type="button"
+          class="role-card"
+          data-role="travailleur"
+        >
 
-            <div
-                id="message"
-                class="message"
-                role="alert"
-            ></div>
+          <span class="role-icon">
+            🛠️
+          </span>
 
+          <h3>
+            TRAVAILLEUR
+          </h3>
 
-            <form
-                id="registerForm"
-                novalidate
-            >
+          <p>
+            Créez, produisez, développez,
+            enseignez ou proposez vos produits
+            et services sur DeepRDM.
+          </p>
 
-                <div class="row">
+          <span class="role-action">
+            CRÉER MON COMPTE →
+          </span>
 
-                    <div class="field">
+        </button>
 
-                        <label for="firstName">
-                            Prénom
-                        </label>
 
-                        <input
-                            id="firstName"
-                            name="first_name"
-                            type="text"
-                            autocomplete="given-name"
-                            maxlength="100"
-                            placeholder="Votre prénom"
-                            required
-                        >
+        <!-- ADMINISTRATEUR -->
 
-                    </div>
+        <button
+          type="button"
+          class="role-card administrateur"
+          data-role="administrateur"
+        >
 
+          <span class="role-icon">
+            🛡️
+          </span>
 
-                    <div class="field">
+          <h3>
+            ADMINISTRATEUR
+          </h3>
 
-                        <label for="lastName">
-                            Nom
-                        </label>
+          <p>
+            Demandez à rejoindre l'équipe
+            administrative de DeepRDMMakademy.
+          </p>
 
-                        <input
-                            id="lastName"
-                            name="last_name"
-                            type="text"
-                            autocomplete="family-name"
-                            maxlength="100"
-                            placeholder="Votre nom"
-                            required
-                        >
+          <span class="role-action">
+            FAIRE UNE DEMANDE →
+          </span>
 
-                    </div>
+        </button>
 
-                </div>
 
+        <!-- PUBLICITAIRE -->
 
-                <div class="field">
+        <button
+          type="button"
+          class="role-card publicitaire"
+          data-role="publicitaire"
+        >
 
-                    <label for="email">
-                        Adresse e-mail
-                    </label>
+          <span class="role-icon">
+            📢
+          </span>
 
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        autocomplete="email"
-                        maxlength="190"
-                        placeholder="vous@exemple.com"
-                        required
-                    >
+          <h3>
+            PUBLICITAIRE
+          </h3>
 
-                </div>
+          <p>
+            Entreprise, marque ou annonceur :
+            présentez vos activités et campagnes
+            à la communauté.
+          </p>
 
+          <span class="role-action">
+            DEVENIR PUBLICITAIRE →
+          </span>
 
-                <div class="row">
+        </button>
 
-                    <div class="field">
 
-                        <label for="password">
-                            Mot de passe
-                        </label>
+      </div>
 
-                        <div class="password-wrap">
+    </section>
 
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="10"
-                                maxlength="200"
-                                placeholder="10 caractères minimum"
-                                required
-                            >
 
-                            <button
-                                class="toggle"
-                                type="button"
-                                data-target="password"
-                            >
-                                AFFICHER
-                            </button>
+    <!-- =================================================
+         FORMULAIRE
+    ================================================== -->
 
-                        </div>
+    <section
+      class="panel registration-area"
+      id="registration-area"
+    >
 
-                    </div>
+      <div class="form-header">
 
+        <div
+          class="form-icon"
+          id="form-icon"
+        >
+          🎓
+        </div>
 
-                    <div class="field">
 
-                        <label for="passwordConfirm">
-                            Confirmer le mot de passe
-                        </label>
+        <div>
 
-                        <div class="password-wrap">
+          <h2 id="form-title">
+            Inscription
+          </h2>
 
-                            <input
-                                id="passwordConfirm"
-                                name="password_confirm"
-                                type="password"
-                                autocomplete="new-password"
-                                minlength="10"
-                                maxlength="200"
-                                placeholder="Répéter le mot de passe"
-                                required
-                            >
+          <p id="form-subtitle">
+            Créez votre compte gratuitement.
+          </p>
 
-                            <button
-                                class="toggle"
-                                type="button"
-                                data-target="passwordConfirm"
-                            >
-                                AFFICHER
-                            </button>
+        </div>
 
-                        </div>
+      </div>
 
-                    </div>
 
-                </div>
+      <form
+        id="registration-form"
+        novalidate
+      >
 
+        <!-- NOM -->
 
-                <div class="field">
+        <div class="field">
 
-                    <label for="language">
-                        Langue principale
-                    </label>
+          <label for="nom">
+            Nom complet
+          </label>
 
-                    <select
-                        id="language"
-                        name="preferred_language"
-                    >
+          <input
+            id="nom"
+            name="nom"
+            type="text"
+            placeholder="Votre nom complet"
+            autocomplete="name"
+            required
+          >
 
-                        <option value="fr" selected>
-                            Français
-                        </option>
+        </div>
 
-                        <option value="mg">
-                            Malagasy
-                        </option>
 
-                        <option value="en">
-                            English
-                        </option>
+        <!-- EMAIL -->
 
-                    </select>
+        <div class="field">
 
-                </div>
+          <label for="email">
+            Adresse e-mail
+          </label>
 
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="vous@email.com"
+            autocomplete="email"
+            required
+          >
 
-                <label class="check">
+        </div>
 
-                    <input
-                        id="terms"
-                        name="terms"
-                        type="checkbox"
-                        required
-                    >
 
-                    <span>
-                        J'accepte les conditions d'utilisation et la
-                        politique de confidentialité de DeepRDMMakademy.
-                    </span>
+        <!-- CHAMPS ELEVE -->
 
-                </label>
+        <div
+          class="field role-field"
+          id="niveau-field"
+          hidden
+        >
 
+          <label for="niveau">
+            Niveau d'étude
+          </label>
 
-                <button
-                    class="submit"
-                    id="submitButton"
-                    type="submit"
-                >
-                    CRÉER MON COMPTE
-                </button>
+          <select
+            id="niveau"
+            name="niveau"
+          >
 
+            <option value="">
+              Sélectionner
+            </option>
 
-                <div class="login-line">
+            <option value="college">
+              Collège
+            </option>
 
-                    Vous avez déjà un compte ?
+            <option value="lycee">
+              Lycée
+            </option>
 
-                    <a href="Login.html">
-                        Se connecter
-                    </a>
+            <option value="universite">
+              Université
+            </option>
 
-                </div>
+            <option value="master">
+              Master
+            </option>
 
-            </form>
+            <option value="doctorat">
+              Doctorat
+            </option>
 
+          </select>
 
-            <div class="note">
+        </div>
 
-                L'inscription crée un compte membre.
-                Le parcours éducatif, le niveau demandé et les
-                informations pédagogiques seront configurés dans
-                l'étape suivante.
 
-            </div>
+        <!-- CHAMPS TRAVAILLEUR -->
 
-        </section>
+        <div
+          class="field role-field"
+          id="domaine-field"
+          hidden
+        >
 
-    </main>
+          <label for="domaine">
+            Domaine d'activité
+          </label>
 
+          <input
+            id="domaine"
+            name="domaine"
+            type="text"
+            placeholder="Ex : développement, design, science..."
+          >
 
-    <footer>
+        </div>
 
-        © 2026 DeepRDMMakademy —
-        L'art de la science et de la technologie.
 
-    </footer>
+        <div
+          class="field role-field"
+          id="activite-field"
+          hidden
+        >
 
-</div>
+          <label for="activite">
+            Fonction
+          </label>
 
+          <select
+            id="activite"
+            name="activite"
+          >
 
-<script>
+            <option value="">
+              Sélectionner
+            </option>
 
-    /*
-     * GitHub Pages est statique.
-     * L'API PHP sera exécutée sur Hostinger.
-     *
-     * Lorsque l'URL définitive du backend sera connue,
-     * Register.html sera relié à cette API.
-     */
+            <option value="chercheur">
+              Chercheur
+            </option>
 
-    const API_BASE_URL = "";
+            <option value="enseignant">
+              Enseignant
+            </option>
 
-    const REGISTER_ENDPOINT =
-        API_BASE_URL + "/api/auth/register.php";
+            <option value="createur">
+              Créateur
+            </option>
 
+            <option value="producteur">
+              Producteur
+            </option>
 
-    const form =
-        document.getElementById("registerForm");
+            <option value="dev_communaute">
+              Développeur communauté
+            </option>
 
-    const message =
-        document.getElementById("message");
+          </select>
+
+        </div>
+
+
+        <!-- CHAMPS ADMIN -->
+
+        <div
+          class="field role-field"
+          id="motivation-field"
+          hidden
+        >
+
+          <label for="motivation">
+            Pourquoi souhaitez-vous devenir administrateur ?
+          </label>
+
+          <textarea
+            id="motivation"
+            name="motivation"
+            placeholder="Présentez votre motivation..."
+          ></textarea>
+
+        </div>
+
+
+        <!-- CHAMPS PUBLICITAIRE -->
+
+        <div
+          class="field role-field"
+          id="entreprise-field"
+          hidden
+        >
+
+          <label for="entreprise">
+            Nom de l'entreprise / activité
+          </label>
+
+          <input
+            id="entreprise"
+            name="entreprise"
+            type="text"
+            placeholder="Nom de votre entreprise ou activité"
+          >
+
+        </div>
+
+
+        <div
+          class="field role-field"
+          id="type-annonceur-field"
+          hidden
+        >
+
+          <label for="type-annonceur">
+            Type d'annonceur
+          </label>
+
+          <select
+            id="type-annonceur"
+            name="type_annonceur"
+          >
+
+            <option value="">
+              Sélectionner
+            </option>
+
+            <option value="entreprise">
+              Entreprise
+            </option>
+
+            <option value="entrepreneur">
+              Entrepreneur
+            </option>
+
+            <option value="association">
+              Association
+            </option>
+
+            <option value="createur">
+              Créateur
+            </option>
+
+            <option value="organisation">
+              Organisation
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- MOT DE PASSE -->
+
+        <div class="field">
+
+          <label for="password">
+            Mot de passe
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            minlength="6"
+            placeholder="Minimum 6 caractères"
+            autocomplete="new-password"
+            required
+          >
+
+        </div>
+
+
+        <!-- CONFIRMATION -->
+
+        <div class="field">
+
+          <label for="password-confirm">
+            Confirmer le mot de passe
+          </label>
+
+          <input
+            id="password-confirm"
+            name="passwordConfirm"
+            type="password"
+            minlength="6"
+            placeholder="Répétez votre mot de passe"
+            autocomplete="new-password"
+            required
+          >
+
+        </div>
+
+
+        <!-- CONDITIONS -->
+
+        <label class="terms">
+
+          <input
+            id="conditions"
+            name="conditions"
+            type="checkbox"
+            required
+          >
+
+          <span>
+            J'accepte les conditions d'utilisation
+            et la politique de fonctionnement de
+            DeepRDMMakademy.
+          </span>
+
+        </label>
+
+
+        <!-- SUBMIT -->
+
+        <button
+          type="submit"
+          class="submit-button"
+          id="submit-button"
+        >
+          CRÉER MON COMPTE GRATUITEMENT
+        </button>
+
+
+        <!-- RETOUR -->
+
+        <button
+          type="button"
+          class="back-button"
+          id="back-button"
+        >
+          ← CHANGER DE PROFIL
+        </button>
+
+
+        <div class="security-note">
+
+          🔐 <strong>Sécurité :</strong>
+          votre inscription crée un compte gratuitement.
+          Les droits administrateur ne sont jamais accordés
+          automatiquement par ce formulaire : une demande
+          administrative doit être validée séparément.
+
+        </div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+  ====================================================== -->
+
+  <footer>
+
+    <strong>DeepRDMMakademy</strong>
+
+    <br><br>
+
+    Le campus numérique scientifique.
+
+    <br>
+
+    Collège → Doctorat • Laboratoires • IA • Recherche
+
+  </footer>
+
+
+  <!-- =====================================================
+       MESSAGE
+  ====================================================== -->
+
+  <div
+    id="message"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ====================================================== -->
+
+  <script type="module">
+
+    import {
+      auth,
+      db
+    } from "./firebase-config.js";
+
+    import {
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from
+    "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+    import {
+      doc,
+      setDoc,
+      serverTimestamp
+    } from
+    "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const profileSelection =
+      document.getElementById(
+        "profile-selection"
+      );
+
+    const registrationArea =
+      document.getElementById(
+        "registration-area"
+      );
+
+    const registrationForm =
+      document.getElementById(
+        "registration-form"
+      );
+
+    const formTitle =
+      document.getElementById(
+        "form-title"
+      );
+
+    const formSubtitle =
+      document.getElementById(
+        "form-subtitle"
+      );
+
+    const formIcon =
+      document.getElementById(
+        "form-icon"
+      );
 
     const submitButton =
-        document.getElementById("submitButton");
+      document.getElementById(
+        "submit-button"
+      );
+
+    const message =
+      document.getElementById(
+        "message"
+      );
 
 
-    function showMessage(text, type) {
+    let selectedRole = null;
 
-        message.textContent = text;
 
-        message.className =
-            "message " + type;
+    /* =====================================================
+       PARTICULES
+    ====================================================== */
+
+    const particles =
+      document.getElementById(
+        "particles"
+      );
+
+
+    for (
+      let i = 0;
+      i < 45;
+      i++
+    ) {
+
+      const particle =
+        document.createElement("span");
+
+      particle.className =
+        "particle";
+
+      particle.style.left =
+        Math.random() * 100 + "%";
+
+      particle.style.setProperty(
+        "--duration",
+        (8 + Math.random() * 12) + "s"
+      );
+
+      particle.style.setProperty(
+        "--move",
+        ((Math.random() - 0.5) * 180) + "px"
+      );
+
+      particle.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+      particles.appendChild(
+        particle
+      );
 
     }
 
 
-    function clearMessage() {
+    /* =====================================================
+       CONFIGURATION DES PROFILS
+    ====================================================== */
 
-        message.textContent = "";
+    const profiles = {
 
-        message.className =
-            "message";
+      eleve: {
+
+        icon: "🎓",
+
+        title:
+          "Inscription Élève",
+
+        subtitle:
+          "Entrez dans les parcours scientifiques de DeepRDMMakademy.",
+
+        button:
+          "CRÉER MON COMPTE ÉLÈVE"
+
+      },
+
+
+      travailleur: {
+
+        icon: "🛠️",
+
+        title:
+          "Inscription Travailleur",
+
+        subtitle:
+          "Créez, produisez, enseignez ou développez vos projets.",
+
+        button:
+          "CRÉER MON COMPTE TRAVAILLEUR"
+
+      },
+
+
+      administrateur: {
+
+        icon: "🛡️",
+
+        title:
+          "Demande Administrateur",
+
+        subtitle:
+          "Soumettez votre demande pour rejoindre l'administration.",
+
+        button:
+          "ENVOYER MA DEMANDE"
+
+      },
+
+
+      publicitaire: {
+
+        icon: "📢",
+
+        title:
+          "Inscription Publicitaire",
+
+        subtitle:
+          "Présentez votre entreprise, marque ou activité.",
+
+        button:
+          "CRÉER MON COMPTE PUBLICITAIRE"
+
+      }
+
+    };
+
+
+    /* =====================================================
+       AFFICHER MESSAGE
+    ====================================================== */
+
+    function showMessage(
+      text,
+      type = "normal"
+    ) {
+
+      message.textContent =
+        text;
+
+      message.classList.add(
+        "show"
+      );
+
+      message.classList.toggle(
+        "error",
+        type === "error"
+      );
+
+      setTimeout(() => {
+
+        message.classList.remove(
+          "show"
+        );
+
+      }, 5000);
 
     }
 
 
-    /*
-     * Afficher / masquer les mots de passe
-     */
+    /* =====================================================
+       CACHER TOUS LES CHAMPS SPÉCIAUX
+    ====================================================== */
+
+    function hideRoleFields() {
+
+      document
+        .querySelectorAll(
+          ".role-field"
+        )
+        .forEach(field => {
+
+          field.hidden = true;
+
+        });
+
+    }
+
+
+    /* =====================================================
+       AFFICHER LE BON PROFIL
+    ====================================================== */
+
+    function showProfileForm(
+      role
+    ) {
+
+      selectedRole =
+        role;
+
+      const profile =
+        profiles[role];
+
+      if (!profile) {
+        return;
+      }
+
+
+      hideRoleFields();
+
+
+      formIcon.textContent =
+        profile.icon;
+
+      formTitle.textContent =
+        profile.title;
+
+      formSubtitle.textContent =
+        profile.subtitle;
+
+      submitButton.textContent =
+        profile.button;
+
+
+      if (role === "eleve") {
+
+        document
+          .getElementById(
+            "niveau-field"
+          )
+          .hidden = false;
+
+      }
+
+
+      if (role === "travailleur") {
+
+        document
+          .getElementById(
+            "domaine-field"
+          )
+          .hidden = false;
+
+        document
+          .getElementById(
+            "activite-field"
+          )
+          .hidden = false;
+
+      }
+
+
+      if (role === "administrateur") {
+
+        document
+          .getElementById(
+            "motivation-field"
+          )
+          .hidden = false;
+
+      }
+
+
+      if (role === "publicitaire") {
+
+        document
+          .getElementById(
+            "entreprise-field"
+          )
+          .hidden = false;
+
+        document
+          .getElementById(
+            "type-annonceur-field"
+          )
+          .hidden = false;
+
+      }
+
+
+      profileSelection.style.display =
+        "none";
+
+      registrationArea.classList.add(
+        "active"
+      );
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* =====================================================
+       CLIC PROFILS
+    ====================================================== */
 
     document
-        .querySelectorAll(".toggle")
-        .forEach(button => {
+      .querySelectorAll(
+        "[data-role]"
+      )
+      .forEach(card => {
 
-            button.addEventListener("click", () => {
+        card.addEventListener(
+          "click",
+          () => {
 
-                const input =
-                    document.getElementById(
-                        button.dataset.target
-                    );
+            showProfileForm(
+              card.dataset.role
+            );
 
-                const visible =
-                    input.type === "text";
+          }
+        );
 
-
-                input.type =
-                    visible
-                    ? "password"
-                    : "text";
+      });
 
 
-                button.textContent =
-                    visi
+    /* =====================================================
+       RETOUR
+    ====================================================== */
+
+    document
+      .getElementById(
+        "back-button"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          selectedRole =
+            null;
+
+          registrationForm.reset();
+
+          hideRoleFields();
+
+          registrationArea.classList.remove(
+            "active"
+          );
+
+          profileSelection.style.display =
+            "block";
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+        }
+      );
+
+
+    /* =====================================================
+       VALIDATION
+    ====================================================== */
+
+    function validateForm(
+      formData
+    ) {
+
+      const password =
+        formData.get(
+          "password"
+        );
+
+      const passwordConfirm =
+        formData.get(
+          "passwordConfirm"
+        );
+
+
+      if (
+        password.length < 6
+      ) {
+
+        return "Le mot de passe doit contenir au moins 6 caractères.";
+
+      }
+
+
+      if (
+        password !== passwordConfirm
+      ) {
+
+        return "Les deux mots de passe ne correspondent pas.";
+
+      }
+
+
+      if (
+        selectedRole === "eleve" &&
+        !formData.get("niveau")
+      ) {
+
+        return "Veuillez sélectionner votre niveau d'étude.";
+
+      }
+
+
+      if (
+        selectedRole === "travailleur" &&
+        !formData.get("domaine")
+      ) {
+
+        return "Veuillez indiquer votre domaine d'activité.";
+
+      }
+
+
+      if (
+        selectedRole === "travailleur" &&
+        !formData.get("activite")
+      ) {
+
+        return "Veuillez sélectionner votre fonction.";
+
+      }
+
+
+      if (
+        selectedRole === "administrateur" &&
+        !formData.get("motivation")
+      ) {
+
+        return "Veuillez expliquer votre motivation.";
+
+      }
+
+
+      if (
+        selectedRole === "publicitaire" &&
+        !formData.get("entreprise")
+      ) {
+
+        return "Veuillez indiquer le nom de votre entreprise ou activité.";
+
+      }
+
+
+      if (
+        selectedRole === "publicitaire" &&
+        !formData.get("type_annonceur")
+      ) {
+
+        return "Veuillez sélectionner le type d'annonceur.";
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /* =====================================================
+       INSCRIPTION FIREBASE
+    ====================================================== */
+
+    registrationForm.addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        if (!selectedRole) {
+
+          showMessage(
+            "Veuillez d'abord choisir votre profil.",
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        const formData =
+          new FormData(
+            registrationForm
+          );
+
+
+        const validationError =
+          validateForm(
+            formData
+          );
+
+
+        if (validationError) {
+
+          showMessage(
+            validationError,
+            "error"
+          );
+
+          return;
+
+        }
+
+
+        const nom =
+          String(
+            formData.get("nom")
+          ).trim();
+
+
+        const email =
+          String(
+            formData.get("email")
+          ).trim();
+
+
+        const password =
+          String(
+            formData.get("password")
+          );
+
+
+        submitButton.disabled =
+          true;
+
+        submitButton.textContent =
+          "CRÉATION DU COMPTE
